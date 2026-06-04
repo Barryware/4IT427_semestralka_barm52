@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4SA551 Moderní řízení rizik IS/IT – Učební podklady</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, sans-serif; font-size: 15px; line-height: 1.6; color: #111827; background: #f9fafb; -webkit-font-smoothing: antialiased; margin-left: 58px; }
+  #doc-nav { width: 50px; height: 100vh; position: fixed; left: 0; top: 0; z-index: 100; overflow: hidden; background: #fff; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; transition: width 0.32s cubic-bezier(0.4,0,0.2,1), box-shadow 0.32s; }
+  #doc-nav:hover { width: 240px; box-shadow: 6px 0 24px rgba(0,0,0,0.07); }
+  .nav-logo { padding: 14px 13px 12px; border-bottom: 1px solid #e5e7eb; white-space: nowrap; overflow: hidden; position: relative; }
+  .nav-code { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9ca3af; margin-bottom: 3px; }
+  .nav-subject { display: block; font-size: 13px; font-weight: 600; color: #111827; }
+  .nav-logo-icon { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-size: 16px; color: #1d4ed8; opacity: 0; transition: opacity 0.2s; }
+  .nav-logo-text { opacity: 1; transition: opacity 0.2s; }
+  #doc-nav:not(:hover) .nav-logo-icon { opacity: 1; }
+  #doc-nav:not(:hover) .nav-logo-text { opacity: 0; }
+  .nav-items { flex: 1; padding: 6px 0; overflow-y: auto; overflow-x: hidden; }
+  .nav-link { display: flex; align-items: center; gap: 8px; padding: 5px 12px; font-size: 12.5px; font-weight: 500; color: #374151; text-decoration: none; white-space: nowrap; overflow: hidden; transition: background 0.1s, color 0.1s; }
+  .nav-link:hover { background: #f3f4f6; color: #111827; }
+  .nav-num { font-size: 9px; font-weight: 700; background: #1d4ed8; color: #fff; padding: 2px 5px; border-radius: 3px; flex-shrink: 0; min-width: 22px; text-align: center; }
+  .nav-label { max-width: 200px; overflow: hidden; white-space: nowrap; transition: max-width 0.28s, opacity 0.18s; }
+  #doc-nav:not(:hover) .nav-label { max-width: 0; opacity: 0; }
+  #doc-nav:not(:hover) .nav-link { padding-left: 4px; padding-right: 4px; justify-content: center; }
+  .hero { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 44px 56px 40px; }
+  .hero-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #94a3b8; margin-bottom: 12px; }
+  .hero-title { font-size: 44px; font-weight: 800; color: #0f172a; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 16px; }
+  .hero-desc { font-size: 15px; color: #64748b; max-width: 600px; line-height: 1.65; margin-bottom: 20px; }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+  .hero-pill { display: inline-block; padding: 4px 11px; border-radius: 20px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 500; }
+  .lecture { max-width: 820px; margin: 0 auto; padding: 48px 56px; border-bottom: 1px solid #f1f5f9; }
+  .lec-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; }
+  .lec-num { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: #1d4ed8; color: #fff; padding: 5px 9px; border-radius: 5px; flex-shrink: 0; margin-top: 2px; }
+  .lec-title { font-size: 22px; font-weight: 700; color: #0f172a; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .lec-subtitle { font-size: 13px; color: #64748b; }
+  h2 { font-size: 16px; font-weight: 700; color: #0f172a; margin: 28px 0 10px; padding-bottom: 6px; border-bottom: 1px solid #e5e7eb; }
+  h3 { font-size: 14px; font-weight: 700; color: #374151; margin: 20px 0 8px; }
+  p { margin-bottom: 14px; color: #374151; font-size: 14.5px; }
+  ul, ol { margin: 0 0 14px; padding-left: 22px; color: #374151; font-size: 14.5px; }
+  li { margin-bottom: 5px; }
+  strong { font-weight: 700; color: #0f172a; }
+  em { font-style: italic; color: #475569; }
+  .pojmy { display: grid; gap: 8px; margin: 14px 0 20px; }
+  .pojmy.two { grid-template-columns: 1fr 1fr; }
+  .pojmy.three { grid-template-columns: 1fr 1fr 1fr; }
+  .pojmy.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .pojmy.single { grid-template-columns: 1fr; }
+  .pojem { border-radius: 8px; padding: 14px 16px; border: 1px solid; }
+  .pojem.blue { background: #eff6ff; border-color: #bfdbfe; }
+  .pojem.green { background: #f0fdf4; border-color: #bbf7d0; }
+  .pojem.orange { background: #fff7ed; border-color: #fed7aa; }
+  .pojem.purple { background: #faf5ff; border-color: #ddd6fe; }
+  .pojem.red { background: #fff1f2; border-color: #fecdd3; }
+  .pojem-head { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #475569; margin-bottom: 7px; }
+  .pojem.blue .pojem-head { color: #1d4ed8; }
+  .pojem.green .pojem-head { color: #15803d; }
+  .pojem.orange .pojem-head { color: #c2410c; }
+  .pojem.purple .pojem-head { color: #6d28d9; }
+  .pojem.red .pojem-head { color: #be123c; }
+  .pojem-body { font-size: 13.5px; line-height: 1.55; color: #374151; }
+  .tip { background: #fefce8; border-left: 3px solid #eab308; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #713f12; line-height: 1.6; }
+  .callout { background: #f0f9ff; border-left: 3px solid #0ea5e9; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #0c4a6e; line-height: 1.6; }
+  .warn { background: #fff1f2; border-left: 3px solid #f43f5e; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #9f1239; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 13.5px; }
+  th { background: #f8fafc; font-weight: 600; text-align: left; padding: 8px 10px; border: 1px solid #e5e7eb; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  td { padding: 8px 10px; border: 1px solid #e5e7eb; vertical-align: top; color: #374151; }
+  tr:nth-child(even) td { background: #fafafa; }
+  code { font-family: 'SF Mono', monospace; font-size: 12.5px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 3px; padding: 1px 5px; color: #1d4ed8; }
+  .tag { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; margin-right: 5px; border: 1px solid; }
+  .tag.blue { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+  .tag.green { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+  .tag.orange { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+  .tag.red { background: #fff1f2; color: #be123c; border-color: #fecdd3; }
+</style>
+</head>
+<body>
+
+<nav id="doc-nav">
+  <div class="nav-logo">
+    <span class="nav-logo-icon">&#9670;</span>
+    <span class="nav-logo-text">
+      <span class="nav-code">4SA551</span>
+      <span class="nav-subject">Rizika IS/IT</span>
+    </span>
+  </div>
+  <div class="nav-items">
+    <a class="nav-link" href="#p1"><span class="nav-num">P1</span><span class="nav-label">Základy řízení rizik</span></a>
+    <a class="nav-link" href="#p2"><span class="nav-num">P2</span><span class="nav-label">Risk assessment metodiky</span></a>
+    <a class="nav-link" href="#p3"><span class="nav-num">P3</span><span class="nav-label">Risk response a ošetření</span></a>
+    <a class="nav-link" href="#p4"><span class="nav-num">P4</span><span class="nav-label">IT specifická rizika</span></a>
+    <a class="nav-link" href="#p5"><span class="nav-num">P5</span><span class="nav-label">Monitoring &amp; Reporting</span></a>
+    <a class="nav-link" href="#p6"><span class="nav-num">P6</span><span class="nav-label">Specifické metodiky</span></a>
+    <a class="nav-link" href="#klicove"><span class="nav-num">&#9733;</span><span class="nav-label">Klíčové pojmy</span></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">4SA551</div>
+  <div class="hero-title">Moderní řízení rizik IS/IT</div>
+  <div class="hero-desc">Komplexní přehled řízení rizik informačních systémů a IT — od základních pojmů a rámců (ISO 31000, COSO ERM) přes kvantitativní metody (ALE, FAIR, Monte Carlo), risk response, IT specifická rizika, monitoring a reporting až po specializované metodiky (OCTAVE, CRAMM, NIST RMF, STRIDE/DREAD).</div>
+  <div class="hero-pills">
+    <span class="hero-pill">ISO 31000:2018</span>
+    <span class="hero-pill">COSO ERM 2017</span>
+    <span class="hero-pill">ALE / FAIR</span>
+    <span class="hero-pill">NIST RMF</span>
+    <span class="hero-pill">STRIDE / DREAD</span>
+    <span class="hero-pill">OCTAVE / CRAMM</span>
+    <span class="hero-pill">TPRM / KRI</span>
+  </div>
+</div>
+
+<!-- P1 -->
+<section class="lecture" id="p1">
+  <div class="lec-header">
+    <div class="lec-num">P1</div>
+    <div>
+      <div class="lec-title">Základy řízení rizik</div>
+      <div class="lec-subtitle">Definice rizika, ERM vs. IT Risk Management, COSO ERM 2017, ISO 31000:2018, kategorizace rizik, risk appetite / tolerance / capacity, inherentní / reziduální / cílové riziko</div>
+    </div>
+  </div>
+
+  <h2>1.1 Definice rizika</h2>
+  <p><strong>Riziko</strong> je kombinace pravděpodobnosti události a jejích důsledků (ISO/IEC Guide 73, ISO 31000). Zjednodušeně: <code>Riziko = Pravděpodobnost × Dopad</code>. Klíčové je, že riziko je vždy spojeno s nejistotou — může mít jak negativní, tak pozitivní výsledek (příležitost).</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">ISO 31000 — definice rizika</div>
+      <div class="pojem-body"><strong>"Effect of uncertainty on objectives."</strong> Efekt (odchylka od očekávaného) může být pozitivní, negativní nebo obojí. Nejistota je stav nedostatku informací o porozumění nebo znalosti události, jejím důsledku nebo pravděpodobnosti.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">COBIT — IT riziko</div>
+      <div class="pojem-body"><strong>"Business risk associated with the use, ownership, operation, involvement, influence and adoption of IT within an enterprise."</strong> Konkrétněji: event with uncertain impact on achievement of objectives. IT riziko existuje vždy — i tehdy, pokud není detekováno nebo dokumentováno.</div>
+    </div>
+  </div>
+  <p>Rozšířený vzorec pro IT riziko zahrnuje kontroly: <code>Riziko = Dopad × Hrozba × Zranitelnost</code>, kde existující kontroly snižují pravděpodobnost nebo dopad. Chybějící kontrola je zranitelnost.</p>
+
+  <h2>1.2 ERM vs. IT Risk Management</h2>
+  <table>
+    <tr><th>Dimenze</th><th>ERM (Enterprise Risk Management)</th><th>IT Risk Management</th></tr>
+    <tr><td><strong>Rozsah</strong></td><td>Všechna podniková rizika — strategická, finanční, operativní, compliance, reputační</td><td>Rizika spojená s IT systémy, infrastrukturou, daty, kybernetickými hrozbami</td></tr>
+    <tr><td><strong>Ownership</strong></td><td>Board of Directors, CEO, CRO (Chief Risk Officer)</td><td>CIO, CISO, IT management</td></tr>
+    <tr><td><strong>Escalation path</strong></td><td>Rizika eskalují přes risk committee k boardu</td><td>IT rizika eskalují přes CISO/CIO do ERM frameworku</td></tr>
+    <tr><td><strong>Rámec</strong></td><td>COSO ERM 2017, ISO 31000</td><td>COBIT 2019, NIST RMF, ISO 27005</td></tr>
+    <tr><td><strong>Vztah</strong></td><td>ERM je nadřazený rámec</td><td>IT RM je součástí (subsystémem) ERM</td></tr>
+  </table>
+  <div class="callout"><strong>Klíčový princip integrace:</strong> IT rizika musí být vyjádřena v business jazyce (finanční dopad, dopad na reputaci, regulatorní dopad) — ne pouze v technických termínech — aby mohla být správně zasazena do ERM kontextu a řízena boardem.</div>
+
+  <h2>1.3 COSO ERM 2017 — 5 komponent</h2>
+  <p>COSO ERM 2017 (Committee of Sponsoring Organizations — Enterprise Risk Management: Integrating with Strategy and Performance) definuje 5 vzájemně propojených komponent:</p>
+  <table>
+    <tr><th>Komponenta</th><th>Obsah</th><th>Příklady aktivit</th></tr>
+    <tr><td><strong>1. Governance &amp; Culture</strong></td><td>Nastavení tónu organizace; oversight od boardu; definice risk culture a core values</td><td>Jmenování CRO, risk committee, code of conduct, tone at the top</td></tr>
+    <tr><td><strong>2. Strategy &amp; Objective-Setting</strong></td><td>Integrace ERM do strategického plánování; definice risk appetite v kontextu strategie</td><td>Strategická analýza rizik, nastavení risk appetite statement, business objective mapping</td></tr>
+    <tr><td><strong>3. Performance</strong></td><td>Identifikace, hodnocení a prioritizace rizik; výběr risk responses; reporting výkonu</td><td>Risk register, risk assessment, risk response planning, portfolio view of risk</td></tr>
+    <tr><td><strong>4. Review &amp; Revision</strong></td><td>Posuzování, jak dobře funguje ERM v měnícím se prostředí; revize a zlepšení</td><td>Periodické review risk appetite, lessons learned, benchmarking</td></tr>
+    <tr><td><strong>5. Information, Communication &amp; Reporting</strong></td><td>Sdílení informací o rizicích interně i externě; reportování klíčovým stakeholderům</td><td>Risk dashboardy, zprávy pro board, disclosure ve výroční zprávě</td></tr>
+  </table>
+  <div class="tip"><strong>COSO ERM 2017 vs. COSO IC 2013:</strong> COSO IC (Internal Control) se zaměřuje na vnitřní kontroly pro spolehlivost výkaznictví. COSO ERM 2017 je širší — integruje řízení rizik se strategickým plánováním a výkonností celé organizace. COSO ERM není nahrazením COSO IC, ale jeho rozšířením.</div>
+
+  <h2>1.4 ISO 31000:2018 — principy, rámec, proces</h2>
+  <p>ISO 31000:2018 je mezinárodní standard pro řízení rizik — poskytuje obecné principy a pokyny aplikovatelné na jakoukoli organizaci bez ohledu na sektor, typ nebo velikost.</p>
+
+  <h3>8 principů ISO 31000</h3>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">1. Integrovanost (Integrated)</div>
+      <div class="pojem-body">Řízení rizik je nedílnou součástí všech organizačních činností a rozhodování — ne separátní funkce.</div>
+    </div>
+    <div class="pojem blue">
+      <div class="pojem-head">2. Strukturovanost a komplexnost (Structured and Comprehensive)</div>
+      <div class="pojem-body">Systematický, strukturovaný a včasný přístup přispívá ke konzistentním a srovnatelným výsledkům.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">3. Přizpůsobivost (Customized)</div>
+      <div class="pojem-body">Rámec a proces řízení rizik jsou přizpůsobeny externímu a internímu kontextu organizace a jejím cílům.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">4. Inkluzivnost (Inclusive)</div>
+      <div class="pojem-body">Zapojení stakeholderů umožňuje zohlednit jejich znalosti, názory a vnímání — výsledkem je poučenější řízení rizik.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">5. Dynamičnost (Dynamic)</div>
+      <div class="pojem-body">Rizika vznikají, mění se a zanikají s měnícím se externím a interním kontextem. Řízení rizik musí na změny anticipovat a reagovat.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">6. Nejlepší dostupné informace (Best Available Information)</div>
+      <div class="pojem-body">Vstupy do procesu řízení rizik vychází z historických dat, zkušeností, zpětné vazby a odborného úsudku — s vědomím omezení a nejistot.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">7. Lidské a kulturní faktory (Human and Cultural Factors)</div>
+      <div class="pojem-body">Chování lidí a kultura organizace výrazně ovlivňují řízení rizik na všech úrovních. Risk culture je klíčová.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">8. Neustálé zlepšování (Continual Improvement)</div>
+      <div class="pojem-body">Řízení rizik je kontinuálně zlepšováno prostřednictvím učení a zkušeností.</div>
+    </div>
+  </div>
+
+  <h3>Rámec ISO 31000 (5 komponent)</h3>
+  <table>
+    <tr><th>Komponenta</th><th>Obsah</th></tr>
+    <tr><td><strong>Leadership &amp; Commitment</strong></td><td>Závazek vedení je podmínkou integrace risk managementu do celé organizace</td></tr>
+    <tr><td><strong>Integration</strong></td><td>Začlenění do governance, strategie, plánování, reportování a politik</td></tr>
+    <tr><td><strong>Design</strong></td><td>Pochopení kontextu organizace; definice scope, kritérií a odpovědností</td></tr>
+    <tr><td><strong>Implementation</strong></td><td>Implementace risk management procesu v praxi dle navrženého rámce</td></tr>
+    <tr><td><strong>Evaluation &amp; Improvement</strong></td><td>Měření výkonu rámce oproti jeho záměru; adaptace a zlepšení</td></tr>
+  </table>
+
+  <h3>Proces ISO 31000 (iterativní cyklus)</h3>
+  <ol>
+    <li><strong>Communication &amp; Consultation</strong> — probíhá kontinuálně po celý cyklus</li>
+    <li><strong>Scope, Context &amp; Criteria</strong> — definice hranic, interního/externího kontextu, risk kritérií</li>
+    <li><strong>Risk Identification</strong> — co se může stát, kde, kdy, proč a jak</li>
+    <li><strong>Risk Analysis</strong> — pochopení povahy rizika: pravděpodobnost, dopad, kontroly</li>
+    <li><strong>Risk Evaluation</strong> — porovnání výsledků analýzy s risk kritérii → prioritizace</li>
+    <li><strong>Risk Treatment</strong> — výběr a implementace opatření ke změně rizika</li>
+    <li><strong>Monitoring &amp; Review</strong> — průběžné sledování efektivnosti kontrol a změn v rizicích</li>
+    <li><strong>Recording &amp; Reporting</strong> — dokumentace a komunikace výsledků</li>
+  </ol>
+
+  <h2>1.5 Kategorizace rizik</h2>
+  <table>
+    <tr><th>Kategorie</th><th>Definice</th><th>Příklady</th><th>Typická opatření</th></tr>
+    <tr><td><strong>Strategická rizika</strong></td><td>Rizika ohrožující dosažení dlouhodobých cílů organizace</td><td>Vstup konkurenta na trh, selhání M&amp;A, nesprávná IT strategie</td><td>Strategické plánování, scenario planning, ERM</td></tr>
+    <tr><td><strong>Operativní rizika</strong></td><td>Rizika z interních procesů, lidí a systémů nebo externích událostí</td><td>Výpadek systému, chyba zaměstnance, přírodní katastrofa</td><td>BCP/DR, procesní kontroly, pojištění</td></tr>
+    <tr><td><strong>Finanční rizika</strong></td><td>Rizika ztráty finanční hodnoty</td><td>Kreditní riziko, likviditní riziko, tržní riziko, měnové riziko</td><td>Hedging, diverzifikace, finanční kontroly</td></tr>
+    <tr><td><strong>Compliance rizika</strong></td><td>Rizika porušení zákonů, regulací a interních politik</td><td>Porušení GDPR, NIS2, SOX, AML; nesoulad s licenčními podmínkami</td><td>Compliance program, právní monitoring, školení</td></tr>
+    <tr><td><strong>IT / Kybernetická rizika</strong></td><td>Rizika spojená s IT systémy, daty a kybernetickými hrozbami</td><td>Ransomware, datový únik, výpadek infrastruktury, zranitelnosti SW</td><td>ISMS (ISO 27001), patch management, SIEM, zálohy</td></tr>
+  </table>
+
+  <h2>1.6 Risk Appetite, Tolerance a Capacity</h2>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Risk Appetite (apetit)</div>
+      <div class="pojem-body">Množství rizika, které je organizace ochotna přijmout při sledování svých cílů. Stanovuje <strong>board of directors</strong>. Vyjadřuje strategickou preferenci: agresivní, konzervativní, neutrální. Příklad IT: „Nepřijmeme žádné riziko narušení dostupnosti kritických systémů nad 4 hodiny."</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Risk Tolerance (tolerance)</div>
+      <div class="pojem-body">Přijatelná odchylka od risk appetite — operativní hranice pro konkrétní cíle a procesy. Pokud je tolerance překročena, je nutná eskalace. Příklad IT: „Maximálně 2 kritické otevřené zranitelnosti v produkci déle než 30 dní."</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Risk Capacity (kapacita)</div>
+      <div class="pojem-body">Maximální riziko, které může organizace absorbovat bez ohrožení přežití. Objektivní limit daný finančními rezervami, lidskými zdroji, regulatorními požadavky. Risk appetite musí být ≤ risk capacity.</div>
+    </div>
+  </div>
+  <div class="callout"><strong>Vztah:</strong> Risk Capacity &gt; Risk Appetite ≥ Risk Tolerance. Board nastavuje appetite (strategická úroveň); management nastavuje tolerance (operativní limity); capacity je objektivní strop. V IT kontextu: CISO navrhuje tolerance (KRI thresholdy), CRO/board schvaluje appetite statement.</div>
+
+  <h2>1.7 Inherentní, reziduální a cílové riziko</h2>
+  <table>
+    <tr><th>Typ rizika</th><th>Definice</th><th>Kdy se měří</th><th>Praktický příklad</th></tr>
+    <tr><td><strong>Inherentní riziko</strong></td><td>Riziko v jeho přirozené podobě — bez jakýchkoli kontrol nebo opatření. Čisté riziko aktivity.</td><td>Před zavedením kontrol; výchozí hodnocení</td><td>E-mailový systém bez filtrování: 95 % pravděpodobnost phishingu za rok, dopad 500 000 Kč → inherentní riziko vysoké</td></tr>
+    <tr><td><strong>Reziduální riziko</strong></td><td>Riziko, které zůstává po implementaci kontrol a opatření. Vždy existuje — nikdy nelze snížit na nulu.</td><td>Po zavedení kontrol; aktuální stav</td><td>Po implementaci antispamu, školení, MFA: reziduální riziko sníženo na střední úroveň</td></tr>
+    <tr><td><strong>Cílové riziko</strong></td><td>Požadovaná úroveň reziduálního rizika — kam chceme dostat riziko po implementaci plánovaných opatření.</td><td>Při plánování risk treatment; budoucí stav</td><td>Cíl: snížit phishing risk na nízkou úroveň (pod risk appetite) implementací DMARC a simulovaného phishingu</td></tr>
+  </table>
+  <div class="warn"><strong>Reziduální riziko musí být pod risk appetite:</strong> Pokud reziduální riziko přesahuje risk appetite organizace, musí management přijmout dodatečná opatření nebo požádat board o explicitní výjimku (risk acceptance). Beze schválení boardem nelze akceptovat riziko nad appetite.</div>
+
+</section>
+
+<!-- P3 -->
+<section class="lecture" id="p3">
+  <div class="lec-header">
+    <div class="lec-num">P3</div>
+    <div>
+      <div class="lec-title">Risk Response a ošetření</div>
+      <div class="lec-subtitle">4 strategie, control selection, ROSI, Risk Register, Risk Treatment Plan, prioritizace</div>
+    </div>
+  </div>
+
+  <h2>3.1 Čtyři strategie reakce na riziko</h2>
+  <table>
+    <tr><th>Strategie</th><th>Definice</th><th>Kdy použít</th><th>Příklady v IT</th></tr>
+    <tr><td><strong>Mitigate (zmírnit)</strong></td><td>Snížit pravděpodobnost nebo dopad rizika implementací kontrol. Riziko zůstává, ale je na přijatelné úrovni.</td><td>Riziko je nad risk appetite, ale lze ho snížit nákladově efektivními opatřeními</td><td>Patch management, MFA, šifrování, WAF, zálohy, školení zaměstnanců</td></tr>
+    <tr><td><strong>Accept (přijmout)</strong></td><td>Vědomé rozhodnutí přijmout riziko bez dalších opatření. Reziduální riziko je v rámci risk appetite.</td><td>Náklady na opatření překračují očekávanou ztrátu; riziko je nízké; risk appetite dovoluje</td><td>Akceptace rizika zastarání legacy systému, který bude nahrazen za 6 měsíců; low-severity finding bez dostupné opravy</td></tr>
+    <tr><td><strong>Transfer (přenést)</strong></td><td>Přenést finanční dopad rizika na třetí stranu. Riziko samotné se nepřenáší — jen finanční odpovědnost.</td><td>Riziko je příliš nákladné na mitigaci, ale pojistitelné nebo outsourcovatelné</td><td>Cyber insurance (kybernetické pojištění), outsourcing IT operací (SLA s penaltami), cloud computing, smlouvy o odpovědnosti</td></tr>
+    <tr><td><strong>Avoid (vyhnout se)</strong></td><td>Ukončit aktivitu, která riziko způsobuje. Eliminuje riziko, ale přichází s náklady — ztrátou příležitosti.</td><td>Riziko je neakceptovatelné a nelze ho dostatečně zmírnit ani přenést; benefit aktivity nepřevažuje riziko</td><td>Nepřijmout zakázku v regulatorně rizikové jurisdikci; neprovozovat IoT systémy v kritické infrastruktuře bez certifikace; opustit nezabezpečitelný systém</td></tr>
+  </table>
+  <div class="tip"><strong>Pamatuj:</strong> Transfer rizika pojišťovnou/outsourcingem nepřenáší odpovědnost za řízení rizika — management zůstává odpovědný. Pojišťovna hradí finanční ztrátu, ale reputační, regulatorní a operativní dopady zůstávají na organizaci.</div>
+
+  <h2>3.2 Control Selection — NIST SP 800-53 a ISO 27002</h2>
+  <p>Výběr kontrol se řídí principem cost-benefit: náklady na kontrolu (implementace + provoz) musí být nižší než očekávaná redukce ztráty (snížení ALE). Klíčové rámce:</p>
+  <table>
+    <tr><th>Rámec</th><th>Struktura</th><th>Použití</th></tr>
+    <tr><td><strong>NIST SP 800-53 Rev. 5</strong></td><td>20 rodin kontrol: AC (Access Control), AT (Awareness &amp; Training), AU (Audit &amp; Accountability), CA (Assessment), CM (Config Mgmt), CP (Contingency Planning), IA (Identification &amp; Authentication), IR (Incident Response), MA (Maintenance), MP (Media Protection), PE (Physical &amp; Environmental), PL (Planning), PM (Program Mgmt), PS (Personnel Security), PT (PII Processing), RA (Risk Assessment), SA (System &amp; Services Acquisition), SC (System &amp; Comm. Protection), SI (System &amp; Information Integrity), SR (Supply Chain Risk)</td><td>Federální systémy USA (povinné pro FISMA); široce adopto váno v soukromém sektoru; základ pro FedRAMP</td></tr>
+    <tr><td><strong>ISO/IEC 27002:2022</strong></td><td>4 témata: Organizational (37 kontrol), People (8 kontrol), Physical (14 kontrol), Technological (34 kontrol) — celkem 93 kontrol</td><td>ISMS dle ISO 27001 (Annex A); globálně uznávaný; použití: SOA (Statement of Applicability)</td></tr>
+  </table>
+  <p>Při výběru kontrol se hodnotí: <strong>efektivnost</strong> (sníží riziko na cílovou úroveň?), <strong>efektivita</strong> (náklady vs. přínos), <strong>proveditelnost</strong> (technická, organizační), <strong>kompatibilita</strong> s existujícím prostředím.</p>
+
+  <h2>3.3 ROSI — Return on Security Investment</h2>
+  <p>ROSI kvantifikuje ekonomický přínos bezpečnostní investice:</p>
+  <div class="pojmy single">
+    <div class="pojem blue">
+      <div class="pojem-head">ROSI vzorec</div>
+      <div class="pojem-body"><strong>ROSI = (ALE<sub>před</sub> − ALE<sub>po</sub>) − Roční náklady na opatření</strong><br><br>kde ALE<sub>před</sub> = roční očekávaná ztráta před implementací opatření; ALE<sub>po</sub> = roční očekávaná ztráta po implementaci. Pokud ROSI &gt; 0, investice je ekonomicky odůvodněná.</div>
+    </div>
+  </div>
+  <div class="callout"><strong>Příklad výpočtu ROSI:</strong><br>
+  Situace: Ransomware riziko. ALE<sub>před</sub> = 800 000 Kč/rok (ARO = 0,4 × SLE = 2 000 000 Kč).<br>
+  Navrhované opatření: EDR + offline zálohy. Roční náklady: 150 000 Kč. Po implementaci: ALE<sub>po</sub> = 120 000 Kč/rok (ARO = 0,05 × SLE = 2 400 000 Kč — dopad vyšší díky šifrování, ale frekvence dramaticky nižší).<br>
+  ROSI = (800 000 − 120 000) − 150 000 = <strong>530 000 Kč/rok</strong> → investice se vyplatí.</div>
+
+  <h2>3.4 Risk Register</h2>
+  <p>Risk Register (rejstřík rizik) je centrální dokument řízení rizik obsahující všechna identifikovaná rizika s jejich atributy. Je živý dokument — pravidelně aktualizovaný.</p>
+  <table>
+    <tr><th>Sloupec</th><th>Obsah / Příklad</th></tr>
+    <tr><td><strong>ID</strong></td><td>Unikátní identifikátor (IT-001, CYB-023)</td></tr>
+    <tr><td><strong>Popis rizika</strong></td><td>Stručný popis rizikového scénáře a jeho příčiny</td></tr>
+    <tr><td><strong>Kategorie</strong></td><td>IT/Kybernetická, Operativní, Compliance, Finanční, Strategická</td></tr>
+    <tr><td><strong>Pravděpodobnost</strong></td><td>1–5 (nebo %) — inherentní i reziduální</td></tr>
+    <tr><td><strong>Dopad</strong></td><td>1–5 (nebo Kč) — finanční, operativní, reputační, regulatorní</td></tr>
+    <tr><td><strong>Rizikové skóre</strong></td><td>Pravděpodobnost × Dopad; nebo ALE v Kč</td></tr>
+    <tr><td><strong>Owner (vlastník)</strong></td><td>Jmenovitě odpovědná osoba — ne oddělení</td></tr>
+    <tr><td><strong>Opatření / Kontroly</strong></td><td>Existující a plánovaná opatření; odkaz na Risk Treatment Plan</td></tr>
+    <tr><td><strong>Reziduální riziko</strong></td><td>Riziko po implementaci opatření; srovnání s risk appetite</td></tr>
+    <tr><td><strong>Status</strong></td><td>Open / In Progress / Mitigated / Accepted / Closed</td></tr>
+    <tr><td><strong>Deadline</strong></td><td>Termín pro implementaci opatření nebo review</td></tr>
+  </table>
+
+  <h2>3.5 Risk Treatment Plan</h2>
+  <p>Risk Treatment Plan (plán ošetření rizik) je formální dokument specifikující, jak budou identifikovaná rizika ošetřena. Pro každé riziko v risk registru (kde je strategie jiná než accept) obsahuje:</p>
+  <ul>
+    <li>Popis navrhovaného opatření a zdůvodnění výběru strategie</li>
+    <li>Odpovědné osoby (owner, implementátor)</li>
+    <li>Potřebné zdroje (rozpočet, lidé, technologie)</li>
+    <li>Harmonogram implementace s milníky</li>
+    <li>Měřitelná kritéria úspěchu (jak poznáme, že opatření funguje)</li>
+    <li>Očekávané reziduální riziko po implementaci</li>
+  </ul>
+  <p><strong>Integrace s change management:</strong> Každá změna systémů nebo procesů musí projít risk assessment — nová opatření mohou přinést nová rizika (change-induced risk). Risk Treatment Plan je vstupem do change advisory boardu (CAB).</p>
+
+  <h2>3.6 Prioritizace: risk appetite jako práh</h2>
+  <p>Risk-based přístup k implementaci opatření: rizika jsou seřazena dle skóre nebo ALE; opatření se implementují od nejvyššího rizika dolů, dokud reziduální riziko nedosáhne risk appetite. Rizika pod risk appetite jsou monitorována, ale nevyžadují okamžitá opatření. Klíčový princip: organizace má omezené zdroje — nelze ošetřit vše, proto musí být výběr explicitně zdůvodněn a schválen.</p>
+</section>
+
+<!-- P4 -->
+<section class="lecture" id="p4">
+  <div class="lec-header">
+    <div class="lec-num">P4</div>
+    <div>
+      <div class="lec-title">IT specifická rizika</div>
+      <div class="lec-subtitle">COBIT 2019 DF3 — 10 kategorií IT rizik, ENISA Threat Landscape 2023, supply chain risk, TPRM, cyber insurance</div>
+    </div>
+  </div>
+
+  <h2>4.1 COBIT 2019 DF3 — 10 kategorií IT rizik</h2>
+  <p>COBIT 2019 Design Factor 3 (DF3) definuje 10 kategorií IT rizik, které ovlivňují, jak robustní musí být governance systém organizace:</p>
+  <table>
+    <tr><th>#</th><th>Kategorie IT rizika</th><th>Definice a příklady</th><th>Typická opatření</th></tr>
+    <tr><td>1</td><td><strong>IT Investment/Project Delivery</strong></td><td>Selhání IT projektů, překročení rozpočtu/termínů, nerealizované přínosy. Příklad: ERP implementace přesahující plánovaný budget o 200 %.</td><td>Project governance, PMO, PRINCE2/PMBOK, benefit realization management</td></tr>
+    <tr><td>2</td><td><strong>IT Availability and Continuity</strong></td><td>Výpadky systémů ohrožující business procesy. Příklad: výpadek core bankingu během business hours.</td><td>BCP/DR, RTO/RPO, HA clustering, zálohy, DRC testy</td></tr>
+    <tr><td>3</td><td><strong>IT Service Delivery and Support</strong></td><td>Nedostatečná kvalita nebo dostupnost IT služeb. Příklad: SLA breaches, neefektivní helpdesk.</td><td>ITSM (ITIL), SLA monitoring, CMDB, change management</td></tr>
+    <tr><td>4</td><td><strong>IT Infrastructure</strong></td><td>Selhání hardware, sítí nebo datacenter. Příklad: zastaralá infrastruktura bez patch supportu.</td><td>Asset lifecycle management, redundance, patch management, kapacitní plánování</td></tr>
+    <tr><td>5</td><td><strong>IT Software Acquisition, Development and Maintenance</strong></td><td>Nekvalitní SW, bezpečnostní zranitelnosti v kódu, nezdokumentované změny. Příklad: SQL injection v interní aplikaci.</td><td>SDLC kontroly, code review, SAST/DAST, change management</td></tr>
+    <tr><td>6</td><td><strong>IT Access Controls</strong></td><td>Neoprávněný přístup k systémům nebo datům. Příklad: sdílené účty, nedostatečný IAM.</td><td>IAM, MFA, PAM (Privileged Access), RBAC, access recertification</td></tr>
+    <tr><td>7</td><td><strong>External IT Threats (Cybersecurity)</strong></td><td>Kybernetické útoky — ransomware, APT, DDoS, phishing. Příklad: ransomware šifrující produkční databáze.</td><td>SIEM, EDR, SOC, penetrační testy, incident response</td></tr>
+    <tr><td>8</td><td><strong>IT Regulatory and Compliance</strong></td><td>Nesoulad s regulatorními požadavky. Příklad: GDPR breach, nesoulad s NIS2.</td><td>Compliance monitoring, DPO, regulatorní přehledy, školení</td></tr>
+    <tr><td>9</td><td><strong>IT Third-Party / Vendor</strong></td><td>Rizika z dodavatelů a externích poskytovatelů IT. Příklad: cloudový provider s nedostatečným SLA, kompromitovaný dodavatel SW.</td><td>TPRM, SIG questionnaire, vendor tiering, audit rights, SLA</td></tr>
+    <tr><td>10</td><td><strong>IT Data / Information</strong></td><td>Ztráta, únik nebo poškození dat. Příklad: datový únik zákaznické databáze, ztráta integrity finančních dat.</td><td>DLP, šifrování, data classification, zálohy, GDPR opatření</td></tr>
+  </table>
+
+  <h2>4.2 ENISA Threat Landscape 2023 — Top 8 hrozeb</h2>
+  <p>ENISA (European Union Agency for Cybersecurity) každoročně publikuje Threat Landscape — přehled nejvýznamnějších kybernetických hrozeb v EU. Edice 2023 identifikuje 8 prioritních hrozeb:</p>
+  <table>
+    <tr><th>#</th><th>Hrozba</th><th>Charakteristika a trend</th></tr>
+    <tr><td>1</td><td><strong>Ransomware</strong></td><td>Šifrování dat + vydírání (double/triple extortion). Nejčastější hrozba s finančním dopadem. Cíle: nemocnice, energie, finance. Trend: ransomware-as-a-service (RaaS), initial access brokers.</td></tr>
+    <tr><td>2</td><td><strong>Malware</strong></td><td>Trojské koně, spyware, worms, rootkity, wipers. Wipers (mazání dat) rostou v kontextu geopolitických konfliktů (Ukraine).</td></tr>
+    <tr><td>3</td><td><strong>Social Engineering</strong></td><td>Phishing, spear-phishing, vishing, smishing, BEC (Business Email Compromise). Exploit lidské psychologie. Nejúčinnější vstupní vektor pro APT.</td></tr>
+    <tr><td>4</td><td><strong>Threats against Data</strong></td><td>Data breaches, data leaks, insiderské hrozby. Cíle: osobní údaje, IP, finanční záznamy. Motivace: prodej na dark webu, špionáž, vydírání.</td></tr>
+    <tr><td>5</td><td><strong>Threats against Availability (DDoS)</strong></td><td>Distributed Denial of Service útoky. Cíle: kritická infrastruktura, média, vládní weby. Trend: hacktivismus (Anonymous, Killnet), volumetrické útoky přes botnet.</td></tr>
+    <tr><td>6</td><td><strong>Supply Chain Attacks</strong></td><td>Kompromitace dodavatele/SW komponenty k získání přístupu k zákazníkům. Viz sekce 4.3.</td></tr>
+    <tr><td>7</td><td><strong>Exploiting Vulnerabilities</strong></td><td>Zneužití nepatched zranitelností (0-day i N-day). Log4Shell, ProxyLogon, CitrixBleed. Trend: zkracující se okno od zveřejnění CVE po masové zneužití (hodiny, ne dny).</td></tr>
+    <tr><td>8</td><td><strong>Disinformation / FIMI</strong></td><td>Foreign Information Manipulation and Interference. Dezinformační kampaně ovlivňující veřejné mínění, volby, důvěru v instituce. Nová kategorie v ENISA TL 2023.</td></tr>
+  </table>
+
+  <h2>4.3 Supply Chain Risk</h2>
+  <p>Supply chain útoky kompromitují organizaci přes důvěryhodné dodavatele — software, hardware nebo služby. Jsou zvlášť nebezpečné, protože útočník obchází přímé bezpečnostní kontroly cíle.</p>
+  <table>
+    <tr><th>Incident</th><th>Rok</th><th>Mechanismus</th><th>Dopad</th></tr>
+    <tr><td><strong>SolarWinds (Sunburst)</strong></td><td>2020</td><td>Kompromitace build pipeline SolarWinds Orion → trojanizovaný update distribuován 18 000 zákazníkům. APT29 (SVR) — ruská státní skupina.</td><td>Kompromitace US Treasury, Commerce, State Dept a stovek korporací. Detekce po 8–9 měsících.</td></tr>
+    <tr><td><strong>Kaseya VSA</strong></td><td>2021</td><td>0-day v Kaseya VSA (RMM nástroj) → REvil ransomware distribuován přes MSP zákazníky k jejich klientům.</td><td>~1 500 downstream organizací, požadavek 70 M USD výkupného. Kaseya odmítlo platit.</td></tr>
+    <tr><td><strong>3CX (SMOOTHOPERATOR)</strong></td><td>2023</td><td>Kompromitovaná 3CX VOIP aplikace (Windows/Mac) — trojanizovaný installer. Lazarus Group (DPRK).</td><td>Miliony zákazníků; nový vzor: SW dodavatel kompromitovaný přes jiný kompromitovaný SW (Trading Technologies).</td></tr>
+  </table>
+  <p><strong>Společné vzory supply chain útoků:</strong> kompromitace build/update infrastruktury; podvržení dependency (dependency confusion, typosquatting); kompromitace open-source knihoven (event-stream, colors.js); insider threat u dodavatele.</p>
+  <p><strong>Management přístupy:</strong> Software Bill of Materials (SBOM) pro transparentnost závislostí; kód podepisování (code signing); zero-trust přístup i pro interní nástroje; pravidelné audity dodavatelů; segmentace — MSP přístup pouze na nezbytné systémy; monitoring anomálií v síťovém provozu dodavatelů.</p>
+
+  <h2>4.4 Third-Party Risk Management (TPRM)</h2>
+  <p>TPRM je strukturovaný program pro identifikaci, hodnocení a monitoring rizik vyplývajících ze vztahů s dodavateli a třetími stranami.</p>
+  <table>
+    <tr><th>Fáze TPRM</th><th>Aktivity</th><th>Nástroje/standardy</th></tr>
+    <tr><td><strong>Due Diligence (před smluvním vztahem)</strong></td><td>Hodnocení finanční stability, bezpečnostní zralosti, compliance; referenční kontroly; ověření certifikací (ISO 27001, SOC 2)</td><td>SIG Questionnaire (Shared Assessments); SecurityScorecard; Bitsight; CAIQ (CSA)</td></tr>
+    <tr><td><strong>Vendor Tiering (klasifikace)</strong></td><td>Přiřazení kritičnosti: Critical (přístup ke kritickým systémům/datům) / High / Medium / Low. Intenzita due diligence odpovídá tieru.</td><td>Vlastní scoring matice; dopad × přístup × alternativy</td></tr>
+    <tr><td><strong>Smluvní kontroly</strong></td><td>Audit rights (právo na audit); right-to-terminate (právo ukončit smlouvu při breach); security requirements (minimální bezpečnostní požadavky); incident notification (povinnost hlásit incidenty do X hodin); GDPR DPA</td><td>SLA, DPA, MSA s bezpečnostní přílohou</td></tr>
+    <tr><td><strong>Continuous Monitoring</strong></td><td>Pravidelné re-assessmenty (dle tieru: Critical = kvartálně, High = pololetně, Medium = ročně); monitoring externích signálů (darkweb leaks, CVE u dodavatelových produktů)</td><td>SecurityScorecard; vendor portály; automatizované alerty</td></tr>
+  </table>
+
+  <h2>4.5 Cyber Insurance</h2>
+  <p>Kybernetické pojištění transferuje finanční dopad kybernetických incidentů na pojistitele. Je to risk transfer strategie — nevylučuje povinnost mít adekvátní kontroly.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">First-party coverage (vlastní ztráty)</div>
+      <div class="pojem-body">
+        <ul>
+          <li><strong>Incident response náklady</strong> — forenzika, právní poradenství, PR</li>
+          <li><strong>Ransomware payment</strong> — výkupné (pokud povoleno regulací)</li>
+          <li><strong>Business interruption</strong> — ztráta příjmů při výpadku</li>
+          <li><strong>Data restoration</strong> — obnova dat a systémů</li>
+          <li><strong>Cyber extortion</strong> — hrozba zveřejnění dat</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Third-party coverage (odpovědnost vůči třetím stranám)</div>
+      <div class="pojem-body">
+        <ul>
+          <li><strong>Privacy liability</strong> — GDPR pokuty a nároky subjektů údajů</li>
+          <li><strong>Network security liability</strong> — škody způsobené třetím stranám z vaší sítě</li>
+          <li><strong>Media liability</strong> — porušení copyrightu, defamation online</li>
+          <li><strong>Regulatory defense</strong> — právní obrana při regulatorním řízení</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <h3>Exclusions (výluky)</h3>
+  <ul>
+    <li><strong>War exclusion:</strong> Kybernetické útoky státních aktérů mohou být klasifikovány jako "acts of war" — případ Lloyd's vs. Merck (NotPetya). Průmysl vyvíjí standardy pro definici "cyber war".</li>
+    <li><strong>Unpatched vulnerabilities:</strong> Pokud byl systém kompromitován přes zranitelnost, pro kterou existoval patch (a nebyl aplikován), pojistitel může odmítnout plnění.</li>
+    <li><strong>Insider fraud:</strong> Úmyslné jednání zaměstnanců typicky vyloučeno nebo kryto separátní crime pojistkou.</li>
+  </ul>
+  <h3>Underwriting kritéria</h3>
+  <p>Pojistitelé hodnotí před vydáním pojistky: MFA na kritických systémech (povinné u většiny pojistitelů), EDR/XDR nasazení, zálohovací strategie (offline zálohy), patch management vyspělost, incident response plán, privileged access management, email security (SPF/DKIM/DMARC).</p>
+</section>
+
+<!-- P5 -->
+<section class="lecture" id="p5">
+  <div class="lec-header">
+    <div class="lec-num">P5</div>
+    <div>
+      <div class="lec-title">Risk Monitoring, KRI &amp; Reporting</div>
+      <div class="lec-subtitle">KRI vs. KPI, risk dashboard, tříúrovňové reportování, audit trail</div>
+    </div>
+  </div>
+
+  <h2>5.1 KRI vs. KPI</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">KPI — Key Performance Indicator</div>
+      <div class="pojem-body">Měří <strong>výkonnost</strong> — jak dobře organizace dosahuje svých cílů. Zpětně hledící (lagging). Příklady: % SLA splněných, počet incidentů uzavřených za měsíc, uptime systémů. KPI říká: "Jak jsme si vedli?"</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">KRI — Key Risk Indicator</div>
+      <div class="pojem-body">Měří <strong>riziko</strong> — signály, že se riziko zvyšuje. Dopředu hledící (leading). Příklady: % nepatchovaných kritických systémů, počet privilegovaných účtů bez MFA, phishing click rate. KRI říká: "Jak velké je naše riziko nyní?"</div>
+    </div>
+  </div>
+
+  <h3>Příklady IT KRI s thresholdy</h3>
+  <table>
+    <tr><th>KRI</th><th>Definice</th><th>Zelená (OK)</th><th>Žlutá (Pozor)</th><th>Červená (Eskalace)</th></tr>
+    <tr><td><strong>% nepatchovaných kritických systémů</strong></td><td>Podíl systémů s kritickými CVE (CVSS ≥ 9) nepatchovanými déle než 30 dní</td><td>&lt; 5 %</td><td>5–15 %</td><td>&gt; 15 %</td></tr>
+    <tr><td><strong>Počet otevřených critical findings</strong></td><td>Počet otevřených nálezů z auditů/pen testů klasifikovaných jako kritické, po deadlinu</td><td>0</td><td>1–3</td><td>&gt; 3</td></tr>
+    <tr><td><strong>Phishing click rate</strong></td><td>% zaměstnanců, kteří klikli na simulovaný phishingový e-mail v posledním testu</td><td>&lt; 5 %</td><td>5–15 %</td><td>&gt; 15 %</td></tr>
+    <tr><td><strong>Mean Time to Detect (MTTD)</strong></td><td>Průměrná doba od vzniku incidentu do jeho detekce SIEM/SOC</td><td>&lt; 1 hod</td><td>1–24 hod</td><td>&gt; 24 hod</td></tr>
+    <tr><td><strong>Mean Time to Respond (MTTR)</strong></td><td>Průměrná doba od detekce k containmentu incidentu</td><td>&lt; 4 hod</td><td>4–24 hod</td><td>&gt; 24 hod</td></tr>
+    <tr><td><strong>Počet privilegovaných účtů bez MFA</strong></td><td>Počet admin/privilegovaných účtů bez vícefaktorové autentizace</td><td>0</td><td>1–5</td><td>&gt; 5</td></tr>
+  </table>
+
+  <h2>5.2 Risk Dashboard</h2>
+  <p>Risk dashboard poskytuje vizuální přehled rizikového profilu organizace v reálném čase nebo k datu reportování. Klíčové elementy:</p>
+  <ul>
+    <li><strong>Heat map:</strong> Vizualizace rizik v matici pravděpodobnost × dopad; barevné kódování (červená/oranžová/zelená); pohled na celé portfolio rizik najednou</li>
+    <tr><td></td><td></td></tr>
+    <li><strong>Trending:</strong> Grafické zobrazení vývoje klíčových rizik a KRI v čase — trendy jsou důležitější než absolutní hodnoty; "zhoršuje se nebo zlepšuje?"</li>
+    <li><strong>Traffic light reporting:</strong> RAG status (Red/Amber/Green) pro každé riziko nebo KRI; rychlá orientace; automatická escalation triggers při přechodu do Red</li>
+    <li><strong>Top risks summary:</strong> Top 5–10 rizik dle skóre nebo ALE; srovnání s minulým obdobím; trend šipky</li>
+  </ul>
+
+  <h2>5.3 Tříúrovňové risk reportování</h2>
+  <table>
+    <tr><th>Úroveň</th><th>Příjemce</th><th>Obsah</th><th>Frekvence</th><th>Formát</th></tr>
+    <tr><td><strong>Board / Executive</strong></td><td>Board of Directors, CEO, CRO</td><td>Executive summary top rizik; srovnání s risk appetite; klíčové události (incidenty); strategická rizika; cyber insurance status; regulatorní rizika</td><td>Kvartálně / pololetně</td><td>1–3 strany; heat map; traffic light; trendy; business language</td></tr>
+    <tr><td><strong>Management</strong></td><td>CISO, CIO, business unit leaders, risk committee</td><td>Kompletní risk register s trendy; status remediation aktivit; KRI dashboard; vendor risk přehled; otevřené findings z auditů; ROSI analýzy</td><td>Měsíčně</td><td>5–15 stran; tabulky; grafy; KRI trending; eskalační body</td></tr>
+    <tr><td><strong>Operativa</strong></td><td>IT security team, IT operations, project manageři</td><td>Otevřené findings s deadliny; SLA splnění; patch management status; otevřené incidenty; SIEM alerty; specifické KRI pro každý tým</td><td>Týdně / denně</td><td>Dashboardy; ticketovací systém; automatizované reporty; pracovní seznamy</td></tr>
+  </table>
+
+  <h2>5.4 Audit Trail pro risk management proces</h2>
+  <p>Audit trail dokumentuje celý lifecycle každého rizika — od identifikace po uzavření. Klíčové pro compliance (GDPR, NIS2, SOX) a pro interní/externí audit. Musí obsahovat: datum a autor každé změny v risk registru; zdůvodnění rozhodnutí (proč bylo riziko akceptováno/mitigováno); schválení vlastníkem rizika; záznamy o provedených assessment a review; historii KRI hodnot. Uchovávání dle legislativy (typicky 5–10 let).</p>
+</section>
+
+<!-- P6 -->
+<section class="lecture" id="p6">
+  <div class="lec-header">
+    <div class="lec-num">P6</div>
+    <div>
+      <div class="lec-title">Specifické metodiky</div>
+      <div class="lec-subtitle">OCTAVE Allegro, CRAMM, NIST RMF, STRIDE, DREAD, PASTA</div>
+    </div>
+  </div>
+
+  <h2>6.1 OCTAVE Allegro</h2>
+  <p>OCTAVE (Operationally Critical Threat, Asset, and Vulnerability Evaluation) Allegro je zjednodušená verze původního OCTAVE frameworku, vyvinutá CMU/SEI. Zaměřuje se na informační aktiva a jejich využití v organizačním kontextu. Vhodná pro střední a velké organizace.</p>
+  <table>
+    <tr><th>Fáze</th><th>Název</th><th>Aktivity</th></tr>
+    <tr><td><strong>1</strong></td><td>Establish Risk Measurement Criteria</td><td>Definice risk areas (reputace, finance, produktivita, bezpečnost, pokuty) a jejich relativní váhy; nastavení impact scoring systému specifického pro organizaci</td></tr>
+    <tr><td><strong>2</strong></td><td>Develop Information Asset Profiles &amp; Threat Profiles</td><td>Identifikace kritických informačních aktiv; definice containers (kde jsou aktiva uložena/zpracovávána); identifikace threat actors a jejich přístupu (internal/external, accidental/deliberate)</td></tr>
+    <tr><td><strong>3</strong></td><td>Identify and Mitigate Risks</td><td>Identifikace rizikových scénářů pro každé aktivum a container; výpočet rizikového skóre dle nastavených kritérií; výběr a plánování mitigačních strategií; prioritizace dle skóre</td></tr>
+  </table>
+  <div class="callout">OCTAVE Allegro nevyžaduje hluboké technické znalosti — je navržena tak, aby ji mohli provádět business pracovníci. Workshopy s business ownery jsou klíčovou metodou sběru informací.</div>
+
+  <h2>6.2 CRAMM</h2>
+  <p>CRAMM (CCTA Risk Analysis and Management Method) je britská metoda vyvinutá vládní agenturou CCTA. Strukturovaná, systematická metoda pro identifikaci a hodnocení bezpečnostních rizik. Používána především ve veřejném sektoru UK.</p>
+  <table>
+    <tr><th>Modul</th><th>Název</th><th>Obsah</th></tr>
+    <tr><td><strong>1</strong></td><td>Asset Identification &amp; Valuation</td><td>Identifikace a ohodnocení aktiv (data, SW, HW, fyzická); hodnocení dopadu kompromitace dle kritérií (confidentiality, integrity, availability); výstup: asset value matrix</td></tr>
+    <tr><td><strong>2</strong></td><td>Threat &amp; Vulnerability Assessment</td><td>Identifikace hrozeb pro každé aktivum; hodnocení pravděpodobnosti každé hrozby; hodnocení zranitelností; výpočet úrovně rizika pro každý pár hrozba-aktivum</td></tr>
+    <tr><td><strong>3</strong></td><td>Countermeasure Selection</td><td>Výběr vhodných protiopatření z knihovny CRAMM (stovky předdefinovaných kontrol); přiřazení kontrol k rizikům; výpočet reziduálního rizika; generování zprávy s doporučenými opatřeními</td></tr>
+  </table>
+
+  <h2>6.3 NIST RMF — Risk Management Framework</h2>
+  <p>NIST RMF (SP 800-37 Rev. 2) je povinný pro federální informační systémy USA (FISMA). 7 kroků, z nichž "Prepare" byl přidán v Rev. 2 (2018) jako základní krok:</p>
+  <table>
+    <tr><th>Krok</th><th>Název</th><th>Obsah</th><th>Klíčové standardy</th></tr>
+    <tr><td><strong>0</strong></td><td>Prepare</td><td>Organizační příprava: risk management strategie, organizační rizikový profil, příkaz k autorizaci, identifikace klíčových rolí</td><td>SP 800-39, SP 800-30</td></tr>
+    <tr><td><strong>1</strong></td><td>Categorize</td><td>Kategorizace systému a zpracovávaných informací dle dopadu (Low/Moderate/High) na confidentiality, integrity, availability</td><td>FIPS 199, FIPS 200, SP 800-60</td></tr>
+    <tr><td><strong>2</strong></td><td>Select</td><td>Výběr odpovídajícího baseline kontrol dle kategorizace; přizpůsobení (tailoring) kontrolního baseline; dokumentace v SSP (System Security Plan)</td><td>SP 800-53 Rev. 5, SP 800-53B</td></tr>
+    <tr><td><strong>3</strong></td><td>Implement</td><td>Implementace vybraných kontrol; dokumentace implementace v SSP; konfigurace systémů dle bezpečnostních požadavků</td><td>SP 800-160, CIS Benchmarks</td></tr>
+    <tr><td><strong>4</strong></td><td>Assess</td><td>Hodnocení implementovaných kontrol — zda jsou správně implementovány, fungují dle záměru a produkují požadované výsledky. Výstup: Security Assessment Report (SAR)</td><td>SP 800-53A Rev. 5</td></tr>
+    <tr><td><strong>5</strong></td><td>Authorize</td><td>Rozhodnutí autorizačního úředníka (AO) o akceptaci rizika — vydání ATO (Authorization to Operate) nebo dATO. Formální přijetí reziduálního rizika.</td><td>SP 800-37 Rev. 2</td></tr>
+    <tr><td><strong>6</strong></td><td>Monitor</td><td>Kontinuální monitoring bezpečnostního stavu systému; automatizované sběr dat (ISCM); aktualizace SSP při změnách; reporting stavu autorizace</td><td>SP 800-137, SP 800-137A</td></tr>
+  </table>
+  <div class="tip"><strong>FIPS 199/200 napojení:</strong> FIPS 199 definuje kategorizaci informací a systémů (Low/Moderate/High dle CIA). FIPS 200 stanovuje minimální bezpečnostní požadavky pro federální systémy v 17 oblastech — odpovídají rodinám kontrol v NIST SP 800-53.</div>
+
+  <h2>6.4 STRIDE Threat Modeling</h2>
+  <p>STRIDE je metodologie threat modelingu vyvinutá Microsoftem (Loren Kohnfelder &amp; Praerit Garg, 1999). Každé písmeno označuje kategorii hrozby. Aplikuje se na DFD (Data Flow Diagram) systému.</p>
+  <table>
+    <tr><th>Kategorie</th><th>Hrozba</th><th>Definice</th><th>Příklad útoku</th><th>Klíčové mitigace</th></tr>
+    <tr><td><strong>S</strong></td><td>Spoofing (podvržení identity)</td><td>Útočník vydávající se za jiný subjekt (uživatele, systém, proces)</td><td>Phishing, ARP spoofing, session hijacking, falešný HTTPS certifikát</td><td>Autentizace (MFA, kryptografické certifikáty), PKI</td></tr>
+    <tr><td><strong>T</strong></td><td>Tampering (manipulace s daty)</td><td>Neoprávněná modifikace dat nebo kódu — v uložišti, přenosu nebo paměti</td><td>SQL injection, man-in-the-middle, log manipulation, binární modifikace</td><td>Integritní kontroly (hash, HMAC), TLS, digitální podpisy, WAF</td></tr>
+    <tr><td><strong>R</strong></td><td>Repudiation (popírání)</td><td>Schopnost aktéra popřít provedení akce — bez dostatečných auditních záznamů</td><td>Smazání logů, anonymní transakce, neexistující audit trail</td><td>Audit logging, non-repudiation (digitální podpis), centralizované SIEM, timestamping</td></tr>
+    <tr><td><strong>I</strong></td><td>Information Disclosure (únik informací)</td><td>Neoprávněné získání přístupu k informacím</td><td>Eavesdropping, directory traversal, SQL error messages obsahující DB schéma, insecure direct object reference</td><td>Šifrování (TLS, at-rest), ACL, need-to-know, správné error handling</td></tr>
+    <tr><td><strong>D</strong></td><td>Denial of Service (odepření služby)</td><td>Znemožnění legitimního přístupu k systému nebo službě</td><td>DDoS, resource exhaustion, XML bomb, SYN flood, aplikační DoS (Slowloris)</td><td>Rate limiting, CDN/DDoS scrubbing, auto-scaling, circuit breakers, resource quotas</td></tr>
+    <tr><td><strong>E</strong></td><td>Elevation of Privilege (eskalace oprávnění)</td><td>Získání vyšších oprávnění, než jaká jsou autorizována</td><td>Kernel exploit, SUID binary exploit, vertical privilege escalation ve webové aplikaci, token manipulation</td><td>Principle of least privilege, sandboxing, RBAC, PAM, pravidelné patch management</td></tr>
+  </table>
+
+  <h2>6.5 DREAD Scoring</h2>
+  <p>DREAD je model pro kvantitativní hodnocení závažnosti hrozeb — každé písmeno = jedno kritérium hodnocené na škále 0–10 (nebo 1–3: Low/Medium/High). Celkové DREAD skóre = průměr nebo součet kritérií → prioritizace hrozeb.</p>
+  <table>
+    <tr><th>Kritérium</th><th>Definice</th><th>Nízké (1)</th><th>Střední (2)</th><th>Vysoké (3)</th></tr>
+    <tr><td><strong>D — Damage</strong></td><td>Jak velký dopad by měl úspěšný útok?</td><td>Omezený dopad na jednoho uživatele</td><td>Únik necitlivých dat</td><td>Kompletní kompromitace systému, únik všech dat</td></tr>
+    <tr><td><strong>R — Reproducibility</strong></td><td>Jak snadno lze útok zopakovat?</td><td>Vyžaduje speciální podmínky, obtížně reprodukovatelný</td><td>Útok funguje jen někdy</td><td>Vždy funguje — stačí zopakovat kroky</td></tr>
+    <tr><td><strong>E — Exploitability</strong></td><td>Jaká úroveň znalostí je potřeba k útoku?</td><td>Vyžaduje pokročilé znalosti / fyzický přístup</td><td>Zkušený útočník s dostupnými nástroji</td><td>Script-kiddie; veřejný PoC exploit dostupný</td></tr>
+    <tr><td><strong>A — Affected Users</strong></td><td>Kolik uživatelů/systémů je zasaženo?</td><td>Jeden uživatel</td><td>Část uživatelů</td><td>Všichni uživatelé / celý systém</td></tr>
+    <tr><td><strong>D — Discoverability</strong></td><td>Jak snadno útočník zranitelnost najde?</td><td>Vyžaduje hluboké znalosti architektury</td><td>Při záměrném hledání v log souborech</td><td>Viditelné v URL, veřejně zdokumentované</td></tr>
+  </table>
+  <div class="callout"><strong>Příklad DREAD hodnocení — SQL Injection v přihlašovacím formuláři:</strong> D=3 (přístup k celé DB), R=3 (vždy reprodukovatelné), E=2 (automatizované nástroje jako sqlmap), A=3 (všichni uživatelé), D=2 (standardní test při pen testu) → DREAD = 13/15. Priorita: kritická.</div>
+  <div class="tip">Microsoft od DREAD upustil kolem 2008 — argument: "5 čísel dávají falešný pocit přesnosti." Nicméně DREAD zůstává hojně využívaný v praxi a na zkouškách, protože poskytuje strukturovaný způsob komunikace závažnosti hrozeb.</div>
+
+  <h2>6.6 PASTA — Process for Attack Simulation and Threat Analysis</h2>
+  <p>PASTA je 7-kroková risk-centric metodologie threat modelingu, která propojuje technický pohled s business dopadem. Vyvinuta Tony UcedaVelez &amp; Marco Morana (2012).</p>
+  <table>
+    <tr><th>Krok</th><th>Název</th><th>Obsah</th></tr>
+    <tr><td><strong>I</strong></td><td>Define Objectives</td><td>Business cíle, compliance požadavky, bezpečnostní cíle; definice business assets a jejich hodnoty</td></tr>
+    <tr><td><strong>II</strong></td><td>Define Technical Scope</td><td>Technický rozsah analýzy: komponenty, závislosti, data flows, technologický stack, integrace</td></tr>
+    <tr><td><strong>III</strong></td><td>Application Decomposition</td><td>DFD, use cases, actor identification, entry points, trust boundaries; dekompozice aplikace do analyzovatelných komponent</td></tr>
+    <tr><td><strong>IV</strong></td><td>Threat Analysis</td><td>Identifikace relevantních threat actors (insider, hacker, nation-state, competitor); threat intelligence integrace; probabilistic threat scenarios</td></tr>
+    <tr><td><strong>V</strong></td><td>Vulnerability &amp; Weakness Analysis</td><td>Mapování zranitelností na komponenty; CVE/CWE analýza; výsledky SAST/DAST; korelace hrozeb se zranitelnostmi</td></tr>
+    <tr><td><strong>VI</strong></td><td>Attack Modeling</td><td>Attack trees; attack patterns (CAPEC); simulace útočníkovy cesty (kill chain); realista škodlivé scénáře propojené s technickými zranitelnostmi</td></tr>
+    <tr><td><strong>VII</strong></td><td>Risk &amp; Impact Analysis</td><td>Kvantifikace business dopadu úspěšných útoků; prioritizace dle business rizika; výstup: doporučení kontrol propojená s business hodnotou</td></tr>
+  </table>
+</section>
+
+<!-- P2 -->
+<section class="lecture" id="p2">
+  <div class="lec-header">
+    <div class="lec-num">P2</div>
+    <div>
+      <div class="lec-title">Risk Assessment metodiky</div>
+      <div class="lec-subtitle">Kvalitativní analýza, kvantitativní analýza (ALE, FAIR, Monte Carlo), scenario-based vs. asset-based, bow-tie analýza, attack trees</div>
+    </div>
+  </div>
+
+  <h2>2.1 Kvalitativní analýza rizik</h2>
+  <p>Kvalitativní analýza hodnotí rizika pomocí popisných škál (nízká/střední/vysoká) bez přesných číselných hodnot. Je rychlá, levná a nevyžaduje detailní data — vhodná jako první krok nebo pro méně kritická rizika.</p>
+
+  <h3>Risk Matrix 5×5</h3>
+  <table>
+    <tr><th>Pravděpodobnost ↓ / Dopad →</th><th>Zanedbatelný (1)</th><th>Malý (2)</th><th>Střední (3)</th><th>Závažný (4)</th><th>Katastrofický (5)</th></tr>
+    <tr><td><strong>Téměř jistá (5)</strong></td><td style="background:#fef3c7">5 — Střední</td><td style="background:#fed7aa">10 — Vysoké</td><td style="background:#fca5a5">15 — Kritické</td><td style="background:#fca5a5">20 — Kritické</td><td style="background:#fca5a5">25 — Kritické</td></tr>
+    <tr><td><strong>Pravděpodobná (4)</strong></td><td style="background:#d1fae5">4 — Nízké</td><td style="background:#fef3c7">8 — Střední</td><td style="background:#fed7aa">12 — Vysoké</td><td style="background:#fca5a5">16 — Kritické</td><td style="background:#fca5a5">20 — Kritické</td></tr>
+    <tr><td><strong>Možná (3)</strong></td><td style="background:#d1fae5">3 — Nízké</td><td style="background:#fef3c7">6 — Střední</td><td style="background:#fef3c7">9 — Střední</td><td style="background:#fed7aa">12 — Vysoké</td><td style="background:#fca5a5">15 — Kritické</td></tr>
+    <tr><td><strong>Nepravděpodobná (2)</strong></td><td style="background:#d1fae5">2 — Nízké</td><td style="background:#d1fae5">4 — Nízké</td><td style="background:#fef3c7">6 — Střední</td><td style="background:#fef3c7">8 — Střední</td><td style="background:#fed7aa">10 — Vysoké</td></tr>
+    <tr><td><strong>Vzácná (1)</strong></td><td style="background:#d1fae5">1 — Nízké</td><td style="background:#d1fae5">2 — Nízké</td><td style="background:#d1fae5">3 — Nízké</td><td style="background:#d1fae5">4 — Nízké</td><td style="background:#fef3c7">5 — Střední</td></tr>
+  </table>
+  <p><strong>Zóny:</strong> Zelená (1–4): přijatelné — monitorovat. Žlutá (5–9): střední — plánovat opatření. Oranžová (10–14): vysoké — prioritní opatření. Červená (15–25): kritické — okamžitá akce, eskalace boardu.</p>
+
+  <h3>Výhody a nevýhody kvalitativní analýzy</h3>
+  <div class="pojmy two">
+    <div class="pojem green">
+      <div class="pojem-head">Výhody</div>
+      <div class="pojem-body">Rychlá implementace; nevyžaduje historická data; snadná komunikace stakeholderům; vhodná pro prostředí s nedostatkem dat; umožňuje rychlou prioritizaci.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Nevýhody</div>
+      <div class="pojem-body">Subjektivita hodnotitelů; obtížné srovnání rizik napříč organizací; nelze přímo vypočítat ROI opatření; různí hodnotitelé mohou dospět k různým výsledkům; "risk ranking paradox" (16 = 2×8 = 4×4, ale různé situace).</div>
+    </div>
+  </div>
+
+  <h2>2.2 Kvantitativní analýza rizik</h2>
+
+  <h3>ALE — Annualized Loss Expectancy</h3>
+  <p>Základní kvantitativní metoda pro výpočet roční očekávané ztráty:</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">SLE — Single Loss Expectancy</div>
+      <div class="pojem-body">Očekávaná finanční ztráta z <strong>jedné</strong> realizace hrozby. SLE = Hodnota aktiva × Exposure Factor (EF). EF = podíl aktiva, který je poškozen (0–1). Příklad: Server (hodnota 2 000 000 Kč), výpadek poškodí 25 % hodnoty → SLE = 500 000 Kč.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">ARO — Annualized Rate of Occurrence</div>
+      <div class="pojem-body">Odhadovaná frekvence výskytu hrozby za rok. ARO = 1 → jednou ročně. ARO = 0,1 → jednou za 10 let. ARO = 2 → dvakrát ročně. Příklad: Server outage z hardwarové chyby → ARO = 0,5 (jednou za 2 roky).</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">ALE — výpočet a použití</div>
+      <div class="pojem-body"><strong>ALE = ARO × SLE</strong>. Příklad: ALE = 0,5 × 500 000 = 250 000 Kč/rok. Tato hodnota je základem pro rozhodnutí: má smysl investovat 100 000 Kč/rok do redundance? Ano — ušetří 250 000 Kč ročně v očekávané ztrátě.</div>
+    </div>
+  </div>
+  <div class="callout"><strong>Příklad — Server Outage:</strong> Kritický aplikační server, hodnota aktiva (downtime + obnova) = 1 000 000 Kč. EF (hardware selhání) = 40 % → SLE = 400 000 Kč. ARO = 0,3 (jednou za ~3,3 roku). ALE = 0,3 × 400 000 = <strong>120 000 Kč/rok</strong>. Navrhované HA řešení stojí 80 000 Kč/rok → ROSI pozitivní.</div>
+
+  <h3>FAIR — Factor Analysis of Information Risk</h3>
+  <p>FAIR je pokročilý kvantitativní model pro IT/kybernetická rizika. Nahrazuje subjektivní odhady strukturovanou pravděpodobnostní analýzou. Je nadřazený ALE v tom, že explicitně modeluje kauzalitu a všechny faktory ovlivňující riziko.</p>
+  <table>
+    <tr><th>Zkratka</th><th>Termín</th><th>Definice</th></tr>
+    <tr><td><strong>TEF</strong></td><td>Threat Event Frequency</td><td>Frekvence, s jakou hrozba kontaktuje aktivum za rok</td></tr>
+    <tr><td><strong>TC</strong></td><td>Threat Capability</td><td>Síla útočníka — schopnost překonat odolnost aktiva</td></tr>
+    <tr><td><strong>RS</strong></td><td>Resistance Strength</td><td>Odolnost aktiva (síla kontrol)</td></tr>
+    <tr><td><strong>LEF</strong></td><td>Loss Event Frequency</td><td>Frekvence, s jakou hrozba skutečně způsobí ztrátu. LEF = TEF × Vulnerability (TC &gt; RS)</td></tr>
+    <tr><td><strong>LM</strong></td><td>Loss Magnitude</td><td>Celková velikost ztráty při jedné realizaci hrozby</td></tr>
+    <tr><td><strong>PLM</strong></td><td>Primary Loss Magnitude</td><td>Přímé ztráty (obnova systémů, ztráta dat, pokuty)</td></tr>
+    <tr><td><strong>RLEF / SLM</strong></td><td>Secondary Loss Event Frequency / Secondary Loss Magnitude</td><td>Nepřímé ztráty (reputace, zákaznická churna, regulatorní dopady)</td></tr>
+    <tr><td><strong>Risk</strong></td><td>Výsledné riziko</td><td>Risk = LEF × LM — vyjádřeno jako pravděpodobnostní distribuce (range), ne jedno číslo</td></tr>
+  </table>
+  <div class="tip"><strong>Proč je FAIR nadřazený ALE:</strong> ALE předpokládá lineárnost (jedno číslo ARO, jedno číslo SLE). FAIR explicitně modeluje pravděpodobnostní distribuce pro každý faktor → výsledkem je range (např. „90 % pravděpodobnost, že roční ztráta nepřesáhne 2,5 mil. Kč"). To je mnohem informativnější pro rozhodování boardu a pojišťoven.</div>
+
+  <h3>Monte Carlo simulace v risk analýze</h3>
+  <p>Monte Carlo simulace využívá opakované náhodné vzorkování z pravděpodobnostních distribucí vstupních proměnných (ARO, SLE nebo FAIR parametry) k výpočtu distribuce výsledného rizika. Princip: definuj distribuce vstupů → spusť 10 000+ simulací → analyzuj výslednou distribuci ztrát. Výstup: histogram, percentily (P50, P90, P99), Value at Risk (VaR). Použití: finanční instituce (Basel III/IV), kybernetické pojišťovnictví, enterprise risk reporting pro board.</p>
+
+  <h2>2.3 Scenario-based vs. Asset-based analýza</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Asset-based analýza</div>
+      <div class="pojem-body"><strong>Přístup:</strong> identifikuj aktiva → identifikuj hrozby na každé aktivum → vyhodnoť zranitelnosti → spočítej riziko. Vhodné pro: inventarizaci rizik, compliance (ISO 27001), situace kde máme dobře zdokumentovaná aktiva. Nevýhoda: při mnoha aktivech je pracná; nezachytí nové hrozby bez aktiva v inventáři.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Scenario-based analýza</div>
+      <div class="pojem-body"><strong>Přístup:</strong> definuj scénáře (co se stane, když…) → vyhodnoť pravděpodobnost a dopad každého scénáře. Vhodné pro: strategická rozhodnutí, BCP/DR, hodnocení nových hrozeb (zero-day, insider threat), executive reporting. Výhoda: přirozená pro business stakeholdery. Nevýhoda: může přehlédnout rizika mimo definované scénáře.</div>
+    </div>
+  </div>
+
+  <h2>2.4 Bow-tie analýza</h2>
+  <p>Bow-tie (motýlek) je vizuální technika propojující příčiny hrozby s jejími důsledky přes centrální nebezpečnou událost. Pojmenována podle tvaru — levá strana je trojúhelník příčin, pravá strana trojúhelník důsledků.</p>
+  <table>
+    <tr><th>Část</th><th>Obsah</th><th>Kontroly</th></tr>
+    <tr><td><strong>Levá strana — příčiny (Threats/Hazards)</strong></td><td>Zdroje nebezpečí vedoucí k události. Příklad: chyba zaměstnance, selhání SW, útok hackera</td><td><strong>Preventivní kontroly</strong> (Prevention barriers) — blokují příčinu. Příklad: školení, patch management, firewall</td></tr>
+    <tr><td><strong>Centrum — událost (Top Event)</strong></td><td>Nebezpečná událost / hazard. Příklad: neoprávněný přístup k databázi zákazníků</td><td>—</td></tr>
+    <tr><td><strong>Pravá strana — důsledky (Consequences)</strong></td><td>Výsledné ztráty a dopady. Příklad: datový únik, GDPR pokuta, reputační škoda</td><td><strong>Reaktivní (mitigační) kontroly</strong> (Recovery barriers) — omezují dopad. Příklad: incident response, šifrování, cyber insurance</td></tr>
+  </table>
+  <div class="callout">Bow-tie je oblíbený pro komunikaci rizik managementu — přehledně zobrazuje celý rizikový scénář v jednom obrázku. Hojně používán v průmyslové bezpečnosti (HAZOP) i kybernetické bezpečnosti.</div>
+
+  <h2>2.5 Attack Trees</h2>
+  <p>Attack trees (útočné stromy) jsou strukturovaná metoda pro modelování hrozeb v IT systémech. Vyvinuta Bruce Schneierem. Struktura: kořen stromu = cíl útočníka (např. „kompromitovat databázi"); větve = alternativní způsoby dosažení cíle (OR uzly); podvětve = kroky nutné k provedení útoku (AND uzly).</p>
+  <ul>
+    <li><strong>OR uzel:</strong> Útočník dosáhne cíle splněním <em>alespoň jedné</em> větve (alternativní cesty)</li>
+    <li><strong>AND uzel:</strong> Útočník musí splnit <em>všechny</em> podvětve (konjunkce podmínek)</li>
+    <li><strong>Leaf uzly:</strong> Atomické útočné akce (exploitace konkrétní zranitelnosti, phishing konkrétního uživatele)</li>
+  </ul>
+  <p>Použití: threat modeling pro návrh aplikací (SDLC), penetrační testování, prioritizace bezpečnostních investic. Každému uzlu lze přiřadit atributy: cena útoku, pravděpodobnost, detekce. Kombinuje se s STRIDE a DREAD (viz P6).</p>
+</section>
+
+<!-- KLÍČOVÉ POJMY -->
+<section class="lecture" id="klicove">
+  <div class="lec-header">
+    <div class="lec-num">&#9733;</div>
+    <div>
+      <div class="lec-title">Klíčové pojmy</div>
+      <div class="lec-subtitle">Přehled 45+ stěžejních termínů z oblasti řízení rizik IS/IT</div>
+    </div>
+  </div>
+
+  <table>
+    <tr><th style="width:22%">Pojem</th><th>Definice / Vysvětlení</th><th style="width:22%">Pojem</th><th>Definice / Vysvětlení</th></tr>
+    <tr>
+      <td><strong>ERM</strong></td><td>Enterprise Risk Management — komplexní přístup k řízení všech podnikových rizik. Rámce: COSO ERM 2017, ISO 31000.</td>
+      <td><strong>COSO ERM 2017</strong></td><td>5-komponentový rámec ERM: Governance &amp; Culture / Strategy &amp; Objective-Setting / Performance / Review &amp; Revision / Information, Communication &amp; Reporting.</td>
+    </tr>
+    <tr>
+      <td><strong>ISO 31000:2018</strong></td><td>Mezinárodní standard pro řízení rizik. 8 principů + 5-komponentový rámec + iterativní proces (Identify → Analyse → Evaluate → Treat → Monitor).</td>
+      <td><strong>Risk Appetite</strong></td><td>Množství rizika, které je organizace ochotna přijmout při sledování svých cílů. Stanovuje board. Strategická úroveň.</td>
+    </tr>
+    <tr>
+      <td><strong>Risk Tolerance</strong></td><td>Přijatelná odchylka od risk appetite — operativní limity pro konkrétní procesy. Pokud překročena → eskalace.</td>
+      <td><strong>Risk Capacity</strong></td><td>Maximální riziko, které může organizace absorbovat bez ohrožení přežití. Risk appetite ≤ Risk capacity.</td>
+    </tr>
+    <tr>
+      <td><strong>Inherentní riziko</strong></td><td>Riziko bez jakýchkoli kontrol — čistá úroveň rizika aktivity před zavedením opatření.</td>
+      <td><strong>Reziduální riziko</strong></td><td>Riziko, které zůstává po implementaci kontrol. Musí být pod risk appetite. Vždy existuje.</td>
+    </tr>
+    <tr>
+      <td><strong>Cílové riziko</strong></td><td>Požadovaná (plánovaná) úroveň reziduálního rizika po implementaci všech plánovaných opatření.</td>
+      <td><strong>ALE</strong></td><td>Annualized Loss Expectancy = ARO × SLE. Roční očekávaná ztráta v Kč/USD. Základ pro cost-benefit analýzu bezpečnostních investic.</td>
+    </tr>
+    <tr>
+      <td><strong>SLE</strong></td><td>Single Loss Expectancy = Hodnota aktiva × Exposure Factor. Ztráta z jedné realizace hrozby.</td>
+      <td><strong>ARO</strong></td><td>Annualized Rate of Occurrence — odhadovaná frekvence výskytu hrozby za rok (ARO = 1: jednou ročně; ARO = 0,1: jednou za 10 let).</td>
+    </tr>
+    <tr>
+      <td><strong>FAIR</strong></td><td>Factor Analysis of Information Risk — pravděpodobnostní model IT rizik. Výstup: distribuce ztrát (range), ne jedno číslo. Nadřazený ALE. Komponenty: TEF, TC, RS, LEF, LM, PLM, SLM.</td>
+      <td><strong>Monte Carlo simulace</strong></td><td>Opakované náhodné vzorkování z pravděpodobnostních distribucí vstupů → distribuce výsledného rizika. Výstup: percentily (P50/P90/P99), VaR.</td>
+    </tr>
+    <tr>
+      <td><strong>Bow-tie analýza</strong></td><td>Vizuální metoda: příčiny → top event → důsledky. Levá strana: preventivní kontroly. Pravá strana: reaktivní/mitigační kontroly. Přehledná komunikace rizik managementu.</td>
+      <td><strong>Attack tree</strong></td><td>Strom útočníkových cest (Bruce Schneier). Kořen = cíl; OR uzly = alternativy; AND uzly = nutné podmínky. Používá se v SDLC threat modelingu.</td>
+    </tr>
+    <tr>
+      <td><strong>ROSI</strong></td><td>Return on Security Investment = (ALE_před − ALE_po) − roční náklady opatření. Pokud ROSI &gt; 0, investice je ekonomicky odůvodněná.</td>
+      <td><strong>Risk Register</strong></td><td>Centrální živý dokument řízení rizik. Sloupce: ID, Popis, Kategorie, Pravděpodobnost, Dopad, Skóre, Owner, Opatření, Reziduální riziko, Status, Deadline.</td>
+    </tr>
+    <tr>
+      <td><strong>Risk Treatment Plan</strong></td><td>Formální plán ošetření rizik — pro každé riziko: opatření, odpovědnosti, rozpočet, harmonogram, kritéria úspěchu. Vstup do change management (CAB).</td>
+      <td><strong>Risk mitigation</strong></td><td>Strategie snížení pravděpodobnosti nebo dopadu rizika implementací kontrol. Nejčastější reakce na riziko.</td>
+    </tr>
+    <tr>
+      <td><strong>Risk acceptance</strong></td><td>Vědomé rozhodnutí přijmout riziko bez dalších opatření — pokud reziduální riziko je v rámci risk appetite nebo náklady na opatření převažují benefit.</td>
+      <td><strong>Risk transfer</strong></td><td>Přenesení finančního dopadu na třetí stranu (cyber insurance, outsourcing, smluvní odpovědnost). Riziko samotné se nepřenáší.</td>
+    </tr>
+    <tr>
+      <td><strong>Risk avoidance</strong></td><td>Ukončení aktivity způsobující riziko. Eliminuje riziko, ale přichází se ztrátou příležitosti. Použít, pokud riziko nelze zmírnit ani přenést.</td>
+      <td><strong>Kvantitativní analýza</strong></td><td>Hodnocení rizik pomocí číselných hodnot (ALE, FAIR, Monte Carlo). Výhoda: objektivní, propojitelné s financemi. Nevýhoda: vyžaduje data, nákladnější.</td>
+    </tr>
+    <tr>
+      <td><strong>Kvalitativní analýza</strong></td><td>Hodnocení rizik pomocí popisných škál (nízká/střední/vysoká). Výhoda: rychlá, nevyžaduje data. Nevýhoda: subjektivní, obtížné srovnání.</td>
+      <td><strong>COBIT DF3</strong></td><td>COBIT 2019 Design Factor 3 — 10 kategorií IT rizik (Investment, Availability, Service Delivery, Infrastructure, SW Development, Access Controls, Cybersecurity, Compliance, Third-party, Data).</td>
+    </tr>
+    <tr>
+      <td><strong>ENISA</strong></td><td>European Union Agency for Cybersecurity. Každoročně publikuje Threat Landscape — top 8 hrozeb 2023: Ransomware, Malware, Social Engineering, Data threats, DDoS, Supply chain, Vulnerabilities, FIMI.</td>
+      <td><strong>Supply chain risk</strong></td><td>Riziko kompromitace přes důvěryhodné dodavatele SW/HW. Vzory: SolarWinds (2020), Kaseya (2021), 3CX (2023). Ochrana: SBOM, code signing, zero trust.</td>
+    </tr>
+    <tr>
+      <td><strong>TPRM</strong></td><td>Third-Party Risk Management — program hodnocení a monitoringu rizik dodavatelů. Fáze: due diligence (SIG questionnaire) → vendor tiering (Critical/High/Medium/Low) → smluvní kontroly (audit rights) → continuous monitoring.</td>
+      <td><strong>Cyber insurance</strong></td><td>Kybernetické pojištění — risk transfer. First-party: IR náklady, ransomware, business interruption. Third-party: GDPR liability, network security liability. Exclusions: war, unpatched vulns.</td>
+    </tr>
+    <tr>
+      <td><strong>KRI</strong></td><td>Key Risk Indicator — dopředu hledící ukazatel měřící úroveň rizika. Příklady: % nepatchovaných systémů, phishing click rate, MTTD. Práh pro eskalaci: zelená/žlutá/červená.</td>
+      <td><strong>KPI</strong></td><td>Key Performance Indicator — zpětně hledící ukazatel výkonnosti. Měří, jak dobře organizace dosahuje cílů (% SLA splněných, uptime). Komplementární ke KRI.</td>
+    </tr>
+    <tr>
+      <td><strong>Risk dashboard</strong></td><td>Vizuální přehled rizikového profilu. Komponenty: heat map, trending, traffic light (RAG), top risks summary. Různé verze pro board / management / operativu.</td>
+      <td><strong>Audit trail</strong></td><td>Záznam celého lifecycle každého rizika — datum, autor, zdůvodnění rozhodnutí, schválení. Nutný pro compliance (GDPR, NIS2, SOX) a audit.</td>
+    </tr>
+    <tr>
+      <td><strong>OCTAVE Allegro</strong></td><td>CMU/SEI metodologie risk assessmentu. 3 fáze: nastavení kritérií měření rizika → profily informačních aktiv a hrozeb → identifikace a mitigace rizik. Nevyžaduje hluboké technické znalosti.</td>
+      <td><strong>CRAMM</strong></td><td>CCTA Risk Analysis and Management Method. 3 moduly: Asset Identification → Threat/Vulnerability Assessment → Countermeasure Selection z předdefinované knihovny. Britský veřejný sektor.</td>
+    </tr>
+    <tr>
+      <td><strong>NIST RMF</strong></td><td>NIST Risk Management Framework (SP 800-37 Rev. 2). 7 kroků: Prepare → Categorize (FIPS 199) → Select (SP 800-53) → Implement → Assess → Authorize (ATO) → Monitor. Povinné pro federální systémy USA.</td>
+      <td><strong>FIPS 199 / FIPS 200</strong></td><td>FIPS 199: kategorizace systémů dle CIA (Low/Moderate/High). FIPS 200: minimální bezpečnostní požadavky pro 17 oblastí federálních systémů.</td>
+    </tr>
+    <tr>
+      <td><strong>STRIDE</strong></td><td>Microsoft threat modeling framework. 6 kategorií: Spoofing / Tampering / Repudiation / Information Disclosure / Denial of Service / Elevation of Privilege. Aplikuje se na DFD systému.</td>
+      <td><strong>DREAD</strong></td><td>Scoring model závažnosti hrozeb: Damage / Reproducibility / Exploitability / Affected users / Discoverability. Každé kritérium 0–10 nebo 1–3. Celkové skóre = prioritizace hrozeb.</td>
+    </tr>
+    <tr>
+      <td><strong>PASTA</strong></td><td>Process for Attack Simulation and Threat Analysis. 7 kroků: Objectives → Technical Scope → App Decomposition → Threat Analysis → Vulnerability Analysis → Attack Modeling → Risk &amp; Impact Analysis. Risk-centric, propojuje techniku s business dopadem.</td>
+      <td><strong>Scenario-based analýza</strong></td><td>Hodnocení rizik přes definované scénáře (co se stane, když…). Vhodná pro strategická rozhodnutí, BCP/DR, executive reporting. Komplementární k asset-based přístupu.</td>
+    </tr>
+    <tr>
+      <td><strong>Asset-based analýza</strong></td><td>Hodnocení rizik přes inventář aktiv → hrozby → zranitelnosti. Základ pro ISO 27001 ISMS. Systematická, ale pracná při mnoha aktivech.</td>
+      <td><strong>NIST SP 800-53</strong></td><td>Katalog bezpečnostních a privátních kontrol pro federální informační systémy. Rev. 5: 20 rodin kontrol (AC, AT, AU, CM, CP, IA, IR, RA, SC, SI…).</td>
+    </tr>
+    <tr>
+      <td><strong>ISO 27002:2022</strong></td><td>Implementační pokyny pro ISO 27001. 93 kontrol ve 4 tématech: Organizational (37) / People (8) / Physical (14) / Technological (34). Základ SOA (Statement of Applicability).</td>
+      <td><strong>TEF / LEF (FAIR)</strong></td><td>TEF = Threat Event Frequency (frekvence kontaktu hrozby s aktivem). LEF = Loss Event Frequency = TEF × Vulnerability (pravděpodobnost, že TC překoná RS).</td>
+    </tr>
+    <tr>
+      <td><strong>Exposure Factor (EF)</strong></td><td>Podíl hodnoty aktiva poškozený jednou realizací hrozby (0–1). Součást výpočtu SLE = Hodnota aktiva × EF.</td>
+      <td><strong>Risk committee</strong></td><td>Výbor pro řízení rizik — typicky složen z CRO, CISO, CFO, COO, legal. Eskalační bod mezi operativou a boardem. Schvaluje risk appetite a výjimky.</td>
+    </tr>
+    <tr>
+      <td><strong>SIG Questionnaire</strong></td><td>Standardized Information Gathering questionnaire (Shared Assessments). Nástroj pro due diligence hodnocení bezpečnostní zralosti třetích stran v TPRM.</td>
+      <td><strong>MTTD / MTTR</strong></td><td>Mean Time to Detect (průměrná doba od incidentu k detekci) / Mean Time to Respond (doba od detekce k containmentu). Klíčová KRI pro SOC/incident response.</td>
+    </tr>
+  </table>
+</section>
+
+<script>
+(function() {
+  const links = document.querySelectorAll('.nav-link');
+  const sections = Array.from(links).map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+  function onScroll() {
+    let current = sections[0];
+    for (const s of sections) {
+      if (window.scrollY >= s.offsetTop - 80) current = s;
+    }
+    links.forEach(l => {
+      l.style.background = '';
+      l.style.color = '';
+    });
+    const active = document.querySelector('.nav-link[href="#' + current.id + '"]');
+    if (active) { active.style.background = '#eff6ff'; active.style.color = '#1d4ed8'; }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+
+</body>
+</html>

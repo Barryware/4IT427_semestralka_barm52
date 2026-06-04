@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4SA418 Organizace a informace – Učební podklady</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, sans-serif; font-size: 15px; line-height: 1.6; color: #111827; background: #f9fafb; -webkit-font-smoothing: antialiased; margin-left: 58px; }
+  #doc-nav { width: 50px; height: 100vh; position: fixed; left: 0; top: 0; z-index: 100; overflow: hidden; background: #fff; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; transition: width 0.32s cubic-bezier(0.4,0,0.2,1), box-shadow 0.32s; }
+  #doc-nav:hover { width: 240px; box-shadow: 6px 0 24px rgba(0,0,0,0.07); }
+  .nav-logo { padding: 14px 13px 12px; border-bottom: 1px solid #e5e7eb; white-space: nowrap; overflow: hidden; position: relative; }
+  .nav-code { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9ca3af; margin-bottom: 3px; }
+  .nav-subject { display: block; font-size: 13px; font-weight: 600; color: #111827; }
+  .nav-logo-icon { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-size: 16px; color: #1d4ed8; opacity: 0; transition: opacity 0.2s; }
+  .nav-logo-text { opacity: 1; transition: opacity 0.2s; }
+  #doc-nav:not(:hover) .nav-logo-icon { opacity: 1; }
+  #doc-nav:not(:hover) .nav-logo-text { opacity: 0; }
+  .nav-items { flex: 1; padding: 6px 0; overflow-y: auto; overflow-x: hidden; }
+  .nav-link { display: flex; align-items: center; gap: 8px; padding: 5px 12px; font-size: 12.5px; font-weight: 500; color: #374151; text-decoration: none; white-space: nowrap; overflow: hidden; transition: background 0.1s, color 0.1s; }
+  .nav-link:hover { background: #f3f4f6; color: #111827; }
+  .nav-num { font-size: 9px; font-weight: 700; background: #1d4ed8; color: #fff; padding: 2px 5px; border-radius: 3px; flex-shrink: 0; min-width: 22px; text-align: center; }
+  .nav-label { max-width: 200px; overflow: hidden; white-space: nowrap; transition: max-width 0.28s, opacity 0.18s; }
+  #doc-nav:not(:hover) .nav-label { max-width: 0; opacity: 0; }
+  #doc-nav:not(:hover) .nav-link { padding-left: 4px; padding-right: 4px; justify-content: center; }
+  .hero { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 44px 56px 40px; }
+  .hero-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #94a3b8; margin-bottom: 12px; }
+  .hero-title { font-size: 44px; font-weight: 800; color: #0f172a; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 16px; }
+  .hero-desc { font-size: 15px; color: #64748b; max-width: 660px; line-height: 1.65; margin-bottom: 20px; }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+  .hero-pill { display: inline-block; padding: 4px 11px; border-radius: 20px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 500; }
+  .lecture { max-width: 820px; margin: 0 auto; padding: 48px 56px; border-bottom: 1px solid #f1f5f9; }
+  .lec-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; }
+  .lec-num { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: #1d4ed8; color: #fff; padding: 5px 9px; border-radius: 5px; flex-shrink: 0; margin-top: 2px; }
+  .lec-title { font-size: 22px; font-weight: 700; color: #0f172a; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .lec-subtitle { font-size: 13px; color: #64748b; }
+  h2 { font-size: 16px; font-weight: 700; color: #0f172a; margin: 28px 0 10px; padding-bottom: 6px; border-bottom: 1px solid #e5e7eb; }
+  h3 { font-size: 14px; font-weight: 700; color: #374151; margin: 20px 0 8px; }
+  p { margin-bottom: 14px; color: #374151; font-size: 14.5px; }
+  ul, ol { margin: 0 0 14px; padding-left: 22px; color: #374151; font-size: 14.5px; }
+  li { margin-bottom: 5px; }
+  strong { font-weight: 700; color: #0f172a; }
+  em { font-style: italic; color: #475569; }
+  .pojmy { display: grid; gap: 8px; margin: 14px 0 20px; }
+  .pojmy.two { grid-template-columns: 1fr 1fr; }
+  .pojmy.three { grid-template-columns: 1fr 1fr 1fr; }
+  .pojmy.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .pojmy.single { grid-template-columns: 1fr; }
+  .pojem { border-radius: 8px; padding: 14px 16px; border: 1px solid; }
+  .pojem.blue { background: #eff6ff; border-color: #bfdbfe; }
+  .pojem.green { background: #f0fdf4; border-color: #bbf7d0; }
+  .pojem.orange { background: #fff7ed; border-color: #fed7aa; }
+  .pojem.purple { background: #faf5ff; border-color: #ddd6fe; }
+  .pojem.red { background: #fff1f2; border-color: #fecdd3; }
+  .pojem.gray { background: #f9fafb; border-color: #e5e7eb; }
+  .pojem-head { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 7px; }
+  .pojem.blue .pojem-head { color: #1d4ed8; }
+  .pojem.green .pojem-head { color: #15803d; }
+  .pojem.orange .pojem-head { color: #c2410c; }
+  .pojem.purple .pojem-head { color: #6d28d9; }
+  .pojem.red .pojem-head { color: #be123c; }
+  .pojem.gray .pojem-head { color: #374151; }
+  .pojem-body { font-size: 13.5px; line-height: 1.55; color: #374151; }
+  .tip { background: #fefce8; border-left: 3px solid #eab308; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #713f12; line-height: 1.6; }
+  .callout { background: #f0f9ff; border-left: 3px solid #0ea5e9; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #0c4a6e; line-height: 1.6; }
+  .warn { background: #fff1f2; border-left: 3px solid #f43f5e; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #9f1239; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 13.5px; }
+  th { background: #f8fafc; font-weight: 600; text-align: left; padding: 8px 10px; border: 1px solid #e5e7eb; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  td { padding: 8px 10px; border: 1px solid #e5e7eb; vertical-align: top; color: #374151; }
+  tr:nth-child(even) td { background: #fafafa; }
+  .nav-link.active { background: #eff6ff; color: #1d4ed8; }
+</style>
+</head>
+<body>
+
+<nav id="doc-nav">
+  <div class="nav-logo">
+    <span class="nav-logo-icon">&#9670;</span>
+    <span class="nav-logo-text">
+      <span class="nav-code">4SA418</span>
+      <span class="nav-subject">Organizace a informace</span>
+    </span>
+  </div>
+  <div class="nav-items">
+    <a class="nav-link" href="#p1"><span class="nav-num">P1</span><span class="nav-label">Organizace jako systém</span></a>
+    <a class="nav-link" href="#p2"><span class="nav-num">P2</span><span class="nav-label">Rozhodování a informace</span></a>
+    <a class="nav-link" href="#p3"><span class="nav-num">P3</span><span class="nav-label">Knowledge Management</span></a>
+    <a class="nav-link" href="#p4"><span class="nav-num">P4</span><span class="nav-label">Kultura a komunikace</span></a>
+    <a class="nav-link" href="#p5"><span class="nav-num">P5</span><span class="nav-label">Inovace a technologie</span></a>
+    <a class="nav-link" href="#p6"><span class="nav-num">P6</span><span class="nav-label">Strategické řízení IS</span></a>
+    <a class="nav-link" href="#klicpojmy"><span class="nav-num">&#9733;</span><span class="nav-label">Klíčové pojmy</span></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">4SA418 · Organizace a informace</div>
+  <div class="hero-title">Organizace a informace</div>
+  <div class="hero-desc">Organizační teorie a systémový pohled, rozhodování a bounded rationality, knowledge management (SECI model), organizační kultura a komunikace, inovace (10 typů, Rogers, TAM/UTAUT), ISP a McFarlan Strategic Grid.</div>
+  <div class="hero-pills">
+    <span class="hero-pill">Weick — sensemaking</span>
+    <span class="hero-pill">Simon: bounded rationality</span>
+    <span class="hero-pill">Mintzberg 5 konfigurací</span>
+    <span class="hero-pill">SECI model</span>
+    <span class="hero-pill">Hofstede dimenze</span>
+    <span class="hero-pill">10 typů inovací</span>
+    <span class="hero-pill">TAM / UTAUT</span>
+    <span class="hero-pill">Nolan / McFarlan</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ P1 ═══════════════════════════ -->
+<section class="lecture" id="p1">
+  <div class="lec-header">
+    <div class="lec-num">P1</div>
+    <div>
+      <div class="lec-title">Organizace jako systém</div>
+      <div class="lec-subtitle">Systémový pohled, Weick — enactment/sensemaking, organizační struktury, Mintzberg 5 konfigurací, formální vs. neformální vs. institucionální struktura</div>
+    </div>
+  </div>
+
+  <h2>Organizace jako otevřený systém</h2>
+  <p><strong>Ludwig von Bertalanffy</strong> (General Systems Theory, 1968): organizace je <strong>otevřený systém</strong> — přijímá vstupy z prostředí (suroviny, informace, lidé, kapitál), transformuje je a produkuje výstupy. Klíčové systémové vlastnosti:</p>
+  <ul>
+    <li><strong>Hranice</strong> — oddělují organizaci od prostředí, ale nejsou nepropustné; informační systémy leží na hranici (ERP sbírá vnější data, reporty jdou ven)</li>
+    <li><strong>Subsystémy</strong> — oddělení, procesy, týmy; vzájemně závislé; IS je subsystémem organizace</li>
+    <li><strong>Zpětná vazba</strong> — negativní (regulace, homeostáza: ERP řídí zásoby) nebo pozitivní (zesilování, růst: virální platformy)</li>
+    <li><strong>Ekvifinalita</strong> — různými cestami lze dosáhnout stejného výsledku; není jen jeden správný IS design</li>
+    <li><strong>Entropie</strong> — tendence k dezorganizaci; organizace musí aktivně udržovat řád (governance, procesy, IS)</li>
+    <li><strong>Homeostáza</strong> — schopnost udržovat stabilní stav navzdory vnějším poruchám</li>
+  </ul>
+
+  <h2>Weick — Enactment a Sensemaking</h2>
+  <p><strong>Karl Weick</strong> (1979, 1995) přináší alternativní pohled: organizace <em>nevnímá</em> prostředí pasivně, ale <strong>enaktuje</strong> ho — aktivně ho konstruuje svými akcemi a interpretacemi. <em>Sensemaking</em> je proces, jímž členové organizace retrospektivně interpretují události, aby jim dali smysl.</p>
+
+  <div class="callout"><strong>Enactment (uzákonění):</strong> Organizace svými akcemi vytváří prostředí, ve kterém pak operuje. Firma, která aktivně lobbuje za regulaci, de facto konstruuje regulační prostředí. IS a reporting systémy enaktují určitou verzi reality — co měříme, to řídíme. KPI systémy formují chování manažerů (Goodhart's law: míra se stane cílem).</div>
+
+  <h3>Weick — 7 vlastností sensemakingu</h3>
+  <table>
+    <tr><th>#</th><th>Vlastnost</th><th>Popis</th><th>IT / IS příklad</th></tr>
+    <tr><td>1</td><td><strong>Grounded in identity</strong></td><td>Sensemaking závisí na tom, kdo jsme — identita filtruje interpretaci</td><td>IT oddělení interpretuje incident jako technický selhání; business jako selhání managementu</td></tr>
+    <tr><td>2</td><td><strong>Retrospective</strong></td><td>Dáváme smysl tomu, co už proběhlo — interpretujeme minulé události</td><td>Post-mortem analýzy výpadků systémů: teprve zpětně chápeme příčinný řetěz</td></tr>
+    <tr><td>3</td><td><strong>Enactive</strong></td><td>Vlastní akce vytváří prostředí, které pak vnímáme</td><td>Zavedení nového IS změní procesy, o nichž pak říkáme, že IS "jen podporuje"</td></tr>
+    <tr><td>4</td><td><strong>Social</strong></td><td>Sensemaking je kolektivní — sdílíme interpretace v sociálních skupinách</td><td>Tým projektů sdílí příběh o tom, proč ERP selhal; narativ se šíří a formuje budoucí rozhodnutí</td></tr>
+    <tr><td>5</td><td><strong>Ongoing</strong></td><td>Kontinuální proces — nikdy zcela nekončí</td><td>Monitoring dashboardů: průběžně reinterpretujeme, co čísla znamenají</td></tr>
+    <tr><td>6</td><td><strong>Focused on cues</strong></td><td>Pracujeme s útržky informací — vytrhujeme klíčové signály (cues) z kontextu</td><td>Manažer vidí jediný KPI a udělá závěr o celém oddělení; selekce dat v BI</td></tr>
+    <tr><td>7</td><td><strong>Plausibility over accuracy</strong></td><td>Upřednostňujeme pravděpodobné vysvětlení před přesným</td><td>Rychlé rozhodnutí na základě neúplných dat v krizovém řízení IT incidentu</td></tr>
+  </table>
+
+  <h2>Organizační struktury — přehled a IS implikace</h2>
+  <table>
+    <tr><th>Struktura</th><th>Charakteristika</th><th>Výhody</th><th>Nevýhody</th><th>Kdy použít</th><th>IS implikace</th></tr>
+    <tr><td><strong>Liniová (Line)</strong></td><td>Přímá hierarchie: ředitel → vedoucí → zaměstnanci. Jasná nadřízenost.</td><td>Jednoduchá, rychlá rozhodnutí, jasná odpovědnost</td><td>Málo specializace, vedoucí musí zvládat vše</td><td>Malé firmy, výrobní provozy</td><td>Jednoduchý TPS; Excel/Pohoda</td></tr>
+    <tr><td><strong>Funkcionální</strong></td><td>Oddělení dle funkcí (výroba, marketing, finance, IT). Specializace.</td><td>Hluboká odbornost, efektivita v opakujících se procesech</td><td>Informační sila, pomalá koordinace cross-funkčně</td><td>Stabilní prostředí, výroba, průmysl</td><td>ERP moduly dle funkcí; datová sila problém</td></tr>
+    <tr><td><strong>Divizní</strong></td><td>Divize dle produktů, regionů nebo zákazníků. Každá divize = miniorganizace.</td><td>Autonomie, blízkost zákazníkovi, flexibilita</td><td>Duplicita zdrojů, interní konkurence</td><td>Velké korporace, mezinárodní firmy</td><td>Federovaný IS model — centrální standard + lokální ERP instance</td></tr>
+    <tr><td><strong>Maticová</strong></td><td>Kombinace funkcionální + projektová. Dual reporting: funkční manažer + projektový manažer.</td><td>Flexibilita, efektivní využití zdrojů, inovace</td><td>Nejasná odpovědnost, konflikty priorit, komplexita</td><td>Projektové firmy, konzultace, IT firmy</td><td>Sdílené IS — collaboration tools, PM software (Jira, MS Project)</td></tr>
+    <tr><td><strong>Projektová</strong></td><td>Dočasné týmy sestavené pro projekt; po dokončení se rozpadají.</td><td>Jasný fokus, flexibilita, rychlá reakce</td><td>Nejistota po skončení projektu, ztráta znalostí</td><td>Stavebnictví, IT projekty, poradenství</td><td>Projektový IS (Jira, Asana); KM pro zachování lessons learned</td></tr>
+    <tr><td><strong>Síťová / Plochá</strong></td><td>Nízká hierarchie, decentralizace, týmy knowledge workerů, ekosystém partnerů.</td><td>Rychlost, inovace, kreativita</td><td>Koordinačně náročné, nevhodné pro velké operace</td><td>Startupy, kreativní agentury, platformy</td><td>Sociální IS — wikis, Slack/Teams, DMS; data governance náročná</td></tr>
+  </table>
+
+  <h2>Formální vs. neformální vs. institucionální struktura</h2>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Formální struktura</div>
+      <div class="pojem-body">Explicitně definovaná v org. schématu, popisech pracovních míst, směrnicích a procesních mapách. IS ji podporuje formálními workflow, ERP procesy, schvalovacími toky a RBAC (role-based access control).</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Neformální struktura</div>
+      <div class="pojem-body">Skrytá síť vztahů, neformální komunikace, "jak to opravdu funguje". Klíčová pro tok tacitních znalostí. IS ji může zachytit pouze částečně (sociální sítě, collaboration analytics, ONA — organizational network analysis).</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Institucionální struktura</div>
+      <div class="pojem-body">Abstraktní sociální konstrukt — pravidla hry ve společnosti (North, 1990). Formální: zákony, smlouvy, normy ISO. Neformální: zvyky, kulturní normy. IS musí respektovat institucionální prostředí (GDPR, zákonná archivace, účetní standardy).</div>
+    </div>
+  </div>
+
+  <h2>Mintzberg — 5 organizačních konfigurací</h2>
+  <p><strong>Henry Mintzberg</strong> (1979) definoval 5 ideálních typů organizačních struktur. Každý typ má charakteristický klíčový koordinační mechanismus a dominantní část organizace:</p>
+  <table>
+    <tr><th>Konfigurace</th><th>Klíčová část</th><th>Koordinační mechanismus</th><th>Příklad</th><th>Typické IS</th></tr>
+    <tr><td><strong>Simple Structure (Jednoduchá)</strong></td><td>Strategic apex (top management)</td><td>Přímý dohled — šéf řídí vše osobně</td><td>Malý rodinný podnik, startup</td><td>Jednoduché TPS; účetnictví (Pohoda/Money); e-mail</td></tr>
+    <tr><td><strong>Machine Bureaucracy</strong></td><td>Technostructure (analytici, normy)</td><td>Standardizace pracovních postupů</td><td>Výrobní firmy (Toyota), pojišťovny, pošta</td><td>ERP (SAP), standardizované workflow, WMS, MES</td></tr>
+    <tr><td><strong>Professional Bureaucracy</strong></td><td>Operating core (profesionálové)</td><td>Standardizace dovedností (vzdělání, certifikace)</td><td>Nemocnice, universitity, právní firmy, auditorské firmy</td><td>Specializované IS (HIS v nemocnicích, DMS pro dokumenty); KMS</td></tr>
+    <tr><td><strong>Divisionalized Form</strong></td><td>Middle line (střední management)</td><td>Standardizace výstupů (výsledků, KPI)</td><td>Velké korporace (Unilever, ČEZ)</td><td>Konsolidační IS, BI/reporting; federovaný ERP model</td></tr>
+    <tr><td><strong>Adhocracy</strong></td><td>Support staff + Operating core</td><td>Vzájemné přizpůsobování (mutual adjustment)</td><td>Konzultační firmy, výzkumné týmy, IT firmy, NASA</td><td>Collaboration tools (Teams, Confluence, Jira); flexibilní BI; low-code platforms</td></tr>
+  </table>
+
+  <div class="tip"><strong>Zkouškový tip:</strong> Mintzberg je oblíbené propojení s IS. Machine Bureaucracy = SAP/ERP. Professional Bureaucracy = specializované IS. Adhocracy = collaboration + agile tools. Simple Structure = žádný složitý IS, přímý dohled stačí.</div>
+</section>
+
+<!-- ═══════════════════════════ P2 ═══════════════════════════ -->
+<section class="lecture" id="p2">
+  <div class="lec-header">
+    <div class="lec-num">P2</div>
+    <div>
+      <div class="lec-title">Rozhodování a informace</div>
+      <div class="lec-subtitle">Simon — bounded rationality, 4 fáze rozhodování, programovaná vs. neprogramovaná rozhodnutí, DSS architektura, iracionalita, skupinové rozhodování</div>
+    </div>
+  </div>
+
+  <h2>Herbert Simon — Bounded Rationality</h2>
+  <p><strong>Herbert Simon</strong> (Nobelova cena za ekonomii 1978) zavedl pojem <strong>omezené racionality</strong> (bounded rationality): lidé se snaží rozhodovat racionálně, ale jejich racionalita je omezena třemi faktory:</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Kognitivní limity</div>
+      <div class="pojem-body">Mozek má omezenou kapacitu zpracovávat informace. Working memory pojme cca 7 ± 2 položky (Miller, 1956). Komplexní rozhodnutí přesahují tuto kapacitu.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Neúplné informace</div>
+      <div class="pojem-body">Nikdy nemáme přístup ke všem relevantním informacím. Sběr informací je časově a finančně nákladný — v určitém bodě přestaneme hledat.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Časová tíseň</div>
+      <div class="pojem-body">Rozhodnutí musí být učiněno v určitém čase. Čekání na dokonalé informace není možné — rozhodujeme s tím, co máme.</div>
+    </div>
+  </div>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Satisficing (uspokojení)</div>
+      <div class="pojem-body">Simon (1956): Místo hledání optimálního řešení volíme první <em>dostatečně dobré</em> řešení, které splňuje naše minimální požadavky (aspiration level). Příklad: manažer vybere prvního uchazeče, který splňuje všechna kritéria — neprochází všechny kandidáty.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Optimizing (optimalizace)</div>
+      <div class="pojem-body">Teoretický ideál neoklasické ekonomie: prohledáme celý prostor alternativ a vybereme nejlepší. Předpokládá úplné informace a neomezenou kognitivní kapacitu. V praxi jen pro dobře strukturovaná, algoritmizovatelná rozhodnutí (IS může optimalizovat za nás — lineární programování, simplex).</div>
+    </div>
+  </div>
+
+  <div class="callout"><strong>IS a bounded rationality:</strong> Informační systémy rozšiřují hranice omezené racionality — poskytují relevantní informace ve správný čas, automatizují vyhledávání alternativ, modelují důsledky rozhodnutí. DSS, BI, AI jsou přímou odpovědí na kognitivní limity manažerů.</div>
+
+  <h2>Simon — 4 fáze rozhodovacího procesu</h2>
+  <table>
+    <tr><th>Fáze</th><th>Aktivita</th><th>IS podpora</th></tr>
+    <tr><td><strong>1. Intelligence (Průzkum)</strong></td><td>Identifikace a definice problému. Monitorování prostředí, sběr informací o situaci. Odpovídá na: "Existuje problém? Jaký?"</td><td>MIS, EIS/ESS — pravidelné reporty, exception reports, dashboardy s KPI, alerting systémy, BI monitoring</td></tr>
+    <tr><td><strong>2. Design (Návrh)</strong></td><td>Generování alternativních řešení, modelování možných postupů a jejich pravděpodobných důsledků. Odpovídá na: "Jaké jsou možnosti?"</td><td>DSS (modely, simulace), what-if analýzy v BI, scénářové plánování, optimalizační modely, spreadsheet modely</td></tr>
+    <tr><td><strong>3. Choice (Volba)</strong></td><td>Výběr nejlepší alternativy dle stanovených kritérií. Satisficing nebo optimizing. Odpovídá na: "Která možnost je nejlepší?"</td><td>DSS — výstupy modelů, multicriteria decision support, scoring modely, rozhodovací stromy v analytických nástrojích</td></tr>
+    <tr><td><strong>4. Implementation (Implementace)</strong></td><td>Realizace zvoleného řešení a monitorování jeho výsledku. Sledování odchylek od plánu, zpětná vazba pro nový Intelligence cyklus.</td><td>ERP/TPS pro realizaci, BPM pro procesní monitoring, BI pro sledování KPI po implementaci, feedback loop do Intelligence fáze</td></tr>
+  </table>
+
+  <h2>Programovaná vs. neprogramovaná rozhodnutí — Gorry &amp; Scott Morton matice</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Programované rozhodnutí</div>
+      <div class="pojem-body">Opakující se, rutinní, dobře strukturované — existuje jasný postup (procedura, algoritmus, pravidlo). IS ho může automatizovat nebo plně nahradit. Příklady: schválení standardní objednávky, výpočet mzdy, automatické doplňování zásob při dosažení reorder pointu (ERP), schválení úvěru dle skórovacího modelu.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Neprogramované rozhodnutí</div>
+      <div class="pojem-body">Nové, špatně strukturované, unikátní — neexistuje hotový postup. Vyžaduje úsudek, kreativitu, zkušenosti, kontextuální znalost. Příklady: vstup na nový trh, výběr strategie fúze, krizové řízení, výběr nového CIO. IS podporuje (DSS, EIS, BI, AI jako doporučovací systém), ale konečné rozhodnutí je na člověku.</div>
+    </div>
+  </div>
+
+  <p><strong>Gorry &amp; Scott Morton (1971)</strong> zkombinovali Simonovy typy rozhodnutí s úrovněmi řízení do matice IS podpory:</p>
+  <table>
+    <tr><th></th><th>Operativní (Structured)</th><th>Taktická (Semi-structured)</th><th>Strategická (Unstructured)</th></tr>
+    <tr><td><strong>Programované</strong></td><td>TPS, ERP automatizace — schválení objednávky, výpočet mzdy</td><td>MIS reporty — kontrola zásob, analýza odchylek</td><td>— (vzácné)</td></tr>
+    <tr><td><strong>Polostrukturované</strong></td><td>Scheduling, kapacitní plánování</td><td>DSS — cash flow analýza, výběr dodavatele</td><td>DSS/EIS — hodnocení akvizice, výběr nového trhu</td></tr>
+    <tr><td><strong>Neprogramované</strong></td><td>— (vzácné)</td><td>—</td><td>EIS/ESS — strategický IS, executive dashboardy, AI analytika</td></tr>
+  </table>
+
+  <h2>DSS — Decision Support System</h2>
+  <p>Systémy na podporu rozhodování (DSS) jsou určeny pro polostrukturovaná a špatně strukturovaná rozhodnutí. Sprague &amp; Carlson (1982) definují tři komponenty DSS architektury:</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Data Management</div>
+      <div class="pojem-body">Databáze a datové sklady (DWH) — ukládají interní i externí data pro analýzu. Zahrnuje ETL procesy, datovou integraci z více zdrojů. Příklady: finanční data, tržní data, historické výsledky. Moderní: data lake, cloud data warehouse (Snowflake).</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Model Management</div>
+      <div class="pojem-body">Knihovna analytických modelů: statistické modely, optimalizační modely, simulační modely, what-if modely. Umožňuje modelovat důsledky rozhodnutí před jejich realizací. Příklady: finanční modely (NPV, IRR), prediktivní modely (ML), optimalizace portfolia.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">User Interface</div>
+      <div class="pojem-body">Interaktivní rozhraní pro manažery — dashboardy, reporty, vizualizace, query nástroje. Musí být intuitivní — manažeři nejsou IT experti. Moderní: BI nástroje (Power BI, Tableau), conversational BI (přirozený jazyk).</div>
+    </div>
+  </div>
+
+  <h2>Iracionalita v rozhodování — kognitivní zkreslení v IS kontextu</h2>
+  <p>Kahneman &amp; Tversky (Prospect Theory, 1979) a další výzkumníci identifikovali systematická zkreslení lidského rozhodování — relevantní pro IT projekty a organizační rozhodování:</p>
+  <table>
+    <tr><th>Zkreslení</th><th>Popis</th><th>Příklad v IT projektu</th><th>IS opatření</th></tr>
+    <tr><td><strong>Anchoring (kotvení)</strong></td><td>Přílišný vliv první informace (kotvy) na výsledný úsudek</td><td>Původní odhad nákladů projektu (i když chybný) ovlivňuje všechny další odhady; vendor nabídne vysokou cenu jako kotvu</td><td>Strukturované srovnání nabídek, benchmark databáze, anonymní odhady</td></tr>
+    <tr><td><strong>Framing (rámování)</strong></td><td>Způsob prezentace informace ovlivňuje rozhodnutí (stejná data, jiný závěr)</td><td>"Projekt má 70% šanci na úspěch" vs. "30% šance na selhání" — různé reakce managementu</td><td>Standardizovaný reporting, prezentace dat z více úhlů pohledu</td></tr>
+    <tr><td><strong>Sunk Cost Fallacy</strong></td><td>Pokračování investice kvůli již vynaloženým (nevratným) nákladům</td><td>IS projekt "je rozjetý, zastavit by bylo plýtvání" — pokračujeme i když analýza říká zastavit; "zombie projekty"</td><td>Stage-gate procesy, pravidelný re-evaluation, nezávislé audit komise</td></tr>
+    <tr><td><strong>Groupthink</strong></td><td>Skupinový tlak potlačuje kritické myšlení — skupina konverguje k neoptimálnímu řešení</td><td>Projektový tým neupozorní na rizika, aby nenarušil "týmového ducha"; vendor lock-in rozhodnutí bez kritické debaty</td><td>Red team/devil's advocate, anonymní hodnocení rizik, rotace vedoucího diskuse</td></tr>
+    <tr><td><strong>Overconfidence (přílišná sebejistota)</strong></td><td>Přeceňování vlastních znalostí a schopností odhadnout budoucnost</td><td>Podceňování doby a nákladů IS projektů (planning fallacy) — statisticky 80 % IT projektů překračuje budget</td><td>Reference class forecasting, Monte Carlo simulace, lessons learned databáze</td></tr>
+    <tr><td><strong>Confirmation Bias</strong></td><td>Vyhledáváme informace potvrzující naše stávající přesvědčení</td><td>Manažer hledá jen kladné reference na preferovaný ERP systém; ignoruje negativní</td><td>Strukturovaný due diligence checklist, povinné argumenty pro a proti</td></tr>
+  </table>
+
+  <h2>Skupinové rozhodování</h2>
+  <p>Rozhodnutí v organizacích jsou typicky skupinová. Výhody: různorodé perspektivy, více informací, lepší přijetí rozhodnutí (buy-in). Pasti:</p>
+  <ul>
+    <li><strong>Groupthink</strong> (Janis, 1972) — viz výše; silně autoritativní lídr skupiny, homogenní skupina, izolace od vnějšího pohledu</li>
+    <li><strong>Social loafing</strong> — v skupině se jedinci méně snaží ("jiní to vyřeší")</li>
+    <li><strong>Risky shift / polarizace</strong> — skupiny volí extrémnější rozhodnutí než průměr jednotlivců</li>
+    <li><strong>Informační kaskády</strong> — raná hlasování ovlivňují pozdější; napodobování bez kritického myšlení</li>
+  </ul>
+  <p><strong>Jak IS pomáhá skupinovému rozhodování:</strong> Group Decision Support Systems (GDSS) — anonymní hlasování (odstraňuje sociální tlak), Delphi metoda digitálně, elektronické brainstorming nástroje (více nápadů bez blokování), structured argument mapping tools, prioritizace metodou AHP.</p>
+</section>
+
+<!-- ═══════════════════════════ P3 ═══════════════════════════ -->
+<section class="lecture" id="p3">
+  <div class="lec-header">
+    <div class="lec-num">P3</div>
+    <div>
+      <div class="lec-title">Knowledge Management a organizační učení</div>
+      <div class="lec-subtitle">Tacit vs. explicit knowledge, SECI model (Nonaka &amp; Takeuchi), Communities of Practice, knowledge repositories, single-loop vs. double-loop learning (Argyris)</div>
+    </div>
+  </div>
+
+  <h2>Tacit vs. Explicit knowledge</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Tacit knowledge (tacitní / skryté znalosti)</div>
+      <div class="pojem-body">Znalosti obtížně verbalizovatelné, vázané na zkušenosti a praxi. <em>"Víme víc, než umíme říct"</em> (Michael Polanyi, 1966). Příklady: jak řídit auto, jak odhadnout zákaznické potřeby, intuice zkušeného programátora, "know-how" experta na konkrétní ERP modul. Přenáší se sociální interakcí — pozorování, mentoring, apprenticeship, sdílená praxe. V IS kontextu: ztráta tacitních znalostí při odchodu klíčových zaměstnanců (key person risk).</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Explicit knowledge (explicitní znalosti)</div>
+      <div class="pojem-body">Znalosti formalizované, kodifikovatelné a přenositelné prostřednictvím dokumentů, textů, schémat. Příklady: manuály, procedury SOP, databáze best practices, patenty, metodiky (ITIL, TOGAF). IS je může efektivně ukládat (DMS, SharePoint), vyhledávat (full-text search, Confluence), distribuovat (intranet, wiki) a verzovat. Snadno replikovatelné — nulové mezní náklady šíření.</div>
+    </div>
+  </div>
+
+  <div class="callout"><strong>Konverze znalostí:</strong> Klíčovým manažerským problémem je převod tacitních znalostí do explicitní formy (externalizace) a zpět (internalizace). Právě tuto spirálu popisuje SECI model.</div>
+
+  <h2>SECI model — Nonaka &amp; Takeuchi (1995)</h2>
+  <p>Model popisuje <strong>znalostní spirálu</strong> — kontinuální proces vytváření nových znalostí v organizaci prostřednictvím konverze mezi tacitními a explicitními znalostmi. Probíhá ve 4 módech uspořádaných v cyklu:</p>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">S — Socialization (Socializace): Tacit → Tacit</div>
+      <div class="pojem-body"><strong>Popis:</strong> Sdílení tacitních znalostí přímou zkušeností, pozorováním a sdílenou praxí. Bez jazyka — znalost přechází "nápodobou". <br><strong>Klíčový prostor:</strong> ba (Nonaka) — fyzické nebo virtuální prostředí sdílení.<br><strong>Příklady:</strong> apprenticeship, on-the-job training, stáže, neformální rozhovory u oběda, "pair programming".<br><strong>IS nástroje:</strong> Omezená IS podpora — videokonference (Teams, Zoom), virtuální "ba" prostory, VR/AR mentoring; ale nelze plně digitalizovat.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">E — Externalization (Externalizace): Tacit → Explicit</div>
+      <div class="pojem-body"><strong>Popis:</strong> Artikulace tacitních znalostí do explicitní formy pomocí metafor, analogií, konceptů, modelů. <strong>Klíčová fáze</strong> pro organizaci — zde znalosti přestávají být vázány na konkrétního jedince.<br><strong>Příklady:</strong> dokumentování best practices, psaní technické dokumentace, tvorba procesních map, retrospektivy v agilních projektech, lessons learned workshopy.<br><strong>IS nástroje:</strong> Knowledge capture tools, wikis (Confluence, Notion), DMS (SharePoint), procesní modelování (Bizagi, Visio), video záznamy expertních interview.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">C — Combination (Kombinace): Explicit → Explicit</div>
+      <div class="pojem-body"><strong>Popis:</strong> Kombinování, třídění, rekonfigurování a integrování explicitních znalostí z různých zdrojů do nových znalostních celků.<br><strong>Příklady:</strong> vytváření reportů a analýz, syntéza databází, business intelligence dashboardy, kompilace best practices manuálů, standardizace procesů.<br><strong>IS nástroje:</strong> Databáze (SQL, NoSQL), DWH, ETL, ERP reporting, BI nástroje (Power BI, Tableau), dokumentové systémy — <strong>nejlépe ICT podporovaná fáze SECI</strong>.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">I — Internalization (Internalizace): Explicit → Tacit</div>
+      <div class="pojem-body"><strong>Popis:</strong> Vstřebávání explicitních znalostí a jejich transformace do tacitní formy — <em>learning by doing</em>. Čtení manuálu samo nestačí — je třeba praxe.<br><strong>Příklady:</strong> čtení manuálů a jejich aplikace v praxi, simulační cvičení, e-learning s praktickými úkoly, stáže podle dokumentace.<br><strong>IS nástroje:</strong> LMS (Learning Management Systems — Moodle, SAP SuccessFactors), simulátory, e-learning platforms, sandboxová prostředí pro procvičování nových IS.</div>
+    </div>
+  </div>
+
+  <div class="callout"><strong>Znalostní spirála:</strong> SECI cyklus se opakuje na stále vyšší úrovni — každé kolo rozšíří znalostní základnu organizace. Socialization → Externalization → Combination → Internalization → nová Socialization na vyšší úrovni. Organizace, která SECI aktivně řídí, vytváří udržitelnou znalostní výhodu (knowledge-based competitive advantage).</div>
+
+  <h2>Communities of Practice (CoP) — Wenger &amp; Lave</h2>
+  <p>Jean Lave &amp; Étienne Wenger (1991). <strong>CoP</strong> jsou skupiny lidí sdílejících zájem, problémy nebo vášeň pro určitou oblast, kteří prohlubují své znalosti prostřednictvím průběžné interakce. Tři klíčové dimenze:</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Mutual Engagement (vzájemné zapojení)</div>
+      <div class="pojem-body">Způsob, jak komunita funguje — jak členové navzájem spolupracují, sdílejí problémy a pomáhají si. IS: MS Teams kanál, Slack workspace, Stack Overflow for Teams — prostředí pro kontinuální interakci.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Joint Enterprise (společný podnik)</div>
+      <div class="pojem-body">Sdílená odpovědnost za doménu — co tato komunita dělá, proč existuje, jaký je její smysl a cíl. Definuje hranice CoP. IS: community charter v Confluence, sdílené OKR.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Shared Repertoire (sdílený repertoár)</div>
+      <div class="pojem-body">Sdílené zdroje, rutiny, příběhy, nástroje, způsoby řešení problémů — artefakty komunity vzniklé praxí. IS: wiki, best practices databáze, sdílené šablony, code repositories (GitHub), terminologie.</div>
+    </div>
+  </div>
+  <p>IS podpora CoP: Yammer, MS Teams channels, Stack Overflow for Teams, Confluence spaces, GitHub Discussion, knowledge bases — klíčové pro udržení tacitních znalostí v distribuovaných organizacích.</p>
+
+  <h2>Knowledge Repository — typy</h2>
+  <table>
+    <tr><th>Typ repozitáře</th><th>Obsah</th><th>IS příklady</th></tr>
+    <tr><td><strong>Lessons Learned Database</strong></td><td>Zkušenosti z projektů — co fungovalo, co ne, co příště jinak</td><td>SharePoint wiki, Confluence space, dedikovaný PM tool (Jira Pages)</td></tr>
+    <tr><td><strong>Best Practice Repository</strong></td><td>Ověřené postupy a vzory řešení pro opakující se problémy</td><td>Process library v Confluence, ISO procedury v DMS, ITIL knowledge base</td></tr>
+    <tr><td><strong>Expert Directory (Yellow Pages)</strong></td><td>Kdo ví co — adresář expertů v organizaci, jejich znalostí a projektové historii</td><td>SharePoint profily, LinkedIn-like intranets (Staffbase), SuccessFactors Skills</td></tr>
+    <tr><td><strong>Case-Based Reasoning System</strong></td><td>Báze případů pro řešení nových problémů analogií k minulým řešeným případům</td><td>Help desk tickety (ServiceNow), CRM case history, legal case databases</td></tr>
+    <tr><td><strong>Wiki / Collaborative Knowledge Base</strong></td><td>Kolaborativně editovatelná, živá znalostní základna — nestrukturovaná, organická</td><td>Confluence, Notion, SharePoint Wiki, MediaWiki (Wikipedia model)</td></tr>
+    <tr><td><strong>Expert Systems / AI Knowledge Base</strong></td><td>Znalosti expertů zakódované do pravidel nebo ML modelů — automatizované doporučení</td><td>Chatboti (IT helpdesk), diagnostické systémy, rule-based workflow v ERP</td></tr>
+  </table>
+
+  <div class="tip"><strong>KM paradox:</strong> Explicitní znalosti v repozitáři rychle zastarávají a vyžadují aktivní údržbu. Tacitní znalosti jsou aktuální, ale těžko přenositelné. Úspěšné KM kombinuje obojí: technologické platformy pro explicit knowledge + sociální procesy (CoP, mentoring) pro tacit knowledge.</div>
+
+  <h2>Organizační učení — Argyris: Single-loop vs. Double-loop</h2>
+  <p><strong>Chris Argyris</strong> (1977) rozlišuje dva typy organizačního učení:</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Single-loop learning (jednosmyčkové učení)</div>
+      <div class="pojem-body"><strong>Princip:</strong> Zjistíme odchylku od cíle → upravíme akci, ale <em>nezpochybňujeme</em> samotné cíle a předpoklady. "Thermostat learning" — termostat měří teplotu a upravuje topení, ale neptá se, zda je nastavená teplota správná.<br><strong>Příklad v IS:</strong> Zjistíme, že uživatelé špatně zadávají data do ERP → přidáme validaci polí. Řešíme symptom, ne příčinu (špatný design formuláře, chybějící školení).<br><strong>Výsledek:</strong> Zlepšování v rámci daného rámce — incrementální zlepšení.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Double-loop learning (dvojsmyčkové učení)</div>
+      <div class="pojem-body"><strong>Princip:</strong> Zjistíme odchylku → <em>zpochybníme samotné předpoklady, cíle a normy</em>, na nichž jsou postaveny. Transformační učení.<br><strong>Příklad v IS:</strong> Zjistíme chyby v datech ERP → zpochybníme celý přístup k datovému sběru, přehodnotíme, zda ERP je správné řešení, nebo zda potřebujeme jiný systém.<br><strong>Výsledek:</strong> Fundamentální změna — nové paradigma, inovace, organizační transformace.<br><strong>IS podpora:</strong> Retrospektivy, scenario planning, external benchmarking tools — nutné pro digitální transformaci.</div>
+    </div>
+  </div>
+
+  <div class="callout"><strong>Learning Organization (Senge, 1990):</strong> Peter Senge definoval 5 disciplín učící se organizace: System Thinking, Personal Mastery, Mental Models, Shared Vision, Team Learning. IS přispívá zejména k System Thinking (simulace, data), Team Learning (collaboration tools) a Shared Vision (dashboardy, OKR systémy).</div>
+</section>
+
+<!-- ═══════════════════════════ P4 ═══════════════════════════ -->
+<section class="lecture" id="p4">
+  <div class="lec-header">
+    <div class="lec-num">P4</div>
+    <div>
+      <div class="lec-title">Kultura a komunikace</div>
+      <div class="lec-subtitle">Hofstede kulturní dimenze, Schein ledovec, IS implementace a kulturní rezistence, Media Richness Theory, topologie komunikačních sítí, information overload</div>
+    </div>
+  </div>
+
+  <h2>Organizační kultura — Hofstede kulturní dimenze</h2>
+  <p><strong>Geert Hofstede</strong> (1980, 2001) na základě rozsáhlého výzkumu v IBM (50+ zemí) identifikoval kulturní dimenze ovlivňující chování organizací. Původní 4 dimenze, rozšířeno na 6:</p>
+  <table>
+    <tr><th>Dimenze</th><th>Pól nízký</th><th>Pól vysoký</th><th>IT / IS implikace</th></tr>
+    <tr><td><strong>PDI — Power Distance Index</strong><br><em>(vzdálenost od moci)</em></td><td>Nízký PDI: plochá hierarchie, rovnost, participativní management. Skandinávie, NL.</td><td>Vysoký PDI: strmá hierarchie, autoritativní rozhodování, respekt k autoritě. Malajsie, Mexiko, ČR vyšší.</td><td>Nízký PDI: flat IS s end-user empowerment (self-service BI). Vysoký PDI: centralizovaný IS, top-down reporting, přístupová práva reflektují hierarchii.</td></tr>
+    <tr><td><strong>IDV — Individualism vs. Collectivism</strong><br><em>(individualismus)</em></td><td>Kolektivismus: skupinové zájmy, loajalita ke skupině, "my". Asie, LA.</td><td>Individualismus: osobní iniciativa, odpovědnost jedince, "já". USA, Austrálie, UK.</td><td>Individualismus: personalizované IS, personal productivity tools. Kolektivismus: groupware, sdílené znalostní systémy, týmové dashboardy.</td></tr>
+    <tr><td><strong>MAS — Masculinity vs. Femininity</strong><br><em>(maskulinita)</em></td><td>Feminita: spolupráce, péče, kvalita života, konsenzus. Skandinávie.</td><td>Maskulinita: výkonnost, soutěživost, úspěch, ambice. Japonsko, Německo, Slovensko.</td><td>Maskulinita: výkonnostní KPI systémy, gamification, ligy výkonnosti. Feminita: IS podporující spolupráci, well-being aplikace.</td></tr>
+    <tr><td><strong>UAI — Uncertainty Avoidance Index</strong><br><em>(vyhýbání nejistotě)</em></td><td>Nízký UAI: tolerance nejistoty, flexibilita, experiment. Singapur, Dánsko.</td><td>Vysoký UAI: potřeba pravidel, struktury, procedur, nízká tolerance chaosu. Řecko, Japonsko, ČR vyšší.</td><td>Vysoký UAI: preference detailní dokumentace IS, formalizované workflow, resistance to change management. Nízký UAI: agile IS vývoj, MVP přístupy, high tolerance for unfinished features.</td></tr>
+    <tr><td><strong>LTO — Long-Term Orientation</strong><br><em>(orientace na budoucnost)</em></td><td>Krátkodobá orientace: tradice, výsledky nyní, čtvrtletní myšlení. USA, západní Afrika.</td><td>Dlouhodobá orientace: investice do budoucna, šetřivost, adaptace. Čína, Japonsko.</td><td>LTO: investice do IS infrastruktury a KM pro budoucí využití; IS jako strategická investice. STO: ROI v krátkém horizontu, outsourcing IS.</td></tr>
+    <tr><td><strong>IVR — Indulgence vs. Restraint</strong><br><em>(hédonismus)</em></td><td>Sebeovládání: potlačení tužeb, přísné sociální normy. Pákistán, Rumunsko.</td><td>Hédonismus: uspokojení přání, volný čas, osobní svoboda. Latinská Amerika, Západ.</td><td>IVR: design UX IS — hédonistické kultury preferují estetické, příjemné rozhraní (Apple styl); restraint kultury preferují funkční a přesné.</td></tr>
+  </table>
+
+  <h2>Schein — Ledovec organizační kultury</h2>
+  <p><strong>Edgar Schein</strong> (1985) popsal organizační kulturu jako tříúrovňový ledovec — viditelná část je jen špičkou:</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Úroveň 1: Artefakty (viditelné)</div>
+      <div class="pojem-body">Povrchová vrstva — vše, co je vidět, slyšet nebo cítit: architektura kanceláří (open space vs. kanceláře), dress code, jazyk, rituály, technologie v provozu, org. schéma, logo, manuály, ERP interface design. Snadno pozorovatelné, ale obtížně interpretovatelné bez kontextu.<br><em>IS artefakt:</em> Jak vypadá přihlašovací obrazovka ERP, kolik notifikací systém generuje, jak jsou data vizualizována.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Úroveň 2: Espoused Values (deklarované hodnoty)</div>
+      <div class="pojem-body">Explicitně deklarované hodnoty a normy chování: "Jsme inovativní firma", "Zákazník na prvním místě", "Data-driven kultura". Popsané v strategii, vision/mission. Mohou být v rozporu s reálným chováním — to Schein nazývá "espoused vs. enacted values".<br><em>IS kontext:</em> IT politiky a principy (security policy), deklarovaná data governance vs. skutečná praxe.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Úroveň 3: Underlying Assumptions (základní předpoklady)</div>
+      <div class="pojem-body">Nejhlubší, nevědomá vrstva — sdílené základní přesvědčení o povaze reality, lidí, času, vztahů. Nevyslovené, považované za samozřejmé. Obtížně měnitelné — právě zde sídlí kulturní rezistence k IS změnám.<br><em>Příklad:</em> Skrytý předpoklad "informace je moc a neměla by se sdílet" — znemožní fungování jakéhokoli KM systému. Nebo: "IT nemůže pochopit business" — brání efektivní IS implementaci.</div>
+    </div>
+  </div>
+
+  <h2>IS implementace a kulturní rezistence — proč projekty selhávají</h2>
+  <div class="warn"><strong>Klíčový poznatek:</strong> Technologie selže jen výjimečně. Lidský a kulturní faktor je příčinou 70 % selhání IS projektů (McKinsey, Stanford). Kulturní rezistence operuje na nejhlubší vrstvě Scheinova ledovce.</div>
+  <p>Mechanismy kulturní rezistence k IS implementaci:</p>
+  <ul>
+    <li><strong>Ztráta informační moci</strong> — v kulturách s vysokým PDI sdílení dat v ERP narušuje mocenské struktury; manažeři odpírají přístup k "svým" datům</li>
+    <li><strong>Identitní hrozba</strong> — nový IS mění pracovní role; lidé vnímají jako útok na svou odbornou identitu ("nový systém dělá mou práci zbytečnou")</li>
+    <li><strong>Nesoulad s pracovními vzorci</strong> — systém navržený bez zapojení uživatelů neodpovídá reálné praxi; workarounds jsou pak pravidlem</li>
+    <li><strong>Vysoké UAI kultury</strong> — odpor k nejistotě inherentní každé změně; potřeba detailní dokumentace a pilotů před rollout</li>
+    <li><strong>Nedůvěra v data</strong> — "data v systému přece neodpovídají realitě" — typické tam, kde systém nebyl spolehlivý v minulosti</li>
+  </ul>
+  <p><strong>Opatření:</strong> Change management (Lewin), stakeholder engagement od fáze Design, cultural assessment před implementací, change champions, phased rollout, komunikační plán zacílený na underlying assumptions.</p>
+
+  <h2>Media Richness Theory — Daft &amp; Lengel (1986)</h2>
+  <p>Teorie bohatosti médií: různá komunikační média přenášejí různé množství informačního obsahu. <strong>Klíčová teze:</strong> médium musí odpovídat míře <em>equivocality</em> (nejasnosti) sdělení.</p>
+  <table>
+    <tr><th>Médium</th><th>Bohatost</th><th>Charakteristika</th><th>Vhodné pro</th><th>IS / digitální příklady</th></tr>
+    <tr><td><strong>Face-to-face</strong></td><td>Nejvyšší</td><td>Okamžitá zpětná vazba, neverbální komunikace (gesta, mimika, tón), emoce, kontext</td><td>Konfliktní situace, komplexní negociace, kreativní brainstorming, sdělení špatných zpráv</td><td>Video call (Teams, Zoom) jako náhrada — vědomé omezení richness</td></tr>
+    <tr><td><strong>Videokonference</strong></td><td>Vysoká</td><td>Real-time vizuální kontakt, vzdáleně; chybí fyzická přítomnost</td><td>Mezinárodní projektové meetingy, remote onboarding</td><td>Teams, Zoom, Google Meet — "Zoom fatigue" je reálný fenomén</td></tr>
+    <tr><td><strong>Telefonát</strong></td><td>Střední</td><td>Hlasový tón zachován, žádná vizuální složka; synchronní</td><td>Rychlé, neambivalentní diskuse, urgentní koordinace</td><td>Teams call, WhatsApp audio</td></tr>
+    <tr><td><strong>Instant messaging / chat</strong></td><td>Nízká-střední</td><td>Quasi-synchronní, krátká sdělení; emotikony kompenzují chybějící tón</td><td>Rychlá koordinace, krátké otázky, neformální spolupráce</td><td>Teams Chat, Slack, WhatsApp</td></tr>
+    <tr><td><strong>E-mail</strong></td><td>Nízká</td><td>Asynchronní, textové; umožňuje elaboraci, dokumentace</td><td>Formální sdělení, dokumentování dohod, distribuce informací mnoha lidem</td><td>Outlook, Gmail — přetížení inboxu je problém</td></tr>
+    <tr><td><strong>Formální zprávy / dokumenty</strong></td><td>Nejnižší</td><td>Velmi přesné, archivovatelné, bez zpětné vazby; nejnižší rychlost</td><td>Standardní informace, právní dokumenty, výroční zprávy, technická dokumentace</td><td>SharePoint dokumenty, PDF v DMS, intranetové stránky</td></tr>
+  </table>
+
+  <div class="callout"><strong>Media Richness v praxi:</strong> Posílat výpověď SMS = nevhodné médium pro vysoce equivocální obsah. Organizovat hodinu meetingu kvůli jednoduchému oznamování = plýtvání richness. IS design implikace: design komunikačních workflow musí přiřazovat správné médium ke správnému typu sdělení.</div>
+
+  <h2>Topologie komunikačních sítí</h2>
+  <table>
+    <tr><th>Topologie</th><th>Struktura</th><th>Centralita</th><th>Rychlost šíření info</th><th>IS kontext</th></tr>
+    <tr><td><strong>Hvězda (Star / Kolo)</strong></td><td>Centrální uzel (hub) komunikuje se všemi. Ostatní mezi sebou jen přes centrum.</td><td>Velmi vysoká — centrální uzel je bottleneck i single point of failure</td><td>Rychlá koordinace s centrem, pomalá peer-to-peer</td><td>Centralizovaný IS s jedním správcem dat; HelpDesk L1→L2 eskalace; hub-and-spoke integrace</td></tr>
+    <tr><td><strong>Kruh (Circle)</strong></td><td>Každý uzel komunikuje se sousedy — informace putují po kruhu</td><td>Nízká — distribučně rovnoměrná</td><td>Pomalé šíření (n/2 skoků), zranitelnost přerušení</td><td>Token ring sítě (historicky); sekvenční workflow procesy</td></tr>
+    <tr><td><strong>Plná síť (All-channel)</strong></td><td>Každý komunikuje s každým — maximální propojení</td><td>Žádná dominantní — egalitární</td><td>Nejrychlejší šíření, přímý kontakt</td><td>Flat organizace; Slack/Teams kde všichni mohou psát všem; peer-to-peer KM</td></tr>
+    <tr><td><strong>Řetěz (Chain)</strong></td><td>Lineární propojení A → B → C → D</td><td>Střední — krajní uzly jsou periferní</td><td>Nejpomalejší; zkreslení a ztráty (telefón efekt)</td><td>Hierarchické schvalovací workflow v ERP; formální eskalační procesy</td></tr>
+  </table>
+
+  <h2>Information Overload (informační přetížení)</h2>
+  <p>Stav, kdy množství dostupných informací překračuje kapacitu jedince je zpracovat a efektivně využít pro rozhodování (Toffler, 1970). V digitální éře exponenciálně narůstající problém:</p>
+  <ul>
+    <li><strong>Příčiny:</strong> nárůst e-mailového provozu (průměrný pracovník obdrží 121 e-mailů/den), push notifikace ze všech IS, povinné reporty, duplicitní systémy a redundantní reportování, always-on kultura</li>
+    <li><strong>Dopad na výkon:</strong> snížená schopnost prioritizovat, horší rozhodnutí, prokrastinace, vyčerpání, zvýšený stres, ztráta deep focus</li>
+    <li><strong>IS opatření:</strong>
+      <ul>
+        <li>Personalizované dashboardy — zobrazuji jen to, co potřebuji pro svou roli</li>
+        <li>AI-based filtering (smart inbox, priority triage) — Microsoft Copilot, Gmail AI</li>
+        <li>Notification management — asynchronní kultura, "do not disturb" politiky</li>
+        <li>Information architecture — single source of truth místo duplicitních systémů</li>
+        <li>Attention management tools — focus time bloky v kalendáři (Microsoft Viva Insights)</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<!-- ═══════════════════════════ P5 ═══════════════════════════ -->
+<section class="lecture" id="p5">
+  <div class="lec-header">
+    <div class="lec-num">P5</div>
+    <div>
+      <div class="lec-title">Inovace a technologie</div>
+      <div class="lec-subtitle">10 typů inovací (Keeley), Rogers Diffusion of Innovations, Chasm (Moore), TAM (Davis 1989), UTAUT (Venkatesh 2003)</div>
+    </div>
+  </div>
+
+  <h2>10 typů inovací — Keeley et al. (2013)</h2>
+  <p>Larry Keeley a tým Doblin identifikovali 10 typů inovací seskupených do 3 kategorií. Klíčová teze: <strong>inovace produktu (technologie) je nejméně udržitelná</strong> — snadno kopírovatelná. Trvalá konkurenční výhoda pochází z kombinace více typů inovací.</p>
+
+  <h3>Kategorie 1: Konfigurace (Configuration) — vnitřní fungování firmy</h3>
+  <table>
+    <tr><th>Typ inovace</th><th>Popis</th><th>Příklad IS/IT</th></tr>
+    <tr><td><strong>1. Profit Model</strong></td><td>Jak firma vydělává peníze — nový způsob monetizace</td><td>SaaS subscription místo jednorázového prodeje softwaru (Adobe CC). Freemium model (Slack, Spotify). Pay-per-use cloud (AWS).</td></tr>
+    <tr><td><strong>2. Network</strong></td><td>Spojení s ostatními za účelem vytvoření hodnoty — partnerství, ekosystémy</td><td>App Store / Google Play ekosystém. API marketplace (Stripe, Twilio). Platformové modely (Uber — propojení řidičů a zákazníků).</td></tr>
+    <tr><td><strong>3. Structure</strong></td><td>Organizace a zarovnání hmotných i nehmotných aktiv</td><td>Remote-first organizace jako strukturální inovace. IS shared services center. Centralizace dat governance jako strukturální změna.</td></tr>
+    <tr><td><strong>4. Process</strong></td><td>Charakteristické metody a postupy — jak firma dělá svou práci</td><td>Agile/DevOps jako procesní inovace vývoje IS. RPA (Robotic Process Automation) — automatizace repetitivních procesů. Lean v IS operacích.</td></tr>
+    <tr><td><strong>5. Channel</strong> (patří sem i Networks a Structure)</td><td>Jak se dostaví hodnota zákazníkovi</td><td>Digitální distribuce softwaru (Steam, app stores). Omnichannel CRM. Self-service portály.</td></tr>
+  </table>
+
+  <h3>Kategorie 2: Nabídka (Offering) — produkty a služby</h3>
+  <table>
+    <tr><th>Typ inovace</th><th>Popis</th><th>Příklad IS/IT</th></tr>
+    <tr><td><strong>6. Product Performance</strong></td><td>Rozlišující vlastnosti a funkčnost produktu</td><td>Nová verze ERP s AI/ML funkcemi. ChatGPT jako výkonnostní inovace LLM. Rychlejší databázový engine (columnar storage).</td></tr>
+    <tr><td><strong>7. Product System</strong></td><td>Komplementární produkty a služby kolem hlavního produktu</td><td>Microsoft 365 ekosystém (Teams + SharePoint + OneDrive + Copilot). SAP S/4HANA + BTP + SAP Analytics Cloud. Apple hardware + software + iCloud.</td></tr>
+  </table>
+
+  <h3>Kategorie 3: Zákaznická zkušenost (Experience) — vztah se zákazníkem</h3>
+  <table>
+    <tr><th>Typ inovace</th><th>Popis</th><th>Příklad IS/IT</th></tr>
+    <tr><td><strong>8. Service</strong></td><td>Podpora a rozšíření hodnoty produktu — jak firma pečuje o zákazníka</td><td>24/7 AI chatbot podpora (ServiceNow, Zendesk). Prediktivní maintenance IS (preventivní kontakt před výpadkem).</td></tr>
+    <tr><td><strong>9. Channel</strong></td><td>Způsob, jak se zákazník dostane k produktu nebo službě</td><td>Self-service zákaznický portál. Mobile-first design. IS integrace pro omnichannel zkušenost.</td></tr>
+    <tr><td><strong>10. Brand &amp; Customer Engagement</strong></td><td>Způsob reprezentace nabídky a vytváření emočního spojení</td><td>Gamification v IS (bodové systémy, achievementy). Personalizace (Netflix recommendation engine). Community platforms.</td></tr>
+  </table>
+
+  <div class="callout"><strong>Inovační strategie:</strong> Kombinace 3+ typů inovací je 3× pravděpodobnějším zdrojem průlomové inovace než inovace jednoho typu. CRM systém jako pouhá technologická inovace (Product Performance) je snadno kopírovatelný — přidáme-li inovaci procesu, zákaznické zkušenosti a business modelu, vzniká udržitelná výhoda.</div>
+
+  <h2>Rogers — Diffusion of Innovations (1962/2003)</h2>
+  <p>Everett Rogers popisuje, jak nová inovace (např. nový IS, ERP, cloud) proniká do populace uživatelů v čase — S-křivka adopce. Model definuje 5 adopčních skupin dle rychlosti přijetí:</p>
+  <table>
+    <tr><th>Skupina</th><th>Podíl</th><th>Charakteristika</th><th>Motivace k adopci</th><th>Role v IS projektu</th></tr>
+    <tr><td><strong>Innovators (Inovátoři)</strong></td><td>2,5 %</td><td>Technologičtí nadšenci, riskují jako první, tolerují chyby a nedokončenost, globálně propojení</td><td>Vášeň pro technologii samotnou</td><td>Beta testeři, early access programy, proof-of-concept</td></tr>
+    <tr><td><strong>Early Adopters</strong></td><td>13,5 %</td><td>Opinion leaders — respektovaní, rozvážní, selektivní. Přijmou brzy po ověření. Vizionáři.</td><td>Hledají strategickou výhodu; první mover advantage</td><td>Change champions, superuseři, interní ambasadoři IS</td></tr>
+    <tr><td><strong>Early Majority (Raná většina)</strong></td><td>34 %</td><td>Pragmatici — přijmou inovaci, když je prokázána praxí. Deliberate, vyžadují reference a důkazy.</td><td>Praktická užitečnost, snížení nejistoty pomocí sociálního proof</td><td>Přijmou nový IS, když vidí kolegů fungovat; klíčoví pro "mass adoption"</td></tr>
+    <tr><td><strong>Late Majority (Pozdní většina)</strong></td><td>34 %</td><td>Skeptičtí, konzervativní. Přijmou pod sociálním nebo ekonomickým tlakem, z nutnosti.</td><td>Peer pressure, ekonomická nutnost, riziko nesdílení</td><td>Odpor k novému IS; přijmou, když nezbývá nic jiného (povinná migrace)</td></tr>
+    <tr><td><strong>Laggards (Zpožděnci)</strong></td><td>16 %</td><td>Tradičně zaměření, přijmou jako poslední nebo vůbec. Hodnotí vůči minulosti, ne budoucnosti.</td><td>Vynucená adopce (systém je vypnut) nebo zůstávají mimo</td><td>Aktivní odpor k ICT; "vždy jsme to dělali jinak"; potenciální sabotáž projektu</td></tr>
+  </table>
+
+  <p><strong>5 faktorů ovlivňujících rychlost adopce (Rogers):</strong></p>
+  <ul>
+    <li><strong>Relative advantage</strong> — jak moc je inovace lepší než to, co nahrazuje</li>
+    <li><strong>Compatibility</strong> — soulad s existujícími hodnotami, zkušenostmi a potřebami</li>
+    <li><strong>Complexity</strong> — jak obtížné je inovaci pochopit a používat (negativní vztah)</li>
+    <li><strong>Trialability</strong> — možnost si inovaci vyzkoušet před plnou adopcí (trial, freemium)</li>
+    <li><strong>Observability</strong> — viditelnost výsledků inovace pro ostatní</li>
+  </ul>
+
+  <h2>Chasm — Geoffrey Moore (1991)</h2>
+  <p>Moore doplnil Rogersův model kritickým poznatkem z B2B trhů: mezi <strong>Early Adopters a Early Majority</strong> existuje <em>chasm</em> (propast), přes kterou většina inovací nepřekročí a na níž selže.</p>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Proč propast existuje</div>
+      <div class="pojem-body">Early Adopters jsou vizionáři — přijmou nedokončenou technologii pro strategickou výhodu. Early Majority jsou pragmatici — chtějí kompletní řešení, reference od podobných firem, support a záruky. Mezera ve způsobu nákupu, hodnotovém vyrovnání a komunikaci.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Strategie přeskočení propasti</div>
+      <div class="pojem-body">Moore: zaměřit se na jeden konkrétní vertikální segment (beachhead market) — vyhraj v jednom specifickém segmentu, vytvoř dominantní referenci, pak expanduj. Nesnažit se oslovit všechny najednou. IS příklad: Salesforce začal u malých týmů, ne celých podniků.</div>
+    </div>
+  </div>
+
+  <h2>TAM — Technology Acceptance Model (Davis, 1989)</h2>
+  <p><strong>Fred Davis (MIT, 1989)</strong> — TAM vysvětluje, proč uživatelé přijímají nebo odmítají IS/ICT. Adaptace Fishbein &amp; Ajzen Theory of Reasoned Action na IS kontext. Dva klíčové prediktory:</p>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">PU — Perceived Usefulness (vnímaná užitečnost)</div>
+      <div class="pojem-body">Míra, do jaké uživatel věří, že daný systém <strong>zlepší jeho pracovní výkon</strong>. Silnější prediktor záměru použití než PEU. Ovlivněna: demonstrace přínosů, trénink, reference kolegů, výsledky pilotu. Klíčová otázka: "Pomůže mi to lépe pracovat?"</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">PEU — Perceived Ease of Use (vnímaná snadnost)</div>
+      <div class="pojem-body">Míra, do jaké uživatel věří, že použití systému <strong>nevyžaduje velké úsilí</strong>. Ovlivňuje PU i přímo záměr použití. Ovlivněna: UX design, onboarding, help desk podpora, self-service dokumentace. Klíčová otázka: "Je to snadné na naučení?"</div>
+    </div>
+  </div>
+
+  <p><strong>TAM kauzální řetěz:</strong> Vnější proměnné (design systému, trénink, sociální normy) → <strong>PEU + PU</strong> → Attitude toward using → <strong>Behavioral Intention to Use</strong> → <strong>Actual System Use</strong></p>
+
+  <div class="tip"><strong>TAM rozšíření:</strong> TAM2 (Venkatesh &amp; Davis, 2000) přidal subjective norm (sociální vliv) a kognitivní instrumentální procesy (image, job relevance, output quality). TAM3 přidal faktory ovlivňující PEU (computer anxiety, playfulness). Paralelně vznikl UTAUT.</div>
+
+  <h2>UTAUT — Unified Theory of Acceptance and Use of Technology (Venkatesh et al., 2003)</h2>
+  <p>Viswanath Venkatesh, Morris, Davis a Walton (2003) — konsolidace 8 modelů adopce technologie (TAM, TRA, TPB, Innovation Diffusion aj.) do jednoho modelu. Vysvětluje 70 % variance v záměru použití IS.</p>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">4 klíčové konstrukty UTAUT</div>
+      <div class="pojem-body">
+        1. <strong>Performance Expectancy</strong> — míra, do jaké uživatel věří, že systém pomůže dosáhnout výkonnostních cílů (= PU z TAM)<br>
+        2. <strong>Effort Expectancy</strong> — míra snadnosti použití systému (= PEU z TAM)<br>
+        3. <strong>Social Influence</strong> — míra, do jaké uživatel vnímá, že důležití ostatní lidé si přejí, aby systém používal<br>
+        4. <strong>Facilitating Conditions</strong> — míra, do jaké uživatel věří, že existuje technická a organizační infrastruktura podporující použití systému (IT podpora, hardware, školení)
+      </div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Moderátory v UTAUT</div>
+      <div class="pojem-body">
+        Vliv konstruktů je moderován 4 faktory:<br>
+        - <strong>Gender</strong> — ženy více reagují na Social Influence; muži více na Performance Expectancy<br>
+        - <strong>Age</strong> — starší uživatelé více reagují na Effort Expectancy a Facilitating Conditions<br>
+        - <strong>Experience</strong> — s rostoucí zkušeností klesá vliv Effort Expectancy a Social Influence<br>
+        - <strong>Voluntariness of Use</strong> — povinné vs. dobrovolné použití systému ovlivňuje váhu Social Influence
+      </div>
+    </div>
+  </div>
+
+  <div class="callout"><strong>UTAUT2 (2012):</strong> Rozšíření pro spotřebitelský kontext přidává: Hedonic Motivation (zábava, potěšení z IS), Price Value (ekonomická hodnota), Habit (automatické chování z minulé zkušenosti). Relevantní pro B2C IS (mobilní aplikace, e-commerce).</div>
+</section>
+
+<!-- ═══════════════════════════ P6 ═══════════════════════════ -->
+<section class="lecture" id="p6">
+  <div class="lec-header">
+    <div class="lec-num">P6</div>
+    <div>
+      <div class="lec-title">Strategické řízení IS</div>
+      <div class="lec-subtitle">ISP — 3 otázky, Nolan Stage Model 6 fází, McFarlan Strategic Grid, Lewin 3 fáze změny, change management při IS implementaci</div>
+    </div>
+  </div>
+
+  <h2>ISP — Information Systems Planning</h2>
+  <p><strong>ISP</strong> (Information Systems Planning) je proces, jímž organizace definuje, jak plánuje využívat informace a IS/IT k dosažení strategických cílů. Vychází z podnikové strategie (alignment) a odpovídá na 3 základní otázky:</p>
+
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">1. Kde jsme nyní?</div>
+      <div class="pojem-body">Informační audit a AS-IS analýza: inventář IS/IT aktiv, datové toky, identifikace silných a slabých stránek, gap analysis. Výstupy: Information Asset Register, IT capabilities assessment, portfolio stávajících aplikací dle McFarlan Grid.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">2. Kde chceme být?</div>
+      <div class="pojem-body">TO-BE vize: IT vision a target architecture, digitální ambice organizace, požadované IS schopnosti pro realizaci strategie, IT principy a standardy. Výstupy: Enterprise Architecture blueprint, IT vision statement, demand portfolio.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">3. Jak se tam dostaneme?</div>
+      <div class="pojem-body">Roadmapa IS/IT projektů a iniciativ, IT budget a resource plán, change management plán, governance model, milestones a KPI pro sledování pokroku. Výstup: IT Roadmap, IT Strategic Plan dokument.</div>
+    </div>
+  </div>
+
+  <h2>Nolan Stage Model — 6 fází IS rozvoje</h2>
+  <p>Richard Nolan (Harvard Business Review, 1974, revidováno 1979) — model vývoje IS v organizaci přes 6 fází na základě studia výdajů na IT v organizacích. Klíčová teze: <strong>organizace prochází fázemi postupně — přeskočit nelze</strong> (i když rychlost průchodu se liší).</p>
+
+  <table>
+    <tr><th>#</th><th>Fáze</th><th>Název</th><th>Charakteristika</th><th>Typický IS/IT stav</th></tr>
+    <tr><td>1</td><td><strong>Initiation</strong><br>(Zahájení)</td><td>Zavedení prvních počítačů</td><td>Izolované aplikace (typicky účetnictví), IT není strategické, nízké výdaje, centralizované IT oddělení, uživatelé málo zapojeni</td><td>Jednoduché účetní programy; mainframe; batch processing; Excel</td></tr>
+    <tr><td>2</td><td><strong>Contagion</strong><br>(Nákaza)</td><td>Nekontrolované šíření IT</td><td>Rychlé, nekoordinované rozšiřování IT aplikací v organizaci bez centrálního řízení. Výdaje rostou exponenciálně. IT projekty vznikají v odděleních bez IT governance.</td><td>Oddělení si pořizují vlastní systémy; "Shadow IT"; proliferace Excelu; první lokální sítě</td></tr>
+    <tr><td>3</td><td><strong>Control</strong><br>(Kontrola)</td><td>Zavedení IT governance</td><td>Management reaguje na neřízené výdaje zavedením kontroly — formalizace IT procesů, centralizace IT, standardizace, omezení ad hoc projektů. IT oddělení má více moci.</td><td>Centralizované IT oddělení, první IT politiky, standardizace HW/SW, IT budgeting</td></tr>
+    <tr><td>4</td><td><strong>Integration</strong><br>(Integrace)</td><td>Propojení oddělených systémů</td><td>Propojování dříve oddělených systémů, sdílené databáze, centrální IT management, IS jako podnikový zdroj. Uživatelé více participují. Integrace funkcí.</td><td>ERP implementace (SAP, Oracle); sdílené databáze; enterprise architektury; middleware</td></tr>
+    <tr><td>5</td><td><strong>Data Administration</strong><br>(Správa dat)</td><td>Data jako strategický zdroj</td><td>Data jsou vnímána jako strategický podnikový zdroj. Data governance, databázový management, data quality. Uživatelé aktivně participují na správě dat.</td><td>Data warehouse, MDM (Master Data Management), BI nástroje, data stewardship, GDPR compliance</td></tr>
+    <tr><td>6</td><td><strong>Maturity</strong><br>(Zralost)</td><td>IS plně integrován do strategie</td><td>IS plně integrován do strategického plánování. IT jako klíčový faktor konkurenční výhody. Portfolio management IS, BSC (IT perspektiva), digitální transformace, IT-business alignment.</td><td>Digital strategy, cloud-first, AI/ML v businessu, platform strategy, IT jako business partner</td></tr>
+  </table>
+
+  <div class="tip"><strong>Nolan v praxi:</strong> Přechod fází 3 → 4 je typicky ERP implementace. Fáze 5 → 6 = přechod od data administration k knowledge management a digitální strategii. Mnoho ČR firem se pohybuje mezi fázemi 3–4. Přeskočení fáze (přejít z 2 na 4) vede k selhání — systém není kulturně a procesně připraven.</div>
+
+  <h2>McFarlan IT Strategic Grid</h2>
+  <p>F. Warren McFarlan (Harvard Business Review, 1984) — matice 2×2 hodnotící strategický vliv IT na základě dvou dimenzí: <strong>strategická důležitost STÁVAJÍCÍCH IS</strong> (pro provoz dnes) a <strong>strategická důležitost BUDOUCÍCH IS projektů</strong> (pro rozvoj zítra).</p>
+
+  <table>
+    <tr>
+      <th></th>
+      <th>STÁVAJÍCÍ IS: nízká strategická důležitost<br><em>(výpadek = nepříjemnost)</em></th>
+      <th>STÁVAJÍCÍ IS: vysoká strategická důležitost<br><em>(výpadek = katastrofa)</em></th>
+    </tr>
+    <tr>
+      <td><strong>BUDOUCÍ IS projekty: nízká strategická důležitost</strong></td>
+      <td>
+        <strong>SUPPORT</strong><br>
+        IT je podpůrné — ani provoz ani rozvoj není závislý na IT. IT je utilita, outsourcovatelná, nízká priority pro management. CIO nemá strategickou roli.<br>
+        <em>Implikace:</em> Minimalizace nákladů, outsourcing, commodity services. Využívat standardní SaaS řešení.<br>
+        <em>Příklady:</em> Malá poradenská firma, advokátní kancelář
+      </td>
+      <td>
+        <strong>FACTORY</strong><br>
+        Stávající IS jsou kritické pro provoz (výpadek = zastavení business), ale nové IT projekty jsou méně strategické. IT "továrna" — musí běžet spolehlivě, ale neinovuje.<br>
+        <em>Implikace:</em> Důraz na reliability, SLA, BCP/DR plány, operační excelenci. Stabilizace, ne inovace.<br>
+        <em>Příklady:</em> Letecká společnost (rezervační systém), bankovní clearing, logistická firma
+      </td>
+    </tr>
+    <tr>
+      <td><strong>BUDOUCÍ IS projekty: vysoká strategická důležitost</strong></td>
+      <td>
+        <strong>TURNAROUND</strong><br>
+        Stávající IS jsou druhořadé, ale IT je klíčem k budoucím příležitostem — transformační fáze. Organizace investuje do IT pro budoucí pozici.<br>
+        <em>Implikace:</em> Inovační projekty, digitální transformace, experimenty. Management musí být "sponsor" změny. CIO má strategický vliv.<br>
+        <em>Příklady:</em> Tradiční retailer transformující se na e-commerce, noviny přecházející na digitální platformu
+      </td>
+      <td>
+        <strong>STRATEGIC</strong><br>
+        IT je klíčové pro stávající provoz i budoucí rozvoj — IT = core business. Bez IT nelze ani fungovat, ani se rozvíjet.<br>
+        <em>Implikace:</em> CIO v boardu, IT jako competitive advantage, kontinuální inovace, IT portfolio management, platform thinking.<br>
+        <em>Příklady:</em> Banky (bez IT neexistují), Amazon, Google, Netflix — IT je business model
+      </td>
+    </tr>
+  </table>
+
+  <div class="callout"><strong>McFarlan v praxi:</strong> Stejná organizace může mít různé IS v různých kvadrantech (portfóliový pohled). Cílem není vždy dostat vše do "Strategic" — Factory je správné místo pro produkční systémy s nulovou tolerancí výpadku. Přesun z Support do Turnaround vyžaduje vědomé strategické rozhodnutí a investici.</div>
+
+  <h2>Lewin — 3 fáze organizační změny v IS kontextu</h2>
+  <p>Kurt Lewin (1947) — trojfázový model pro řízení organizačních změn. Analogie: rozmrazíte led → přelijete do nové formy → zmrazíte v nové podobě.</p>
+
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">1. Unfreeze (Rozmrazení)</div>
+      <div class="pojem-body">
+        <strong>Cíl:</strong> Vytvoření motivace ke změně — zpochybnění stávající equilibria, snížení psychologické bariéry.<br>
+        <strong>Aktivity:</strong> Komunikace nutnosti změny (burning platform), demonstrace problémů stávajícího systému, stakeholder engagement, early wins, snížení strachu z neznámého.<br>
+        <strong>IS kontext:</strong> Komunikace přínosů nového ERP, demonstrace bolavých míst starého systému (chyby, pomalost, integrační problémy), vision workshopy, pilotní demo.
+      </div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">2. Change (Změna)</div>
+      <div class="pojem-body">
+        <strong>Cíl:</strong> Implementace nového chování, procesů, systémů. Nejdelší a nejkritičtější fáze.<br>
+        <strong>Aktivity:</strong> Školicí programy, paralelní provoz, hypercare (intenzivní podpora po go-live), resistance management, komunikace postupu projektu.<br>
+        <strong>IS kontext:</strong> Implementace, konfigurace, migrace dat, testování (UAT), go-live, hypercare fáze (1–3 měsíce po spuštění), bug fixing, adaptace procesů.
+      </div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">3. Refreeze (Zamrazení)</div>
+      <div class="pojem-body">
+        <strong>Cíl:</strong> Stabilizace nového stavu — nové chování se stane normou, rutinou, standardem.<br>
+        <strong>Aktivity:</strong> Posílení nových vzorců (odměňování, KPI reflektující nové procesy), uzavření projektu, komunikace úspěchů, normalizace nového IS jako "how we work here".<br>
+        <strong>IS kontext:</strong> Uzavření projektu, přechod na BAU (Business As Usual), IS podpora a optimalizace, lessons learned, handover na operations team.
+      </div>
+    </div>
+  </div>
+
+  <h2>Change Management při implementaci IS</h2>
+  <p>Kritický faktor úspěchu IS implementace — technologie selže jen výjimečně, lidský faktor je příčinou 70 % selhání projektů (McKinsey). Klíčové aktivity change managementu:</p>
+  <table>
+    <tr><th>Aktivita</th><th>Popis</th><th>IS specifika</th></tr>
+    <tr><td><strong>Stakeholder Analysis</strong></td><td>Identifikace skupin, jejich zájmů, míry vlivu a odporu (power/interest grid)</td><td>Mapování kdo přijde o privilegia (přístup k datům, kontrolu procesů); kdo bude champion</td></tr>
+    <tr><td><strong>Communication Plan</strong></td><td>Kdo, kdy, co, jak dostane informaci o změně — strukturovaný plán komunikace</td><td>Pravidelné IS project newsletters, town halls, demo dny, FAQ dokumenty</td></tr>
+    <tr><td><strong>Training &amp; Education</strong></td><td>Přizpůsobené školení dle rolí — ne jedno školení pro všechny</td><td>Role-based training (účetní vs. skladník vs. manažer v ERP); e-learning, sandbox prostředí</td></tr>
+    <tr><td><strong>Change Champions</strong></td><td>Ambasadoři změny v každém oddělení — Early Adopters v Rogersově modelu</td><td>Superuseři ERP — proškolení nad rámec ostatních; první linie podpory v oddělení</td></tr>
+    <tr><td><strong>Resistance Management</strong></td><td>Identifikace a adresování zdrojů odporu — strach, nejistota, ztráta moci</td><td>1:1 rozhovory s kritickými uživateli; zapojení do designu (co-design); adresování obav explicitně</td></tr>
+    <tr><td><strong>Quick Wins</strong></td><td>Rychlé, viditelné úspěchy po spuštění posilující důvěru v nový systém</td><td>Automatizace jednoho bolestivého procesu jako první; "toto nám nový systém ušetřil X hodin"</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════════════════════ KLÍČOVÉ POJMY ═══════════════════════════ -->
+<section class="lecture" id="klicpojmy">
+  <div class="lec-header">
+    <div class="lec-num">&#9733;</div>
+    <div>
+      <div class="lec-title">Klíčové pojmy</div>
+      <div class="lec-subtitle">Kompaktní přehled pro přípravu na státnicovou zkoušku — 4SA418 Organizace a informace</div>
+    </div>
+  </div>
+
+  <table>
+    <tr><th>Pojem / Zkratka</th><th>Plný název / Definice</th></tr>
+    <tr><td><strong>Otevřený systém</strong></td><td>Bertalanffy: organizace přijímá vstupy z prostředí, transformuje je a produkuje výstupy; klíčové: hranice, subsystémy, zpětná vazba, ekvifinalita, entropie</td></tr>
+    <tr><td><strong>Ekvifinalita</strong></td><td>Stejného výsledku lze dosáhnout různými cestami — žádné jediné správné IS řešení</td></tr>
+    <tr><td><strong>Enactment</strong></td><td>Weick: organizace svými akcemi aktivně konstruuje prostředí, ve kterém pak operuje; IS enaktují realitu skrz to, co měří</td></tr>
+    <tr><td><strong>Sensemaking</strong></td><td>Weick (1995): retrospektivní, kolektivní, sociální proces interpretace событий; 7 vlastností (identity, retrospective, enactive, social, ongoing, cues, plausibility)</td></tr>
+    <tr><td><strong>Simple Structure</strong></td><td>Mintzberg: malá organizace, přímý dohled, top management jako klíčová část; IS: Excel + e-mail</td></tr>
+    <tr><td><strong>Machine Bureaucracy</strong></td><td>Mintzberg: standardizace procesů, technostructure dominuje; IS: SAP/ERP, WMS, MES</td></tr>
+    <tr><td><strong>Professional Bureaucracy</strong></td><td>Mintzberg: standardizace dovedností, operating core dominuje; IS: specializované IS (HIS, LMS)</td></tr>
+    <tr><td><strong>Adhocracy</strong></td><td>Mintzberg: mutual adjustment, inovace, projektové týmy; IS: Jira, Confluence, collaboration tools</td></tr>
+    <tr><td><strong>Bounded Rationality</strong></td><td>Simon: racionalita omezena kognitivními limity, neúplnými informacemi a časovou tísní; IS rozšiřuje hranice omezené racionality</td></tr>
+    <tr><td><strong>Satisficing</strong></td><td>Simon: výběr prvního dostatečně dobrého řešení splňujícího aspiration level — opak: optimizing</td></tr>
+    <tr><td><strong>Intelligence–Design–Choice–Implementation</strong></td><td>Simon: 4 fáze rozhodování; Intelligence = identifikace problému; Design = generování alternativ; Choice = výběr; Implementation = realizace</td></tr>
+    <tr><td><strong>Programované rozhodnutí</strong></td><td>Rutinní, strukturované, algoritmizovatelné — IS může automatizovat; opak: neprogramované = špatně strukturované, vyžaduje úsudek</td></tr>
+    <tr><td><strong>Gorry &amp; Scott Morton matice</strong></td><td>(1971) Kombinace typ rozhodnutí × úroveň řízení → typ IS podpory (TPS / MIS / DSS / EIS)</td></tr>
+    <tr><td><strong>DSS</strong></td><td>Decision Support System: 3 komponenty — Data Management + Model Management + User Interface; pro polostrukturovaná rozhodnutí</td></tr>
+    <tr><td><strong>Anchoring</strong></td><td>Kognitivní zkreslení: přílišný vliv první informace (kotvy) na výsledný úsudek; v IT projektech: vliv prvního odhadu nákladů</td></tr>
+    <tr><td><strong>Sunk Cost Fallacy</strong></td><td>Pokračování investice kvůli nevratným nákladům ("zombie projekty"); stage-gate procesy jako opatření</td></tr>
+    <tr><td><strong>Groupthink</strong></td><td>Janis (1972): skupinový tlak potlačuje kritické myšlení; prevence: red team, anonymní hodnocení, devil's advocate</td></tr>
+    <tr><td><strong>Framing</strong></td><td>Způsob prezentace dat ovlivňuje rozhodnutí — "70% úspěch" vs. "30% selhání" jsou totéž, ale různě přijímáno</td></tr>
+    <tr><td><strong>Tacit knowledge</strong></td><td>Polanyi: znalosti nevyjádřitelné slovy, vázané na zkušenost ("víme víc, než umíme říct"); přenos: socializace, mentoring</td></tr>
+    <tr><td><strong>Explicit knowledge</strong></td><td>Formalizované, dokumentovatelné znalosti — manuály, procedury, patenty; IS je může efektivně ukládat a distribuovat</td></tr>
+    <tr><td><strong>SECI model</strong></td><td>Nonaka &amp; Takeuchi (1995): Socialization (T→T) / Externalization (T→E) / Combination (E→E) / Internalization (E→T) — znalostní spirála</td></tr>
+    <tr><td><strong>Socialization</strong></td><td>SECI: Tacit → Tacit; sdílení přímou zkušeností, pozorováním; IS podpora omezená (VR, videokonference)</td></tr>
+    <tr><td><strong>Externalization</strong></td><td>SECI: Tacit → Explicit; klíčová fáze — artikulace tacitních znalostí do dokumentů, procesních map; IS: wikis, DMS</td></tr>
+    <tr><td><strong>Combination</strong></td><td>SECI: Explicit → Explicit; kombinace znalostí z různých zdrojů; nejlépe IS podporovaná fáze — BI, DWH, ERP</td></tr>
+    <tr><td><strong>Internalization</strong></td><td>SECI: Explicit → Tacit; learning by doing; IS: LMS, simulátory, sandbox prostředí</td></tr>
+    <tr><td><strong>Communities of Practice (CoP)</strong></td><td>Wenger &amp; Lave: skupiny sdílející zájem; 3 dimenze: Mutual Engagement + Joint Enterprise + Shared Repertoire</td></tr>
+    <tr><td><strong>Single-loop learning</strong></td><td>Argyris: oprava akce bez zpochybnění cílů a předpokladů — incrementální zlepšení</td></tr>
+    <tr><td><strong>Double-loop learning</strong></td><td>Argyris: zpochybnění samotných předpokladů a cílů — transformační učení, nutné pro digitální transformaci</td></tr>
+    <tr><td><strong>PDI</strong></td><td>Hofstede: Power Distance Index — vzdálenost od moci; vysoké PDI = centralizovaný IS, hierarchická přístupová práva</td></tr>
+    <tr><td><strong>UAI</strong></td><td>Hofstede: Uncertainty Avoidance Index — vysoké UAI = potřeba detailní dokumentace IS, odpor ke změně</td></tr>
+    <tr><td><strong>Schein 3 úrovně kultury</strong></td><td>Artefakty (viditelné) → Espoused Values (deklarované) → Underlying Assumptions (nevědomé); IS implementace naráží na nejhlubší vrstvu</td></tr>
+    <tr><td><strong>Media Richness Theory</strong></td><td>Daft &amp; Lengel (1986): bohatost média musí odpovídat nejasnosti sdělení; F2F = nejvyšší, formální dokument = nejnižší</td></tr>
+    <tr><td><strong>Information Overload</strong></td><td>Toffler (1970): množství informací překračuje kapacitu zpracování — špatná rozhodnutí, stres; IS opatření: personalizované dashboardy, AI filtering</td></tr>
+    <tr><td><strong>10 typů inovací</strong></td><td>Keeley / Doblin: 3 kategorie — Konfigurace (Profit Model, Network, Structure, Process, Channel), Nabídka (Product Performance, Product System), Zkušenost (Service, Channel, Brand); kombinace typů = udržitelná výhoda</td></tr>
+    <tr><td><strong>Rogers Diffusion</strong></td><td>5 skupin: Innovators (2,5%) / Early Adopters (13,5%) / Early Majority (34%) / Late Majority (34%) / Laggards (16%); S-křivka adopce; 5 faktorů rychlosti adopce</td></tr>
+    <tr><td><strong>Chasm</strong></td><td>Moore (1991): propast mezi Early Adopters a Early Majority; překonání: beachhead strategy — fokus na jeden vertikální segment</td></tr>
+    <tr><td><strong>TAM</strong></td><td>Davis (1989): Technology Acceptance Model; PEU + PU → Behavioral Intention → Actual Use; adaptace TRA pro IS</td></tr>
+    <tr><td><strong>PU</strong></td><td>TAM: Perceived Usefulness — vnímaná užitečnost; silnější prediktor adopce; klíčová otázka: "pomůže mi to lépe pracovat?"</td></tr>
+    <tr><td><strong>PEU</strong></td><td>TAM: Perceived Ease of Use — vnímaná snadnost použití; ovlivňuje PU i přímo záměr; klíčová otázka: "je to snadné na naučení?"</td></tr>
+    <tr><td><strong>UTAUT</strong></td><td>Venkatesh et al. (2003): 4 konstrukty — Performance Expectancy + Effort Expectancy + Social Influence + Facilitating Conditions; 4 moderátory: gender, age, experience, voluntariness</td></tr>
+    <tr><td><strong>ISP</strong></td><td>Information Systems Planning: 3 otázky — kde jsme / kde chceme být / jak se tam dostaneme; výstup: IT Roadmap + IS portfolio</td></tr>
+    <tr><td><strong>Nolan Stage Model</strong></td><td>6 fází: Initiation → Contagion → Control → Integration → Data Administration → Maturity; nelze přeskočit</td></tr>
+    <tr><td><strong>McFarlan Strategic Grid</strong></td><td>2×2 matice: stávající IS × budoucí IS projekty → Support / Factory / Turnaround / Strategic; portfóliový pohled na IS</td></tr>
+    <tr><td><strong>Factory</strong></td><td>McFarlan: stávající IS kritické, budoucí projekty méně strategické; důraz na reliability, SLA, BCP/DR</td></tr>
+    <tr><td><strong>Strategic</strong></td><td>McFarlan: IT = core business, kritické pro provoz i rozvoj; CIO v boardu, platform thinking; příklady: banky, Amazon</td></tr>
+    <tr><td><strong>Turnaround</strong></td><td>McFarlan: stávající IS druhořadé, IT klíčové pro budoucnost — transformační fáze; příklad: tradiční retailer → e-commerce</td></tr>
+    <tr><td><strong>Lewin Unfreeze–Change–Refreeze</strong></td><td>3 fáze změny (1947): rozmrazení (motivace ke změně) → implementace → zamrazení (nový stav jako norma)</td></tr>
+    <tr><td><strong>Change Champions / Superuseři</strong></td><td>Early Adopters v Rogersově modelu v IS projektu — ambasadoři změny v odděleních, první linie podpory</td></tr>
+    <tr><td><strong>Divisionalized Form</strong></td><td>Mintzberg: standardizace výstupů, střední management dominuje; IS: federovaný ERP model, konsolidační BI</td></tr>
+    <tr><td><strong>Znalostní spirála</strong></td><td>Nonaka: SECI cyklus se opakuje na stále vyšší úrovni — každé kolo obohacuje znalostní základnu organizace</td></tr>
+  </table>
+</section>
+
+</body>
+<script>
+(function() {
+  var links = document.querySelectorAll('.nav-link');
+  var sections = [];
+  links.forEach(function(link) {
+    var id = link.getAttribute('href');
+    if (id && id.startsWith('#')) {
+      var el = document.querySelector(id);
+      if (el) sections.push({ link: link, el: el });
+    }
+  });
+  function onScroll() {
+    var scrollY = window.scrollY + 80;
+    var current = null;
+    sections.forEach(function(s) {
+      if (s.el.offsetTop <= scrollY) current = s;
+    });
+    links.forEach(function(l) { l.classList.remove('active'); });
+    if (current) current.link.classList.add('active');
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+</html>

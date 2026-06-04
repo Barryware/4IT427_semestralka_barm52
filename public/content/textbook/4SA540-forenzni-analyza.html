@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4SA540 Digitální forenzní analýza – Učební podklady</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, sans-serif; font-size: 15px; line-height: 1.6; color: #111827; background: #f9fafb; -webkit-font-smoothing: antialiased; margin-left: 58px; }
+  #doc-nav { width: 50px; height: 100vh; position: fixed; left: 0; top: 0; z-index: 100; overflow: hidden; background: #fff; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; transition: width 0.32s cubic-bezier(0.4,0,0.2,1), box-shadow 0.32s; }
+  #doc-nav:hover { width: 240px; box-shadow: 6px 0 24px rgba(0,0,0,0.07); }
+  .nav-logo { padding: 14px 13px 12px; border-bottom: 1px solid #e5e7eb; white-space: nowrap; overflow: hidden; position: relative; }
+  .nav-code { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9ca3af; margin-bottom: 3px; }
+  .nav-subject { display: block; font-size: 13px; font-weight: 600; color: #111827; }
+  .nav-logo-icon { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-size: 16px; color: #1d4ed8; opacity: 0; transition: opacity 0.2s; }
+  .nav-logo-text { opacity: 1; transition: opacity 0.2s; }
+  #doc-nav:not(:hover) .nav-logo-icon { opacity: 1; }
+  #doc-nav:not(:hover) .nav-logo-text { opacity: 0; }
+  .nav-items { flex: 1; padding: 6px 0; overflow-y: auto; overflow-x: hidden; }
+  .nav-link { display: flex; align-items: center; gap: 8px; padding: 5px 12px; font-size: 12.5px; font-weight: 500; color: #374151; text-decoration: none; white-space: nowrap; overflow: hidden; transition: background 0.1s, color 0.1s; }
+  .nav-link:hover { background: #f3f4f6; color: #111827; }
+  .nav-num { font-size: 9px; font-weight: 700; background: #1d4ed8; color: #fff; padding: 2px 5px; border-radius: 3px; flex-shrink: 0; min-width: 22px; text-align: center; }
+  .nav-label { max-width: 200px; overflow: hidden; white-space: nowrap; transition: max-width 0.28s, opacity 0.18s; }
+  #doc-nav:not(:hover) .nav-label { max-width: 0; opacity: 0; }
+  #doc-nav:not(:hover) .nav-link { padding-left: 4px; padding-right: 4px; justify-content: center; }
+  .hero { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 44px 56px 40px; }
+  .hero-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #94a3b8; margin-bottom: 12px; }
+  .hero-title { font-size: 44px; font-weight: 800; color: #0f172a; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 16px; }
+  .hero-desc { font-size: 15px; color: #64748b; max-width: 600px; line-height: 1.65; margin-bottom: 20px; }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+  .hero-pill { display: inline-block; padding: 4px 11px; border-radius: 20px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 500; }
+  .lecture { max-width: 820px; margin: 0 auto; padding: 48px 56px; border-bottom: 1px solid #f1f5f9; }
+  .lec-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; }
+  .lec-num { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: #1d4ed8; color: #fff; padding: 5px 9px; border-radius: 5px; flex-shrink: 0; margin-top: 2px; }
+  .lec-title { font-size: 22px; font-weight: 700; color: #0f172a; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .lec-subtitle { font-size: 13px; color: #64748b; }
+  h2 { font-size: 16px; font-weight: 700; color: #0f172a; margin: 28px 0 10px; padding-bottom: 6px; border-bottom: 1px solid #e5e7eb; }
+  h3 { font-size: 14px; font-weight: 700; color: #374151; margin: 20px 0 8px; }
+  p { margin-bottom: 14px; color: #374151; font-size: 14.5px; }
+  ul, ol { margin: 0 0 14px; padding-left: 22px; color: #374151; font-size: 14.5px; }
+  li { margin-bottom: 5px; }
+  strong { font-weight: 700; color: #0f172a; }
+  em { font-style: italic; color: #475569; }
+  .pojmy { display: grid; gap: 8px; margin: 14px 0 20px; }
+  .pojmy.two { grid-template-columns: 1fr 1fr; }
+  .pojmy.three { grid-template-columns: 1fr 1fr 1fr; }
+  .pojmy.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .pojmy.single { grid-template-columns: 1fr; }
+  .pojem { border-radius: 8px; padding: 14px 16px; border: 1px solid; }
+  .pojem.blue { background: #eff6ff; border-color: #bfdbfe; }
+  .pojem.green { background: #f0fdf4; border-color: #bbf7d0; }
+  .pojem.orange { background: #fff7ed; border-color: #fed7aa; }
+  .pojem.purple { background: #faf5ff; border-color: #ddd6fe; }
+  .pojem.red { background: #fff1f2; border-color: #fecdd3; }
+  .pojem-head { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #475569; margin-bottom: 7px; }
+  .pojem.blue .pojem-head { color: #1d4ed8; }
+  .pojem.green .pojem-head { color: #15803d; }
+  .pojem.orange .pojem-head { color: #c2410c; }
+  .pojem.purple .pojem-head { color: #6d28d9; }
+  .pojem.red .pojem-head { color: #be123c; }
+  .pojem-body { font-size: 13.5px; line-height: 1.55; color: #374151; }
+  .tip { background: #fefce8; border-left: 3px solid #eab308; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #713f12; line-height: 1.6; }
+  .callout { background: #f0f9ff; border-left: 3px solid #0ea5e9; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #0c4a6e; line-height: 1.6; }
+  .warn { background: #fff1f2; border-left: 3px solid #f43f5e; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #9f1239; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 13.5px; }
+  th { background: #f8fafc; font-weight: 600; text-align: left; padding: 8px 10px; border: 1px solid #e5e7eb; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  td { padding: 8px 10px; border: 1px solid #e5e7eb; vertical-align: top; color: #374151; }
+  tr:nth-child(even) td { background: #fafafa; }
+  code { font-family: 'SF Mono', monospace; font-size: 12.5px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 3px; padding: 1px 5px; color: #1d4ed8; }
+  .tag { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; margin-right: 5px; border: 1px solid; }
+  .tag.blue { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+  .tag.green { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+  .tag.orange { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+  .tag.red { background: #fff1f2; color: #be123c; border-color: #fecdd3; }
+  .kp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 14px 0; }
+  .kp-item { background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 6px; padding: 10px 13px; }
+  .kp-term { font-size: 12px; font-weight: 700; color: #1d4ed8; margin-bottom: 4px; }
+  .kp-def { font-size: 12.5px; color: #374151; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<nav id="doc-nav">
+  <div class="nav-logo">
+    <span class="nav-logo-icon">&#9670;</span>
+    <span class="nav-logo-text">
+      <span class="nav-code">4SA540</span>
+      <span class="nav-subject">DFA</span>
+    </span>
+  </div>
+  <div class="nav-items">
+    <a class="nav-link" href="#p1"><span class="nav-num">P1</span><span class="nav-label">Základy DFA</span></a>
+    <a class="nav-link" href="#p2"><span class="nav-num">P2</span><span class="nav-label">Forenzní proces a CoC</span></a>
+    <a class="nav-link" href="#p3"><span class="nav-num">P3</span><span class="nav-label">Datová média a artefakty</span></a>
+    <a class="nav-link" href="#p4"><span class="nav-num">P4</span><span class="nav-label">Síťová forenzní analýza</span></a>
+    <a class="nav-link" href="#p5"><span class="nav-num">P5</span><span class="nav-label">Mobilní a cloudová DFA</span></a>
+    <a class="nav-link" href="#p6"><span class="nav-num">P6</span><span class="nav-label">Nástroje a reportování</span></a>
+    <a class="nav-link" href="#kp"><span class="nav-num">&#9733;</span><span class="nav-label">Klíčové pojmy</span></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">4SA540 · doc. Smutný · státnice 3. 6. 2026</div>
+  <div class="hero-title">Digitální forenzní analýza</div>
+  <div class="hero-desc">Principy a postupy DFA — od zajišťování stop, forenzního procesu a chain of custody přes analýzu médií a síťových dat po mobilní a cloudovou forenziku, anti-forenzní techniky a forenzní reportování.</div>
+  <div class="hero-pills">
+    <span class="hero-pill">Chain of Custody</span>
+    <span class="hero-pill">Write Blocker</span>
+    <span class="hero-pill">Forenzní kopie</span>
+    <span class="hero-pill">MFT / File Carving</span>
+    <span class="hero-pill">Volatilita stop</span>
+    <span class="hero-pill">MITRE ATT&amp;CK</span>
+    <span class="hero-pill">Kill Chain</span>
+    <span class="hero-pill">Steganografie</span>
+  </div>
+</div>
+
+<!-- ============================================================ P1 ============================================================ -->
+<section class="lecture" id="p1">
+  <div class="lec-header">
+    <div class="lec-num">P1</div>
+    <div>
+      <div class="lec-title">Základy digitální forenzní analýzy</div>
+      <div class="lec-subtitle">Definice, historický vývoj, právní rámec ČR, 4 oblasti DFA, role analytika, vědecké a etické aspekty</div>
+    </div>
+  </div>
+
+  <h2>Definice DFA</h2>
+  <p><strong>Digitální forenzní analýza (DFA)</strong> je vědecká disciplína zaměřená na identifikaci, zajišťování, extrakci, uchování, analýzu a prezentaci digitálních stop způsobem, který je právně přijatelný a obstojí jako důkaz v soudním nebo správním řízení. DFA se uplatňuje v trestněprávních věcech, občanskoprávních sporech, disciplinárních řízeních a bezpečnostních vyšetřováních.</p>
+
+  <p>Rozdíl od klasické forenzní vědy: klasická kriminalistika pracuje s fyzickými stopami (daktyloskopie, balistika, trasologie); DFA pracuje s <strong>digitálními artefakty</strong> — datovými záznamy existujícími na médiích, v síti nebo v cloudu. Digitální stopa se může měnit pouhou analýzou, proto je každý krok procesně regulován. Klíčový princip: <em>nikdy nepracuj s originálem</em>.</p>
+
+  <div class="callout"><strong>Státnicová definice:</strong> „Digitální forenzní analýza se snaží získat, ochránit, analyzovat a interpretovat digitální stopy tak, aby bylo možné prokázat, co se stalo, aniž by se původní stopa znehodnotila nebo ztratila vypovídací hodnotu." (Hološka, 2023)</div>
+
+  <h2>Historický vývoj DFA</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">1970s–1980s — Počítačové zločiny</div>
+      <div class="pojem-body">První případy počítačové kriminality: podvody s mainframy, zneužití sálových počítačů. FBI Special Agent Michael Anderson zakládá Computer Analysis and Response Team (CART) v roce 1984 — první specializovaná forenzní jednotka. Nástroje: jednoduché hex editory, fyzická analýza médií.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">1990s — Internet a IOCE</div>
+      <div class="pojem-body">Rozšíření internetu přineslo online zločiny: hackerství, distribuce dětské pornografie, kybernetické podvody. Vznik <strong>IOCE</strong> (International Organization on Computer Evidence, 1995) — první mezinárodní standardy pro digitální důkazy. G8 High Tech Crime Subgroup (1997). Nástroje: EnCase (1998), první forenzní distribuce Linuxu.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">2000s — Mobilní forenzika a standardy</div>
+      <div class="pojem-body">Masové rozšíření mobilních telefonů a USB médií. Vznik standardů: <strong>ACPO Guidelines</strong> (2003, UK), <strong>SWGDE</strong> (Scientific Working Group for Digital Evidence). Cellebrite UFED (2007) — průlom v mobilní forenzice. Cloud storage (Dropbox 2007) přidává jurisdikční výzvy.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">2010s–2020s — Cloud, IoT, AI</div>
+      <div class="pojem-body">Cloudová forenzika (AWS, Azure, Microsoft 365 — evidence API). IoT forenzika — inteligentní domácnosti jako zdroj důkazů (Amazon Echo, Fitbit). Anti-forenzní techniky: full-disk encryption (BitLocker, VeraCrypt), secure deletion. AI v DFA: automatizovaná detekce anomálií, ML klasifikace malwaru, NLP analýza komunikace.</div>
+    </div>
+  </div>
+
+  <h2>Právní rámec DFA v ČR</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Zákon č. 141/1961 Sb. — Trestní řád</div>
+      <div class="pojem-body">Základní procesní norma. <strong>§ 78 — vydání věci</strong>: povinnost vydat věc důležitou pro trestní řízení. <strong>§ 79 — odnětí věci</strong>: nucené zajištění. Digitální média jsou věcnými důkazy. Zajištění provedené bez zákonného zmocnění = <strong>nepřípustný důkaz</strong> (exkluze). Zákon upravuje i prohlídku jiných prostor a datových nosičů.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Zákon č. 254/2019 Sb. — Zákon o znalcích</div>
+      <div class="pojem-body">Definuje práva a povinnosti soudních znalců. DFA spadá do oboru <strong>Kybernetika</strong>, odvětví digitální forenzní analýza. Znalec jmenován ministrem spravedlnosti nebo předsedou krajského soudu. <strong>Znalecký posudek</strong> = forma právního důkazu. Nepravdivý posudek = trestní odpovědnost za křivou výpověď.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Zákon č. 181/2014 Sb. — Zákon o kybernetické bezpečnosti</div>
+      <div class="pojem-body">NÚKIB jako regulátor. Povinnost hlásit kybernetické bezpečnostní incidenty. Zajišťování digitálních stop v kontextu incidentů se musí řídit trestním řádem, pokud incident dosáhne hranice trestního činu. Zákon ukládá povinnost log retence pro kritickou infrastrukturu.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">e-CODEX a mezinárodní spolupráce</div>
+      <div class="pojem-body"><strong>e-CODEX</strong> (e-Justice Communication via Online Data Exchange) — systém EU pro přeshraniční elektronické důkazy. <strong>MLAT</strong> (Mutual Legal Assistance Treaty) — právní pomoc při zajišťování dat v zahraničí. <strong>Budapest Convention</strong> (2001) — první mezinárodní smlouva o kybernetické kriminalitě; ČR ratifikovala 2013.</div>
+    </div>
+  </div>
+
+  <h2>4 hlavní oblasti DFA</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">1. Počítačová forenzní analýza</div>
+      <div class="pojem-body">Analýza pevných disků, SSD, USB médií, optických nosičů. Obnova smazaných souborů, analýza souborových systémů (NTFS, ext4, APFS), Windows artefaktů (registry, event logy, prefetch), timeline rekonstrukce. Nejstarší a nejvíce standardizovaná oblast.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">2. Síťová forenzní analýza</div>
+      <div class="pojem-body">Zachytávání a analýza síťového provozu. Full packet capture, NetFlow/IPFIX, DNS logy, firewall logy. Rekonstrukce komunikace, identifikace útočníků, analýza exfiltrace dat. Výzva: šifrování (TLS 1.3) ztěžuje analýzu obsahu paketů.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">3. Mobilní forenzní analýza</div>
+      <div class="pojem-body">Analýza smartphonů, tabletů, GPS zařízení. Specifika: full-disk encryption (Android 7+, iOS 8+), iCloud/Google zálohy, aplikační data (WhatsApp, Signal). Metody extrakce: logical, filesystem, physical, chip-off. Nástroje: Cellebrite UFED, MSAB XRY, Magnet AXIOM.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">4. Cloudová forenzní analýza</div>
+      <div class="pojem-body">Analýza dat uložených v cloudových službách. Výzvy: multi-tenancy, jurisdikce, volatilita dat, omezený fyzický přístup. Co je dostupné: přístupové logy, metadata, API logy, zálohy (pokud provider spolupracuje). Postup: legal hold, preservation request, API/warrant přístup.</div>
+    </div>
+  </div>
+
+  <h2>Forenzní věda: vědecké, právní a etické aspekty</h2>
+  <p><strong>Vědecké aspekty:</strong> DFA musí splňovat kritéria vědecké metody — opakovatelnost (jiný analytik dosáhne stejného výsledku), ověřitelnost (metodika je transparentní), peer review (posudek může být přezkoumán znalcem druhé strany). <strong>Daubert standard</strong> (USA) nebo <strong>Ikarian Reefer</strong> (UK) — soud posuzuje, zda je metoda vědecky validní.</p>
+  <p><strong>Etické aspekty:</strong> Minimalizace zásahu (získat jen data nezbytná pro případ), ochrana soukromí (GDPR — zpracování osobních dat v trestním řízení je regulováno zvláštními předpisy), deklarace střetu zájmů analytika, zákaz manipulace s důkazy.</p>
+
+  <h2>Role forenzního analytika vs. vyšetřovatele</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Forenzní analytik</div>
+      <div class="pojem-body">Technická role: zajišťuje digitální stopy, vytváří forenzní kopie, provádí technickou analýzu artefaktů, interpretuje technická data. <strong>Nesmí</strong> vyvozovat právní závěry (zda byl spáchán trestný čin). Prezentuje fakta a technické závěry — „co data říkají". Odpovídá za technickou správnost posudku.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Vyšetřovatel / Právník</div>
+      <div class="pojem-body">Procesní role: vede vyšetřování, rozhoduje o zákonnosti zajištění, interpretuje právní rámec, formuluje obžalobu. Zadává analytikovi konkrétní otázky. <strong>Synergická role:</strong> vyšetřovatel musí mít základní technické znalosti, aby správně formuloval otázky pro analytika; analytik musí znát procesní rámec, aby pracoval legálně.</div>
+    </div>
+  </div>
+
+  <div class="tip"><strong>Klíčové principy DFA (státnicová zkratka KLINO):</strong> <strong>K</strong>omplexnost, <strong>L</strong>egalita postupu, <strong>I</strong>ntegrita stop, <strong>N</strong>estrannost analytika, <strong>O</strong>pakovatelnost a dokumentace. Všechny musí být splněny současně — jedno porušení může znehodnotit celý případ.</div>
+</section>
+
+<!-- ============================================================ P2 ============================================================ -->
+<section class="lecture" id="p2">
+  <div class="lec-header">
+    <div class="lec-num">P2</div>
+    <div>
+      <div class="lec-title">Forenzní proces a řetěz důkazů</div>
+      <div class="lec-subtitle">4 fáze procesu, Chain of Custody, triage vs. full examination, write blocker, forenzní kopie, hash ověření</div>
+    </div>
+  </div>
+
+  <h2>Standardní forenzní proces — 4 fáze</h2>
+  <p>Forenzní proces je mezinárodně uznávaný rámec zpracování digitálních důkazů. Různé standardy (NIST SP 800-86, ISO/IEC 27037:2012) jej popisují se čtyřmi základními fázemi:</p>
+
+  <div class="pojmy four">
+    <div class="pojem blue">
+      <div class="pojem-head">1. Identifikace</div>
+      <div class="pojem-body">Rozpoznání potenciálních digitálních stop a médií. Scéna: počítače, mobilní zařízení, USB, routery, cloud účty, IoT. Dokumentace stavu před zásahem (foto, video, schéma sítě). Posouzení relevance každého zdroje pro případ.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">2. Zajištění</div>
+      <div class="pojem-body">Fyzické nebo logické zajištění média, aby nedošlo k modifikaci nebo ztrátě dat. Write blocker při kopírování, Faraday bag pro mobilní zařízení. Vytvoření forenzní kopie. Hash ověření. Dokumentace do chain of custody.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">3. Analýza</div>
+      <div class="pojem-body">Technická analýza forenzní kopie — vždy pouze kopie, nikdy originál. Extrakce artefaktů, obnova smazaných souborů, timeline, keyword search, hash lookup. Dokumentace každého analytického kroku s verzemi nástrojů.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">4. Prezentace</div>
+      <div class="pojem-body">Sepsání forenzní zprávy pro laického čtenáře (soudce, přísedící). Expertní svědectví u soudu. Výsledky musí být formulovány jako technické závěry, nikoli právní hodnocení. Přílohy: hash hodnoty, logy nástrojů, fotodokumentace.</div>
+    </div>
+  </div>
+
+  <h2>Chain of Custody — řetěz důkazů</h2>
+  <p><strong>Chain of custody</strong> je nepřerušený, dokumentovaný záznam o tom, kdo měl kdy přístup k digitálnímu důkazu, co s ním dělal a jak byl uchován. Smyslem je prokázat, že důkaz nebyl podvržen, pozměněn ani kontaminován od okamžiku zajištění až po soudní jednání.</p>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Co se zaznamenává</div>
+      <div class="pojem-body">
+        <ul style="padding-left:16px; margin:0;">
+          <li>Co bylo zajištěno (popis, typ, výrobce, model, S/N)</li>
+          <li>Kdy a kde (datum, čas, GPS/adresa)</li>
+          <li>Kým (jméno, funkce, organizace)</li>
+          <li>Jakým postupem (metoda zajištění, zákonné zmocnění)</li>
+          <li>Za jakým účelem (analýza, transport, soud)</li>
+          <li>Komu byla stopa předána a kdy vrácena</li>
+          <li>Jak byla chráněna integrita (hash SHA-256 při každém přístupu)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Proč je kritický pro soudní řízení</div>
+      <div class="pojem-body">Obhajoba může zpochybnit důkaz, pokud chain of custody obsahuje mezery nebo nesrovnalosti. Soud může takový důkaz odmítnout jako nepřípustný. Chain of custody propojuje <strong>technickou integritu</strong> dat s <strong>procesní důvěryhodností</strong> důkazu. Bez řádné dokumentace hash ověření nestačí.</div>
+    </div>
+  </div>
+
+  <div class="callout"><strong>Státnicová věta:</strong> „Chain of custody není formální papír navíc. Je to kontrolní mechanismus, který propojuje technickou integritu dat s procesní důvěryhodností důkazu." — Minimální retenční lhůta záznamu: <strong>po dobu trvání řízení + 5 let</strong>, v praxi zpravidla minimálně 10 let.</div>
+
+  <h2>Triage vs. Full Forensic Examination</h2>
+  <div class="pojmy two">
+    <div class="pojem green">
+      <div class="pojem-head">Triage (prvotní třídění)</div>
+      <div class="pojem-body">Rychlé posouzení na místě: jaká média jsou přítomna, jsou relevantní pro případ, jaká je jejich kapacita a stav? Triage nástroje: <strong>Magnet TRIAGE</strong>, <strong>Cellebrite Physical Analyzer</strong>. Cíl: prioritizovat, co zajistit a v jakém pořadí. Nenahrazuje full examination — je to vstupní filtr. Triage nesmí kontaminovat médium.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Full Forensic Examination</div>
+      <div class="pojem-body">Kompletní analýza forenzní kopie v laboratoři. Trvá hodiny až dny. Zahrnuje: obnovu smazaných souborů, analýzu všech artefaktů, timeline rekonstrukci, hash lookup proti databázím. <strong>Kdy použít:</strong> soudní řízení, závažné trestné činy, případ vyžaduje kompletní obraz aktivity. Vyšší důkazní hodnota než triage výstup.</div>
+    </div>
+  </div>
+
+  <h2>Write Blocker — blokátor zápisu</h2>
+  <p>Write blocker je zařízení nebo software, které <strong>fyzicky nebo logicky zabraňuje jakémukoli zápisu</strong> na zajišťované médium při vytváření forenzní kopie. Bez write blockeru může pouhé připojení média k PC způsobit nechtěné zápisy (update last-access timestamps, system metadata).</p>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Hardware Write Blocker</div>
+      <div class="pojem-body">Fyzické zařízení vkládané mezi médium a forenzní PC. Příklady: <strong>Tableau T35u</strong> (SATA/USB), <strong>WiebeTech Forensic UltraDock</strong>. Výhoda: funguje nezávisle na OS, nelze obejít softwarovým útokem, certifikace NIST/DHS. <strong>Doporučen pro soudní účely</strong> — vyšší důvěryhodnost než softwarový.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Software Write Blocker</div>
+      <div class="pojem-body">Nastavení OS tak, aby zablokoval zápis na určitý disk. Windows: registry klíč <code>HKLM\SYSTEM\CurrentControlSet\Control\StorageDevicePolicies\WriteProtect = 1</code>. Linux: blkdev —setro. Výhoda: rychlé nasazení bez hardware. Nevýhoda: závislost na OS — chyba v OS může blokátor obejít. <strong>Vhodný pro interní vyšetřování, ne pro soudní důkazy.</strong></div>
+    </div>
+  </div>
+
+  <h2>Forenzní kopie vs. logická kopie</h2>
+  <table>
+    <tr><th>Aspekt</th><th>Forenzní kopie (bitstream image)</th><th>Logická kopie</th></tr>
+    <tr><td><strong>Co zahrnuje</strong></td><td>Celé médium bit po bitu — alokované i nealokované clustery, slack space, smazaná data, bootloader</td><td>Pouze vybrané soubory a adresáře přes souborový systém</td></tr>
+    <tr><td><strong>Smazaná data</strong></td><td>Zachycena (pokud nejsou přepsána)</td><td>Nezachycena</td></tr>
+    <tr><td><strong>Rychlost</strong></td><td>Pomalá (GB/min dle HW)</td><td>Rychlá</td></tr>
+    <tr><td><strong>Nástroje</strong></td><td>FTK Imager, <code>dd</code>, EnCase, dcfldd</td><td>robocopy, rsync, cloud API</td></tr>
+    <tr><td><strong>Použití</strong></td><td>Trestní řízení, full examination</td><td>Cloud, šifrovaná zařízení bez klíče, nouzové zajištění</td></tr>
+    <tr><td><strong>Důkazní hodnota</strong></td><td>Nejvyšší</td><td>Nižší — nelze prokázat kompletnost</td></tr>
+  </table>
+
+  <h2>Hash ověření integrity — postup</h2>
+  <p>Hash slouží jako <strong>digitální otisk prstu</strong> média nebo souboru. Jakákoli změna dat — i jeden bit — změní hash hodnotu dramaticky (avalanche effect). Postup při zajišťování:</p>
+  <ol>
+    <li><strong>Před kopírováním:</strong> vypočítat hash originálu (SHA-256 + MD5 z historických důvodů)</li>
+    <li><strong>Kopírování:</strong> bit-by-bit přes write blocker do image souboru (E01, dd)</li>
+    <li><strong>Po kopírování:</strong> vypočítat hash forenzní kopie</li>
+    <li><strong>Porovnání:</strong> hash originálu = hash kopie → integrita potvrzena; zaznamenat obě hodnoty do protokolu</li>
+    <li><strong>Před analýzou:</strong> znovu ověřit hash kopie — detekce nechtěné modifikace při transportu nebo uložení</li>
+  </ol>
+  <p>Aktuální standard: <strong>SHA-256</strong> (256 bitů). MD5 (128 bitů) má prokázané kolize — <em>nesmí být jediný použitý hash</em>, ale historicky se stále zaznamenává pro kompatibilitu se staršími systémy.</p>
+
+  <h2>Evidence Handling — best practices</h2>
+  <div class="pojmy two">
+    <div class="pojem green">
+      <div class="pojem-head">Transport a uložení</div>
+      <div class="pojem-body">Antistatický obal (evidence bag) — zabraňuje ESD. Tamper-evident seal — viditelné porušení při neoprávněném přístupu. Mobilní zařízení: <strong>Faraday bag</strong> — blokuje GSM/Wi-Fi/BT, zabraňuje remote wipe. Transport v klimatizovaném vozidle, mimo magnetická pole. Evidence room: trezor, regulovaná teplota a vlhkost, přístup jen oprávněným osobám.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Časté chyby (antipatterns)</div>
+      <div class="pojem-body">Zapnutí zařízení bez write blockeru. Nenasazení Faraday bagu u mobilu. Práce na originálu místo kopie. Zapomenutí zaznamenat hash při zajištění. Mezera v chain of custody záznamu (kdo měl médium přes noc?). Nesprávný obsah evidence bagu (chybí sériové číslo). Tyto chyby vedou k odmítnutí důkazu u soudu.</div>
+    </div>
+  </div>
+
+  <div class="warn"><strong>Kritická chyba v praxi:</strong> Připojení USB média k Windows PC bez write blockeru. Windows automaticky zapíše do MFT, aktualizuje Last Access Time a může spustit autorun — tím modifikuje zdrojové médium a znehodnotí jeho důkazní hodnotu.</div>
+</section>
+
+<!-- ============================================================ P3 ============================================================ -->
+<section class="lecture" id="p3">
+  <div class="lec-header">
+    <div class="lec-num">P3</div>
+    <div>
+      <div class="lec-title">Datová média a forenzní artefakty</div>
+      <div class="lec-subtitle">HDD/SSD/USB, NTFS/MFT/ADS, smazaná data, slack space, Windows Registry, Event logy, Event IDs</div>
+    </div>
+  </div>
+
+  <h2>Typy médií a forenzní specifika</h2>
+  <table>
+    <tr><th>Médium</th><th>Technologie</th><th>Forenzní specifika</th><th>Výzvy</th></tr>
+    <tr><td><strong>HDD</strong></td><td>Magnetické plotny, mechanické hlavy</td><td>Smazaná data zachována do přepsání; SMART logy (stav disku, přemapované sektory); firmware oblast</td><td>Bad sectors mohou způsobit neúplnou kopii; fyzické poškození</td></tr>
+    <tr><td><strong>SSD</strong></td><td>NAND flash, řadič, FTL (Flash Translation Layer)</td><td>Wear leveling mění fyzické umístění bloků; TRIM příkaz maže nealokované bloky; garbage collection běží na pozadí</td><td>TRIM výrazně ztěžuje obnovu smazaných dat; řadič má vlastní firmware</td></tr>
+    <tr><td><strong>USB flash</strong></td><td>NAND flash</td><td>Windows Registry (USBSTOR) zaznamenává připojení; malý objem — rychlá forenzní kopie</td><td>Wear leveling; šifrování (BitLocker To Go); fyzické zničení snadno proveditelné</td></tr>
+    <tr><td><strong>Optické médium</strong></td><td>Laserový zápis (CD/DVD/Blu-ray)</td><td>Jednou zapsaná data nelze přepsat (WORM); archivní hodnota; stopy po vypálení</td><td>Fyzické poškození (škrábance); stáří media; záleží na kvalitě výroby</td></tr>
+    <tr><td><strong>RAM</strong></td><td>DRAM, volatilní</td><td>Obsah: procesy, síťová spojení, šifrovací klíče, hesla, clipboard; nutná live acquisition</td><td>Ztráta při vypnutí; analýza mění stav; velké obrazy (GBs)</td></tr>
+  </table>
+
+  <h2>SSD specifika: TRIM, Wear Leveling, Garbage Collection</h2>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Wear Leveling</div>
+      <div class="pojem-body">Řadič SSD distribuuje zápisy rovnoměrně po celém NAND flash, aby prodloužil životnost. Důsledek: fyzická poloha dat neodpovídá logické adrese. Soubor, který byl smazán a přepsán na logické adrese, může mít starší verzi stále na jiné fyzické buňce — nebo nemusí.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">TRIM příkaz</div>
+      <div class="pojem-body">Když OS smaže soubor, pošle řadiči SSD příkaz TRIM — říká, které bloky jsou volné a mohou být fyzicky vymazány. Na moderním SSD s aktivním TRIM jsou smazaná data <strong>okamžitě nebo brzy trvale odstraněna</strong>. Forenzní implikace: obnova smazaných dat z SSD je velmi obtížná nebo nemožná.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Garbage Collection</div>
+      <div class="pojem-body">Automatický background proces: SSD přesouvá platná data, fyzicky maže celé bloky (erase unit = stovky stránek). Probíhá i v nečinnosti. <strong>Forenzní dopad:</strong> i odpojený SSD (v trezoru) může provádět garbage collection, pokud má záložní napájení nebo při příštím zapnutí.</div>
+    </div>
+  </div>
+
+  <h2>Souborové systémy</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">NTFS (Windows)</div>
+      <div class="pojem-body"><strong>MFT</strong> (Master File Table) — databáze všech souborů; každý soubor má záznam s atributy, timestampy (MACE: Modified, Accessed, Created, Entry Modified), umístěním clusterů. <strong>USN Journal</strong> (Update Sequence Number Journal) — logovací soubor změn souborového systému; cenný pro timeline rekonstrukci. <strong>ADS</strong> (Alternate Data Streams) — skrytá datová proudy připojená ke standardním souborům; zneužívané pro ukrývání malwaru.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">FAT32</div>
+      <div class="pojem-body">Starší systém; stále rozšířený na USB médiích a SD kartách. FAT tabulka obsahuje řetězec clusterů každého souboru. Při smazání: první znak názvu nahrazen 0xE5, první cluster uvolněn — obsah dat zůstává dokud není přepsán. Obnova přes FAT je jednodušší než přes NTFS MFT, protože záznamy jsou jednodušší.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">ext4 (Linux)</div>
+      <div class="pojem-body">Journaling filesystem — transakční žurnál zaznamenává změny před aplikací na disk. Inode tabulka: metadata souborů (vlastník, oprávnění, timestampy, bloky dat). Při smazání: inode označen jako volný, datové bloky označeny volné — obnova možná dokud nejsou přepsány. Žurnál může obsahovat stopy o předchozích operacích.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">APFS (Apple)</div>
+      <div class="pojem-body">Moderní Apple FS (macOS 10.13+, iOS 10.3+). Copy-on-write snapshots — mohou zachovat historické verze souborů. Silné šifrování (AES-XTS 128/256-bit). Clonové soubory sdílí bloky. Forenzní výzva: šifrování bez klíče = nemožná analýza obsahu; ale metadata (HFS+ extenty) mohou být přístupnější.</div>
+    </div>
+  </div>
+
+  <h2>Obnova smazaných souborů</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Obnova přes alokační struktury (FAT/MFT)</div>
+      <div class="pojem-body">Využívá záznamy souborového systému, které jsou stále přítomné po smazání (záznam MFT označen jako volný, první cluster FAT uvolněn). <strong>Co lze obnovit:</strong> název souboru, cesta, metadata (timestampy, atributy), adresářová struktura. <strong>Kdy funguje:</strong> záznamy nebyly přepsány novými soubory. <strong>Nástroje:</strong> Autopsy, FTK, Recuva.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">File Carving (data carving)</div>
+      <div class="pojem-body">Prohledává surové bloky disku bez ohledu na souborový systém — hledá <strong>magic bytes</strong> (záhlaví a zápatí souborů): JPG začíná <code>FF D8 FF</code>, PDF začíná <code>25 50 44 46</code>, ZIP začíná <code>50 4B 03 04</code>. <strong>Co typicky nezíská:</strong> původní název, cestu, metadata. <strong>Problém:</strong> fragmentace — soubor rozložený po disku nelze kompletně rekonstruovat carvingem. <strong>Nástroje:</strong> Autopsy, PhotoRec, Scalpel.</div>
+    </div>
+  </div>
+
+  <h2>Slack Space, Unallocated Space, Swap Space</h2>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Slack Space</div>
+      <div class="pojem-body">Nevyužitý prostor v posledním clusteru souboru. Příklad: cluster = 4 096 B, soubor = 3 000 B → 1 096 B slack obsahuje fragmenty dřívějšího obsahu clusteru. <strong>File slack:</strong> přebytek do konce sektoru. <strong>RAM slack:</strong> oblast mezi koncem souboru a koncem sektoru (dříve vyplňována RAM obsahem). Útočník si existence slack space nemusí být vědom.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Unallocated Space</div>
+      <div class="pojem-body">Clustery označené souborovým systémem jako volné — byly obsazeny smazanými soubory. Data fyzicky přítomna dokud nejsou přepsána. Hlavní cíl file carvingu. Na SSD s aktivním TRIM je unallocated space rychle fyzicky mazán.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Swap / Page File</div>
+      <div class="pojem-body">Windows: <code>pagefile.sys</code> (swap) a <code>hiberfil.sys</code> (hibernace). Obsahují fragmenty RAM — hesla, klíče, texty, části aplikací. Hibernační soubor je prakticky obraz RAM. Forenzně velmi cenné. Swap je přepínán aktivně — obsah starý i čerstvý. Analýza: FTK nebo Volatility.</div>
+    </div>
+  </div>
+
+  <h2>Windows Registry — forenzní analýza</h2>
+  <p>Windows Registry je hierarchická databáze konfigurací OS a aplikací. Forenzně cenná jako zdroj artefaktů o aktivitě uživatele, připojených zařízeních a spuštěném software.</p>
+  <table>
+    <tr><th>Hive soubor</th><th>Umístění</th><th>Co se zde hledá</th></tr>
+    <tr><td><strong>NTUSER.DAT</strong></td><td>C:\Users\&lt;user&gt;\</td><td>UserAssist (spuštěné programy + počet + čas), RecentDocs, typed URLs, MRU listy, mapovaná síťová uložiště, shellbags (procházené složky)</td></tr>
+    <tr><td><strong>SAM</strong></td><td>C:\Windows\System32\config\</td><td>Lokální uživatelské účty, NTLM hashe hesel, datum posledního přihlášení, počet neúspěšných přihlášení</td></tr>
+    <tr><td><strong>SYSTEM</strong></td><td>C:\Windows\System32\config\</td><td>USBSTOR — připojená USB zařízení (VID/PID, S/N, datum), mountpoint, časové razítko prvního/posledního připojení, ComputerName, TimeZone</td></tr>
+    <tr><td><strong>SOFTWARE</strong></td><td>C:\Windows\System32\config\</td><td>Instalovaný software (verze, datum instalace), Run/RunOnce klíče (autostart), Uninstall záznamy, WindowsUpdate logy</td></tr>
+    <tr><td><strong>SECURITY</strong></td><td>C:\Windows\System32\config\</td><td>LSA Secrets (credentials uložené pro síťové služby), cached domain credentials (hashované)</td></tr>
+  </table>
+
+  <div class="tip"><strong>Shellbags:</strong> Klíče <code>USRCLASS.DAT</code> a <code>NTUSER.DAT</code> zaznamenávají každou složku, do které uživatel vstoupil přes Explorer — včetně smazaných složek, externích médií nebo síťových sdílení. Shellbags jsou jedním z nejcennějších Windows artefaktů pro rekonstrukci aktivity.</div>
+
+  <h2>Windows Event Logy — klíčové Event IDs</h2>
+  <p>Windows Event Log (EVTX formát) zaznamenává systémové, bezpečnostní a aplikační události. Forenzně nejcennější je <strong>Security Log</strong>.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Přihlášení a autentizace</div>
+      <div class="pojem-body">
+        <ul style="padding-left:16px; margin:0;">
+          <li><strong>4624</strong> — Úspěšné přihlášení (Logon Type: 2=interaktivní, 3=síťové, 10=RDP)</li>
+          <li><strong>4625</strong> — Neúspěšné přihlášení (Failure Reason; SubStatus kód)</li>
+          <li><strong>4634 / 4647</strong> — Odhlášení uživatele</li>
+          <li><strong>4648</strong> — Přihlášení s explicitními přihlašovacími údaji (pass-the-hash indikátor)</li>
+          <li><strong>4672</strong> — Přihlášení s privilegovanými právy (admin účty)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Procesy a služby</div>
+      <div class="pojem-body">
+        <ul style="padding-left:16px; margin:0;">
+          <li><strong>4688</strong> — Vytvoření nového procesu (název, cesta, rodičovský proces, uživatel)</li>
+          <li><strong>4689</strong> — Ukončení procesu</li>
+          <li><strong>7045</strong> — Instalace nové služby (název, cesta — podezřelé cesty = malware)</li>
+          <li><strong>7034 / 7036</strong> — Neočekávané spuštění/zastavení služby</li>
+          <li><strong>1102</strong> — Security log byl smazán (útočník mazal stopy)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout"><strong>Prefetch soubory:</strong> <code>C:\Windows\Prefetch\</code> — záznamy o spuštěných programech (název EXE, datum posledního spuštění, počet spuštění, seznam přistoupených souborů). Přítomnost prefetch záznamu pro program = program byl na tomto PC spuštěn, i když byl program smazán.</div>
+</section>
+
+<!-- ============================================================ P4 ============================================================ -->
+<section class="lecture" id="p4">
+  <div class="lec-header">
+    <div class="lec-num">P4</div>
+    <div>
+      <div class="lec-title">Síťová forenzní analýza</div>
+      <div class="lec-subtitle">Packet capture, NetFlow, protokolová analýza, IOC/IOA, Kill Chain, MITRE ATT&amp;CK, SIEM korelace</div>
+    </div>
+  </div>
+
+  <h2>Síťová forenzní analýza — definice a přístupy</h2>
+  <p><strong>Síťová forenzní analýza</strong> (Network Forensics) je zajišťování, zachytávání, záznam a analýza síťových událostí za účelem zjistit zdroj bezpečnostního útoku nebo jiné problematické události. Jde o zvláštní oblast DFA, protože síťová data jsou <strong>extrémně volatilní</strong> — pakety nejsou standardně uchovávány a jejich zachytávání musí probíhat v reálném čase nebo musí existovat předchozí infrastruktura pro zachytávání.</p>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Pasivní monitoring (catch-it-as-you-can)</div>
+      <div class="pojem-body">Kontinuální zachytávání veškerého síťového provozu na určeném bodě (tap nebo SPAN port). Ukládání do rolling buffer nebo dlouhodobého úložiště. Výhoda: k dispozici zpětně po incidentu. Nevýhoda: velké objemy dat (1 Gbps linka = ~108 GB/hod), vysoké náklady na storage.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Reaktivní analýza (stop-look-listen)</div>
+      <div class="pojem-body">Zachytávání spuštěno až po detekci incidentu nebo na základě alarmu. Výhoda: cílenější, menší objem dat. Nevýhoda: počáteční fáze útoku mohla proběhnout před zahájením zachytávání — chybějící kontext. Kombinace s NetFlow/IPFIX logy pro retrospektivní analýzu.</div>
+    </div>
+  </div>
+
+  <h2>Metody zachytávání síťového provozu</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Full Packet Capture</div>
+      <div class="pojem-body">Zachytání celého obsahu každého paketu — hlavičky i payload. Nástroje: <strong>Wireshark</strong> (GUI, analýza protokolů, filtrování), <strong>tcpdump</strong> (CLI, Linux, skriptovatelný), <strong>NetworkMiner</strong> (rekonstrukce souborů ze zachyceného provozu). Formát: PCAP nebo PCAPng. Nejvyšší forenzní hodnota, ale největší nároky na storage.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">NetFlow / IPFIX</div>
+      <div class="pojem-body">Metadata o tocích — ne obsah paketů. Záznamy: zdrojová/cílová IP, port, protokol, počet paketů/bajtů, časové razítko, flagy. <strong>NetFlow v5/v9</strong> (Cisco), <strong>IPFIX</strong> (IETF standard). Výhoda: mnohem menší objem dat než full capture; uchovatelné dlouhodobě. Vhodné pro detekci anomálií objemu, port scany, C&amp;C komunikaci.</div>
+    </div>
+  </div>
+
+  <h2>Protokolová analýza</h2>
+  <table>
+    <tr><th>Protokol</th><th>Forenzní relevance</th><th>Typické indikátory útoku</th></tr>
+    <tr><td><strong>HTTP/HTTPS</strong></td><td>Webový provoz; User-Agent, URL, POST data (v HTTP); TLS certifikáty</td><td>Neobvyklé User-Agents, Base64-kódované POST payloady, přístupy na podezřelé domény; TLS na neobvyklých portech = C&amp;C tunel</td></tr>
+    <tr><td><strong>DNS</strong></td><td>Překlad jmen; DNS logy jsou klíčové — každá komunikace začíná DNS dotazem</td><td><strong>DNS exfiltrace</strong> (data zakódována v subdoménách), <strong>DGA domény</strong> (Domain Generation Algorithm — malware generuje náhodné domény pro C&amp;C), neobvyklé TXT záznamy</td></tr>
+    <tr><td><strong>SMTP / Email</strong></td><td>Emailová komunikace; headers obsahují celou cestu doručení (Received: from)</td><td>Phishing: falzifikace From záhlaví (SPF/DKIM/DMARC selhání), podezřelé přílohy, neočekávané odesílání z interních serverů</td></tr>
+    <tr><td><strong>SMB</strong></td><td>Sdílení souborů Windows; autentizace Kerberos/NTLM</td><td>Lateral movement: přístupy ke sdílením z neobvyklých zdrojů, pass-the-hash, WannaCry exploit MS17-010 (EternalBlue)</td></tr>
+    <tr><td><strong>RDP (3389)</strong></td><td>Vzdálený přístup; event log Event ID 4624 Logon Type 10</td><td>Brute-force z externích IP, RDP přístupy mimo pracovní dobu, pivot z kompromitovaného stroje</td></tr>
+  </table>
+
+  <h2>IOC a IOA — indikátory kompromitace a útoku</h2>
+  <div class="pojmy two">
+    <div class="pojem red">
+      <div class="pojem-head">IOC — Indicator of Compromise</div>
+      <div class="pojem-body">Forenzní artefakt nalezený v síti nebo na zařízení, který s vysokou pravděpodobností indikuje proběhlé narušení. Příklady: hash malwaru (MD5/SHA-256), C&amp;C IP adresa, doménové jméno, URL, registry klíč vytvořený malwarem, mutex jméno, podpis v souboru. <strong>IOC jsou reaktivní</strong> — popisují minulost (co se stalo). Sdíleny přes STIX/TAXII, OpenIOC, MISP.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">IOA — Indicator of Attack</div>
+      <div class="pojem-body">Behaviorální indikátory probíhajícího nebo plánovaného útoku — nezávislé na konkrétním malwaru nebo nástroji. Příklady: spuštění PowerShell z Word dokumentu, přístupy k LSASS procesu (dump přihlašovacích údajů), laterální pohyb přes PSExec, exfiltrace dat na cloudové úložiště v noci. <strong>IOA jsou proaktivní</strong> — detekují útok i před kompromitací.</div>
+    </div>
+  </div>
+
+  <h2>Lockheed Martin Kill Chain (7 fází)</h2>
+  <p>Kill Chain (Cyber Kill Chain) je model útoku popisující 7 sekvenčních fází: útočník musí úspěšně projít všemi fázemi. Obránce stačí narušit libovolnou fázi.</p>
+  <div class="pojmy single">
+    <div class="pojem blue">
+      <div class="pojem-head">7 fází Kill Chain</div>
+      <div class="pojem-body">
+        <ol style="padding-left:18px; margin:0; line-height:1.8;">
+          <li><strong>Reconnaissance (průzkum)</strong> — OSINT, port scanning, phishing příprava; detekce: honeypots, monitor DNS dotazů na vlastní domény</li>
+          <li><strong>Weaponization (vyzbrojení)</strong> — vytvoření exploitu nebo malware dropper; probíhá off-network (nedetekovatelné)</li>
+          <li><strong>Delivery (doručení)</strong> — phishing email, watering hole, USB drop, exploit kit; detekce: email filtry, URL analýza, sandbox</li>
+          <li><strong>Exploitation (exploit)</strong> — spuštění kódu zneužitím zranitelnosti; detekce: EDR, IPS, behavioral analysis</li>
+          <li><strong>Installation (instalace)</strong> — persistence: scheduled task, registry Run klíč, service instalace, rootkit; detekce: Event ID 7045, Autoruns monitoring</li>
+          <li><strong>Command &amp; Control (C&amp;C)</strong> — backdoor kontaktuje C&amp;C server; detekce: DNS analýza (DGA), NetFlow anomálie, proxy logy</li>
+          <li><strong>Actions on Objectives (cíl)</strong> — exfiltrace dat, šifrování (ransomware), sabotáž; detekce: DLP, anomálie objemu dat, SIEM pravidla</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <h2>MITRE ATT&amp;CK Matrix</h2>
+  <p><strong>MITRE ATT&amp;CK</strong> (Adversarial Tactics, Techniques, and Common Knowledge) je veřejně dostupná znalostní báze taktik a technik útočníků, odvozená z reálných pozorování. Je strukturována jako matice: <strong>14 taktik</strong> (sloupce = fáze útoku) × <strong>stovky technik a subtechnik</strong> (konkrétní způsoby provedení).</p>
+
+  <div class="pojmy two">
+    <div class="pojem green">
+      <div class="pojem-head">Klíčové taktiky MITRE ATT&amp;CK (enterprise)</div>
+      <div class="pojem-body">
+        <ul style="padding-left:16px; margin:0;">
+          <li><strong>TA0001</strong> — Initial Access (phishing, exploity, supply chain)</li>
+          <li><strong>TA0003</strong> — Persistence (registry, scheduled tasks, services)</li>
+          <li><strong>TA0006</strong> — Credential Access (LSASS dump, Kerberoasting, brute-force)</li>
+          <li><strong>TA0008</strong> — Lateral Movement (Pass-the-Hash, PsExec, RDP)</li>
+          <li><strong>TA0010</strong> — Exfiltration (přes DNS, HTTPS, cloud storage)</li>
+          <li><strong>TA0040</strong> — Impact (ransomware, disk wipe, service disruption)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">TTP — Tactics, Techniques, Procedures</div>
+      <div class="pojem-body">TTP popisuje <strong>chování</strong> útočníka, nikoli konkrétní artefakt. <em>Taktika</em> = proč (cíl útočníka). <em>Technika</em> = jak (způsob provedení). <em>Procedura</em> = konkrétní implementace skupiny (APT29 používá specifický nástroj). TTP jsou odolnější vůči změně než IOC — útočník může změnit IP nebo hash, ale těžko změní celý TTP. Forenzní analytik mapuje nálezy na ATT&amp;CK pro attributi útoku.</div>
+    </div>
+  </div>
+
+  <h2>SIEM log korelace</h2>
+  <p><strong>SIEM</strong> (Security Information and Event Management) centrálně sbírá, normalizuje a koreluje logy z různých zdrojů. V kontextu DFA: SIEM je primární zdroj retrospektivních důkazů o síťové aktivitě.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Příklady detekčních pravidel</div>
+      <div class="pojem-body">
+        <ul style="padding-left:16px; margin:0;">
+          <li>5+ Event ID 4625 (neúspěšné přihlášení) ze stejné IP za 60 sekund → brute-force alert</li>
+          <li>Event ID 4688 s procesem <code>powershell.exe</code> jako child of <code>winword.exe</code> → makro exploit</li>
+          <li>DNS dotaz na doménu s entropií &gt; 3.5 (náhodné znaky) → potenciální DGA</li>
+          <li>Objem odchozích dat &gt; průměr × 3 na konkrétním hostu mimo pracovní dobu → exfiltrace</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Forenzní využití SIEM</div>
+      <div class="pojem-body">Retrospektivní dotazy: „co dělal konkrétní uživatel v období X–Y?", „jaké systémy kontaktoval konkrétní C&amp;C server?". Timeline rekonstrukce napříč více systémy — korelace logu ze firewallu, AD, endpointů a aplikačních serverů. Výstup SIEM query může být součástí forenzní zprávy, ale SIEM logy samy o sobě musí mít jasnou chain of custody.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ P5 ============================================================ -->
+<section class="lecture" id="p5">
+  <div class="lec-header">
+    <div class="lec-num">P5</div>
+    <div>
+      <div class="lec-title">Mobilní a cloudová forenzní analýza + anti-forensics</div>
+      <div class="lec-subtitle">Extrakce dat z mobilních zařízení, iOS a Android specifika, cloudová forenzika, steganografie a anti-forenzní techniky</div>
+    </div>
+  </div>
+
+  <h2>Mobilní forenzní analýza — Android vs. iOS</h2>
+  <p><strong>Mobilní forenzní analýza</strong> se zabývá extrakcí a analýzou digitálních stop z mobilních zařízení — smartphonů, tabletů, wearables. Zásadní rozdíl oproti diskové forenzice: mobile OS aktivně brání přístupu k datům (sandboxing, šifrování, secure boot), a proto je výběr extrakční metody kritický pro objem získatelných dat.</p>
+
+  <table>
+    <tr><th>Vlastnost</th><th>Android</th><th>iOS (Apple)</th></tr>
+    <tr><td><strong>Souborový systém</strong></td><td>ext4 (interní), F2FS (flash-optimized); přístupný po rooting; variabilní podle výrobce (Samsung, Huawei)</td><td>APFS (Apple File System od iOS 10.3+); dříve HFS+. Silně hierarchický sandbox — každá app má izolovaný kontejner.</td></tr>
+    <tr><td><strong>Šifrování</strong></td><td>Full-disk encryption (FDE) nebo file-based encryption (FBE) od Android 7+. AES-256. Klíč odvozen z hesla uživatele + hardware key store (TEE). Bez hesla nebo rootingu = nečitelné.</td><td>Full-disk encryption standardně od iPhone 3GS (2009). Každý soubor má unikátní file key chráněný Data Protection Classes (Complete Protection, Protected Until First Auth, atd.).</td></tr>
+    <tr><td><strong>Zálohy</strong></td><td>Google Backup (cloud); lokální záloha přes ADB; není nativní ekvivalent iTunes. Obsah zálohy závisí na nastavení app developerů.</td><td>iTunes/Finder (lokální, šifrovaná nebo nešifrovaná) nebo iCloud Backup. Šifrovaná iTunes záloha obsahuje více dat (hesla, health data).</td></tr>
+    <tr><td><strong>Cloud sync</strong></td><td>Google Drive, Google Photos, Gmail, Play Store; závisí na výrobci a nastavení. Data dostupná přes Google Takeout nebo právní žádost.</td><td>iCloud (Contacts, Calendar, iMessage, Photos, iCloud Drive). Apple poskytuje data přes zákonnou žádost (Law Enforcement Guidelines).</td></tr>
+  </table>
+
+  <h2>Metody extrakce z mobilních zařízení</h2>
+  <p>Volba extrakční metody závisí na: stavu zařízení (zapnuto/vypnuto, stav šifrování), dostupnosti kódu nebo zálohy, přípustnosti invazivních metod, časovém a finančním omezení.</p>
+
+  <table>
+    <tr><th>Metoda</th><th>Popis</th><th>Dostupná data</th><th>Invasivnost</th></tr>
+    <tr><td><strong>Manual (ruční)</strong></td><td>Fotodokumentace obrazovky; navigace uživatelského rozhraní. Bez speciálního softwaru.</td><td>Jen viditelný obsah. Smazaná data nedostupná. Omezeno zamčením.</td><td>Neinvazivní, ale neúplné</td></tr>
+    <tr><td><strong>Logical (logická)</strong></td><td>Extrakce přes OS API — ADB backup (Android) nebo iTunes backup (iOS). Nevyžaduje root/jailbreak.</td><td>Uživatelská data v záloze (kontakty, SMS, fotky, nastavení). Bez smazaných dat, bez systémových souborů.</td><td>Nízká</td></tr>
+    <tr><td><strong>Filesystem</strong></td><td>Přístup k celému souborovému systému — vyžaduje root (Android) nebo jailbreak (iOS). Nástroj: Cellebrite UFED, Magnet AXIOM.</td><td>Vše v logické vrstvě + aplikační databáze SQLite, cache, logy. Částečně smazaná data v nevyužitém prostoru.</td><td>Střední — vyžaduje root/jailbreak</td></tr>
+    <tr><td><strong>Physical (fyzická)</strong></td><td>Bit-stream kopie celé flash paměti. Metody: JTAG (přístup přes debug port desky), Chip-off (fyzické vyjmutí flash čipu a přímé čtení).</td><td>Kompletní obraz včetně smazaných dat, nealokovaného prostoru, systémových oddílů. Maximální objem důkazů.</td><td>Vysoká až destruktivní (chip-off = riziko poškození)</td></tr>
+  </table>
+
+  <h2>iOS Secure Enclave a Full-Disk Encryption</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Secure Enclave Processor (SEP)</div>
+      <div class="pojem-body">Samostatný koprocesor (ARM-based) fyzicky oddělený od hlavního CPU. Spravuje všechny kryptografické operace a uchovává privátní klíče, které nikdy neopustí SEP. Zodpovídá za: Touch ID / Face ID verifikaci, ochranu šifrovacích klíčů, data protection classes. <strong>Forenzní dopad:</strong> bez znalosti PINu nebo biometrie je dešifrování prakticky nemožné. GrayKey a podobné nástroje útočí na SEP brute-force přes proprietární interface — Apple aktivně opravuje tyto vektory v každé verzi iOS.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Data Protection Classes (iOS)</div>
+      <div class="pojem-body">iOS přiřazuje každému souboru třídu ochrany: <strong>Complete Protection</strong> — soubor šifrován při zamčení (klíč odvozen z passcodem); <strong>Protected Until First User Auth</strong> (výchozí pro většinu dat) — dešifrován po prvním odemčení po startu; <strong>No Protection</strong> — vždy přístupný (temp soubory). Forenzní implikace: zařízení v BFU (Before First Unlock) stavu poskytne minimum dat; AFU (After First Unlock) = více přístupných dat, ale citlivá data stále chráněna.</div>
+    </div>
+  </div>
+
+  <h2>Android Rooting a forenzní implikace</h2>
+  <div class="pojmy two">
+    <div class="pojem green">
+      <div class="pojem-head">Co je rooting a proč na něm záleží</div>
+      <div class="pojem-body">Rooting = získání superuživatelského (root) přístupu k Android OS — obejití bezpečnostního modelu. Metody: exploitace zranitelnosti bootloaderu nebo kernelu, odemčení OEM Unlock (trvalé). Forenzní dopad: root umožní filesystem extrakci a přístup k datům všech aplikací. <strong>Riziká:</strong> rooting může aktivovat FDE re-encryption, vymazat TEE-chráněné klíče, zapnout factory reset v závislosti na výrobci (Samsung Knox). Každý pokus o neoprávněnou modifikaci může znehodnotit důkazy a porušit chain of custody.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Forenzní přístup bez rootingu</div>
+      <div class="pojem-body">Preferovaný přístup: logická extrakce přes ADB v zálohovacím módu (pokud není šifrovaná záloha nastavena heslem). Alternativa: MDM (Mobile Device Management) — pokud je zařízení zapsáno v podnikovém MDM, může správce vzdáleně provést extrakci bez rootu. Google Account backup dostupný přes zákonnou žádost. Forenzní práce by měla zvolit nejméně invazivní metodu, která získá potřebná data.</div>
+    </div>
+  </div>
+
+  <h2>Cloud Forensics — výzvy a dostupná data</h2>
+  <p><strong>Cloudová forenzika</strong> se zabývá získáváním digitálních důkazů z cloudových prostředí (IaaS, PaaS, SaaS). Je to nejrychleji rostoucí oblast DFA a zároveň nejproblematičtější z hlediska dostupnosti dat a právního rámce.</p>
+
+  <div class="pojmy three">
+    <div class="pojem red">
+      <div class="pojem-head">Výzva 1: Jurisdikce</div>
+      <div class="pojem-body">Data mohou být fyzicky uložena v jiném státě než kde proběhl incident nebo kde sídlí zákazník. AWS us-east-1 vs. EU data residency. Právní pomoc přes MLAT (Mutual Legal Assistance Treaty) může trvat měsíce. Cloud Act (USA, 2018) umožňuje americkým orgánům žádat data od US-based providerů i pokud jsou fyzicky v EU — v konfliktu s GDPR.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Výzva 2: Volatilita a multi-tenancy</div>
+      <div class="pojem-body">Cloud infrastruktura je dynamická — VM snapshots se přepisují, logy mají omezenou dobu retence (CloudTrail default: 90 dní event history). Multi-tenancy: fyzický hardware sdílen s jinými zákazníky — izolace dat závisí na poskytovateli. Elasticita: instance se spouštějí a zastavují v minutách, forenzní kopie snapshotu musí proběhnout okamžitě po incidentu.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Výzva 3: Kontrola nad prostředím</div>
+      <div class="pojem-body">Zákazník nekontroluje fyzický hardware — nemůže provést fyzickou forenzní analýzu serverů. Přístup k logům závisí na úrovni služby (IaaS = více kontroly; SaaS = závislost na API poskytovatele). Hypervisor logy a interní infrastruktura poskytovatele jsou zákazníkovi nedostupné.</div>
+    </div>
+  </div>
+
+  <h3>Co je dostupné v cloudu</h3>
+  <table>
+    <tr><th>Typ dat</th><th>Příklady</th><th>Dostupnost</th></tr>
+    <tr><td><strong>Access logy</strong></td><td>AWS CloudTrail, Azure Activity Log, GCP Audit Logs — záznamy API volání s timestampem, IP, identitou</td><td>Dostupné zákazníkovi, omezená retence, exportovatelné přes API nebo zákonnou žádost</td></tr>
+    <tr><td><strong>Metadata</strong></td><td>Object metadata (S3: ETag, Last-Modified, velikost, versioning), user/role metadata, resource tags</td><td>Dostupné přes API; metadata přetrvávají i po smazání objektu (v historii verzí)</td></tr>
+    <tr><td><strong>Object storage</strong></td><td>Soubory v S3, Azure Blob, GCS — s verzováním (object versioning) možné získat přepsané nebo smazané verze</td><td>Závisí na politice retence a verzování zákazníka; provider může mít vlastní zálohy</td></tr>
+    <tr><td><strong>Audit trails</strong></td><td>Microsoft 365 Unified Audit Log, Salesforce Event Monitoring — záznamy uživatelských akcí v SaaS</td><td>Dostupné přes eDiscovery API nebo compliance portal; různá granularita dle plánu (E3 vs. E5)</td></tr>
+    <tr><td><strong>VM snapshots / disk images</strong></td><td>EC2 EBS snapshot, Azure Managed Disk snapshot — forenzní bitstream kopie</td><td>Zákazník může vytvořit snapshot a stáhnout jej pro analýzu; musí proběhnout rychle před zánikem instance</td></tr>
+  </table>
+
+  <h2>GDPR a cloud forensics — cross-border výzvy</h2>
+  <div class="callout"><strong>Klíčový konflikt:</strong> GDPR ukládá přísná pravidla pro přeshraniční předávání osobních údajů (Kapitola V GDPR). Forenzní analýza vyžadující přenos dat z EU do USA (pro analýzu na americkém nástroji nebo pro předání americkým orgánům) musí být opřena o právní základ — Standard Contractual Clauses (SCC), Adequacy Decision (EU-US Data Privacy Framework od 2023), nebo výjimku dle čl. 49 GDPR (nezbytnost pro právní nároky). Prakticky: forenzní analytik musí mít GDPR posouzení jako součást dokumentace vyšetřování.</div>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">GDPR implikace pro forenzní vyšetřování</div>
+      <div class="pojem-body">Shromažďování logu a metadat může zahrnovat osobní údaje zaměstnanců, zákazníků nebo třetích stran. Zpracování těchto dat pro forenzní účely musí mít právní základ (čl. 6 GDPR): typicky oprávněný zájem (čl. 6(1)(f)) nebo plnění právní povinnosti (čl. 6(1)(c)). Zásada minimalizace dat: shromažďovat jen to, co je nezbytné pro vyšetřování. Data subjects mají právo na informace (čl. 13/14) — ale právo na přístup lze omezit, pokud by ohrožovalo vyšetřování.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Praktická doporučení</div>
+      <div class="pojem-body">Zdokumentovat právní základ pro sběr dat před zahájením vyšetřování. Provést DPIA (Data Protection Impact Assessment) pro rozsáhlá shromažďování. Uchovávat forenzní kopie pouze po dobu nezbytnou pro řízení. Šifrovat přenosy forenzních dat přes hranice. Zapojit DPO (Data Protection Officer) organizace do plánování vyšetřování.</div>
+    </div>
+  </div>
+
+  <h2>Steganografie</h2>
+  <p><strong>Steganografie</strong> (z řec. steganos = skrytý, graphos = písmo) je technika ukrývání dat uvnitř jiných dat (tzv. cover medium) tak, aby existence skrytého obsahu nebyla patrná. Liší se od šifrování: šifrování skrývá <em>obsah</em>, steganografie skrývá <em>existenci</em> komunikace.</p>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">LSB Insertion (Least Significant Bit)</div>
+      <div class="pojem-body">Nejrozšířenější technika pro obrázky a audio. Každý pixel je reprezentován třemi bajty (R, G, B — 8 bitů každý). Nahrazením nejméně významného bitu každého kanálu daty zprávy vznikne nosný obraz vizuálně nerozlišitelný od originálu. Kapacita: 24-bitový BMP 1000×1000 px → až 375 KB skrytých dat. Varianta: F5 (JPEG steganografie), OpenStego, Steghide. Audio: LSB v PCM WAV souborech; video: LSB v jednotlivých snímcích.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Další steganografické techniky</div>
+      <div class="pojem-body"><strong>DCT coefficient manipulation</strong> (JPEG) — modifikace koeficientů diskrétní kosinové transformace; obtížněji detekovatelné než LSB. <strong>Metadata steganografie</strong> — data ukryta v EXIF polích, komentářích, ICC profilech. <strong>Síťová steganografie</strong> — data v IPv4 ID fieldech, TCP sequence numbers, DNS TXT záznamech (covert channel). <strong>Text steganografie</strong> — bílé mezery, nulové šířky znaků (Unicode zero-width), formátování dokumentu (Word mezery).</div>
+    </div>
+  </div>
+
+  <h3>Steganalýza — detekce steganografie</h3>
+  <p>Steganalýza je detekce a extrakce steganograficky ukrytého obsahu. Existují dvě hlavní kategorie:</p>
+  <div class="pojmy two">
+    <div class="pojem purple">
+      <div class="pojem-head">Statistická steganalýza</div>
+      <div class="pojem-body">Analýza statistických vlastností souboru, které se liší od "přirozených" distribucí. Chi-square test: LSB insertion narušuje statistické rozložení párů sousedních hodnot barev. RS Analysis: klasifikace pixel skupin (Regular a Singular skupiny) — steganografický obraz má specifický poměr R/S. Nástroje: StegSpy, StegoSuite, Stegdetect (pro JPEG).</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Vizuální a strukturální analýza</div>
+      <div class="pojem-body">Vizuální útok: zobrazení pouze LSB bitové roviny — ukrytá data jsou viditelná jako vzorce (ne náhodný šum). Porovnání s originálem (pokud dostupný): pixel-level diff. Struktura souboru: steganografické nástroje often leave artifacts — neobvyklé JFIF markery, neočekávané chunky, abnormální entropy distribuce. Metadata analýza: software, který soubor vytvořil (EXIF) — nesoulad s prohlášením.</div>
+    </div>
+  </div>
+
+  <h2>Anti-forenzní techniky a jejich detekce</h2>
+  <p>Anti-forenzní techniky jsou metody, které útočník používá ke zničení, skrytí nebo znehodnocení digitálních stop. Pro forenzního analytika je důležité znát tyto techniky a vědět, jak je detekovat nebo alespoň prokázat jejich použití.</p>
+
+  <h3>Bezpečné mazání dat (Disk Wiping)</h3>
+  <div class="pojmy two">
+    <div class="pojem red">
+      <div class="pojem-head">Standardy přepisování</div>
+      <div class="pojem-body"><strong>DoD 5220.22-M</strong> (US Department of Defense): 7-průchodové přepsání — 0x00, 0xFF, náhodná data, 0x00, 0xFF, náhodná data, verifikace. Standard pro klasifikovaná média. <strong>Gutmann metoda</strong> (Peter Gutmann, 1996): 35 průchodů se specifickými vzorci — původně navržena pro MFM/RLL magnetické disky; pro moderní média (SSD, SATA) je 3–7 průchodů dostačující. <strong>NIST 800-88r1</strong>: pro SSD a flash doporučuje Cryptographic Erase (ATA Secure Erase + změna šifrovacího klíče) jako nejefektivnější metodu.</div>
+    </div>
+    <div class="pojem blue">
+      <div class="pojem-head">Detekce disk wipingu</div>
+      <div class="pojem-body">Nástroje: <code>dc3dd</code>, <code>dcfldd</code>, Eraser (Windows). Detekce: MFT záznamy mohou ukazovat existence smazaných souborů i po přepsání (MFT záznam není přepsán, jen označen jako volný — obsah $DATA atributu přepsán, ale metadata přetrvávají). $Recycle.Bin záznamy, Prefetch soubory (<code>ERASE.EXE-XXXXXX.pf</code>), ShimCache a AmCache záznamy programu pro mazání. Event log: spuštění externího nástroje pro mazání. Shellbag: přístupy ke složkám před mazáním.</div>
+    </div>
+  </div>
+
+  <h3>Šifrování jako anti-forenzní nástroj</h3>
+  <div class="pojmy two">
+    <div class="pojem purple">
+      <div class="pojem-head">BitLocker (Windows)</div>
+      <div class="pojem-body">Full-disk encryption implementovaný v Windows Vista+. Používá AES-XTS (128 nebo 256 bit) od Windows 10 1511+. Klíče: TPM (Trusted Platform Module) — transparentní, při šifrování BitLockerem bez PINu může být disk čitelný po normálním startu; TPM + PIN — vyžaduje PIN při startu. Recovery Key (48-číslicový): uložen v AD nebo Microsoft Account. <strong>Forenzní přístup:</strong> pokud systém běžel a byl zapojen ke korporátní AD, recovery klíč může být dostupný. BitLocker metadata na disku (hlavičky svazku) identifikují šifrování i bez dešifrování.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">VeraCrypt Hidden Volumes</div>
+      <div class="pojem-body">VeraCrypt (nástupce TrueCrypt) implementuje plausible deniability přes <strong>hidden volume</strong>: kontejner má dvě vrstvy — vnější svazek (outer volume) s nenápadnými daty a heslem A; skrytý svazek (hidden volume) začíná v náhodném prostoru outer volume s heslem B. Bez znalosti hesla B je existence hidden volume matematicky neprokázatelná — outer volume a hidden volume jsou kryptograficky nerozeznatelné. Forenzní výzva: nelze vynutit dešifrování, nelze dokázat existenci hidden volume. Detekce: neobvyklé množství "volného" prostoru v outer volume; specifická entropie dat.</div>
+    </div>
+  </div>
+
+  <h3>Timestomping</h3>
+  <div class="pojmy two">
+    <div class="pojem orange">
+      <div class="pojem-head">MACE atributy a jejich manipulace</div>
+      <div class="pojem-body"><strong>MACE = Modified, Accessed, Created, Entry Modified</strong> (poslední změna MFT záznamu). Útočník modifikuje MACE timestamps aby zakryl kdy byl soubor vytvořen nebo modifikován — tzv. timestomping. Nástroje: Metasploit <code>timestomp</code> modul, TouchTimestamp (Windows), <code>touch -t</code> (Unix). Typický vzorec: útočník nastaví Created timestamp souboru na datum starší než OS instalace (paradox: soubor "existoval" před OS) nebo nastaví timestamps na round čísla (2024-01-01 00:00:00 — lidský vzorec vs. náhodné milisekundy).</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Detekce timestompingu</div>
+      <div class="pojem-body">Klíčová technika: porovnání <strong>$STANDARD_INFORMATION</strong> (SI) vs. <strong>$FILE_NAME</strong> (FN) atributů v MFT. SI timestamps jsou modifikovatelné uživatelem; FN timestamps jsou aktualizovány kernelem při přesunech souborů a jsou obtížněji manipulovatelné. Nesoulad SI vs. FN timestamps = silný indikátor timestompingu. Nástroj: MFTECmd (Eric Zimmermann), analyzuje oba sety timestamps najednou. Referenční data: USN Journal, Event Log creation events, Prefetch timestamps jako nezávislé zdroje.</div>
+    </div>
+  </div>
+
+  <h3>Log Clearing</h3>
+  <div class="pojmy two">
+    <div class="pojem red">
+      <div class="pojem-head">Techniky mazání logů</div>
+      <div class="pojem-body">Windows: <code>wevtutil cl Security</code>, <code>wevtutil cl System</code> — vymaže event log. PowerShell: <code>Clear-EventLog</code>. Fyzické smazání: <code>.evtx</code> soubory v <code>C:\Windows\System32\winevt\Logs\</code>. Linux/Unix: <code>/var/log/auth.log</code>, <code>/var/log/syslog</code> — přepisování nebo zkrácení souboru (<code>echo "" > /var/log/auth.log</code>). Web servery: smazání <code>access.log</code> nebo přepsání posledních záznamů. Bash history: <code>history -c</code>, <code>unset HISTFILE</code>.</div>
+    </div>
+    <div class="pojem blue">
+      <div class="pojem-head">Detekce mazání logů</div>
+      <div class="pojem-body"><strong>Event ID 1102</strong> (Security log) = "Audit log was cleared" — Windows zaznamenává samotné smazání logu (pokud ovšem Security log nebyl smazán jako první). <strong>Event ID 104</strong> (System log) = log byl vymazán. Mezery v časové řadě: chybějící sekvence Event ID čísel (nejsou kontinuální). Shadow Copy / VSS: stínové kopie mohou obsahovat starší verze log souborů. SIEM: pokud byl log centrálně přenášen do SIEM před smazáním, data jsou dostupná. Sysmon Event ID 5: proces ukončení (včetně wevtutil) zaznamenán.</div>
+    </div>
+  </div>
+
+  <h3>Obfuskace kódu</h3>
+  <div class="pojmy two">
+    <div class="pojem purple">
+      <div class="pojem-head">Techniky obfuskace</div>
+      <div class="pojem-body">Útočníci obfuskují malware aby se vyhnuli AV detekci a ztížili analýzu. Techniky: <strong>Base64 encoding</strong> — PowerShell <code>-EncodedCommand</code>; <strong>XOR encryption</strong> — payload XOR-ován s klíčem; <strong>string concatenation</strong> — rozdělení IoC řetězců; <strong>packing</strong> — UPX a vlastní packery komprimují a šifrují spustitelný kód; <strong>process hollowing</strong> — legitimní proces (svchost.exe) je vyprázdněn a naplněn malware kódem; <strong>living-off-the-land</strong> — útočník používá legitimní Windows nástroje (certutil, mshta, regsvr32) k exekuci malware.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Detekce obfuskace</div>
+      <div class="pojem-body">Statická analýza: entropy analýza PE souboru — sekce s entropií &gt; 7.0 naznačují šifrování/packing; <strong>YARA pravidla</strong> pro detekci packerů (UPX magic bytes). Dynamická analýza: sandbox (Cuckoo, Any.run) — spuštění vzorku v izolovaném prostředí a sledování chování. PowerShell: AMSI (Antimalware Scan Interface) loguje deobfuskovaný skript před spuštěním (Event ID 4104 — Script Block Logging). Sysmon Event ID 7 (ImageLoad), Event ID 10 (ProcessAccess) — monitoring injekce do procesů.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ P6 ============================================================ -->
+<section class="lecture" id="p6">
+  <div class="lec-header">
+    <div class="lec-num">P6</div>
+    <div>
+      <div class="lec-title">Forenzní nástroje a reportování</div>
+      <div class="lec-subtitle">FTK, EnCase, Autopsy, Volatility, KAPE — přehled schopností; struktura forenzní zprávy; svědectví znalce; ACPO principy; etika</div>
+    </div>
+  </div>
+
+  <h2>FTK — Forensic Toolkit (AccessData / Exterro)</h2>
+  <p><strong>FTK</strong> je komerční forenzní sada vyvíjená původně AccessData, dnes Exterro. Orientována na desktopové a serverové vyšetřování; databázové zpracování celého případu umožňuje indexaci a prohledávání milionů souborů.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Klíčové schopnosti FTK</div>
+      <div class="pojem-body">
+        <ul style="padding-left:16px; margin:0;">
+          <li><strong>File Recovery:</strong> obnova smazaných souborů z NTFS, FAT32, ext4; file carving z nealokovaného prostoru</li>
+          <li><strong>Email Parsing:</strong> nativní podpora PST/OST (Outlook), EML, MBOX — extrakce a analýza mailových konverzací</li>
+          <li><strong>Registry Analysis:</strong> analýza Windows Registry hives (NTUSER.DAT, SYSTEM, SOFTWARE) — otevřené soubory, naposledy použité dokumenty, USB zařízení</li>
+          <li><strong>Password Cracking:</strong> integrovaný PRTK (Password Recovery Toolkit) — slovníkové a brute-force útoky na šifrované soubory, ZIP archivy, Office dokumenty</li>
+          <li><strong>Known File Filter (KFF):</strong> hash set hashů validních OS souborů — automatické vyloučení z analýzy, zaměření na podezřelé soubory</li>
+          <li><strong>Timeline Analysis:</strong> automatická časová osa z MACE timestamps napříč celým obrazem disku</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">FTK Imager (bezplatný)</div>
+      <div class="pojem-body">Odlehčená verze pro tvorbu forenzních kopií. Schopnosti: vytváření E01 / DD / AFF4 obrazů; preview obsahu bez plné analýzy; ověření hash hodnot (MD5, SHA-1, SHA-256) automaticky po akvizici; montáž disků jako read-only virtuálních zařízení. FTK Imager je standardním nástrojem pro prvotní akvizici a je k dispozici zdarma — proto rozšířený i v organizacích bez plné FTK licence.</div>
+    </div>
+  </div>
+
+  <h2>EnCase — Enterprise Forensic Platform (OpenText)</h2>
+  <p><strong>EnCase</strong> (dříve Guidance Software, dnes OpenText) je průmyslový standard pro podnikovou forenziku. Formát <strong>.E01</strong> (EnCase Evidence File) se stal de-facto standardem forenzního obrazu a je podporován téměř všemi forenzními nástroji.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Klíčové schopnosti EnCase</div>
+      <div class="pojem-body">
+        <ul style="padding-left:16px; margin:0;">
+          <li><strong>Enterprise Forensics:</strong> vzdálené vyšetřování desítek nebo stovek strojů z centrální konzole bez fyzického přístupu k zařízení</li>
+          <li><strong>Remote Acquisition:</strong> EnCase SAFE agent na endpointu umožňuje vzdálenou akvizici přes šifrovaný kanál bez přerušení provozu stroje</li>
+          <li><strong>Legal Hold:</strong> automatická izolace dat pro soudní účely — zabraňuje přepsání nebo modifikaci potenciálních důkazů</li>
+          <li><strong>EnScript:</strong> proprietární skriptovací jazyk pro automatizaci opakujících se forenzních úkolů a custom analýzy</li>
+          <li><strong>eDiscovery integrace:</strong> přímé propojení s právními procesy — správa případů, custody tracking, reporting</li>
+          <li><strong>NTFS, FAT, HFS+, ext, APFS</strong> podpora + mobilní forenzika přes integraci s Cellebrite</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">E01 formát</div>
+      <div class="pojem-body">EnCase Evidence File (.E01) ukládá: kompletní bitstream kopii média, header s metadaty (datum akvizice, analytik, hash), segmentované soubory (typicky po 640 MB nebo 2 GB). Výhoda: interní CRC kontrola každého segmentu zabraňuje nedetekované korupci; komprese snižuje úložné nároky. Novější formát Ex01 (EnCase 7+) přidává šifrování a lepší kompresi. Konkurenční formáty: AFF4 (Advanced Forensic Format, open standard), RAW/DD (bez metadat).</div>
+    </div>
+  </div>
+
+  <h2>Autopsy — open source forenzní platforma</h2>
+  <p><strong>Autopsy</strong> je open-source grafický frontend pro The Sleuth Kit (TSK) — knihovnu nástrojů příkazové řádky pro analýzu souborových systémů. Vyvíjen Brian Carrierem a Basis Technology. Zdarma, multiplatformní (Windows nativní verze).</p>
+  <div class="pojmy two">
+    <div class="pojem green">
+      <div class="pojem-head">Moduly Autopsy</div>
+      <div class="pojem-body">Autopsy je modulární — funkce jsou přidávány přes pluginy (Ingest Modules). Vestavěné moduly: <strong>Hash Lookup</strong> (NSRL hash set pro Known File Filter), <strong>File Type Identification</strong> (identifikace podle magic bytes, ne přípony), <strong>Keyword Search</strong> (indexace textu přes Apache Tika + Solr), <strong>Recent Activity</strong> (browser history, cookies, Downloads, Registry), <strong>EXIF Parser</strong> (GPS souřadnice z fotografií), <strong>Email Parser</strong> (PST, EML), <strong>Encryption Detection</strong> (vysoká entropie = potenciálně zašifrovaný obsah). Komunita přidává vlastní moduly (Python API).</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">The Sleuth Kit (TSK)</div>
+      <div class="pojem-body">TSK je knihovna C/C++ pro analýzu souborových systémů a disků. Klíčové nástroje: <code>fls</code> (výpis souborů včetně smazaných), <code>istat</code> (metadata inodu), <code>blkcat</code> (obsah bloku), <code>mmls</code> (rozdělení oddílů), <code>fsstat</code> (statistiky souborového systému). TSK podporuje: NTFS, FAT12/16/32, exFAT, ext2/3/4, HFS+, APFS, ISO 9660, YAFFS2. Autopsy je GUI frontend — vše co Autopsy dělá, dělá v pozadí přes TSK.</div>
+    </div>
+  </div>
+
+  <h2>Srovnání nástrojů FTK / EnCase / Autopsy</h2>
+  <table>
+    <tr><th>Kritérium</th><th>FTK (Exterro)</th><th>EnCase (OpenText)</th><th>Autopsy / TSK</th></tr>
+    <tr><td><strong>Cena</strong></td><td>Komerční — licence dle modulu; tisíce USD/rok</td><td>Komerční — nejvyšší cena na trhu; enterprise licencování</td><td>Zdarma (open source); komerční podpora dostupná</td></tr>
+    <tr><td><strong>Platforma</strong></td><td>Windows (server nebo desktop)</td><td>Windows; enterprise verze s centrální konzolí</td><td>Windows, Linux, macOS</td></tr>
+    <tr><td><strong>Silné stránky</strong></td><td>Výborná email analýza; integrovaný password cracking (PRTK); rychlá indexace</td><td>Průmyslový standard; vzdálená akvizice; E01 formát; právní integrace (eDiscovery)</td><td>Zdarma; otevřený kód; modulární; komunita pluginů; vhodný pro výuku</td></tr>
+    <tr><td><strong>Slabiny</strong></td><td>Vysoká cena; vyžaduje výkonný hardware; Oracle DB backend</td><td>Vysoká cena; strmá křivka učení; pomalé aktualizace</td><td>Méně schopností out-of-the-box; žádný password cracking; komunita nerovnoměrná</td></tr>
+    <tr><td><strong>Forenzní obraz</strong></td><td>E01, DD, AFF, AFF4</td><td>E01, Ex01, DD, L01</td><td>E01, AFF, DD, RAW (přes libewf/libvhdi)</td></tr>
+    <tr><td><strong>Typické nasazení</strong></td><td>Soudní znalci, law enforcement, interní vyšetřování</td><td>Korporátní eDiscovery, velké law enforcement agentury, DFIR týmy</td><td>Studenti, bezpečnostní výzkum, menší organizace, pro-bono vyšetřování</td></tr>
+  </table>
+
+  <h2>Volatility — Memory Forensics Framework</h2>
+  <p><strong>Volatility</strong> je open-source framework pro analýzu volatilní paměti (RAM dump). Je primárním nástrojem pro memory forensics. Aktuální verze: Volatility 3 (přepsán v Pythonu 3, bez nutnosti manuálního profilu).</p>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Co Volatility analyzuje</div>
+      <div class="pojem-body">
+        <ul style="padding-left:16px; margin:0;">
+          <li><strong>Procesy a jejich vztahy:</strong> seznam spuštěných procesů, rodičovský PID, čas spuštění, zavřené procesy (stále v paměti)</li>
+          <li><strong>Síťová spojení:</strong> aktivní a nedávno ukončená TCP/UDP spojení z paměti (bez závislosti na netstat)</li>
+          <li><strong>Malware artefakty:</strong> injektovaný kód, rootkit techniky, skryté procesy, nelegitimní ovladače</li>
+          <li><strong>Načtené knihovny (DLL):</strong> seznam DLL pro každý proces — odhalí podezřelé injektované knihovny</li>
+          <li><strong>Registry hives v paměti:</strong> přístup k registry hodnotám bez souborů na disku</li>
+          <li><strong>Šifrovaná data:</strong> šifrovací klíče, certifikáty, hesla mohou být přítomny v RAM ve formě prostého textu</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Klíčové příkazy Volatility 3</div>
+      <div class="pojem-body">
+        <code>windows.pslist</code> — výpis všech procesů (přes EPROCESS linked list)<br><br>
+        <code>windows.pstree</code> — strom procesů s rodičovskými vztahy<br><br>
+        <code>windows.psscan</code> — skenování paměti na EPROCESS struktury (odhalí skryté procesy neviditelné v pslist)<br><br>
+        <code>windows.netscan</code> — síťová spojení (TCP/UDP) z paměti<br><br>
+        <code>windows.malfind</code> — hledá injektovaný kód (oblasti s PAGE_EXECUTE_READWRITE a MZ header bez DLL záznamu)<br><br>
+        <code>windows.dlllist</code> — seznam DLL pro konkrétní proces (<code>--pid XXXX</code>)<br><br>
+        <code>windows.cmdline</code> — příkazová řádka každého procesu<br><br>
+        <code>windows.hashdump</code> — extrakce NTLM hashů z SAM databáze (pokud dostupná v paměti)
+      </div>
+    </div>
+  </div>
+
+  <div class="tip"><strong>Praktická poznámka:</strong> Rozdíl mezi <code>pslist</code> a <code>psscan</code> je klíčový pro detekci rootkitů. <code>pslist</code> prochází EPROCESS linked list, který může být rootkitem modifikován (DKOM — Direct Kernel Object Manipulation). <code>psscan</code> skenuje celou paměť na signatury EPROCESS struktur — rootkit nemůže snadno skrýt proces před fyzickým skenem. Pokud proces vidí <code>psscan</code> ale ne <code>pslist</code> = silný indikátor rootkitu.</div>
+
+  <h2>KAPE — Kroll Artifact Parser and Extractor</h2>
+  <div class="pojmy two">
+    <div class="pojem green">
+      <div class="pojem-head">Co je KAPE</div>
+      <div class="pojem-body"><strong>KAPE</strong> (Eric Zimmermann / Kroll) je triage nástroj pro rychlé shromáždění a zpracování forenzně relevantních artefaktů ze živého systému nebo obrazu disku. Orientován na rychlost — místo kompletního forenzního obrazu (hodiny) shromáždí klíčové artefakty za minuty. Pracuje ve dvou fázích: <strong>Targets</strong> (co shromáždit — soubory a složky) a <strong>Modules</strong> (jak zpracovat — spustí nástroje jako MFTECmd, RECmd, AppCompatCacheParser na shromážděná data). Kompletní KAPE triage balíček (~2 GB dat) typicky obsahuje vše potřebné pro DFIR vyšetřování.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Typické KAPE artefakty</div>
+      <div class="pojem-body">
+        <ul style="padding-left:16px; margin:0;">
+          <li>Event Logs (<code>.evtx</code>) — Security, System, Application, Sysmon</li>
+          <li>MFT a $MFTMirr, $LogFile, $UsnJrnl:$J</li>
+          <li>Prefetch soubory (<code>C:\Windows\Prefetch\</code>)</li>
+          <li>Registry hives (SYSTEM, SOFTWARE, NTUSER.DAT, SAM)</li>
+          <li>Browser data (Chrome, Firefox, Edge) — history, cookies, downloads</li>
+          <li>ShimCache, AmCache, BAM/DAM (Background Activity Monitor)</li>
+          <li>LNK soubory, Jump Lists, Shellbags</li>
+          <li>Scheduled Tasks, Services, Startup items</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h2>Výsledná forenzní zpráva — struktura</h2>
+  <p>Forenzní zpráva je konečným výstupem vyšetřování. Musí být napsána tak, aby ji porozuměl jak odborník (soudní znalec, CISO), tak laik (soudce, porota). Jazyk musí být přesný, neutrální a vyhýbat se spekulacím nepodloženým důkazy.</p>
+
+  <div class="pojmy single">
+    <div class="pojem blue">
+      <div class="pojem-head">Standardní struktura forenzní zprávy</div>
+      <div class="pojem-body">
+        <ol style="padding-left:18px; margin:0; line-height:2;">
+          <li><strong>Executive Summary (Shrnutí pro vedení):</strong> 1–2 stránky. Co se stalo, kdy, kdo byl postižen, jaká je závažnost, klíčová doporučení. Napsáno pro netechnické vedení.</li>
+          <li><strong>Metodika a nástroje:</strong> Přehled použitých nástrojů (verze, konfigurace), metod (logická/fyzická akvizice), forenzních standardů (NIST, ACPO). Dostatečný detail pro reprodukovatelnost závěrů jiným analytikem.</li>
+          <li><strong>Chronologie incidentu:</strong> Časová osa (timeline) klíčových událostí s přesnými timestamps. Odkaz na konkrétní důkazy pro každou událost (Event ID, soubor + hash, log záznam).</li>
+          <li><strong>Nálezy (Findings):</strong> Podrobný technický popis každého nálezu. Každý nález: popis → kde nalezeno → jak bylo získáno → hash/ověření → interpretace → odkaz na přílohu.</li>
+          <li><strong>Závěry:</strong> Odpovědi na vyšetřovací otázky. Co bylo prokázáno vs. co zůstává nejisté. Vyhýbat se atribuci bez dostatečných důkazů.</li>
+          <li><strong>Přílohy:</strong> Hash hodnoty všech důkazních souborů (MD5 + SHA-256), logy, screenshoty, exporty z nástrojů, chain of custody dokumentace, seznam zkratek.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <h2>Svědectví znalce u soudu (Expert Witness)</h2>
+  <div class="pojmy two">
+    <div class="pojem orange">
+      <div class="pojem-head">Role a příprava</div>
+      <div class="pojem-body"><strong>Expert witness</strong> (soudní znalec) je osoba s odbornou kvalifikací jmenovaná soudem nebo stranou sporu k podání odborného posudku. Na rozdíl od standardního svědka může vyjádřit <em>názor a závěry</em> na základě faktů, nejen fakta samotná. Příprava: znalec musí dokonale znát obsah vlastní zprávy, být schopen vysvětlit každý technický závěr laikovi, znát omezení použitých metod. Zpráva musí předcházet výpovědi — obhajoba ji obdrží před cross-examination.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Cross-Examination — jak se připravit</div>
+      <div class="pojem-body">Protistrána se při cross-examination zaměří na: <strong>1) zpochybnění metod</strong> — "Je nástroj X vědecky validovaný?"; <strong>2) alternativní vysvětlení</strong> — "Nemohlo k tomu dojít i jiným způsobem?"; <strong>3) mezery v chain of custody</strong> — "Kdo měl přístup k důkazům mezi X a Y?"; <strong>4) zkušenosti a kvalifikace</strong> — certifikace, praxe. Znalec nesmí spekulovat, musí přiznat nejistotu tam kde existuje, a nesmí se nechat vyprovokovat k přehánění závěrů. Neutralita a přesnost jsou důležitější než výsledek pro "svou stranu".</div>
+    </div>
+  </div>
+
+  <h2>ACPO — 4 principy pro digitální důkazy</h2>
+  <p><strong>ACPO</strong> (Association of Chief Police Officers) Guidelines for Computer Based Evidence (2012) stanovují 4 základní principy, které jsou průmyslově uznávaným standardem pro sběr a manipulaci s digitálními důkazy:</p>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Princip 1 — Nedotýkej se originálu</div>
+      <div class="pojem-body">Žádné akce prováděné orgány činnými v trestním řízení nebo jejich zástupci nesmí změnit data uložená na počítači nebo ukládacím médiu, která mohou být následně předložena soudu. Základ pro použití write blockerů, forenzních kopií a dokumentace každé akce.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Princip 2 — Dokumentuj vše</div>
+      <div class="pojem-body">Osoba přistupující k původním datům musí být dostatečně kompetentní a schopná podat svědectví vysvětlující relevanci a implikace svých akcí. Veškerý přístup k originálnímu médiu musí být zdokumentován, auditován a dostupný pro přezkoumání.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Princip 3 — Audit trail</div>
+      <div class="pojem-body">Musí být vytvořen a uchováván auditní záznam všech procesů aplikovaných na digitální důkazy. Nezávislá třetí strana musí být schopna přezkoumat tyto procesy a dospět ke stejným výsledkům. Prakticky: chain of custody dokumentace, hash ověření v každém kroku, protokoly o analýze.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Princip 4 — Odpovědný vedoucí</div>
+      <div class="pojem-body">Vedoucí vyšetřování (Case Officer / SIO — Senior Investigating Officer) má celkovou odpovědnost za dodržení zákona a těchto principů. Tato odpovědnost není přenositelná na technické specialisty — vedoucí musí zajistit, že celý tým principy dodržuje, i když sám technickým operacím nerozumí do hloubky.</div>
+    </div>
+  </div>
+
+  <h2>Etika forenzního analytika</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Klíčové etické principy</div>
+      <div class="pojem-body">
+        <ul style="padding-left:16px; margin:0;">
+          <li><strong>Objektivita a nestrannost:</strong> Analytik hledá pravdu, ne potvrzení předem dané hypotézy. Povinnost hlásit exculpatory evidence (důkazy svědčící ve prospěch podezřelého) i když pracuje pro stranu obžaloby.</li>
+          <li><strong>Důvěrnost:</strong> Chráněná data vyšetřování (osobní údaje, obchodní tajemství) nesmí být sdílena mimo rozsah mandátu.</li>
+          <li><strong>Kompetentnost:</strong> Analytik nesmí přijmout zakázku přesahující jeho schopnosti bez odborné pomoci. Musí průběžně udržovat certifikace a znalosti (CPE).</li>
+          <li><strong>Přesnost reportování:</strong> Výsledky musí přesně odrážet nálezy — bez přehánění ani bagatelizace. Nejistota musí být explicitně vyjádřena.</li>
+          <li><strong>Chain of Custody:</strong> Analytik je osobně odpovědný za integritu svěřených důkazů po celou dobu jejich správy.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Kodexy a certifikace</div>
+      <div class="pojem-body"><strong>IACIS (International Association of Computer Investigative Specialists)</strong> — certifikace CFCE (Certified Forensic Computer Examiner); etický kodex zahrnuje povinnost hlásit neetické chování kolegů. <strong>ISFCE (International Society of Forensic Computer Examiners)</strong> — CCE certifikace. <strong>SANS/GIAC GCFE / GCFA</strong> — ForFor 408/508; technická certifikace zaměřená na Windows a memory forensics. <strong>Cellebrite CCPA/CCPE</strong> — mobilní forenzika. Certifikovaný analytik se zavazuje k etickému kodexu příslušné organizace — porušení může vést ke zrušení certifikace.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ KLÍČOVÉ POJMY ============================================================ -->
+<section class="lecture" id="kp">
+  <div class="lec-header">
+    <div class="lec-num">&#9733;</div>
+    <div>
+      <div class="lec-title">Klíčové pojmy</div>
+      <div class="lec-subtitle">Přehled všech důležitých termínů a zkratek pro přípravu na státní zkoušku 4SA540</div>
+    </div>
+  </div>
+
+  <h2>Pojmy a definice — kompletní přehled</h2>
+  <table>
+    <tr><th>Pojem / Zkratka</th><th>Definice a kontext</th></tr>
+    <tr><td><strong>DFA</strong></td><td>Digitální forenzní analýza — vědecká disciplína pro identifikaci, zajišťování, extrakci, analýzu a prezentaci digitálních stop způsobem přijatelným jako soudní důkaz.</td></tr>
+    <tr><td><strong>Chain of Custody (CoC)</strong></td><td>Zdokumentovaný řetězec odpovědnosti za důkazní materiál od zajištění po soud. Každý přesun a přístup musí být zaznamenán s datem, časem, osobou a účelem.</td></tr>
+    <tr><td><strong>Write Blocker</strong></td><td>Hardware nebo software zabraňující jakémukoli zápisu na forenzně kopírované médium. Hardwarový (Tableau, WiebeTech) je spolehlivější. Nezbytný pro zachování integrity originálu.</td></tr>
+    <tr><td><strong>Bitstream Image (forenzní kopie)</strong></td><td>Bit-za-bitem kopie celého média včetně nealokovaného prostoru, smazaných dat a slack space. Liší se od zálohy souborů. Ověřena hash hodnotou (MD5/SHA-256).</td></tr>
+    <tr><td><strong>File Carving</strong></td><td>Obnova souborů z nealokovaného prostoru nebo z poškozeného FS na základě file signature (magic bytes) a struktury souboru — bez závislosti na FS záznamu.</td></tr>
+    <tr><td><strong>MFT (Master File Table)</strong></td><td>Centrální databáze NTFS — uchovává metadata každého souboru a složky (MACE timestamps, velikost, atributy, umístění datových clusterů). I po smazání souboru zůstává MFT záznam přítomen.</td></tr>
+    <tr><td><strong>USN Journal ($UsnJrnl:$J)</strong></td><td>NTFS change journal — sekvenční log každé operace se soubory (vytvoření, modifikace, smazání, přejmenování). Klíčový artefakt pro timeline analýzu.</td></tr>
+    <tr><td><strong>ADS (Alternate Data Streams)</strong></td><td>NTFS funkce umožňující ukládání dat ve více datových proudech na jeden soubor. Zneužíváno malwarem ke skrývání kódu — běžný dir výpis ADS nezobrazí.</td></tr>
+    <tr><td><strong>Slack Space</strong></td><td>Nevyužitý prostor v posledním clusteru souboru mezi koncem dat a koncem clusteru. Může obsahovat fragmenty starých dat z dříve uloženého souboru.</td></tr>
+    <tr><td><strong>NTFS</strong></td><td>New Technology File System — primární FS Windows. Klíčové forenzní struktury: MFT, $LogFile (FS journal), $Bitmap (alokace clusterů), $Extend (USN Journal, Quota, ObjId).</td></tr>
+    <tr><td><strong>Event ID 4624</strong></td><td>Windows Security Log — úspěšné přihlášení. Logon Type určuje metodu: 2=interaktivní, 3=síťové, 10=Remote Desktop, 7=odemčení. Klíčový pro rekonstrukci přístupu.</td></tr>
+    <tr><td><strong>Event ID 4625</strong></td><td>Windows Security Log — neúspěšné přihlášení. Kumulace 4625 ze stejné IP za krátký čas = brute-force útok. Sub Status Code upřesňuje důvod selhání (špatné heslo, neexistující účet).</td></tr>
+    <tr><td><strong>Event ID 4688</strong></td><td>Windows Security Log — vytvoření nového procesu. Obsahuje název spustitelného souboru, rodičovský proces, příkazovou řádku (pokud povolena). Klíčový pro detekci podezřelých spuštění.</td></tr>
+    <tr><td><strong>Kill Chain</strong></td><td>Lockheed Martin Cyber Kill Chain — model 7 fází útoku: Reconnaissance, Weaponization, Delivery, Exploitation, Installation, C&amp;C, Actions on Objectives. Přerušení libovolné fáze zastaví útok.</td></tr>
+    <tr><td><strong>IOC (Indicator of Compromise)</strong></td><td>Forenzní artefakt indikující proběhlé narušení — hash malwaru, C&amp;C IP, registry klíč, doménové jméno. Reaktivní — popisuje minulost. Sdílen přes STIX/TAXII.</td></tr>
+    <tr><td><strong>IOA (Indicator of Attack)</strong></td><td>Behaviorální indikátor probíhajícího nebo plánovaného útoku — nezávislý na konkrétním malwaru. Proaktivní — detekuje útok před kompromitací. Příklad: PowerShell jako child of Word.</td></tr>
+    <tr><td><strong>MITRE ATT&amp;CK</strong></td><td>Veřejná znalostní báze taktik a technik útočníků (14 taktik, stovky technik). Analytik mapuje nálezy na ATT&amp;CK pro atribuci a porozumění chování útočníka.</td></tr>
+    <tr><td><strong>TTP</strong></td><td>Tactics, Techniques, Procedures — popis chování útočníka. Odolnější vůči změně než IOC — útočník může změnit IP nebo hash, ale těžko změní celý TTP.</td></tr>
+    <tr><td><strong>SIEM</strong></td><td>Security Information and Event Management — centrální sběr, normalizace a korelace logů. Forenzní využití: retrospektivní dotazy, timeline rekonstrukce, detekční pravidla.</td></tr>
+    <tr><td><strong>Steganografie</strong></td><td>Technika ukrývání dat uvnitř jiných dat (cover medium) tak, aby existence skrytého obsahu nebyla patrná. LSB insertion je nejrozšířenější metoda pro obrázky.</td></tr>
+    <tr><td><strong>LSB Insertion</strong></td><td>Least Significant Bit — nahrazení nejméně významného bitu každého pixelu daty zprávy. Výsledný obraz vizuálně nerozlišitelný od originálu. Detekce: chi-square test, RS analysis.</td></tr>
+    <tr><td><strong>Steganalýza</strong></td><td>Detekce steganograficky ukrytého obsahu. Metody: statistická analýza (chi-square, RS), vizuální útok (zobrazení LSB roviny), entropy analýza, porovnání s originálem.</td></tr>
+    <tr><td><strong>Anti-forensics</strong></td><td>Techniky zničení, skrytí nebo znehodnocení digitálních stop. Zahrnuje disk wiping, šifrování, timestomping, log clearing, obfuskaci kódu, steganografii.</td></tr>
+    <tr><td><strong>DoD 5220.22-M</strong></td><td>Standard přepisování médií Ministerstva obrany USA — 7 průchodů (0x00, 0xFF, náhodná data, opakování, verifikace). Standard pro klasifikovaná média.</td></tr>
+    <tr><td><strong>Gutmann metoda</strong></td><td>35 průchodů přepsání dle specifických vzorců (Peter Gutmann, 1996). Původně pro MFM/RLL disky; pro moderní SSD a SATA překonána — NIST 800-88r1 doporučuje Cryptographic Erase.</td></tr>
+    <tr><td><strong>BitLocker</strong></td><td>Full-disk encryption Windows (AES-XTS 256 bit). Klíče chráněny TPM nebo TPM+PIN. Recovery Key (48 číslic) může být v AD nebo Microsoft Account. Forenzní přístup: recovery klíč přes AD nebo Memory Acquisition.</td></tr>
+    <tr><td><strong>VeraCrypt Hidden Volumes</strong></td><td>Plausible deniability — outer volume (heslo A) + hidden volume (heslo B) na stejném kontejneru. Existence hidden volume je matematicky neprokázatelná bez hesla B.</td></tr>
+    <tr><td><strong>Timestomping</strong></td><td>Manipulace MACE timestamps (Modified, Accessed, Created, Entry Modified) za účelem zakrytí aktivity. Detekce: nesoulad $STANDARD_INFORMATION vs. $FILE_NAME atributů v MFT.</td></tr>
+    <tr><td><strong>MACE atributy</strong></td><td>Modified, Accessed, Created, Entry Modified — čtyři timestamps NTFS souboru uložené v MFT. SI timestamps jsou uživatelsky modifikovatelné; FN timestamps modifikuje kernel.</td></tr>
+    <tr><td><strong>Log Clearing</strong></td><td>Smazání Windows Event Log (<code>wevtutil cl Security</code>) nebo Bash history (<code>history -c</code>). Detekce: Event ID 1102 (Security log cleared), 104 (System log cleared), mezery v sekvenci Event ID.</td></tr>
+    <tr><td><strong>AMSI</strong></td><td>Antimalware Scan Interface — Windows API pro skenování skriptů před spuštěním. Event ID 4104 (Script Block Logging) loguje deobfuskovaný PowerShell kód.</td></tr>
+    <tr><td><strong>Secure Enclave (SEP)</strong></td><td>iOS koprocesor spravující kryptografické operace a biometrickou autentizaci. Privátní klíče nikdy neopustí SEP. Dešifrování bez PINu prakticky nemožné.</td></tr>
+    <tr><td><strong>BFU / AFU</strong></td><td>Before First Unlock / After First Unlock — stavy iOS zařízení po restartu. BFU: šifrování Complete Protection platné, minimum přístupných dat. AFU: více dat dostupných po prvním odemčení.</td></tr>
+    <tr><td><strong>JTAG</strong></td><td>Joint Test Action Group — debug rozhraní na DPS mobilního zařízení. Umožňuje fyzickou extrakci flash paměti bez chip-off. Vyžaduje přístup k tesovacím bodům desky.</td></tr>
+    <tr><td><strong>Chip-off</strong></td><td>Fyzické vyjmutí flash čipu z DPS a přímé čtení obsahu čtečkou. Maximální objem dat, ale destruktivní metoda — riziko poškození čipu a ztráty důkazů.</td></tr>
+    <tr><td><strong>ADB (Android Debug Bridge)</strong></td><td>Android nástroj pro komunikaci se zařízením přes USB. Umožňuje logickou extrakci dat přes <code>adb backup</code>. Nevyžaduje root, ale obsah zálohy závisí na nastavení každé aplikace.</td></tr>
+    <tr><td><strong>Cloud Act (USA, 2018)</strong></td><td>Clarifying Lawful Overseas Use of Data Act — umožňuje americkým orgánům žádat data od US-based providerů i pokud jsou fyzicky uložena v EU. V konfliktu s GDPR (čl. 48 GDPR).</td></tr>
+    <tr><td><strong>FTK (Forensic Toolkit)</strong></td><td>Komerční forenzní sada (Exterro). Silné stránky: email parsing (PST/OST), password cracking (PRTK), Known File Filter, rychlá indexace. Databázové zpracování celého případu.</td></tr>
+    <tr><td><strong>EnCase</strong></td><td>Komerční forenzní platforma (OpenText). Průmyslový standard; vzdálená akvizice přes SAFE agent; E01 formát; eDiscovery integrace; Legal Hold funkce.</td></tr>
+    <tr><td><strong>E01 formát</strong></td><td>EnCase Evidence File — de-facto standard forenzního obrazu. Obsahuje bitstream + metadata + interní CRC kontrolu každého segmentu. Podporován téměř všemi forenzními nástroji.</td></tr>
+    <tr><td><strong>Autopsy</strong></td><td>Open-source forenzní platforma (The Sleuth Kit frontend). Modulární — Hash Lookup, File Type ID, Keyword Search, Recent Activity, EXIF Parser. Zdarma, vhodný pro výuku.</td></tr>
+    <tr><td><strong>The Sleuth Kit (TSK)</strong></td><td>Open-source C/C++ knihovna pro analýzu FS. Nástroje: fls, istat, blkcat, mmls, fsstat. Podporuje NTFS, FAT, ext, HFS+, APFS. Základ pro Autopsy.</td></tr>
+    <tr><td><strong>Volatility</strong></td><td>Open-source memory forensics framework (Python 3). Analýza RAM dumpu: procesy (pslist, psscan), síť (netscan), malware (malfind), DLL, registry. Verze 3 nevyžaduje manuální profil.</td></tr>
+    <tr><td><strong>pslist vs. psscan</strong></td><td>pslist prochází EPROCESS linked list (modifikovatelný rootkitem — DKOM). psscan skenuje fyzickou paměť na EPROCESS signatury — odhalí procesy skryté rootkitem. Nesoulad = indikátor rootkitu.</td></tr>
+    <tr><td><strong>malfind</strong></td><td>Volatility plugin — hledá injektovaný kód v paměti (oblasti s PAGE_EXECUTE_READWRITE a MZ/PE header bez odpovídajícího záznamu v DLL seznamu procesu).</td></tr>
+    <tr><td><strong>KAPE</strong></td><td>Kroll Artifact Parser and Extractor (Eric Zimmermann). Triage nástroj — rychlé shromáždění forenzních artefaktů (minuty vs. hodiny). Targets (co sbírat) + Modules (jak zpracovat).</td></tr>
+    <tr><td><strong>Prefetch</strong></td><td>Windows artefakt (<code>C:\Windows\Prefetch\</code>) — záznamy spuštěných programů s časem posledního a předchozích spuštění, seznam načtených DLL. Klíčový pro execution evidence.</td></tr>
+    <tr><td><strong>ShimCache / AmCache</strong></td><td>Windows artefakty záznamu spuštěných spustitelných souborů — ShimCache (AppCompatCache v Registry) a AmCache.hve soubor. Zachycují programy i bez přímého spuštění.</td></tr>
+    <tr><td><strong>Forenzní zpráva — struktura</strong></td><td>6 částí: Executive Summary, Metodika a nástroje, Chronologie incidentu, Nálezy (Findings), Závěry, Přílohy (hashe, logy, CoC). Jazyk neutrální, bez spekulací.</td></tr>
+    <tr><td><strong>Expert Witness</strong></td><td>Soudní znalec — osoba s odbornou kvalifikací oprávněná vyjádřit názor a závěry (nejen fakta) v soudním řízení. Musí být objektivní, přiznat nejistotu, odolat cross-examination.</td></tr>
+    <tr><td><strong>ACPO principy</strong></td><td>Association of Chief Police Officers — 4 principy pro digitální důkazy: 1) Nedotýkej se originálu, 2) Dokumentuj vše, 3) Audit trail, 4) Odpovědný vedoucí.</td></tr>
+    <tr><td><strong>CFCE / CCE / GCFE</strong></td><td>Certifikace forenzních analytiků: CFCE (IACIS), CCE (ISFCE), GCFE/GCFA (SANS/GIAC). Vyžadují etický závazek a průběžné vzdělávání (CPE).</td></tr>
+    <tr><td><strong>DKOM</strong></td><td>Direct Kernel Object Manipulation — rootkit technika modifikace EPROCESS linked list v jádru OS za účelem skrytí procesu. Detekovatelné přes psscan (fyzický sken paměti).</td></tr>
+    <tr><td><strong>Cellebrite UFED</strong></td><td>Universal Forensic Extraction Device — průmyslový standard pro mobilní forenziku. Podporuje logical, filesystem a fyzickou extrakci z tisíců modelů zařízení.</td></tr>
+    <tr><td><strong>MLAT</strong></td><td>Mutual Legal Assistance Treaty — mezinárodní smlouva o právní pomoci v trestních věcech. Základ pro cross-border získávání digitálních důkazů. Proces může trvat měsíce.</td></tr>
+    <tr><td><strong>GDPR a DFA</strong></td><td>Sběr digitálních důkazů zahrnujících osobní údaje musí mít právní základ (čl. 6 GDPR). Cross-border přenosy dat podléhají Kapitole V GDPR. DPO musí být zapojen.</td></tr>
+  </table>
+</section>
+
+</body>
+</html>
+
+

@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4SA420 Teorie systémů, kybernetika a etika IS – Učební podklady</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, sans-serif; font-size: 15px; line-height: 1.6; color: #111827; background: #f9fafb; -webkit-font-smoothing: antialiased; margin-left: 58px; }
+  #doc-nav { width: 50px; height: 100vh; position: fixed; left: 0; top: 0; z-index: 100; overflow: hidden; background: #fff; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; transition: width 0.32s cubic-bezier(0.4,0,0.2,1), box-shadow 0.32s; }
+  #doc-nav:hover { width: 240px; box-shadow: 6px 0 24px rgba(0,0,0,0.07); }
+  .nav-logo { padding: 14px 13px 12px; border-bottom: 1px solid #e5e7eb; white-space: nowrap; overflow: hidden; position: relative; }
+  .nav-code { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9ca3af; margin-bottom: 3px; }
+  .nav-subject { display: block; font-size: 13px; font-weight: 600; color: #111827; }
+  .nav-logo-icon { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-size: 16px; color: #1d4ed8; opacity: 0; transition: opacity 0.2s; }
+  .nav-logo-text { opacity: 1; transition: opacity 0.2s; }
+  #doc-nav:not(:hover) .nav-logo-icon { opacity: 1; }
+  #doc-nav:not(:hover) .nav-logo-text { opacity: 0; }
+  .nav-items { flex: 1; padding: 6px 0; overflow-y: auto; overflow-x: hidden; }
+  .nav-link { display: flex; align-items: center; gap: 8px; padding: 5px 12px; font-size: 12.5px; font-weight: 500; color: #374151; text-decoration: none; white-space: nowrap; overflow: hidden; transition: background 0.1s, color 0.1s; }
+  .nav-link:hover { background: #f3f4f6; color: #111827; }
+  .nav-link.active { background: #eff6ff; color: #1d4ed8; }
+  .nav-num { font-size: 9px; font-weight: 700; background: #1d4ed8; color: #fff; padding: 2px 5px; border-radius: 3px; flex-shrink: 0; min-width: 22px; text-align: center; }
+  .nav-label { max-width: 200px; overflow: hidden; white-space: nowrap; transition: max-width 0.28s, opacity 0.18s; }
+  #doc-nav:not(:hover) .nav-label { max-width: 0; opacity: 0; }
+  #doc-nav:not(:hover) .nav-link { padding-left: 4px; padding-right: 4px; justify-content: center; }
+  .hero { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 44px 56px 40px; }
+  .hero-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #94a3b8; margin-bottom: 12px; }
+  .hero-title { font-size: 40px; font-weight: 800; color: #0f172a; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 16px; }
+  .hero-desc { font-size: 15px; color: #64748b; max-width: 620px; line-height: 1.65; margin-bottom: 20px; }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+  .hero-pill { display: inline-block; padding: 4px 11px; border-radius: 20px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 500; }
+  .lecture { max-width: 820px; margin: 0 auto; padding: 48px 56px; border-bottom: 1px solid #f1f5f9; }
+  .lec-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; }
+  .lec-num { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: #1d4ed8; color: #fff; padding: 5px 9px; border-radius: 5px; flex-shrink: 0; margin-top: 2px; }
+  .lec-title { font-size: 22px; font-weight: 700; color: #0f172a; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .lec-subtitle { font-size: 13px; color: #64748b; }
+  h2 { font-size: 16px; font-weight: 700; color: #0f172a; margin: 28px 0 10px; padding-bottom: 6px; border-bottom: 1px solid #e5e7eb; }
+  h3 { font-size: 14px; font-weight: 700; color: #374151; margin: 20px 0 8px; }
+  p { margin-bottom: 14px; color: #374151; font-size: 14.5px; }
+  ul, ol { margin: 0 0 14px; padding-left: 22px; color: #374151; font-size: 14.5px; }
+  li { margin-bottom: 5px; }
+  strong { font-weight: 700; color: #0f172a; }
+  em { font-style: italic; color: #475569; }
+  .pojmy { display: grid; gap: 8px; margin: 14px 0 20px; }
+  .pojmy.two { grid-template-columns: 1fr 1fr; }
+  .pojmy.three { grid-template-columns: 1fr 1fr 1fr; }
+  .pojmy.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .pojmy.single { grid-template-columns: 1fr; }
+  .pojem { border-radius: 8px; padding: 14px 16px; border: 1px solid; }
+  .pojem.blue { background: #eff6ff; border-color: #bfdbfe; }
+  .pojem.green { background: #f0fdf4; border-color: #bbf7d0; }
+  .pojem.orange { background: #fff7ed; border-color: #fed7aa; }
+  .pojem.purple { background: #faf5ff; border-color: #ddd6fe; }
+  .pojem.red { background: #fff1f2; border-color: #fecdd3; }
+  .pojem-head { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 7px; }
+  .pojem.blue .pojem-head { color: #1d4ed8; }
+  .pojem.green .pojem-head { color: #15803d; }
+  .pojem.orange .pojem-head { color: #c2410c; }
+  .pojem.purple .pojem-head { color: #6d28d9; }
+  .pojem.red .pojem-head { color: #be123c; }
+  .pojem-body { font-size: 13.5px; line-height: 1.55; color: #374151; }
+  .tip { background: #fefce8; border-left: 3px solid #eab308; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #713f12; line-height: 1.6; }
+  .callout { background: #f0f9ff; border-left: 3px solid #0ea5e9; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #0c4a6e; line-height: 1.6; }
+  .warn { background: #fff1f2; border-left: 3px solid #f43f5e; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #9f1239; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 13.5px; }
+  th { background: #f8fafc; font-weight: 600; text-align: left; padding: 8px 10px; border: 1px solid #e5e7eb; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  td { padding: 8px 10px; border: 1px solid #e5e7eb; vertical-align: top; color: #374151; }
+  tr:nth-child(even) td { background: #fafafa; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 4px; margin-right: 4px; }
+  .tag.blue { background: #dbeafe; color: #1e40af; }
+  .tag.green { background: #dcfce7; color: #166534; }
+  .tag.orange { background: #ffedd5; color: #9a3412; }
+  .tag.red { background: #ffe4e6; color: #9f1239; }
+  .tag.gray { background: #f1f5f9; color: #475569; }
+</style>
+</head>
+<body>
+
+<nav id="doc-nav">
+  <div class="nav-logo">
+    <span class="nav-logo-icon">&#9670;</span>
+    <span class="nav-logo-text">
+      <span class="nav-code">4SA420</span>
+      <span class="nav-subject">Teorie systémů + Etika</span>
+    </span>
+  </div>
+  <div class="nav-items">
+    <a class="nav-link" href="#p1"><span class="nav-num">P1</span><span class="nav-label">Teorie systémů (hard)</span></a>
+    <a class="nav-link" href="#p2"><span class="nav-num">P2</span><span class="nav-label">Kybernetika a SSM</span></a>
+    <a class="nav-link" href="#p3"><span class="nav-num">P3</span><span class="nav-label">Komplexita a DSR</span></a>
+    <a class="nav-link" href="#p4"><span class="nav-num">P4</span><span class="nav-label">Etika IS</span></a>
+    <a class="nav-link" href="#p5"><span class="nav-num">P5</span><span class="nav-label">Informační společnost</span></a>
+    <a class="nav-link" href="#p6"><span class="nav-num">P6</span><span class="nav-label">Systémová dynamika</span></a>
+    <a class="nav-link" href="#pojmy"><span class="nav-num">&#9733;</span><span class="nav-label">Klíčové pojmy</span></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">4SA420 · doc. Sigmund · Teorie systémů a informační etika</div>
+  <div class="hero-title">Teorie systémů, kybernetika a etika IS</div>
+  <div class="hero-desc">Od Bertalanffyho obecné teorie systémů přes Checklandovu SSM, kybernetiku Beera a teorii komplexity až po GDPR, Mason PAPA a EU AI Act. Kompletní příprava na státní zkoušku.</div>
+  <div class="hero-pills">
+    <span class="hero-pill">GST · Bertalanffy</span>
+    <span class="hero-pill">SSM · CATWOE</span>
+    <span class="hero-pill">VSM · Beer</span>
+    <span class="hero-pill">Senge 5 disciplín</span>
+    <span class="hero-pill">Cynefin · Snowden</span>
+    <span class="hero-pill">Mason PAPA</span>
+    <span class="hero-pill">GDPR 8 práv</span>
+    <span class="hero-pill">EU AI Act</span>
+  </div>
+</div>
+
+<!-- ============================================================ P1 ============================================================ -->
+<section class="lecture" id="p1">
+  <div class="lec-header">
+    <div class="lec-num">P1</div>
+    <div>
+      <div class="lec-title">Teorie systémů — hard systems thinking</div>
+      <div class="lec-subtitle">GST, typy systémů, zpětná vazba, emergence, systémová dynamika, systémové archetypy, Senge 5 disciplín</div>
+    </div>
+  </div>
+
+  <h2>Obecná teorie systémů — Ludwig von Bertalanffy (1968)</h2>
+  <p><strong>Obecná teorie systémů</strong> (General Systems Theory, GST) hledá principy platné napříč vědními disciplínami — biologie, fyzika, sociologie, management. Bertalanffy reakce na redukcionismus: celek nelze pochopit pouhým rozložením na části.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Otevřený systém</div>
+      <div class="pojem-body">Vyměňuje hmotu, energii a informace s okolím. Typické: živé organismy, firmy, IS. Udržuje se <strong>negentropií</strong> — přijímá energii, udržuje vnitřní řád navzdory tendenci ke ztrátě uspořádání. Vlastnost: <strong>ekvifinalita</strong> — různé cesty vedou ke stejnému výsledku.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Uzavřený systém</div>
+      <div class="pojem-body">Nevyměňuje s okolím hmotu ani energii. Fyzikální ideál (termostat v izolaci). V praxi pouze <strong>polouzavřené</strong> systémy — omezená výměna. Tendence k entropii — bez vnějšího přísunu energie systém směřuje k dezorganizaci.</div>
+    </div>
+  </div>
+
+  <h3>6 komponent systému</h3>
+  <table>
+    <tr><th>Komponenta</th><th>Popis</th><th>Příklad v IS</th></tr>
+    <tr><td><strong>Vstupy</strong></td><td>Zdroje, data, požadavky přijímané ze systémem</td><td>Zákaznická objednávka v ERP</td></tr>
+    <tr><td><strong>Procesy</strong></td><td>Transformace vstupů na výstupy</td><td>Zpracování objednávky, workflow</td></tr>
+    <tr><td><strong>Výstupy</strong></td><td>Výsledky transformace předané do okolí</td><td>Faktura, reporty, zásilka</td></tr>
+    <tr><td><strong>Zpětná vazba</strong></td><td>Informace o výstupech sloužící k regulaci</td><td>KPI dashboard, monitoring SLA</td></tr>
+    <tr><td><strong>Prostředí (okolí)</strong></td><td>Vše vně hranice systému, co systém ovlivňuje nebo co systém ovlivňuje</td><td>Legislativa GDPR, konkurence, trh</td></tr>
+    <tr><td><strong>Hranice</strong></td><td>Myšlená čára oddělující systém od okolí; určena účelem modelu a pozorovatelem</td><td>Hranice IS: jaké moduly zahrnout?</td></tr>
+  </table>
+
+  <h2>Typy systémů — 4 kategorie</h2>
+  <table>
+    <tr><th>Typ</th><th>Charakteristika</th><th>Příklad IS/IT</th></tr>
+    <tr><td><strong>Mechanický</strong></td><td>Deterministický, uzavřený, pevná pravidla, předvídatelný</td><td>Algoritmus řazení, automat stavů, BPMN workflow</td></tr>
+    <tr><td><strong>Adaptivní</strong></td><td>Otevřený, reaguje na prostředí, mění chování podle zpětné vazby</td><td>Spam filter s ML, reklamní systém cílení</td></tr>
+    <tr><td><strong>Sociální</strong></td><td>Seskupení lidí se sdílenými cíli, normami, hodnotami; komplexní, nepředvídatelný</td><td>Uživatelská komunita, scrum tým, sdílení znalostí</td></tr>
+    <tr><td><strong>Sociotechnický</strong></td><td>Kombinace lidí, technologií, procesů a organizačního kontextu; nejkomplexnější</td><td>ERP implementace, nemocniční IS, e-government platforma</td></tr>
+  </table>
+  <div class="callout"><strong>Sociotechnický pohled</strong> (Emery, Trist) říká: technologická optimalizace nestačí — klíčové jsou lidské a organizační komponenty stejně jako technické. Implementace IS, která zanedbá sociální subsystém, selže.</div>
+
+  <h2>Zpětná vazba (Feedback)</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Negativní zpětná vazba (vyrovnávací)</div>
+      <div class="pojem-body"><strong>Stabilizuje systém</strong> — vrací ho k cílovému stavu. Odchylka od cíle spouští akci, která odchylku snižuje.<br><br>Příklady: termostat (chlad → topení → teplota roste → topení se vypíná), hladina zásob (pokles → objednávka), PID regulátor v IT infrastruktuře.<br><br>V SD: <strong>B-smyčka</strong> (Balancing). Symbol: (<strong>B</strong>) v CLD diagramu.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Pozitivní zpětná vazba (posilující)</div>
+      <div class="pojem-body"><strong>Zesiluje odchylku</strong> — vede k exponenciálnímu růstu nebo kolapsu. Neomezená pozitivní ZV je nestabilní.<br><br>Příklady: virální šíření obsahu (více uživatelů → více obsahu → více uživatelů), bankovní panika, síťový efekt platformy, spekulativní bublina.<br><br>V SD: <strong>R-smyčka</strong> (Reinforcing). Symbol: (<strong>R</strong>) v CLD diagramu.</div>
+    </div>
+  </div>
+
+  <h2>Emergence — emergentní vlastnosti</h2>
+  <p><strong>Emergence</strong> = vlastnosti celku, které nelze odvodit z vlastností izolovaných prvků. Celek je více než součet částí — ale také méně: izolovaná část ztrácí funkci, kterou měla jako součást celku.</p>
+  <ul>
+    <li>Mokrost vody — H<sub>2</sub>O molekula není „mokrá", mokrost vzniká interakcí mnoha molekul</li>
+    <li>Vědomí — vzniká z miliard neuronů, ale z jednoho neuronu nelze odvodit</li>
+    <li>IS bezpečnost — zabezpečená síť + nezabezpečená lidská stránka = celkově nezabezpečený systém</li>
+    <li>Firemní kultura — vzniká z interakcí lidí, nelze ji „nainstalovat" direktivně</li>
+    <li>Výkonnost ERP — neplyne ze samotné funkcionalitosti softwaru, závisí na procesech, datech, školení uživatelů</li>
+  </ul>
+  <div class="tip"><strong>Na zkoušce:</strong> Emergence a zpětná vazba jsou nejčastěji zkoušené koncepty z P1. Uveďte vždy konkrétní příklad z IS/IT kontextu — nebude stačit jen termostat.</div>
+
+  <h2>Systémová dynamika — Jay W. Forrester (MIT, 1961)</h2>
+  <p>Forrester přinesl metodu <strong>počítačového modelování sociálních a organizačních systémů</strong>. Klíčové stavební bloky:</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Stocks (zásoby / stavy)</div>
+      <div class="pojem-body">Množství prvku naakumulovaného v systému v čase. Mění se pomalostí. Symboly: obdélník v SFD diagramu.<br>Příklady: počet zákazníků, objem zásob, výše dluhu, počet znalostí zaměstnanců.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Flows (toky)</div>
+      <div class="pojem-body">Rychlost, s jakou se zásoby mění. Symboly: šipka s ventilem v SFD.<br>Příklady: míra náboru zaměstnanců, prodejní obrat, míra zapomínání znalostí.</div>
+    </div>
+  </div>
+  <p><strong>Causal Loop Diagrams (CLD)</strong> — diagramy příčinných smyček: ukazují, jak proměnné ovlivňují jedna druhou (znaménko + nebo −). R-smyčky (posilující) a B-smyčky (vyrovnávací) tvoří základní stavební bloky struktur.</p>
+
+  <h3>Systémové archetypy (Senge, 1990)</h3>
+  <table>
+    <tr><th>Archetyp</th><th>Popis</th><th>IS/IT příklad</th></tr>
+    <tr><td><strong>Limits to Growth (Meze růstu)</strong></td><td>Posilující smyčka naráží na vyrovnávací omezení. Zpomalení růstu nebo kolaps.</td><td>Startup s virálem naráží na kapacitní limity infrastruktury → výpadky → ztráta uživatelů</td></tr>
+    <tr><td><strong>Shifting the Burden (Přesun břemene)</strong></td><td>Rychlá symptomatická oprava oddálí (a zhoršuje) nutnost fundamentálního řešení.</td><td>Záplatování legacy systému místo refaktoringu — záplaty narůstají, technický dluh roste</td></tr>
+    <tr><td><strong>Tragedy of the Commons (Tragédie společného)</strong></td><td>Partneři sledující vlastní zájem poškozují sdílený zdroj.</td><td>Sdílené datové centrum — každý tým bere šířku pásma na maximum, celkový výkon klesá</td></tr>
+    <tr><td><strong>Fixes that Fail (Nápravy, které se vymstí)</strong></td><td>Řešení má nezamýšlené vedlejší efekty, které situaci zhoršují.</td><td>Outsourcing IT za účelem úspor → ztráta interních znalostí → dražší závislost na dodavateli</td></tr>
+    <tr><td><strong>Escalation (Eskalace)</strong></td><td>Dvě strany se navzájem posilují v soutěži.</td><td>Ceny SaaS: firma A zdraží → firma B zdraží → zákazníci uvěznění ve smlouvách</td></tr>
+  </table>
+
+  <h2>Pátá disciplína — Peter Senge (1990)</h2>
+  <p>Senge postavil systémové myšlení jako <strong>páteřní disciplínu</strong> (<em>the fifth discipline</em>) učící se organizace. Bez systémového myšlení ostatní disciplíny nefungují celistvě.</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">1. Systémové myšlení</div>
+      <div class="pojem-body">Vidět vztahy, ne lineární příčiny. Smyčky, struktury, archetypy. Základní disciplína vázající ostatní dohromady.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">2. Osobní mistrovství</div>
+      <div class="pojem-body">Kontinuální rozvoj osobní vize a dovedností. Tvůrčí napětí mezi vizí a skutečností.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">3. Mentální modely</div>
+      <div class="pojem-body">Uvědomit si a zpochybňovat vnitřní předpoklady a předsudky, které řídí vnímání. Žebřík inference.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">4. Sdílená vize</div>
+      <div class="pojem-body">Budování kolektivní vize, ke které se lidé zavazují z vlastní vůle — ne ze strachu. Hologram: každá část obsahuje celek.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">5. Týmové učení</div>
+      <div class="pojem-body">Dialog vs. diskuse: dialog = společné zkoumání, diskuse = obhajoba pozic. Odhalování a překonávání obranných rutin.</div>
+    </div>
+  </div>
+  <div class="warn"><strong>Nejčastější chyba:</strong> Senge = systémová dynamika ≠ Forrester. Senge je management/organizační teorie — Forrester je matematické modelování. Senge se odkazuje na Forrestera, ale jde o jiný přístup.</div>
+
+  <h3>Myšlení tvrdých systémů — kritika (Checkland)</h3>
+  <p>Checkland (1981) pojmenoval přístup <strong>hard systems thinking</strong> jako paradigma vhodné pro <em>dobře strukturované problémy</em>: existuje jasný cíl (stav S1), existuje výchozí stav (S0), úkolem je najít nejefektivnější cestu z S0 do S1. Metody: operační výzkum, systémová analýza, systémové inženýrství.</p>
+  <p><strong>Omezení hard přístupu:</strong> Selhává, když cíl není jasný, aktéři mají různé pohledy na problém, situace vyžaduje radikální změnu nebo je problém „messy" (špatně strukturovaný).</p>
+</section>
+
+<!-- ============================================================ P2 ============================================================ -->
+<section class="lecture" id="p2">
+  <div class="lec-header">
+    <div class="lec-num">P2</div>
+    <div>
+      <div class="lec-title">Kybernetika a měkká systémová metodologie (SSM)</div>
+      <div class="lec-subtitle">Wiener, Beer VSM, Checkland SSM, CATWOE, Rich Picture, hard vs. soft srovnání</div>
+    </div>
+  </div>
+
+  <h2>Kybernetika — Norbert Wiener (1948)</h2>
+  <p><strong>Kybernetika</strong> (z řec. <em>kybernetes</em> — kormidelník) je věda o <strong>řízení a komunikaci</strong> ve strojích a živých organismech. Wienerova kniha <em>Cybernetics: Control and Communication in the Animal and the Machine</em> (1948) definovala základy oboru.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">1. řád kybernetiky (Wiener)</div>
+      <div class="pojem-body">Pozorovatel stojí mimo systém a systém objektivně popisuje. Feedback, homeostáza, black box. Cíl: řídit výstupy prostřednictvím vstupů. Typické pro strojové systémy — <strong>řídíme výstupy</strong>.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">2. řád kybernetiky (Maturana, Foerster)</div>
+      <div class="pojem-body">Pozorovatel je součástí systému — nelze oddělit. Autopoiesis (sebereprodukce), operační uzavřenost. Systém sám definuje svou identitu. Klíčový pro organizační kybernetiku a SSM.</div>
+    </div>
+  </div>
+  <p><strong>Homeostáza</strong> = tendence živého nebo řízeného systému udržovat vnitřní rovnováhu navzdory změnám vnějšího prostředí. Mechanismus: negativní zpětná vazba. Příklad IS: autoscaling cloudové infrastruktury udržuje latenci v mezích bez ručního zásahu.</p>
+  <p><strong>Zákon nutné variety (Ashby, 1956)</strong>: "Jen variety může zničit varietu." Řídicí systém musí mít stejnou nebo vyšší varietu (počet možných stavů) jako řízený systém. Důsledek pro management: silně různorodé prostředí vyžaduje decentralizaci nebo zvýšení rozmanitosti managementu.</p>
+
+  <h2>Beer — Viable System Model (VSM)</h2>
+  <p><strong>Stafford Beer</strong> (1926–2002) — britský kybernetik, autor VSM. Princip <strong>POSIWID</strong>: <em>The purpose of a system is what it does</em> — skutečný účel systému určuje jeho reálné chování, ne formální deklarace.</p>
+  <p>VSM je strukturální model životaschopné organizace inspirovaný lidským nervovým systémem. Klíčový princip: <strong>rekurze</strong> — každá výkonná jednotka S1 je sama životaschopným systémem se stejnou strukturou jako celek (matrjoška, ne hierarchie).</p>
+
+  <table>
+    <tr><th>Systém</th><th>Funkce</th><th>Analogie v těle</th><th>IS příklad</th></tr>
+    <tr><td><strong>S1 — Implementace</strong></td><td>Provádění primárních činností. Přímý kontakt s prostředím. Maximální autonomie v rámci celopodnikové politiky.</td><td>Svaly, orgány</td><td>Obchodní divize, výrobní závod, IT tým</td></tr>
+    <tr><td><strong>S2 — Koordinace</strong></td><td>Zajišťuje harmonii mezi jednotkami S1. Pravidla, standardy, harmonogramy — brání konfliktům. Nesmí mít příkazovou pravomoc nad S1.</td><td>Míšní reflexy</td><td>Sdílené procesy (HR politiky, finanční pravidla, data governance)</td></tr>
+    <tr><td><strong>S3 — Operativní kontrola</strong></td><td>Řízení a optimalizace současného provozu. Vyjednává zdroje s S1. Implementuje politiku S5. Má přístup ke kanálu S3* (audit) pro přímou kontrolu S1.</td><td>Bazální ganglia, limbický systém</td><td>Provozní management, IT operations, SLA reporting</td></tr>
+    <tr><td><strong>S4 — Inteligence / Vývoj</strong></td><td>Sleduje vnější prostředí a budoucí trendy. Spojuje S3 s vnějškem. Pomáhá adaptaci. Slabý S4 způsobí, že S5 sklouzne na operativní úroveň.</td><td>Oči, uši — smyslové orgány + plánování</td><td>Strategické plánování IT, monitoring trhu, R&amp;D</td></tr>
+    <tr><td><strong>S5 — Politika</strong></td><td>Vyjadřuje identitu a hodnoty celého systému. Vyrovnává napětí mezi S3 (nyní) a S4 (budoucnost). Určuje normy a rámce.</td><td>Prefrontální kůra mozku</td><td>Board, vrcholový management, IT governance council</td></tr>
+  </table>
+  <div class="callout"><strong>Diagnostika VSM:</strong> Nejčastější patologie — S2 se stane byrokratickým strašákem místo koordinátora; S4 je slabý (strategie chybí); S5 sklouzne na každodenní operativu S3 a ztratí nadhled. Informační systém by měl redukovat varietu, s níž se manažeři potýkají — hlásit jen odchylky od plánu.</div>
+
+  <h2>Checkland — Soft Systems Methodology (SSM)</h2>
+  <p>SSM je metodologie pro <strong>špatně strukturované (messy) problémy</strong>, kde různí aktéři vnímají situaci odlišně a neexistuje jeden objektivní cíl. Sytémy nejsou objektivní entitty — jsou to <strong>mentální konstrukty</strong> účastníků. Cílem SSM není najít optimální řešení, ale strukturovat učení a debatu vedoucí k <em>systémově žádoucím a kulturně proveditelným změnám</em>.</p>
+
+  <h3>7 kroků SSM</h3>
+  <ol>
+    <li><strong>Krok 1 — Nalezení problémové situace:</strong> Vstup do organizace, rozhovory, pozorování. Neformulovat problém příliš brzy.</li>
+    <li><strong>Krok 2 — Rich Picture (Bohatý obrázek):</strong> Vizuální zachycení situace — lidé, struktury, procesy, konflikty, klima, mocenské vztahy. Záměrně nestrukturované.</li>
+    <li><strong>Krok 3 — Root Definitions (Kořenové definice):</strong> Formulace relevantních systémů lidské aktivity z různých perspektiv (Weltanschauungen). Každá kořenová definice popisuje: <em>Systém, který dělá X pomocí Y, aby Z.</em></li>
+    <li><strong>Krok 4 — Conceptual Models (Konceptuální modely):</strong> Minimální set aktivit nutných k provedení transformace popsané v kořenové definici. 7 ± 2 aktivit v imperativu.</li>
+    <li><strong>Krok 5 — Srovnání modelů s realitou:</strong> Diskuse — co existuje, co chybí, co se chová jinak? Nestrukturovaná nebo strukturovaná diskuse s maticí aktivit.</li>
+    <li><strong>Krok 6 — Žádoucí a proveditelné změny:</strong> Syntéza výsledků srovnání — co je systémově žádoucí a zároveň kulturně, politicky a prakticky realizovatelné.</li>
+    <li><strong>Krok 7 — Akce vedoucí ke zlepšení situace:</strong> Implementace změn. Proces je iterativní — jedno řešení otevírá nové problémy.</li>
+  </ol>
+
+  <h3>CATWOE analýza</h3>
+  <p>CATWOE je mnemotechnika pro prvky kořenové definice. Každá perspektiva má vlastní CATWOE — stejná transformace může mít různé zákazníky nebo vlastníky:</p>
+  <table>
+    <tr><th>Písmeno</th><th>Prvek</th><th>Otázka</th><th>Příklad: implementace ERP</th></tr>
+    <tr><td><strong>C</strong></td><td>Customers (Zákazníci)</td><td>Kdo má prospěch (nebo škodu) z transformace?</td><td>Koncoví uživatelé, management, zákazníci firmy</td></tr>
+    <tr><td><strong>A</strong></td><td>Actors (Aktéři)</td><td>Kdo transformaci provádí?</td><td>IT tým, implementační partner, klíčoví uživatelé</td></tr>
+    <tr><td><strong>T</strong></td><td>Transformation (Transformace)</td><td>Co se vstupem transformuje na výstup?</td><td>Fragmentované procesy → integrované, sdílené procesy</td></tr>
+    <tr><td><strong>W</strong></td><td>Weltanschauung (Světonázor)</td><td>Jaký předpoklad dává transformaci smysl?</td><td>Sdílené a aktuální dat zvyšují efektivitu rozhodování</td></tr>
+    <tr><td><strong>O</strong></td><td>Owner (Vlastník)</td><td>Kdo může systém zastavit nebo zrušit?</td><td>CFO, steering committee, CEO</td></tr>
+    <tr><td><strong>E</strong></td><td>Environment (Prostředí)</td><td>Co ovlivňuje systém zvenčí, ale není pod jeho kontrolou?</td><td>Legislativa, odvětvové standardy, dostupnost IT talentů</td></tr>
+  </table>
+  <div class="tip"><strong>Tip:</strong> CATWOE začínejte od T (Transformace) — definuje podstatu. Pak doplňte C, A, W, O, E. Sложky by měly mít srovnatelný rozsah. Rozšíření: BATWOVE přidává B (Beneficiaries) a V (Victims/oběti transformace).</div>
+
+  <h3>Rich Picture — co to je a proč se používá</h3>
+  <p><strong>Rich Picture</strong> je neformální, vizuální znázornění problémové situace. Obsahuje lidi, role, aktivity, procesy, konflikty, struktury, klima a nejasnosti. Záměrně se vyhýbá předčasné strukturaci — zachycuje komplexitu a mnohoznačnost tak, jak ji vnímají různí aktéři.</p>
+  <p>Používá se v kroku 2 SSM. Klíčová hodnota: otevírá diskusi, zachycuje věci, které formální diagramy vynechávají (konflikty, mocenské vztahy, neformální komunikace).</p>
+
+  <h2>Srovnání: Hard vs. Soft Systems Thinking</h2>
+  <table>
+    <tr><th>Dimenze</th><th>Hard Systems Thinking</th><th>Soft Systems Thinking (SSM)</th></tr>
+    <tr><td><strong>Typ problému</strong></td><td>Dobře strukturovaný, jasný cíl</td><td>Špatně strukturovaný, „messy", různé pohledy</td></tr>
+    <tr><td><strong>Cíl</strong></td><td>Najít optimální řešení (S0 → S1)</td><td>Strukturovat učení a debatu</td></tr>
+    <tr><td><strong>Paradigma</strong></td><td>Funkcionalistické, objektivistické</td><td>Interpretativní, konstruktivistické</td></tr>
+    <tr><td><strong>Role systémů</strong></td><td>Objektivní entity v reálném světě</td><td>Mentální konstrukty účastníků</td></tr>
+    <tr><td><strong>Role lidí</strong></td><td>Řízené součástky systému</td><td>Aktéři s vlastními hodnotami a perspektivami</td></tr>
+    <tr><td><strong>Výstup</strong></td><td>Optimalizovaný model, implementace</td><td>Žádoucí a proveditelné změny</td></tr>
+    <tr><td><strong>Metody</strong></td><td>Matematické modely, operační výzkum, simulace</td><td>Rich Picture, CATWOE, konceptuální modely, diskuse</td></tr>
+    <tr><td><strong>Kritika</strong></td><td>Redukuje komplexitu, ignoruje různé pohledy</td><td>Omezená při konfliktu, potřeba jiných metod pro technický design</td></tr>
+  </table>
+</section>
+
+<!-- ============================================================ P3 ============================================================ -->
+<section class="lecture" id="p3">
+  <div class="lec-header">
+    <div class="lec-num">P3</div>
+    <div>
+      <div class="lec-title">Teorie komplexity a Design Science Research</div>
+      <div class="lec-subtitle">CAS, Cynefin (Snowden), DSR Hevner, Peffers DSRM</div>
+    </div>
+  </div>
+
+  <h2>Komplexní adaptivní systémy (CAS)</h2>
+  <p>CAS jsou systémy složené z mnoha autonomních agentů, kteří interagují lokálně a vytvářejí emergentní globální chování. Nelze je předvídat ani řídit centrálně.</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Emergence</div>
+      <div class="pojem-body">Globální vzorce vznikají z lokálních interakcí bez centrálního řízení. Nelze je odvodit z vlastností jednotlivých agentů.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Samoorganizace</div>
+      <div class="pojem-body">Systém sám vytváří strukturu a řád bez externího návrhu. Podmínka: dostatečná autonomie agentů a zpětná vazba.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Nelinearita</div>
+      <div class="pojem-body">Malá příčina → velký efekt (butterfly effect, Lorenz 1963). Systém citlivý na počáteční podmínky. Dlouhodobá předpověď je nemožná.</div>
+    </div>
+  </div>
+  <p><strong>Příklady CAS v IT:</strong> internetová komunita Wikipedie (samoorganizace bez redakce), open-source ekosystém, trhy s kryptoměnami, šíření malware, formování online komunit, chování zákazníků na platformách.</p>
+  <p><strong>Teorie chaosu:</strong> Lorenzův efekt motýlích křídel (1963) — i v chaosu existuje řád: systémy sledují vzorce (<em>atraktory</em>), ale jejich přesná trajektorie je nepředvídatelná. Přechod ke komplexitě: 70. léta Santa Fe Institute — sociální systémy jako komplexní vyvíjející se systémy.</p>
+  <p><strong>Atraktory:</strong> Vzorce, kolem nichž se chování systému pohybuje. Nalezení dominantního atraktoru (kultura, pravidla, mocenské vztahy) a jeho změna pomocí malých intervencí je klíčová manažerská praxe v CAS prostředí.</p>
+
+  <h2>Cynefin Framework — Dave Snowden (2002)</h2>
+  <p>Cynefin (velšsky: místo, kde patříme) je framework pro kontextuální rozhodování. Pomáhá manažerům identifikovat, v jaké doméně se nacházejí, a zvolit odpovídající přístup.</p>
+  <table>
+    <tr><th>Doména</th><th>Charakteristika</th><th>Přístup</th><th>Chyba — Anti-pattern</th></tr>
+    <tr><td><strong>Clear (Zřejmá)</strong> <span class="tag blue">dříve: Obvious</span></td><td>Příčiny a efekty jsou zřejmé. Osvědčené postupy (best practices) fungují. Opakující se rutinní problémy.</td><td>Sense → Categorize → Respond. Použít SOP.</td><td>Přehnané zjednodušení komplexní situace</td></tr>
+    <tr><td><strong>Complicated (Komplikovaná)</strong></td><td>Existuje správná odpověď, ale vyžaduje expertízu k analýze. Příčiny jsou skryté, ale zjistitelné.</td><td>Sense → Analyze → Respond. Zavolat experta.</td><td>Analytická paralýza; přehlédnutí intuice praktika</td></tr>
+    <tr><td><strong>Complex (Komplexní)</strong></td><td>Příčiny a efekty jsou poznatelné jen zpětně. Emergentní vzorce. Experimenty nezbytné.</td><td>Probe → Sense → Respond. Bezpečné experimenty, amplifikovat co funguje.</td><td>Aplikace osvědčených postupů bez testování</td></tr>
+    <tr><td><strong>Chaotic (Chaotická)</strong></td><td>Žádné kauzální vztahy nejsou zřejmé. Krize, nutnost okamžité akce.</td><td>Act → Sense → Respond. Stabilizovat, pak zjistit, co funguje.</td><td>Hledání konsensu, analýza — přitom je nutná akce</td></tr>
+    <tr><td><strong>Confused (Zmátená)</strong></td><td>Nevíme, ve které doméně jsme. Střed rámce.</td><td>Rozdělit situaci, identifikovat subproblémy, přiřadit do domén.</td><td>Ignorovat neurčitost a postupovat mechanicky</td></tr>
+  </table>
+  <div class="callout"><strong>Cynefin v IS/IT praxi:</strong> Provozní incident v datovém centru = Chaotic (akce first). Optimalizace databázového indexování = Complicated (analytik/DBA). Zavádění nové digitální platformy = Complex (piloty, experimenty). Standardní helpdesk workflow = Clear.</div>
+
+  <h2>Design Science Research (DSR) — Hevner et al. (2004)</h2>
+  <p>DSR je paradigma výzkumu v informačních systémech zaměřené na <strong>tvorbu a hodnocení artefaktů</strong> (konstruktů, modelů, metod, instanciací) s cílem řešit reálné problémy organizací.</p>
+  <p>Klíčová reference: <strong>Hevner, March, Park, Ram (2004)</strong> — <em>Design Science in Information Systems Research</em>, MIS Quarterly.</p>
+
+  <h3>Hevnerovy 7 guidelines DSR</h3>
+  <ol>
+    <li><strong>Design as an Artefact</strong> — DSR musí produkovat realizovatelný artefakt (konstrukt, model, metodu nebo instanciaci).</li>
+    <li><strong>Problem Relevance</strong> — Cílem je řešit relevantní a důležité problémy praxe.</li>
+    <li><strong>Design Evaluation</strong> — Artefakt musí být rigorózně evaluován ve vztahu k problému. Metody: case study, experiment, simulace, pole.</li>
+    <li><strong>Research Contributions</strong> — Jasné přínosy: nový artefakt, nová metodologie, nová teorie.</li>
+    <li><strong>Research Rigor</strong> — Aplikace rigorózních metod jak při tvorbě, tak evaluaci artefaktu.</li>
+    <li><strong>Design as a Search Process</strong> — Hledání efektivního řešení pomocí dostupných prostředků.</li>
+    <li><strong>Communication of Research</strong> — Výsledky musí být srozumitelně komunikovány jak akademické, tak manažerské/praktické komunitě.</li>
+  </ol>
+
+  <h3>Typy DSR artefaktů</h3>
+  <div class="pojmy four">
+    <div class="pojem blue">
+      <div class="pojem-head">Konstrukt</div>
+      <div class="pojem-body">Pojmový slovník oboru (ontologie, pojmy). Př.: taxonomie rizik IS, pojmový rámec IS bezpečnosti.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Model</div>
+      <div class="pojem-body">Reprezentace designu v abstraktní formě. Př.: ERD datový model, referenční architektura, procesní model.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Metoda</div>
+      <div class="pojem-body">Postup řešení (algoritmus, guidelines). Př.: metodika implementace ERP, bezpečnostní audit framework.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Instanciace</div>
+      <div class="pojem-body">Realizovaný systém nebo prototyp. Př.: funkční prototyp aplikace, implementovaný IS.</div>
+    </div>
+  </div>
+
+  <h3>Hevnerův výzkumný cyklus — tři cykly</h3>
+  <table>
+    <tr><th>Cyklus</th><th>Název</th><th>Co propojuje</th></tr>
+    <tr><td><strong>1.</strong></td><td>Relevance Cycle</td><td>Aplikační prostředí (organizace, problémy) ↔ DSR výzkum. Zajišťuje relevanci pro praxi.</td></tr>
+    <tr><td><strong>2.</strong></td><td>Rigor Cycle</td><td>Znalostní báze (teorie, metody, artefakty) ↔ DSR výzkum. Zajišťuje akademickou rigoróznost.</td></tr>
+    <tr><td><strong>3.</strong></td><td>Design Cycle</td><td>Interní iterativní cyklus: návrh artefaktu → evaluace → zpřesnění. Jádro DSR.</td></tr>
+  </table>
+
+  <h2>Peffers — DSR Methodology (DSRM, 2007)</h2>
+  <p>Peffers et al. (2007) navrhli šestikrokový procesní model DSR aplikovatelný na jakýkoliv IS výzkumný projekt:</p>
+  <ol>
+    <li><strong>Problem Identification and Motivation</strong> — Definice výzkumného problému a zdůvodnění jeho relevance a hodnoty. Výzkumná otázka.</li>
+    <li><strong>Definition of Objectives</strong> — Co by měl artefakt umožnit? Cíle odvozené z problému a existujícího stavu poznání.</li>
+    <li><strong>Design and Development</strong> — Tvorba artefaktu: konstrukt, model, metoda nebo instanciace. Iterativní postup.</li>
+    <li><strong>Demonstration</strong> — Ukázka, jak artefakt řeší problém: case study, experiment, simulace, prototyp.</li>
+    <li><strong>Evaluation</strong> — Posouzení, nakolik artefakt splňuje cíle. Kvantitativní nebo kvalitativní hodnocení.</li>
+    <li><strong>Communication</strong> — Sdělení výsledků: akademické publikace, prezentace praktikům, zprávy.</li>
+  </ol>
+  <div class="tip"><strong>DSRM vs. design cycle Hevnera:</strong> DSRM je lineárně popsaný procesní model se šesti kroky — v praxi iterativní. Hevner zdůrazňuje tři cykly jako konceptuální rámec. Oba jsou vzájemně kompatibilní.</div>
+</section>
+
+<!-- ============================================================ P4 ============================================================ -->
+<section class="lecture" id="p4">
+  <div class="lec-header">
+    <div class="lec-num">P4</div>
+    <div>
+      <div class="lec-title">Etika IS</div>
+      <div class="lec-subtitle">Etické teorie, Mason PAPA, GDPR, EU AI Act, Digital divide, Surveillance capitalism</div>
+    </div>
+  </div>
+
+  <h2>Etické teorie a jejich aplikace v IS/IT</h2>
+  <table>
+    <tr><th>Teorie</th><th>Klíčová myšlenka</th><th>Aplikace v IT</th><th>Limite</th></tr>
+    <tr><td><strong>Consequentialism / Utilitarismus</strong> (Bentham, Mill)</td><td>Správné je to, co maximalizuje celkové blaho (<em>utility</em>) pro co největší počet. Výsledky rozhodují.</td><td>A/B testování, analýza dopadů AI na společnost, optimalizace doporučovacích systémů</td><td>Menšiny mohou být obětovány pro prospěch většiny; těžko měřit celkové blaho</td></tr>
+    <tr><td><strong>Deontologie</strong> (Kant)</td><td>Správné je to, co dodržuje povinnost a morální zákon. <em>Kategorický imperativ:</em> jednej tak, aby maxima tvého jednání mohla být obecným zákonem.</td><td>GDPR (práva jsou absolutní, ne nákladová analýza), whistleblowing, odmítnutí vyvíjet surveillance nástrojů</td><td>Rigidní, nepřipouští výjimky; konflikty povinností bez jasného rozlišení</td></tr>
+    <tr><td><strong>Virtue Ethics</strong> (Aristotelés)</td><td>Správné je to, co by udělal člověk dobrého charakteru. Zaměření na ctnosti (odvaha, poctivost, moudrost) jako trvalé vlastnosti.</td><td>Profesní etika IT profesionálů (ACM Code of Ethics), etická kultura v AI výzkumu, whistleblowing jako ctnostné jednání</td><td>Neříká explicitně, co dělat v konkrétní situaci; obtížně aplikovatelné na systémy</td></tr>
+  </table>
+
+  <h2>Mason PAPA model (1986)</h2>
+  <p>Richard O. Mason (1986) definoval čtyři základní etické výzvy informační věku. PAPA = Privacy, Accuracy, Property, Accessibility.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">P — Privacy (Soukromí)</div>
+      <div class="pojem-body">Jaké informace o sobě jedinec sděluje, komu, v jakém kontextu a s jakými zárukami? Právo kontrolovat vlastní data.<br><br><strong>IS příklady:</strong> GDPR, cookies consent, datové profily e-commerce, surveillance capitalism, geolokační sledování.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">A — Accuracy (Přesnost)</div>
+      <div class="pojem-body">Kdo je odpovědný za správnost informací? Jak se zjišťují a opravují chyby?<br><br><strong>IS příklady:</strong> chyby v kreditním hodnocení, fake news, dezinformace, chybné lékařské záznamy, biasované AI predikce.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">P — Property (Vlastnictví)</div>
+      <div class="pojem-body">Kdo vlastní informace? Jaká jsou práva k duševnímu vlastnictví?<br><br><strong>IS příklady:</strong> autorská práva na software (GPL vs. proprietary), patenty na algoritmy, vlastnictví dat zákazníků firmou vs. uživateli.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">A — Accessibility (Dostupnost)</div>
+      <div class="pojem-body">Kdo má právo k jakým informacím za jakých podmínek?<br><br><strong>IS příklady:</strong> digitální propast, cenzura, paywallové zpravodajství, přístupnost webu pro osoby se ZP (WCAG).</div>
+    </div>
+  </div>
+
+  <h2>GDPR — Obecné nařízení o ochraně osobních údajů (2016/679)</h2>
+  <p>GDPR platí od 25. května 2018 v celé EU. Jde o <strong>horizontální regulaci</strong> — platí pro zpracování osobních údajů ve všech odvětvích, pokud se zpracovávají OÚ fyzických osob z EU.</p>
+
+  <h3>6 principů zpracování osobních údajů (čl. 5)</h3>
+  <ol>
+    <li><strong>Zákonnost, korektnost a transparentnost</strong> — musí existovat právní základ; subjekt musí být informován</li>
+    <li><strong>Účelové omezení</strong> — OÚ shromažďovány pro stanovené, výslovné a legitimní účely; nelze je dále zpracovávat neslučitelným způsobem</li>
+    <li><strong>Minimalizace údajů</strong> — jen OÚ nezbytné pro daný účel (<em>data minimisation</em>)</li>
+    <li><strong>Přesnost</strong> — OÚ musí být přesné a aktuální; nepřesné je třeba opravit nebo vymazat</li>
+    <li><strong>Omezení uložení</strong> — OÚ nesmí být uchovávány déle, než je nezbytné pro daný účel</li>
+    <li><strong>Integrita a důvěrnost</strong> — přiměřené technické a organizační zabezpečení (CIA triáda)</li>
+  </ol>
+
+  <h3>8 práv subjektů OÚ (tabulka s lhůtami)</h3>
+  <table>
+    <tr><th>Právo</th><th>Obsah</th><th>Lhůta pro odpověď</th></tr>
+    <tr><td><strong>Právo na informace</strong> (čl. 13–14)</td><td>Správce musí informovat o zpracování v okamžiku sběru (čl. 13) nebo do 1 měsíce (čl. 14)</td><td>Bez zbytečného odkladu</td></tr>
+    <tr><td><strong>Právo na přístup</strong> (čl. 15)</td><td>Subjekt může získat kopii zpracovávaných OÚ a informace o zpracování</td><td>1 měsíc (prodloužitelný o 2 měsíce)</td></tr>
+    <tr><td><strong>Právo na opravu</strong> (čl. 16)</td><td>Oprava nepřesných nebo doplnění neúplných OÚ</td><td>Bez zbytečného odkladu</td></tr>
+    <tr><td><strong>Právo na výmaz</strong> (čl. 17)</td><td>„Právo být zapomenut" — výmaz OÚ za splnění podmínek (účel splněn, souhlas odvolán, atd.)</td><td>Bez zbytečného odkladu</td></tr>
+    <tr><td><strong>Právo na omezení zpracování</strong> (čl. 18)</td><td>Subjekt může požádat o pozastavení zpracování (např. při ověřování přesnosti)</td><td>Bez zbytečného odkladu</td></tr>
+    <tr><td><strong>Právo na přenositelnost</strong> (čl. 20)</td><td>OÚ ve strukturovaném, strojově čitelném formátu; přenos k jinému správci</td><td>1 měsíc</td></tr>
+    <tr><td><strong>Právo vznést námitku</strong> (čl. 21)</td><td>Námitka proti zpracování na základě oprávněného zájmu nebo přímého marketingu</td><td>Bez zbytečného odkladu; marketing okamžitě</td></tr>
+    <tr><td><strong>Práva v automatizovaném rozhodování</strong> (čl. 22)</td><td>Právo na lidský zásah při profilování s právním dopadem</td><td>Závisí na kontextu</td></tr>
+  </table>
+
+  <h3>DPO, sankce a 72 hodin</h3>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">DPO — Pověřenec pro OÚ</div>
+      <div class="pojem-body">Povinný pro: veřejné orgány, organizace zpracovávající OÚ rozsáhle systematicky, organizace zpracovávající citlivé OÚ (zdraví, přesvědčení). Musí být nezávislý, nesmí dostávat pokyny ke zpracování.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Sankce</div>
+      <div class="pojem-body">Horní sazba: <strong>20 000 000 EUR nebo 4 % celosvětového ročního obratu</strong> (co je vyšší). Nižší sazba (10M/2 %): porušení povinností zpracovatele, certifikačních orgánů, DPO.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">72 hodinová lhůta</div>
+      <div class="pojem-body">Hlášení porušení zabezpečení OÚ (data breach) dozorovému úřadu (ÚOOÚ) do 72 hodin od zjištění (čl. 33). Při riziku pro práva fyzických osob — ihned subjektům (čl. 34).</div>
+    </div>
+  </div>
+
+  <h2>EU AI Act — Nařízení EU 2024/1689</h2>
+  <p>První komplexní horizontální regulace umělé inteligence na světě. Platí pro poskytovatele, nasazovatele a dovozce AI systémů v EU. Risk-based přístup: čím vyšší riziko, tím přísnější požadavky.</p>
+  <table>
+    <tr><th>Kategorie rizika</th><th>Příklady AI systémů</th><th>Regulace</th></tr>
+    <tr><td><strong>Unacceptable (Nepřijatelné)</strong> <span class="tag red">Zakázáno</span></td><td>Social scoring státem, subliminal manipulation, real-time biometrická identifikace na veřejnosti (s výjimkami), AI exploitující zranitelnosti</td><td>Absolutní zákaz. Výjimky pro vymáhání práva v přesně vymezených případech.</td></tr>
+    <tr><td><strong>High Risk (Vysoké)</strong> <span class="tag orange">Přísné požadavky</span></td><td>AI v zdravotnictví, biometrii, vzdělávání, zaměstnávání, kritická infrastruktura, justice, migrace, policie</td><td>Povinná conformity assessment, registrace, transparentnost, lidský dohled, dokumentace, testování bias</td></tr>
+    <tr><td><strong>Limited Risk (Omezené)</strong> <span class="tag blue">Transparentnost</span></td><td>Chatboti, deepfakes, systémy generující syntetický obsah</td><td>Povinnost informovat uživatele, že komunikují s AI; označení AI-generovaného obsahu</td></tr>
+    <tr><td><strong>Minimal Risk (Minimální)</strong> <span class="tag gray">Dobrovolné</span></td><td>Spam filtry, AI v hrách, doporučovací systémy (Netflix, Spotify)</td><td>Žádné zvláštní povinnosti; dobrovolné kodexy chování</td></tr>
+  </table>
+  <div class="callout"><strong>GPAI — General Purpose AI (čl. 51–55):</strong> Zvláštní pravidla pro velké fondační modely (GPT, Gemini, Claude). Povinnosti: transparentnost, dokumentace tréninku, bezpečnostní testování. Tzv. GPAI se systémovými riziky (výpočetní výkon &gt; 10<sup>25</sup> FLOPs) podléhají přísnějším požadavkům.</div>
+
+  <h2>Digital Divide — Tři řády přístupu k ICT</h2>
+  <p>Digitální propast (Van Dijk, Norris) — nerovný přístup k digitálním technologiím se projevuje na třech úrovních:</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">1. řád — Přístupová propast</div>
+      <div class="pojem-body">Fyzický a materiální přístup k ICT infrastruktuře a zařízením. Otázka: <em>Máš přístup k internetu a zařízení?</em><br>Faktory: cena, zeměpisná dostupnost, infrastruktura.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">2. řád — Dovednostní propast</div>
+      <div class="pojem-body">Schopnost ICT efektivně využívat. Digitální gramotnost, informační gramotnost, schopnost kriticky posoudit obsah.<br>Otázka: <em>Umíš to použít?</em></div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">3. řád — Výsledková propast</div>
+      <div class="pojem-body">Měřené přínosy z využití ICT — ekonomické, sociální, vzdělávací. Stejný přístup a dovednosti nevedou ke stejným výsledkům.<br>Otázka: <em>Přináší ti to stejný prospěch?</em></div>
+    </div>
+  </div>
+
+  <h2>Surveillance Capitalism — Shoshana Zuboff (2019)</h2>
+  <p><em>The Age of Surveillance Capitalism</em> (2019): digitální platformy těží <strong>behaviorální přebytky</strong> (behavioral surplus) — data o chování uživatelů nad rámec toho, co je potřeba pro zlepšení služby. Tato data se zpracovávají do <strong>predikčních produktů</strong> (prediction products) a prodávají inzerentům a dalším aktérům.</p>
+  <ul>
+    <li><strong>Klíčový mechanismus:</strong> uživatel není zákazník — je to surovina. Zákazníkem je inzerent.</li>
+    <li><strong>Příklady:</strong> Google (vyhledávání → profilování → cílená reklama), Facebook/Meta, data brokeři</li>
+    <li><strong>Etický problém:</strong> jednostranná těžba dat bez skutečného souhlasu, narušení autonomie, manipulace chování</li>
+    <li><strong>Důsledky:</strong> erozion soukromí, demokratická hrozba (Cambridge Analytica), asymetrie moci platforma vs. uživatel</li>
+  </ul>
+</section>
+
+<!-- ============================================================ P5 ============================================================ -->
+<section class="lecture" id="p5">
+  <div class="lec-header">
+    <div class="lec-num">P5</div>
+    <div>
+      <div class="lec-title">Informační společnost</div>
+      <div class="lec-subtitle">5 kritérií, generace a ICT, DESI, EGDI, výhody a nevýhody</div>
+    </div>
+  </div>
+
+  <h2>Informační (post-industriální) společnost — definice a kritéria</h2>
+  <p>Pojem zavedli Daniel Bell (1973, <em>The Coming of Post-Industrial Society</em>) a japonský akademik Yoneji Masuda (1980). Informační společnost je ta, kde <strong>informace, znalosti a jejich zpracování</strong> jsou primárním zdrojem ekonomické hodnoty a organizace práce.</p>
+
+  <h3>5 kritérií (Bell, Webster, van Dijk)</h3>
+  <table>
+    <tr><th>Kritérium</th><th>Obsah</th><th>Indikátory</th></tr>
+    <tr><td><strong>Technologické</strong></td><td>Rozsah a penetrace ICT infrastruktury — sítě, zařízení, kapacity zpracování dat</td><td>Penetrace broadbandu, 5G pokrytí, počet serverů na obyvatele</td></tr>
+    <tr><td><strong>Ekonomické</strong></td><td>Podíl informačního sektoru na HDP, zaměstnanosti a přidané hodnotě</td><td>Podíl IT průmyslu na HDP, výdaje na R&amp;D, tržní kapitalizace tech firem</td></tr>
+    <tr><td><strong>Profesní</strong></td><td>Dominance znalostních pracovníků (knowledge workers) — analytici, programátoři, manažeři informací</td><td>% pracovní síly v informačních profesích, IT vzdělávání</td></tr>
+    <tr><td><strong>Kulturní</strong></td><td>Informace jako kulturní artefakt; digitalizace kultury, médií, vzdělávání</td><td>Digitální gramotnost, online participace, vznik internetové kultury</td></tr>
+    <tr><td><strong>Demografické / Prostorové</strong></td><td>Změna organizace prostoru — konec geografické vzdálenosti, smart cities, telework</td><td>Podíl práce na dálku, urbanizace vs. digitalizace venkova</td></tr>
+  </table>
+
+  <h3>Generace a ICT</h3>
+  <table>
+    <tr><th>Generace</th><th>Rok narození</th><th>Vztah k ICT</th><th>Hlavní technologie formativního období</th></tr>
+    <tr><td><strong>Baby Boomers</strong></td><td>1946–1964</td><td>Digitální imigranti — naučili se technologiím jako dospělí</td><td>TV, rádio, zánik mainframů</td></tr>
+    <tr><td><strong>Generace X</strong></td><td>1965–1980</td><td>Přechod analog → digitál; první PC a internet</td><td>PC, e-mail, první web</td></tr>
+    <tr><td><strong>Mileniálové (Gen Y)</strong></td><td>1981–1996</td><td>Digitální domorodci; vyrůstali s internetem</td><td>Broadband, sociální média, smartphony</td></tr>
+    <tr><td><strong>Generace Z</strong></td><td>1997–2012</td><td>Mobilní nativisté; smartphone od dětství</td><td>Mobilní internet, TikTok, cloud, streaming</td></tr>
+    <tr><td><strong>Generace Alpha</strong></td><td>2013+</td><td>AI nativisté; AI asistenti od dětství</td><td>AI, metaverse, IoT, augmentovaná realita</td></tr>
+  </table>
+
+  <h2>DESI — Digital Economy and Society Index</h2>
+  <p>Vydává <strong>Evropská komise</strong> každoročně pro všechny státy EU27. Sleduje pokrok v digitalizaci na 5 dimenzích:</p>
+  <ol>
+    <li><strong>Connectivity</strong> — pokrytí rychlým internetem, broadband</li>
+    <li><strong>Human capital</strong> — digitální gramotnost, IT specialisté</li>
+    <li><strong>Use of internet services</strong> — online aktivity občanů</li>
+    <li><strong>Integration of digital technology</strong> — digitalizace firem, e-commerce</li>
+    <li><strong>Digital public services</strong> — e-government, otevřená data</li>
+  </ol>
+  <div class="callout">ČR v DESI: dlouhodobě pod průměrem EU v digitálních veřejných službách a v podílu IT specialistů. Finsko, Dánsko, Nizozemí vedou opakovaně.</div>
+
+  <h2>EGDI — E-Government Development Index</h2>
+  <p>Vydává <strong>OSN (UNDESA)</strong> každé dva roky pro 193 zemí. Hodnotí tři složky:</p>
+  <ul>
+    <li><strong>OSI</strong> — Online Services Index (kvalita e-gov portálů a služeb)</li>
+    <li><strong>TII</strong> — Telecommunication Infrastructure Index (ICT infrastruktura)</li>
+    <li><strong>HCI</strong> — Human Capital Index (vzdělání, gramotnost)</li>
+  </ul>
+  <p>Přidružené indexy: <strong>E-Participation Index (EPI)</strong> — míra zapojení občanů do e-participace na rozhodování.</p>
+
+  <h2>Výhody a nevýhody informační společnosti</h2>
+  <div class="pojmy two">
+    <div class="pojem green">
+      <div class="pojem-head">Výhody</div>
+      <div class="pojem-body">
+        <ul style="padding-left:16px; margin:0;">
+          <li>Demokratizace přístupu k informacím a vzdělání</li>
+          <li>Zvýšení produktivity práce a ekonomické efektivity</li>
+          <li>Nové formy práce (telework, gig economy)</li>
+          <li>Rychlá komunikace a koordinace globálně</li>
+          <li>Inovace ve zdravotnictví, vědě, správě</li>
+          <li>E-government — efektivnější veřejné služby</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Nevýhody</div>
+      <div class="pojem-body">
+        <ul style="padding-left:16px; margin:0;">
+          <li>Digitální propast — prohlubování nerovností</li>
+          <li>Surveillance capitalism — eroze soukromí</li>
+          <li>Infodemic — přehlcení informacemi, dezinformace</li>
+          <li>Závislost na platformách, monopolizace</li>
+          <li>Automatizace a ohrožení pracovních míst</li>
+          <li>Kybernetická bezpečnost a závislost na infrastruktuře</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ P6 ============================================================ -->
+<section class="lecture" id="p6">
+  <div class="lec-header">
+    <div class="lec-num">P6</div>
+    <div>
+      <div class="lec-title">Systémová dynamika a modelování systémů</div>
+      <div class="lec-subtitle">Stock-flow diagramy, CLD symboly, systémové archetypy v IS, tymová syntegrita</div>
+    </div>
+  </div>
+
+  <h2>Stock-Flow Diagrams (SFD) — strukturální prvky</h2>
+  <p>SFD jsou základním nástrojem systémové dynamiky pro vizualizaci toků a zásob v čase. Používají se v softwaru jako Vensim, Stella, AnyLogic.</p>
+  <table>
+    <tr><th>Prvek</th><th>Symbol</th><th>Popis</th><th>Příklad IS</th></tr>
+    <tr><td><strong>Stock (Zásoba/Stav)</strong></td><td>Obdélník</td><td>Nahromaděné množství. Mění se integrací toků v čase. Paměť systému.</td><td>Počet aktivních uživatelů, objem dat v DB</td></tr>
+    <tr><td><strong>Flow (Tok/Míra)</strong></td><td>Šipka s ventilem (kravatou)</td><td>Rychlost změny zásoby. Inflow zvyšuje, outflow snižuje zásobu.</td><td>Míra registrací/churn, přírůstek dat/mazání</td></tr>
+    <tr><td><strong>Auxiliary Variable (Pomocná)</strong></td><td>Kruh/elipsa</td><td>Meziproměnná ovlivňující toky. Počítáná z jiných proměnných.</td><td>Průměrná délka session, retence</td></tr>
+    <tr><td><strong>Connector (Vazba)</strong></td><td>Šipka se znaménkem</td><td>Kauzální vliv: + (stejný směr), − (opačný směr)</td><td>Marketing → registrace (+), churn → aktivní uživatelé (−)</td></tr>
+  </table>
+
+  <h2>CLD — Causal Loop Diagrams</h2>
+  <p>CLD zachycují kauzální strukturu systému bez numerické specifikace. Klíčové symboly:</p>
+  <ul>
+    <li><strong>+ (S, same)</strong> — příčina a efekt se mění stejným směrem: roste-li A, roste B; klesá-li A, klesá B</li>
+    <li><strong>− (O, opposite)</strong> — příčina a efekt se mění opačným směrem: roste-li A, klesá B</li>
+    <li><strong>R-smyčka (Reinforcing)</strong> — posilující smyčka: celkový efekt zesiluje (+ a +, nebo − a −)</li>
+    <li><strong>B-smyčka (Balancing)</strong> — vyrovnávací smyčka: celkový efekt tlumí, systém stabilizuje (lichý počet − znamének)</li>
+    <li><strong>Zpoždění</strong> — dvojitá příčná čára na šipce: efekt přichází se zpožděním — zdoj oscilací a nestability</li>
+  </ul>
+
+  <h2>Systémové archetypy — IS/IT kontext (3 detailní příklady)</h2>
+  <div class="pojmy single">
+    <div class="pojem blue">
+      <div class="pojem-head">Limits to Growth — Technický dluh</div>
+      <div class="pojem-body"><strong>Situace:</strong> Vývojový tým přidává features rychle (R-smyčka: features → zákazníci → příjmy → více vývojářů → více features). Narůstá ale technický dluh.<br><strong>B-smyčka:</strong> Technický dluh → pomalejší vývoj → méně features → pomalejší růst.<br><strong>Lekce:</strong> Pokud se ignoruje technický dluh (čistění kódu, refaktoring), posilující smyčka narazí na vyrovnávací, růst se zpomalí nebo zastaví.</div>
+    </div>
+  </div>
+  <div class="pojmy single">
+    <div class="pojem green">
+      <div class="pojem-head">Shifting the Burden — Záplaty legacy systému</div>
+      <div class="pojem-body"><strong>Situace:</strong> Výkonnostní problémy legacy systému jsou řešeny záplatami (workarounds). Záplaty krátkodobě ulevují, ale zakrývají nutnost hloubkové modernizace.<br><strong>Vedlejší efekt:</strong> Záplaty zvyšují kompexitu → více záplat potřeba → modernizace se odkládá → architektonický dluh roste.<br><strong>Lekce:</strong> Sympomatická řešení (outsourcing, záplaty) snižují tlak na fundamentální změnu a posilují závislost na krátkodobém řešení.</div>
+    </div>
+  </div>
+  <div class="pojmy single">
+    <div class="pojem orange">
+      <div class="pojem-head">Tragedy of the Commons — Sdílené IT zdroje</div>
+      <div class="pojem-body"><strong>Situace:</strong> Více týmů sdílí cloudovou infrastrukturu bez alokačních omezení.<br><strong>Dynamika:</strong> Každý tým optimalizuje svou výkonnost tím, že bere více zdrojů. Sdílená kapacita klesá pro všechny. Každý tým pak bere ještě více zdrojů, aby kompenzoval degradaci.<br><strong>Lekce:</strong> Bez governance (kvóty, chargeback, capacity planning) sdílené zdroje vedou ke kolekivní škodě i při individuálně racionálním chování.</div>
+    </div>
+  </div>
+
+  <h2>Simulační modely v systémové dynamice</h2>
+  <p>Simulační modely umožňují <strong>experimentování s politikami</strong> bez rizika pro reálný systém. Typy:</p>
+  <ul>
+    <li><strong>Počítačové simulace SD</strong> — Vensim, Stella: numerické řešení diferenciálních rovnic definovaných SFD strukturou</li>
+    <li><strong>Mikrosvěty / Manažerské simulátory</strong> — Beer Game (bullwhip efekt v dodavatelském řetězci), systémové simulátory pro strategické učení</li>
+    <li><strong>Scénářová analýza</strong> — testování alternativních politik a jejich dopadů na klíčové proměnné</li>
+  </ul>
+  <p><strong>Leverage points (Meadows, 1999)</strong> — páky: místa v systému, kde malá změna způsobí velké efekty. Pořadí od nejslabšího: čísla → zásoby a toky → zpětnovazební smyčky → informační toky → pravidla → cíle → paradigmata. Nejsilnější páka: změna paradigmatu (mentálního modelu).</p>
+
+  <h2>Týmová syntegrita — Stafford Beer</h2>
+  <p><strong>Team syntegrity</strong> je Beer ova metoda <strong>nehierarchické skupinové komunikace</strong> pro strukturované řešení komplexních problémů. Vychází z geometrie ikosaedronu (12 vrcholů, 30 hran, 20 stěn).</p>
+  <ul>
+    <li><strong>30 účastníků</strong> diskutuje o 12 tématech (agendách)</li>
+    <li>Každý účastník je <strong>člen 2 týmů</strong> a <strong>kritik 2 dalších</strong> — maximalizuje propojení a přenos informací</li>
+    <li>Struktura zajišťuje, že každý se může vyjádřit ke každému tématu nepřímo i přímo</li>
+    <li>Cíl: kolektivní inteligence bez dominance hierarchie, skupinové myšlení minimalizováno</li>
+  </ul>
+  <div class="tip"><strong>Beer Game:</strong> Klasická simulace bullwhip efektu — malá změna zákaznické poptávky způsobí obrovské výkyvy objednávek v dodavatelském řetězci kvůli zpožděné zpětné vazbě a lokální optimalizaci každého článku řetězce.</div>
+</section>
+
+<!-- ============================================================ Klíčové pojmy ============================================================ -->
+<section class="lecture" id="pojmy">
+  <div class="lec-header">
+    <div class="lec-num">&#9733;</div>
+    <div>
+      <div class="lec-title">Klíčové pojmy</div>
+      <div class="lec-subtitle">Rychlý přehled 40+ termínů pro přípravu na státní zkoušku</div>
+    </div>
+  </div>
+
+  <table>
+    <tr><th>Zkratka / Pojem</th><th>Plný název / Definice</th></tr>
+    <tr><td><strong>GST</strong></td><td>General Systems Theory — Bertalanffy 1968. Systém = prvky + vazby + hranice + okolí + emergence. Hledání principů platných napříč obory.</td></tr>
+    <tr><td><strong>Otevřený systém</strong></td><td>Systém vyměňující hmotu, energii, informace s okolím. Typické: firmy, živé organismy, IS. Vlastnost: ekvifinalita.</td></tr>
+    <tr><td><strong>Uzavřený systém</strong></td><td>Bez výměny s okolím. Fyzikální ideál. V praxi polouzavřené systémy. Tendence k entropii.</td></tr>
+    <tr><td><strong>Emergence</strong></td><td>Vlastnosti celku neodvoditelné ze sumy izolovaných částí. „Celek je více než součet." Příklad: IS bezpečnost, firemní kultura, vědomí.</td></tr>
+    <tr><td><strong>Homeostáza</strong></td><td>Tendence systému udržovat vnitřní rovnováhu. Mechanismus: negativní zpětná vazba. Příklad: autoscaling infrastruktury, zásobovací systém.</td></tr>
+    <tr><td><strong>Negativní zpětná vazba</strong></td><td>B-smyčka (Balancing). Stabilizuje systém, vrací k cílovému stavu. Příklad: termostat, inventory reorder point.</td></tr>
+    <tr><td><strong>Pozitivní zpětná vazba</strong></td><td>R-smyčka (Reinforcing). Zesiluje odchylku, exponenciální růst nebo kolaps. Příklad: virální šíření, síťový efekt, bankovní panika.</td></tr>
+    <tr><td><strong>Ekvifinalita</strong></td><td>Stejného výsledku lze dosáhnout různými cestami (vlastnost otevřených systémů, Bertalanffy).</td></tr>
+    <tr><td><strong>Sociotechnický systém</strong></td><td>Emery, Trist: kombinace lidí, technologie, procesů, organizace. IS implementace jsou sociotechnické — selhání je typicky lidské/organizační.</td></tr>
+    <tr><td><strong>CAS</strong></td><td>Complex Adaptive Systems — komplexní adaptivní systémy. Mnoho autonomních agentů, emergence, samoorganizace, nelinearita. Příklad: trhy, internetové komunity.</td></tr>
+    <tr><td><strong>Atraktor</strong></td><td>Vzorec, kolem něhož osciluje chování komplexního systému. Chaotické systémy mají „podivné atraktory". Klíčový pro teorie chaosu (Lorenz).</td></tr>
+    <tr><td><strong>Hard systems thinking</strong></td><td>Checkland: paradigma pro dobře strukturované problémy. Jasný cíl S1, výchozí stav S0, hledání optimální cesty. Metody: operační výzkum, matematické modely.</td></tr>
+    <tr><td><strong>SSM</strong></td><td>Soft Systems Methodology — Checkland 1981. 7 kroků pro messy problémy. Rich Picture → CATWOE → root definitions → konceptuální modely → srovnání → změny → akce.</td></tr>
+    <tr><td><strong>Rich Picture</strong></td><td>Neformální vizuální zachycení problémové situace v SSM (krok 2). Obsahuje lidi, konflikty, procesy, klima, mocenské vztahy. Záměrně nestrukturované.</td></tr>
+    <tr><td><strong>CATWOE</strong></td><td>Customers / Actors / Transformation / Weltanschauung / Owner / Environment. Mnemotechnika pro kořenové definice v SSM. Začínat od T (Transformace).</td></tr>
+    <tr><td><strong>Root Definition</strong></td><td>Kořenová definice v SSM: „Systém dělá X pomocí Y, aby Z." Formuluje perspektivu (Weltanschauung) konkrétního stakeholdera.</td></tr>
+    <tr><td><strong>Weltanschauung</strong></td><td>Světonázor — předpoklady a hodnoty, díky nimž dává transformace smysl. Klíčový prvek CATWOE (W). Různí aktéři mají různé W.</td></tr>
+    <tr><td><strong>Kybernetika</strong></td><td>Wiener 1948: věda o řízení a komunikaci. 1. řád: pozorovatel vně systému. 2. řád: pozorovatel součástí systému (autopoiesis).</td></tr>
+    <tr><td><strong>POSIWID</strong></td><td>The purpose of a system is what it does — Beer. Skutečný účel systému plyne z jeho reálného chování, ne z formálních dokumentů.</td></tr>
+    <tr><td><strong>VSM</strong></td><td>Viable System Model — Beer. 5 systémů: S1 Implementace, S2 Koordinace, S3 Kontrola, S4 Inteligence/Vývoj, S5 Politika. Rekurze: každá S1 jednotka je sama VSM.</td></tr>
+    <tr><td><strong>Ashbyho zákon</strong></td><td>Law of Requisite Variety (1956): Jen varieta může zničit varietu. Řídicí systém musí mít stejnou varietu jako řízený systém.</td></tr>
+    <tr><td><strong>Systémová dynamika</strong></td><td>Forrester 1961 (MIT): Stocks a Flows, CLD, zpětnovazební smyčky, simulace. Senge: Pátá disciplína (1990). Pro komplexní sociální a manažerské systémy.</td></tr>
+    <tr><td><strong>Stocks a Flows</strong></td><td>Stavební bloky SFD. Stock = zásoby (stav systému, integrace). Flow = toky (míra změny). Connector s + nebo − znaménkem.</td></tr>
+    <tr><td><strong>CLD</strong></td><td>Causal Loop Diagram — diagram kauzálních smyček. + (stejný směr), − (opačný). R-smyčky (zesilující), B-smyčky (vyrovnávající). Bez čísel, jen struktura.</td></tr>
+    <tr><td><strong>Senge 5 disciplín</strong></td><td>Systémové myšlení + Osobní mistrovství + Mentální modely + Sdílená vize + Týmové učení. Pátá disciplína = systémové myšlení jako páteř.</td></tr>
+    <tr><td><strong>Archetyp: Limits to Growth</strong></td><td>Posilující smyčka naráží na vyrovnávající omezení. Příklad: startup → technický dluh → zpomalení.</td></tr>
+    <tr><td><strong>Archetyp: Shifting the Burden</strong></td><td>Symptomatická oprava odkládá fundamentální řešení. Příklad: záplaty legacy systému místo modernizace.</td></tr>
+    <tr><td><strong>Cynefin</strong></td><td>Snowden 2002: 5 domén (Clear/Complicated/Complex/Chaotic/Confused). Každá má jiný přístup: SOP / expert / experiment / akce / rozdělit.</td></tr>
+    <tr><td><strong>DSR</strong></td><td>Design Science Research — Hevner 2004. Tvorba a evaluace artefaktů (konstrukt/model/metoda/instanciace). 7 guidelines, 3 cykly (Relevance/Rigor/Design).</td></tr>
+    <tr><td><strong>DSRM</strong></td><td>Peffers 2007: 6 kroků DSR — identifikace problému → cíle → design → demonstrace → evaluace → komunikace.</td></tr>
+    <tr><td><strong>PAPA</strong></td><td>Mason 1986: Privacy / Accuracy / Property / Accessibility — čtyři etické výzvy informačního věku.</td></tr>
+    <tr><td><strong>Utilitarismus</strong></td><td>Bentham, Mill: maximalizace utility pro největší počet. Výsledky rozhodují. Problém: menšiny obětovány.</td></tr>
+    <tr><td><strong>Deontologie</strong></td><td>Kant: kategorický imperativ — jednej tak, aby maxima mohla být obecným zákonem. Absolutní práva, bez výjimek.</td></tr>
+    <tr><td><strong>Virtue ethics</strong></td><td>Aristotelés: správné jednání člověka dobrého charakteru. Ctnosti (odvaha, poctivost, moudrost). ACM Code of Ethics.</td></tr>
+    <tr><td><strong>GDPR</strong></td><td>Nařízení EU 2016/679. 6 principů zpracování OÚ. 8 práv subjektů. DPO povinný v určitých situacích. Sankce: 4 % obratu nebo 20M EUR.</td></tr>
+    <tr><td><strong>DPO</strong></td><td>Data Protection Officer — Pověřenec pro OÚ. Povinný pro veřejné orgány, rozsáhlé systematické zpracování OÚ, citlivé kategorie OÚ.</td></tr>
+    <tr><td><strong>Právo na výmaz</strong></td><td>GDPR čl. 17 — „právo být zapomenut." Výmaz OÚ při: splnění účelu, odvolání souhlasu, nezákonném zpracování.</td></tr>
+    <tr><td><strong>72 hodin</strong></td><td>GDPR čl. 33: lhůta pro hlášení porušení zabezpečení OÚ dozorovému orgánu (ÚOOÚ v ČR) od zjištění incidentu.</td></tr>
+    <tr><td><strong>ÚOOÚ</strong></td><td>Úřad pro ochranu osobních údajů — český dozorový orgán GDPR. Zákon č. 110/2019 Sb.</td></tr>
+    <tr><td><strong>EU AI Act</strong></td><td>Nařízení EU 2024/1689. Risk-based: Unacceptable (zakázáno) / High (přísné požadavky) / Limited (transparentnost) / Minimal (dobrovolné). GPAI zvláštní pravidla.</td></tr>
+    <tr><td><strong>GPAI</strong></td><td>General Purpose AI — fondační modely (GPT, Gemini, Claude). Povinnosti: transparentnost, dokumentace tréninku. GPAI se systémovým rizikem: přísnější pravidla.</td></tr>
+    <tr><td><strong>Digital Divide</strong></td><td>Digitální propast. 1. řád = přístup k ICT. 2. řád = dovednosti. 3. řád = výsledky/přínosy. Van Dijk, Norris.</td></tr>
+    <tr><td><strong>Surveillance capitalism</strong></td><td>Zuboff 2019: těžba behaviorálních přebytků jako suroviny. Predikční produkty. Uživatel = surovina, inzerent = zákazník.</td></tr>
+    <tr><td><strong>DESI</strong></td><td>Digital Economy and Society Index — EK, každoročně, EU27. 5 dimenzí: Connectivity, Human Capital, Internet Use, Digital Technology Integration, Digital Public Services.</td></tr>
+    <tr><td><strong>EGDI</strong></td><td>E-Government Development Index — OSN (UNDESA), každé 2 roky, 193 zemí. OSI + TII + HCI. Doplněk: EPI (e-participace).</td></tr>
+    <tr><td><strong>Týmová syntegrita</strong></td><td>Beer: 30 účastníků, 12 témat, každý člen 2 týmů + kritik 2 dalších. Geometrie ikosaedronu. Nehierarchická kolektivní inteligence.</td></tr>
+    <tr><td><strong>Informační společnost</strong></td><td>Bell 1973, Masuda 1980. 5 kritérií: technologické, ekonomické, profesní, kulturní, demografické. Post-industriální paradigma.</td></tr>
+    <tr><td><strong>Leverage points</strong></td><td>Meadows 1999: páky systému od nejslabší (čísla) po nejsilnější (paradigmata). Nejsilnější pákový efekt: změna mentálního modelu.</td></tr>
+  </table>
+</section>
+
+<script>
+(function() {
+  var sections = document.querySelectorAll('section[id]');
+  var navLinks = document.querySelectorAll('#doc-nav .nav-link[href^="#"]');
+  function onScroll() {
+    var scrollY = window.scrollY + 80;
+    var current = '';
+    sections.forEach(function(sec) {
+      if (sec.offsetTop <= scrollY) current = sec.id;
+    });
+    navLinks.forEach(function(link) {
+      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+</body>
+</html>

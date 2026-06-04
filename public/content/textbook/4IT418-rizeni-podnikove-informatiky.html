@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4IT418 Řízení podnikové informatiky - Učební podklady</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, sans-serif; font-size: 15px; line-height: 1.6; color: #111827; background: #f9fafb; -webkit-font-smoothing: antialiased; margin-left: 58px; }
+  #doc-nav { width: 50px; height: 100vh; position: fixed; left: 0; top: 0; z-index: 100; overflow: hidden; background: #fff; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; transition: width 0.32s cubic-bezier(0.4,0,0.2,1), box-shadow 0.32s; }
+  #doc-nav:hover { width: 270px; box-shadow: 6px 0 24px rgba(0,0,0,0.07); }
+  .nav-logo { padding: 14px 13px 12px; border-bottom: 1px solid #e5e7eb; white-space: nowrap; overflow: hidden; position: relative; }
+  .nav-code { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9ca3af; margin-bottom: 3px; }
+  .nav-subject { display: block; font-size: 13px; font-weight: 600; color: #111827; }
+  .nav-logo-icon { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-size: 16px; color: #1d4ed8; opacity: 0; transition: opacity 0.2s; }
+  .nav-logo-text { opacity: 1; transition: opacity 0.2s; }
+  #doc-nav:not(:hover) .nav-logo-icon { opacity: 1; }
+  #doc-nav:not(:hover) .nav-logo-text { opacity: 0; }
+  .nav-items { flex: 1; padding: 6px 0; overflow-y: auto; overflow-x: hidden; }
+  .nav-link { display: flex; align-items: center; gap: 8px; padding: 5px 12px; font-size: 12.5px; font-weight: 500; color: #374151; text-decoration: none; white-space: nowrap; overflow: hidden; transition: background 0.1s, color 0.1s; }
+  .nav-link:hover { background: #f3f4f6; color: #111827; }
+  .nav-num { font-size: 9px; font-weight: 700; background: #1d4ed8; color: #fff; padding: 2px 5px; border-radius: 3px; flex-shrink: 0; min-width: 22px; text-align: center; }
+  .nav-label { max-width: 230px; overflow: hidden; white-space: nowrap; transition: max-width 0.28s, opacity 0.18s; }
+  #doc-nav:not(:hover) .nav-label { max-width: 0; opacity: 0; }
+  #doc-nav:not(:hover) .nav-link { padding-left: 4px; padding-right: 4px; justify-content: center; }
+  .hero { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 44px 56px 40px; }
+  .hero-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #94a3b8; margin-bottom: 12px; }
+  .hero-title { font-size: 44px; font-weight: 800; color: #0f172a; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 16px; }
+  .hero-desc { font-size: 15px; color: #64748b; max-width: 760px; line-height: 1.65; margin-bottom: 20px; }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+  .hero-pill { display: inline-block; padding: 4px 11px; border-radius: 20px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 500; }
+  .lecture { max-width: 900px; margin: 0 auto; padding: 48px 56px; border-bottom: 1px solid #f1f5f9; }
+  .lec-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; }
+  .lec-num { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: #1d4ed8; color: #fff; padding: 5px 9px; border-radius: 5px; flex-shrink: 0; margin-top: 2px; }
+  .lec-title { font-size: 22px; font-weight: 700; color: #0f172a; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .lec-subtitle { font-size: 13px; color: #64748b; }
+  h2 { font-size: 16px; font-weight: 700; color: #0f172a; margin: 32px 0 10px; padding-bottom: 6px; border-bottom: 1px solid #e5e7eb; }
+  h3 { font-size: 14px; font-weight: 700; color: #374151; margin: 20px 0 8px; }
+  p { margin-bottom: 14px; color: #374151; font-size: 14.5px; }
+  ul, ol { margin: 0 0 14px; padding-left: 22px; color: #374151; font-size: 14.5px; }
+  li { margin-bottom: 5px; }
+  strong { font-weight: 700; color: #0f172a; }
+  em { font-style: italic; color: #475569; }
+  .pojmy { display: grid; gap: 8px; margin: 14px 0 20px; }
+  .pojmy.two { grid-template-columns: 1fr 1fr; }
+  .pojmy.three { grid-template-columns: 1fr 1fr 1fr; }
+  .pojmy.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .pojmy.single { grid-template-columns: 1fr; }
+  .pojem { border-radius: 8px; padding: 14px 16px; border: 1px solid; }
+  .pojem.blue { background: #eff6ff; border-color: #bfdbfe; }
+  .pojem.green { background: #f0fdf4; border-color: #bbf7d0; }
+  .pojem.orange { background: #fff7ed; border-color: #fed7aa; }
+  .pojem.purple { background: #faf5ff; border-color: #ddd6fe; }
+  .pojem.red { background: #fff1f2; border-color: #fecdd3; }
+  .pojem.slate { background: #f8fafc; border-color: #cbd5e1; }
+  .pojem-head { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #475569; margin-bottom: 7px; }
+  .pojem.blue .pojem-head { color: #1d4ed8; }
+  .pojem.green .pojem-head { color: #15803d; }
+  .pojem.orange .pojem-head { color: #c2410c; }
+  .pojem.purple .pojem-head { color: #6d28d9; }
+  .pojem.red .pojem-head { color: #be123c; }
+  .pojem.slate .pojem-head { color: #475569; }
+  .pojem-body { font-size: 13.5px; line-height: 1.55; color: #374151; }
+  .tip { background: #fefce8; border-left: 3px solid #eab308; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #713f12; line-height: 1.6; }
+  .callout { background: #f0f9ff; border-left: 3px solid #0ea5e9; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #0c4a6e; line-height: 1.6; }
+  .warn { background: #fff1f2; border-left: 3px solid #f43f5e; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #9f1239; line-height: 1.6; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 13.5px; }
+  th { background: #f8fafc; font-weight: 600; text-align: left; padding: 8px 10px; border: 1px solid #e5e7eb; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  td { padding: 8px 10px; border: 1px solid #e5e7eb; vertical-align: top; color: #374151; }
+  tr:nth-child(even) td { background: #fafafa; }
+  code { font-family: 'SF Mono', monospace; font-size: 12.5px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 3px; padding: 1px 5px; color: #1d4ed8; }
+  .kp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 14px 0; }
+  .kp-item { background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 6px; padding: 10px 13px; }
+  .kp-term { font-size: 12px; font-weight: 700; color: #1d4ed8; margin-bottom: 3px; }
+  .kp-def { font-size: 12.5px; color: #374151; line-height: 1.5; }
+  .tag { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; margin-right: 5px; border: 1px solid; }
+  .tag.blue { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+  .tag.green { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+  .tag.orange { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+  .tag.red { background: #fff1f2; color: #be123c; border-color: #fecdd3; }
+  @media (max-width: 900px) {
+    body { margin-left: 0; }
+    #doc-nav { position: relative; width: 100%; height: auto; overflow: visible; border-right: none; border-bottom: 1px solid #e5e7eb; }
+    #doc-nav:hover { width: 100%; box-shadow: none; }
+    .nav-logo-icon { display: none; }
+    #doc-nav:not(:hover) .nav-logo-text { opacity: 1; }
+    .nav-items { display: flex; overflow-x: auto; padding: 6px; }
+    #doc-nav:not(:hover) .nav-label { max-width: 230px; opacity: 1; }
+    #doc-nav:not(:hover) .nav-link { padding: 5px 12px; justify-content: flex-start; }
+    .hero, .lecture { padding-left: 22px; padding-right: 22px; }
+    .hero-title { font-size: 34px; }
+    .pojmy.two, .pojmy.three, .pojmy.four, .kp-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="doc-nav">
+  <div class="nav-logo">
+    <span class="nav-logo-icon">&#9670;</span>
+    <span class="nav-logo-text">
+      <span class="nav-code">4IT418</span>
+      <span class="nav-subject">Řízení podnikové informatiky</span>
+    </span>
+  </div>
+  <div class="nav-items">
+    <a class="nav-link" href="#p1"><span class="nav-num">P1</span><span class="nav-label">Rámec RPI</span></a>
+    <a class="nav-link" href="#p2"><span class="nav-num">P2</span><span class="nav-label">IT strategie a CIO</span></a>
+    <a class="nav-link" href="#p3"><span class="nav-num">P3</span><span class="nav-label">Sourcing, služby a SLA</span></a>
+    <a class="nav-link" href="#p4"><span class="nav-num">P4</span><span class="nav-label">ISO 20000, ITSM, ISO 9000</span></a>
+    <a class="nav-link" href="#p5"><span class="nav-num">P5</span><span class="nav-label">ITIL v3 a ITIL 4</span></a>
+    <a class="nav-link" href="#p6"><span class="nav-num">P6</span><span class="nav-label">Incident, problem, change</span></a>
+    <a class="nav-link" href="#p7"><span class="nav-num">P7</span><span class="nav-label">COBIT 2019 a audit IT</span></a>
+    <a class="nav-link" href="#p8"><span class="nav-num">P8</span><span class="nav-label">Enterprise architektura a cloud</span></a>
+    <a class="nav-link" href="#p9"><span class="nav-num">P9</span><span class="nav-label">Náklady a přínosy IS</span></a>
+    <a class="nav-link" href="#p10"><span class="nav-num">P10</span><span class="nav-label">GDPR a ochrana dat</span></a>
+    <a class="nav-link" href="#p11"><span class="nav-num">P11</span><span class="nav-label">ISO 27000, NIS2, ZoKB</span></a>
+    <a class="nav-link" href="#p12"><span class="nav-num">P12</span><span class="nav-label">BCM, DRP a kontinuita</span></a>
+    <a class="nav-link" href="#pojmy"><span class="nav-num">&#9733;</span><span class="nav-label">Klíčové pojmy</span></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">4IT418 · Milan Nidl · Řízení podnikové informatiky · státnice 2026</div>
+  <div class="hero-title">Řízení podnikové informatiky</div>
+  <div class="hero-desc">Kompletní příprava podle nové dávky materiálů: strategické, taktické i operativní řízení IT služeb, procesů, zdrojů, hodnoty, rizik, compliance a kontinuity. Dokument drží stejný formát jako ostatní předměty v aplikaci: přednáškové bloky, definice, tabulky rozdílů, zkouškové pasti a mosty do praxe.</div>
+  <div class="hero-pills">
+    <span class="hero-pill">IT strategie</span>
+    <span class="hero-pill">CIO</span>
+    <span class="hero-pill">SLA / OLA / UC</span>
+    <span class="hero-pill">ISO 20000</span>
+    <span class="hero-pill">ITIL 3 / ITIL 4</span>
+    <span class="hero-pill">COBIT 2019</span>
+    <span class="hero-pill">EA / Cloud</span>
+    <span class="hero-pill">TCO / CBA / NPV / IRR</span>
+    <span class="hero-pill">GDPR</span>
+    <span class="hero-pill">NIS2 / ZoKB</span>
+    <span class="hero-pill">BCM / DRP</span>
+  </div>
+</div>
+
+<section class="lecture" id="p1">
+  <div class="lec-header">
+    <div class="lec-num">P1</div>
+    <div>
+      <div class="lec-title">Rámec řízení podnikové informatiky</div>
+      <div class="lec-subtitle">Co je RPI, strategická/taktická/operativní úroveň, služby, procesy, zdroje, hodnota IT, rizika a zkoušková kostra odpovědi</div>
+    </div>
+  </div>
+
+  <h2>Definice předmětu</h2>
+  <p><strong>Řízení podnikové informatiky</strong> je manažerská disciplína, která propojuje IT služby, procesy, zdroje, metriky, rizika a odpovědnosti s cíli organizace. Nejde jen o technický provoz aplikací a infrastruktury. Jde o to, aby IT vytvářelo hodnotu, bylo řiditelné, měřitelné, bezpečné, auditovatelné a schopné obnovy po narušení.</p>
+  <p>Z úvodního materiálu 4IT418: předmět pokrývá řízení informatiky, informatických služeb, procesů a zdrojů, standardní metodiky a rámce pro řízení informatiky, tvorbu IT strategie, varianty vývoje a provozu IS/ICT, sourcing, legislativu a pravidla pro bezpečnost informací a ochranu dat.</p>
+
+  <div class="callout"><strong>První věta ke zkoušce:</strong> Podniková informatika není správce serverů; je to systém řízení hodnoty, rizik, služeb, nákladů, dodavatelů, dat a odpovědností tak, aby IT podporovalo strategii organizace.</div>
+
+  <h2>Strategická, taktická a operativní úroveň</h2>
+  <table>
+    <tr><th>Úroveň</th><th>Hlavní otázka</th><th>Typické artefakty</th><th>Příklad v SAP kontextu</th></tr>
+    <tr><td><strong>Strategická</strong></td><td>Kam IT směřuje a jakou hodnotu tvoří?</td><td>IT strategie, portfolio, sourcing strategie, IT governance, enterprise architektura, investiční business case</td><td>Rozhodnutí, zda optimalizace SAP procesu zapadá do roadmapy S/4HANA, datové strategie a cílové architektury.</td></tr>
+    <tr><td><strong>Taktická</strong></td><td>Jak nastavíme služby, procesy a zdroje?</td><td>SLA, katalog služeb, ITSM procesy, RACI, metriky, rozpočet, auditní kontroly, BIA</td><td>Popis služby SAP procesu, její vlastníci, SLA dostupnosti, eskalace, změnový proces a kontrolní body.</td></tr>
+    <tr><td><strong>Operativní</strong></td><td>Jak službu denně provozujeme?</td><td>Incident tickets, monitoring, release kalendář, change requesty, KEDB, runbooky, zálohy</td><td>Řešení výpadku SAP workflow, prioritizace incidentu, workaround a následné odstranění kořenové příčiny.</td></tr>
+  </table>
+
+  <h2>Co RPI řídí</h2>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Služby</div>
+      <div class="pojem-body">IT se poskytuje jako služba se zákazníkem, hodnotou, vlastníkem, metrikami, SLA a eskalací. Služba není server; služba je schopnost, kterou business používá.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Procesy</div>
+      <div class="pojem-body">Incident, problem, change, release, deployment, service level, configuration, supplier a continuity management. Procesy zajišťují opakovatelnost a auditovatelnost.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Zdroje</div>
+      <div class="pojem-body">Lidé, aplikace, data, infrastruktura, dodavatelé, finance, know-how, smlouvy a bezpečnostní opatření. Řízení zdrojů znamená kapacitu i odpovědnost.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Hodnota</div>
+      <div class="pojem-body">IT musí umět ukázat přínos: snížení chyb, rychlejší proces, vyšší dostupnost, lepší data, nižší riziko, compliance, spokojenost uživatelů.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Rizika</div>
+      <div class="pojem-body">Kyberbezpečnost, výpadky, vendor lock-in, ztráta dat, špatné změny, nejasné role, regulace, dodavatelský řetězec a nepřipravenost na havárii.</div>
+    </div>
+    <div class="pojem slate">
+      <div class="pojem-head">Soulad</div>
+      <div class="pojem-body">GDPR, ISO 27000, NIS2, ZoKB, auditní požadavky, interní politiky a smluvní závazky. Compliance je část řízení, ne dodatek na konci.</div>
+    </div>
+  </div>
+
+  <h2>Jak odpovídat u zkoušky</h2>
+  <ol>
+    <li><strong>Definuj pojem</strong> a zasaď ho do strategické/taktické/operativní úrovně.</li>
+    <li><strong>Řekni, jaký problém řeší</strong>: hodnota, kvalita služby, riziko, náklady, soulad, kontinuita.</li>
+    <li><strong>Přidej rámec nebo metodu</strong>: ITIL, ISO 20000, COBIT, EA, BSC, TCO, BIA.</li>
+    <li><strong>Rozliš podobné pojmy</strong>: incident vs problem, release vs deployment, ITIL vs ISO 20000, BCP vs DRP.</li>
+    <li><strong>Ukaž příklad</strong>, ideálně SAP proces: služba, vlastník, metrika, riziko, změna, auditní stopa.</li>
+  </ol>
+
+  <div class="warn"><strong>Častá chyba:</strong> odpověď je jen seznam zkratek. U 4IT418 je lepší ukázat vazbu: strategie → služba → proces → metrika → riziko → hodnota pro business.</div>
+</section>
+
+<section class="lecture" id="p2">
+  <div class="lec-header">
+    <div class="lec-num">P2</div>
+    <div>
+      <div class="lec-title">IT strategie a role CIO</div>
+      <div class="lec-subtitle">Tvorba, obhájení a realizace IT strategie, vazby na firemní strategie, role CIO, kompetence a odpovědnosti</div>
+    </div>
+  </div>
+
+  <h2>Co je IT strategie</h2>
+  <p><strong>IT strategie</strong> je dlouhodobý plán rozvoje IT. Překládá firemní vizi a obchodní strategii do rozhodnutí o aplikacích, datech, infrastruktuře, bezpečnosti, službách, lidech, zdrojích a investicích. Určuje směr, priority a investice, aby IT projekty nebyly izolované technické aktivity, ale podpora reálných cílů organizace.</p>
+
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Směr a priority</div>
+      <div class="pojem-body">IT strategie říká, kam IT směřuje, co je kritické, co se odloží a proč. Pomáhá zastavit chaos projektů bez jasného pořadí.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Investice a hodnota</div>
+      <div class="pojem-body">Ukazuje, kam investovat a jak měřit přínos: produktivita, dostupnost, bezpečnost, snížení chyb, rychlost změn, kvalita dat.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Sladění s byznysem</div>
+      <div class="pojem-body">IT není vedle firmy. IT strategie vychází z globální, obchodní, finanční, HR, marketingové a bezpečnostní strategie.</div>
+    </div>
+  </div>
+
+  <h2>Co se stane, když IT strategie chybí</h2>
+  <table>
+    <tr><th>Problém</th><th>Dopad</th><th>Zkouškový příklad</th></tr>
+    <tr><td>Nesoulad IT a byznysu</td><td>IT řeší technické cíle, které nepodporují skutečnou potřebu firmy.</td><td>Optimalizuje se dílčí SAP transakce, ale neřeší se procesní vlastnictví ani data.</td></tr>
+    <tr><td>Duplicitní systémy</td><td>Oddělení pořizují vlastní nástroje, vzniká integrační chaos a vyšší TCO.</td><td>Dva reportingové nástroje nad stejnými daty dávají jiné výsledky.</td></tr>
+    <tr><td>Nejasné priority</td><td>Projekty soupeří o lidi a rozpočet bez jednotných kritérií.</td><td>Bez business case není jasné, jestli má přednost SAP změna, BI dashboard nebo bezpečnostní projekt.</td></tr>
+    <tr><td>Slabá governance</td><td>Roste riziko chyb, úniků dat, neauditovatelných změn a výpadků.</td><td>Změny v produkci bez CAB, testů, rollback plánu a vlastníka.</td></tr>
+  </table>
+
+  <h2>Složky IT strategie</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Vize a mise IT</div>
+      <div class="pojem-body">Jakou roli má IT ve firmě: provozní podpora, partner byznysu, zdroj inovací, datová platforma, digitální transformace.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Strategické cíle a KPI</div>
+      <div class="pojem-body">Dostupnost, spokojenost uživatelů, lead time změn, chybovost dat, bezpečnostní ukazatele, náklady na službu, dosažené přínosy.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Roadmapa a portfolio</div>
+      <div class="pojem-body">Sekvence projektů, závislosti, milníky, rozpočet, kapacity a kritéria prioritizace. Portfolio musí spojovat run/grow/transform.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Technologie, data a architektura</div>
+      <div class="pojem-body">Cílová aplikační a datová architektura, integrační principy, cloud strategie, kyberbezpečnost, master data a analytika.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Governance a odpovědnosti</div>
+      <div class="pojem-body">Rozhodovací fórum, role CIO, vlastníci služeb, RACI, auditní mechanismy, reporting boardu a vazba na COBIT/ISO 38500.</div>
+    </div>
+    <div class="pojem slate">
+      <div class="pojem-head">Lidé a kompetence</div>
+      <div class="pojem-body">Kapacity IT, sourcing, vzdělávání, změnové řízení, práce se stakeholdery a schopnost provozovat i měnit kritické služby.</div>
+    </div>
+  </div>
+
+  <h2>Metodika tvorby IT strategie</h2>
+  <table>
+    <tr><th>Krok</th><th>Obsah</th><th>Výstup</th></tr>
+    <tr><td>AS-IS</td><td>Současný stav aplikací, dat, procesů, služeb, nákladů, rizik a organizačních schopností.</td><td>Mapa stavu, pain pointy, rizika, aplikační portfolio, benchmark.</td></tr>
+    <tr><td>TO-BE</td><td>Cílový stav podle business strategie, regulace a technologických trendů.</td><td>Cílová architektura, principy, budoucí služby, požadované schopnosti.</td></tr>
+    <tr><td>Gap analýza</td><td>Rozdíl mezi AS-IS a TO-BE.</td><td>Seznam změn, závislostí, rizik a investičních potřeb.</td></tr>
+    <tr><td>Prioritizace</td><td>Business hodnota, riziko, náklady, regulatorní nutnost, kapacity.</td><td>Roadmapa, portfolio, business case, metriky.</td></tr>
+    <tr><td>Realizace a řízení</td><td>Programy, projekty, change governance, reporting, přínosy.</td><td>Řízené portfolio, KPI/KGI, review, lessons learned.</td></tr>
+  </table>
+
+  <h2>Role CIO</h2>
+  <p><strong>CIO</strong> není šéf serverovny. CIO je strategický partner byznysu, který odpovídá za propojení IT a obchodní strategie, řízení IT portfolia, hodnotu investic, sourcing, digitální transformaci, data, rizika, bezpečnost a komunikaci s vedením.</p>
+  <table>
+    <tr><th>Kompetence CIO</th><th>Co znamená v praxi</th></tr>
+    <tr><td>Strategické řízení</td><td>Formuluje IT vizi, priority, roadmapu a investiční argumentaci.</td></tr>
+    <tr><td>Business partnerství</td><td>Rozumí procesům firmy a překládá potřeby byznysu do služeb, dat a systémů.</td></tr>
+    <tr><td>Governance</td><td>Nastavuje odpovědnosti, rozhodování, metriky, reporting a kontrolní mechanismy.</td></tr>
+    <tr><td>Sourcing a dodavatelé</td><td>Rozhoduje, co dělat interně, co outsourcovat a jak řídit SLA, rizika a exit strategii.</td></tr>
+    <tr><td>Riziko a kontinuita</td><td>Spolupracuje s CISO, risk, compliance a business vlastníky na bezpečnosti, BCM a DRP.</td></tr>
+  </table>
+
+  <div class="callout"><strong>Most do praxe:</strong> Optimalizace SAP procesu se dá obhájit jako konkrétní realizace IT strategie: snižuje chybovost, zvyšuje kvalitu dat, vytváří auditní stopu a podporuje budoucí S/4HANA readiness.</div>
+</section>
+
+<section class="lecture" id="p3">
+  <div class="lec-header">
+    <div class="lec-num">P3</div>
+    <div>
+      <div class="lec-title">Sourcing, IT služby a SLA</div>
+      <div class="lec-subtitle">Varianty zajišťování IT služeb, katalog služeb, SLA/OLA/UC, metriky, odpovědnosti a business význam služby</div>
+    </div>
+  </div>
+
+  <h2>IT služba jako základní jednotka řízení</h2>
+  <p>V RPI se IT neřídí jen jako technologie, ale jako <strong>služby</strong>. Služba má odběratele, poskytovatele, vlastníka, business význam, metriky kvality, náklady, rizika a podporující procesy. Semestrální práce v předmětu je postavená právě na SLA pro ICT službu, včetně popisu odběratele, business významu a metrik.</p>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Služba</div>
+      <div class="pojem-body">Schopnost poskytovaná zákazníkovi/uživateli, která mu umožňuje dosáhnout výsledku bez vlastnictví konkrétních nákladů a rizik infrastruktury.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Katalog služeb</div>
+      <div class="pojem-body">Přehled dostupných IT služeb s popisem, vlastníkem, cílovými uživateli, podporou, SLA, cenou nebo nákladovou logikou.</div>
+    </div>
+  </div>
+
+  <h2>SLA, OLA, UC</h2>
+  <table>
+    <tr><th>Pojem</th><th>Komu patří</th><th>Co řeší</th><th>Příklad</th></tr>
+    <tr><td><strong>SLA</strong><br>Service Level Agreement</td><td>IT poskytovatel - zákazník/odběratel</td><td>Dohoda o úrovni služby: dostupnost, reakční doba, doba obnovy, reporting, odpovědnosti.</td><td>SAP workflow dostupné 99,5 %, incident P1 reakce do 15 min, obnova do 4 hodin.</td></tr>
+    <tr><td><strong>OLA</strong><br>Operational Level Agreement</td><td>Interní IT týmy</td><td>Interní dohoda podporující SLA. Rozhraní mezi L1/L2/L3, aplikacemi, sítí, databázemi, bezpečností.</td><td>L2 převezme incident do 30 minut, databázový tým reaguje na alert do 20 minut.</td></tr>
+    <tr><td><strong>UC</strong><br>Underpinning Contract</td><td>Organizace - externí dodavatel</td><td>Smluvní podpora služby: cloud provider, outsourcing, servisní partner, licence, sankce a exit.</td><td>Dodavatel SAP podpory garantuje reakci na kritický incident do 1 hodiny.</td></tr>
+  </table>
+
+  <div class="warn"><strong>Past:</strong> SLA bez OLA a UC je slib bez opory. Pokud interní týmy nebo dodavatel nemají odpovídající závazky, zákaznické SLA bude neudržitelné.</div>
+
+  <h2>Co má dobré SLA obsahovat</h2>
+  <ul>
+    <li>popis služby a jejího business významu,</li>
+    <li>identifikaci odběratele, poskytovatele a vlastníka služby,</li>
+    <li>rozsah služby: co je uvnitř a co už ne,</li>
+    <li>provozní dobu, servisní okna a výjimky,</li>
+    <li>metriky: dostupnost, odezva, reakční doba, doba řešení, MTTR, RTO, RPO, first contact resolution, spokojenost,</li>
+    <li>eskalace, komunikační pravidla, reporting a review,</li>
+    <li>vazbu na OLA, UC, bezpečnost, kontinuitu a změny.</li>
+  </ul>
+
+  <h2>Sourcing a formy zajišťování IT</h2>
+  <table>
+    <tr><th>Model</th><th>Výhoda</th><th>Riziko</th><th>Kdy dává smysl</th></tr>
+    <tr><td>Interní IT</td><td>Kontrola, znalost byznysu, citlivá data.</td><td>Kapacitní a znalostní omezení, vyšší fixní náklady.</td><td>Kritické core služby, regulované prostředí, specifické know-how.</td></tr>
+    <tr><td>Outsourcing</td><td>Přístup ke specialistům, škálování, přenos části provozu.</td><td>Vendor lock-in, ztráta know-how, slabé SLA, bezpečnost dodavatele.</td><td>Komoditní služby, infrastruktura, servis, specializovaná podpora.</td></tr>
+    <tr><td>Cloud / SaaS</td><td>Rychlost, elasticita, pay-as-you-go, nižší CAPEX.</td><td>Závislost na poskytovateli, skryté náklady, data residency, exit.</td><td>Dynamická poptávka, standardní aplikace, rychlé spuštění služby.</td></tr>
+    <tr><td>Multisourcing / SIAM</td><td>Více dodavatelů, specializace, konkurence.</td><td>Komplexní koordinace, nejasná odpovědnost při incidentu.</td><td>Velké organizace s heterogenním IT a více externími partnery.</td></tr>
+  </table>
+
+  <h2>Metriky služby</h2>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Dostupnost</div>
+      <div class="pojem-body">Procento času, kdy je služba použitelná. Pozor na výpočet: 99,9 % měsíčně stále znamená desítky minut možného výpadku.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">MTTA / MTTR</div>
+      <div class="pojem-body">Mean Time To Acknowledge a Mean Time To Restore/Resolve. Měří rychlost reakce a obnovy služby.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">RTO / RPO</div>
+      <div class="pojem-body">RTO = za jak dlouho obnovit službu. RPO = kolik dat smíme ztratit. Patří k kontinuitě a DRP.</div>
+    </div>
+  </div>
+
+  <div class="callout"><strong>SAP příklad:</strong> Služba není „SAP server“. Služba může být „zpracování nákupní objednávky v SAP“. SLA pak řeší dostupnost procesu, reakční doby podpory, datovou kvalitu, incidenty, změny a dopad na finance/logistiku.</div>
+</section>
+
+<section class="lecture" id="p4">
+  <div class="lec-header">
+    <div class="lec-num">P4</div>
+    <div>
+      <div class="lec-title">ISO 20000, ITSM a ISO 9000</div>
+      <div class="lec-subtitle">Systém řízení IT služeb, certifikovatelná norma, procesní model, PDCA, vztah k ITIL/COBIT/ISO 27001 a kvalita služeb</div>
+    </div>
+  </div>
+
+  <h2>ISO/IEC 20000</h2>
+  <p><strong>ISO/IEC 20000</strong> je mezinárodní norma pro řízení IT služeb, tedy pro <strong>Service Management System</strong> (SMS). První verze vyšla v roce 2005, navazuje na BS 15000 a vychází z principů ITIL. Certifikovatelná část je ISO/IEC 20000-1:2018.</p>
+  <p>Cílem normy je zajistit kvalitní, konzistentní a měřitelné poskytování IT služeb. Na rozdíl od ITIL, který je rámec best practices a certifikuje hlavně jednotlivce, ISO 20000 stanovuje požadavky na organizaci a její systém řízení služeb.</p>
+
+  <table>
+    <tr><th>ISO 20000</th><th>ITIL</th></tr>
+    <tr><td>Mezinárodní norma s požadavky.</td><td>Framework doporučených postupů.</td></tr>
+    <tr><td>Lze certifikovat organizaci/SMS.</td><td>Typicky certifikace jednotlivců a znalostí.</td></tr>
+    <tr><td>Říká, co musí být splněno.</td><td>Pomáhá, jak to prakticky dělat.</td></tr>
+    <tr><td>Dobré pro audit, zakázky, důvěryhodnost.</td><td>Dobré pro implementaci procesů, rolí a praktik.</td></tr>
+  </table>
+
+  <h2>Struktura a procesní model</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Service Delivery</div>
+      <div class="pojem-body">Řízení úrovně služeb, kapacity, dostupnosti, kontinuity, bezpečnosti informací, reportingu a rozpočtování služeb.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Relationship Processes</div>
+      <div class="pojem-body">Řízení vztahu se zákazníkem a dodavateli. Tady se propojuje SLA, UC, spokojenost zákazníka a dodavatelská rizika.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Resolution Processes</div>
+      <div class="pojem-body">Incident a problem management: rychlá obnova služby a dlouhodobé odstranění příčin.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Control & Release</div>
+      <div class="pojem-body">Configuration, change, release a deployment management. Zajišťují řízenou změnu a kontrolu nad prostředím.</div>
+    </div>
+  </div>
+
+  <h2>PDCA v ISO 20000</h2>
+  <table>
+    <tr><th>Fáze</th><th>Obsah</th><th>Výstup</th></tr>
+    <tr><td><strong>Plan</strong></td><td>Plánování SMS, rozsahu, cílů, politik, rolí a metrik.</td><td>Politiky, cíle, scope, procesní návrh, KPI.</td></tr>
+    <tr><td><strong>Do</strong></td><td>Implementace procesů a poskytování služeb.</td><td>Funkční service desk, SLA, katalog, incident/change procesy.</td></tr>
+    <tr><td><strong>Check</strong></td><td>Monitoring, měření, interní audit a management review.</td><td>Reporty, auditní nálezy, měření SLA, evidence neshod.</td></tr>
+    <tr><td><strong>Act</strong></td><td>Nápravná opatření a neustálé zlepšování.</td><td>Zlepšovací plán, odstranění příčin, aktualizace procesů.</td></tr>
+  </table>
+
+  <h2>Implementace ISO 20000</h2>
+  <ol>
+    <li><strong>Gap analýza</strong> současného stavu ITSM.</li>
+    <li><strong>Stanovení rozsahu SMS</strong>: které služby, týmy, lokality a dodavatelé patří do scope.</li>
+    <li><strong>Definice procesů a rolí</strong>: service owner, process owner, service desk, RACI.</li>
+    <li><strong>Dokumentace</strong>: politiky, postupy, SLA, KPI, evidence.</li>
+    <li><strong>Školení a implementace</strong> do reálného provozu.</li>
+    <li><strong>Interní audit</strong> a nápravná opatření.</li>
+    <li><strong>Certifikační audit</strong> ve dvou fázích: dokumentace a praxe.</li>
+  </ol>
+
+  <div class="warn"><strong>Past:</strong> ISO 20000 „na papíře“ nestačí. Zkouškově zdůrazni podporu vedení, reálné metriky, propojení s ISO 27001/BCM a to, že procesy musí fungovat v provozu.</div>
+
+  <h2>ITSM podle ITIL 4</h2>
+  <p><strong>ITSM</strong> je soubor specializovaných organizačních schopností pro poskytování hodnoty zákazníkům ve formě služeb. Důležité principy: servisně orientovaný přístup, orientace na zákazníka a hodnotu, neustálé zlepšování, měřitelnost, standardizace a procesní přístup.</p>
+  <table>
+    <tr><th>Rozměr služby</th><th>Otázka</th><th>Příklad</th></tr>
+    <tr><td>Organizace a lidé</td><td>Kdo službu vlastní a kdo ji provozuje?</td><td>Service owner, L1/L2/L3, RACI, kultura a kompetence.</td></tr>
+    <tr><td>Informace a technologie</td><td>Jaká data, aplikace a infrastruktura službu podporují?</td><td>SAP, databáze, monitoring, CMDB, bezpečnostní opatření.</td></tr>
+    <tr><td>Partneři a dodavatelé</td><td>Kdo externě podporuje službu?</td><td>Cloud provider, implementační partner, UC, dodavatelská rizika.</td></tr>
+    <tr><td>Toky hodnoty a procesy</td><td>Jak služba vytváří hodnotu end-to-end?</td><td>Od požadavku uživatele přes support, změnu a nasazení až po reporting.</td></tr>
+  </table>
+
+  <h2>ISO 9000 / ISO 9001 v kontextu IT</h2>
+  <p><strong>ISO 9000</strong> family je rámec pro systémy řízení kvality (QMS). Pro RPI je důležitý hlavně procesní přístup, orientace na zákazníka, leadership, zapojení lidí, neustálé zlepšování, rozhodování na základě faktů a řízení vztahů s dodavateli.</p>
+  <div class="callout"><strong>Vazba:</strong> ISO 9000 řeší kvalitu obecně; ISO 20000 aplikuje podobné principy na řízení IT služeb; ISO 27001 řeší bezpečnost informací; ISO 22301 řeší kontinuitu. Dohromady tvoří manažerský systém kolem IT služby.</div>
+</section>
+
+<section class="lecture" id="p5">
+  <div class="lec-header">
+    <div class="lec-num">P5</div>
+    <div>
+      <div class="lec-title">ITIL v3 a ITIL 4</div>
+      <div class="lec-subtitle">IT Service Management, životní cyklus služeb, Service Value System, 4 dimenze, 7 principů, praktiky a rozdíly v3/v4</div>
+    </div>
+  </div>
+
+  <h2>Co je ITIL</h2>
+  <p><strong>ITIL</strong> (Information Technology Infrastructure Library) je celosvětově nejrozšířenější rámec pro IT Service Management. Není to zákon ani certifikovatelná norma pro organizaci, ale soubor doporučení a osvědčených postupů. Poskytuje společný jazyk pro IT profesionály a pomáhá vnímat IT jako partnera, který dodává hodnotu a podporuje obchodní cíle.</p>
+  <p>ITIL má zákaznicky orientovaný a procesní přístup. Je nezávislý na konkrétní technologii a lze ho přizpůsobit velikosti a zralosti organizace.</p>
+
+  <h2>ITIL v3</h2>
+  <p>ITIL v3 je postavený na přísném životním cyklu služby a 26 procesech. Jeho logika se často shrnuje jako <strong>dělat věci správně</strong>: služba musí být technicky navržená, zavedená, provozovaná a zlepšovaná podle definovaných procesů.</p>
+  <table>
+    <tr><th>Fáze ITIL v3</th><th>Co řeší</th><th>Typické procesy</th></tr>
+    <tr><td>Service Strategy</td><td>Služba jako strategické aktivum, hodnota, portfolio, finanční řízení.</td><td>Service portfolio, demand, financial management.</td></tr>
+    <tr><td>Service Design</td><td>Návrh služby, SLA, kapacita, dostupnost, kontinuita, bezpečnost, dodavatelé.</td><td>SLM, availability, capacity, ITSCM, supplier management.</td></tr>
+    <tr><td>Service Transition</td><td>Přechod nové nebo změněné služby do provozu.</td><td>Change, release, deployment, configuration, knowledge.</td></tr>
+    <tr><td>Service Operation</td><td>Denní provoz a podpora služeb.</td><td>Incident, request, problem, event, access management.</td></tr>
+    <tr><td>Continual Service Improvement</td><td>Trvalé zlepšování na základě měření a analýzy.</td><td>7-step improvement process, service reporting.</td></tr>
+  </table>
+
+  <h2>ITIL 4</h2>
+  <p><strong>ITIL 4</strong> přináší modernější, hodnotově orientovaný a flexibilnější rámec kompatibilní s Agile, DevOps, cloudem a produktovým řízením. Místo procesů mluví o <strong>34 praktikách</strong> a jádrem je <strong>Service Value System</strong> (SVS).</p>
+
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Service Value System</div>
+      <div class="pojem-body">Integrovaný model, který proměňuje poptávku nebo příležitost na hodnotu. Obsahuje guiding principles, governance, practices, continual improvement a service value chain.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Service Value Chain</div>
+      <div class="pojem-body">Plan, Improve, Engage, Design & Transition, Obtain/Build, Deliver & Support. Nejde o lineární proces, ale o flexibilní tok hodnoty.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">4 dimenze</div>
+      <div class="pojem-body">Organizace a lidé; informace a technologie; partneři a dodavatelé; value streams a procesy. Brání úzkému technickému pohledu.</div>
+    </div>
+  </div>
+
+  <h2>7 řídících principů ITIL 4</h2>
+  <div class="pojmy two">
+    <div class="pojem blue"><div class="pojem-head">1. Zaměřte se na hodnotu</div><div class="pojem-body">Každá aktivita má podporovat hodnotu pro zákazníka, uživatele nebo organizaci.</div></div>
+    <div class="pojem green"><div class="pojem-head">2. Začněte tam, kde jste</div><div class="pojem-body">Nevyhazovat funkční věci. Nejprve pochopit současný stav a využít existující schopnosti.</div></div>
+    <div class="pojem orange"><div class="pojem-head">3. Postupujte iterativně</div><div class="pojem-body">Dělit změnu na menší kroky, sbírat zpětnou vazbu a snižovat riziko.</div></div>
+    <div class="pojem purple"><div class="pojem-head">4. Spolupracujte a zviditelňujte</div><div class="pojem-body">Zapojit stakeholdery a transparentně ukazovat práci, priority, rizika a metriky.</div></div>
+    <div class="pojem red"><div class="pojem-head">5. Uvažujte holisticky</div><div class="pojem-body">Služba je kombinace lidí, procesů, technologií, dodavatelů a hodnotových toků.</div></div>
+    <div class="pojem slate"><div class="pojem-head">6.-7. Jednoduše, optimalizovat a automatizovat</div><div class="pojem-body">Nepřekomplikovat procesy. Automatizovat až po pochopení a optimalizaci činnosti.</div></div>
+  </div>
+
+  <h2>ITIL v3 vs ITIL 4</h2>
+  <table>
+    <tr><th>Kritérium</th><th>ITIL v3</th><th>ITIL 4</th></tr>
+    <tr><td>Základní model</td><td>Životní cyklus služby, 5 knih, 26 procesů.</td><td>Service Value System, Service Value Chain, 34 praktik.</td></tr>
+    <tr><td>Filozofie</td><td>Dělat věci správně, procesní disciplína.</td><td>Dělat správné věci, spoluvytváření hodnoty.</td></tr>
+    <tr><td>Silná stránka</td><td>Auditovatelnost, struktura, jasné procesy.</td><td>Flexibilita, hodnota, Agile/DevOps/cloud kompatibilita.</td></tr>
+    <tr><td>Riziko</td><td>Sila, hand-offy, pomalejší tok změn.</td><td>Pokud se špatně pochopí, může být příliš obecný a málo disciplinovaný.</td></tr>
+  </table>
+
+  <h2>Struktura v praxi</h2>
+  <p>V praxi ITIL znamená artefakty a rytmus řízení: katalog služeb, SLA/OLA/UC, CMDB, change/release kalendář, policy set, SLO/SLI, DORA metriky, pravidelné review a vlastnictví služby.</p>
+  <table>
+    <tr><th>Zkratka</th><th>Význam</th><th>Proč je důležitá</th></tr>
+    <tr><td>TOM</td><td>Target Operating Model</td><td>Cílové uspořádání procesů, rolí, artefaktů, rytmů řízení a metrik.</td></tr>
+    <tr><td>CMDB / CMIS</td><td>Configuration Management Database / Information System</td><td>Evidence konfiguračních položek a vztahů, základ pro impact analysis.</td></tr>
+    <tr><td>SLO / SLI</td><td>Service Level Objective / Indicator</td><td>Cílová hodnota kvality a konkrétní měřená metrika.</td></tr>
+    <tr><td>DORA</td><td>Lead Time, Deploy Frequency, Change Failure Rate, MTTR</td><td>Technicko-provozní metriky rychlosti a stability změn.</td></tr>
+  </table>
+
+  <div class="callout"><strong>Zkouškový most:</strong> ITIL a ISO 20000 nejsou konkurenti. ITIL je praktická knihovna best practices, ISO 20000 je auditovatelný standard systému řízení IT služeb.</div>
+</section>
+
+<section class="lecture" id="p6">
+  <div class="lec-header">
+    <div class="lec-num">P6</div>
+    <div>
+      <div class="lec-title">Incident, problem, change, release a deployment management</div>
+      <div class="lec-subtitle">Provozní procesy ITSM, rychlá obnova služby, odstranění příčin, řízené změny a bezpečné nasazování</div>
+    </div>
+  </div>
+
+  <h2>Incident vs. problem</h2>
+  <table>
+    <tr><th>Pojem</th><th>Cíl</th><th>Časový horizont</th><th>Příklad</th></tr>
+    <tr><td><strong>Incident</strong></td><td>Co nejrychleji obnovit normální provoz služby.</td><td>Teď hned; minimalizace dopadu.</td><td>Uživatelé se nepřihlásí do SAP, platební dávka neodešla, workflow stojí.</td></tr>
+    <tr><td><strong>Problem</strong></td><td>Najít a odstranit kořenovou příčinu jednoho nebo více incidentů.</td><td>Delší analýza a prevence opakování.</td><td>Opakované výpadky způsobuje špatná konfigurace integrační komponenty.</td></tr>
+  </table>
+  <div class="warn"><strong>Past:</strong> Incident management neřeší hlubokou příčinu jako první prioritu. Nejprve obnoví službu, často workaroundem. Problem management řeší root cause.</div>
+
+  <h2>Incident management</h2>
+  <p>Primárním cílem incident managementu je co nejrychleji vrátit službu do normálu, aby uživatelé a byznys netrpěli déle, než je nutné. Proces chrání business tím, že minimalizuje downtime, drží SLA, zajišťuje komunikaci a brání chaosu.</p>
+  <ol>
+    <li>Detekce incidentu: uživatel, monitoring, alert, service desk.</li>
+    <li>Evidence v ticketovacím systému: co se děje, koho se to týká, kdy začalo.</li>
+    <li>Kategorizace a priorita: dopad x urgence.</li>
+    <li>První diagnóza a pokus o řešení na L1.</li>
+    <li>Eskalace na L2/L3 nebo dodavatele.</li>
+    <li>Obnova služby, workaround, komunikace uživatelům.</li>
+    <li>Uzavření, dokumentace a případné otevření problem recordu.</li>
+  </ol>
+
+  <h3>Role service desku</h3>
+  <ul>
+    <li>centrální vstupní brána pro uživatele,</li>
+    <li>rychlá kategorizace a prioritizace,</li>
+    <li>first-time resolution tam, kde to jde,</li>
+    <li>eskalace a komunikace,</li>
+    <li>kvalitní evidence pro RCA a reporting.</li>
+  </ul>
+
+  <h2>Problem management</h2>
+  <p><strong>Problem</strong> je skrytá nebo nejasná příčina incidentů, která vede k opakovaným výpadkům nebo chybám. Problem management může být reaktivní (po incidentech) nebo proaktivní (trendy, monitoring, analýza logů).</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">RCA</div>
+      <div class="pojem-body">Root Cause Analysis: hledání skutečné příčiny, ne pouze symptomu. Například 5 Why, Ishikawa nebo analýza logů.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Known Error</div>
+      <div class="pojem-body">Problém s identifikovanou příčinou a známým workaroundem nebo fixem.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">KEDB</div>
+      <div class="pojem-body">Known Error Database: sdílená znalostní báze, díky níž service desk řeší opakované incidenty rychleji.</div>
+    </div>
+  </div>
+
+  <h2>Change management / Change enablement</h2>
+  <p><strong>Change</strong> je přidání, úprava nebo odstranění čehokoli, co může mít přímý nebo nepřímý dopad na služby. Účelem změnového řízení je maximalizovat počet úspěšných změn tím, že se posoudí rizika, dopad, plán, testování, komunikace a možnost návratu zpět.</p>
+  <table>
+    <tr><th>Typ změny</th><th>Charakteristika</th><th>Příklad</th></tr>
+    <tr><td>Standard change</td><td>Nízké riziko, předem schválený postup, opakovatelná změna.</td><td>Reset hesla, rutinní konfigurace podle checklistu.</td></tr>
+    <tr><td>Normal change</td><td>Vyžaduje posouzení, plán, schválení a koordinaci.</td><td>Úprava SAP workflow, upgrade integrační komponenty.</td></tr>
+    <tr><td>Emergency change</td><td>Urgentní změna k odstranění kritického incidentu nebo bezpečnostního rizika.</td><td>Hotfix po výpadku nebo kritické zranitelnosti.</td></tr>
+  </table>
+
+  <h3>CAB a EAB</h3>
+  <p><strong>CAB</strong> (Change Advisory Board) posuzuje rizikovější změny. Nemá brzdit každou drobnost; jeho smysl je řídit dopad, rizika, koordinaci, konflikty a rollback. <strong>EAB</strong> může znamenat Emergency Change Advisory Board nebo Enterprise Architecture Board podle kontextu; vždy sleduj, zda jde o urgentní změnu, nebo architektonický dohled.</p>
+
+  <h2>Release vs. deployment</h2>
+  <table>
+    <tr><th>Kritérium</th><th>Release management</th><th>Deployment management</th></tr>
+    <tr><td>Co řeší</td><td>Obsah, přípravu a koordinaci verze.</td><td>Technické nasazení verze do prostředí.</td></tr>
+    <tr><td>Otázka</td><td>Co bude ve verzi a kdy bude připravená?</td><td>Jak přesně ji nasadíme a ověříme?</td></tr>
+    <tr><td>Činnosti</td><td>Release package, plán release, testování, dokumentace, schválení.</td><td>CI/CD pipeline, rollout, migrace, smoke test, monitoring, rollback.</td></tr>
+    <tr><td>Role</td><td>Release manager, product owner, QA, change manager.</td><td>Deployment manager, DevOps, SRE, operations tým.</td></tr>
+  </table>
+
+  <h2>Deployment strategie</h2>
+  <div class="pojmy two">
+    <div class="pojem red">
+      <div class="pojem-head">Big bang</div>
+      <div class="pojem-body">Vše se nasadí najednou. Jednoduché, ale rizikové, rollback bývá složitý a výpadek delší.</div>
+    </div>
+    <div class="pojem blue">
+      <div class="pojem-head">Rolling deployment</div>
+      <div class="pojem-body">Nasazuje se po částech, například server po serveru. Nižší riziko a menší výpadek.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Blue-green</div>
+      <div class="pojem-body">Dvě prostředí: staré blue, nové green. Po ověření se přepne provoz; rollback je rychlý.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Canary / feature flags</div>
+      <div class="pojem-body">Nová verze nebo funkce se zapne malé skupině uživatelů a postupně se rozšiřuje podle metrik.</div>
+    </div>
+  </div>
+
+  <div class="callout"><strong>SAP most:</strong> Transport do produkce bez change requestu, testů, release okna, komunikace a rollback plánu je typický auditní nález. Dobrý postup propojuje change management, release management, deployment a monitoring po nasazení.</div>
+</section>
+
+<section class="lecture" id="p7">
+  <div class="lec-header">
+    <div class="lec-num">P7</div>
+    <div>
+      <div class="lec-title">COBIT 2019 a audit IS/IT</div>
+      <div class="lec-subtitle">Rámec ISACA, governance vs management, domény EDM/APO/BAI/DSS/MEA, komponenty, design factors, auditní využití a capability</div>
+    </div>
+  </div>
+
+  <h2>COBIT 2019</h2>
+  <p><strong>COBIT</strong> (Control Objectives for Information and Related Technology) je rámec pro správu a řízení podnikového IT vyvinutý asociací ISACA. Vznikl v roce 1996 jako soubor kontrolních cílů pro IT audit, ale dnes je komplexním rámcem, který propojuje podnikové řízení, IT procesy, rizika, kontroly, compliance a zlepšování.</p>
+
+  <h2>K čemu COBIT slouží</h2>
+  <ul>
+    <li>sladění IT a byznysu,</li>
+    <li>vytvoření odpovědností a rolí,</li>
+    <li>budování kontrolních mechanismů,</li>
+    <li>řízení rizik, nákladů a compliance,</li>
+    <li>podpora kontinuálního zlepšování,</li>
+    <li>společný jazyk pro management, IT, audit a bezpečnost.</li>
+  </ul>
+
+  <h2>6 principů COBIT 2019</h2>
+  <div class="pojmy three">
+    <div class="pojem blue"><div class="pojem-head">1. Hodnota pro stakeholdery</div><div class="pojem-body">Governance systém má uspokojovat potřeby zainteresovaných stran a vyvažovat přínosy, rizika a zdroje.</div></div>
+    <div class="pojem green"><div class="pojem-head">2. Holistický přístup</div><div class="pojem-body">Neřeší jen procesy. Zahrnuje struktury, kulturu, informace, lidi, technologie a politiky.</div></div>
+    <div class="pojem orange"><div class="pojem-head">3. Dynamický systém</div><div class="pojem-body">Řízení se musí měřit a přizpůsobovat změnám strategie, rizik, regulace a technologií.</div></div>
+    <div class="pojem purple"><div class="pojem-head">4. Governance vs management</div><div class="pojem-body">Jasně odděluje stanovování směru, hodnot a kontroly od operativního plánování a provozu.</div></div>
+    <div class="pojem red"><div class="pojem-head">5. Přizpůsobení podniku</div><div class="pojem-body">Design factors umožňují tailoring podle velikosti, regulace, sourcingu, rizik a role IT.</div></div>
+    <div class="pojem slate"><div class="pojem-head">6. Pokrytí celého podniku</div><div class="pojem-body">IT governance není izolovaná IT aktivita, ale součást enterprise governance.</div></div>
+  </div>
+
+  <h2>Governance vs management</h2>
+  <table>
+    <tr><th>Dimenze</th><th>Governance</th><th>Management</th></tr>
+    <tr><td>Smysl</td><td>Stanovuje směr, hodnoty a kontrolní mechanismy.</td><td>Implementuje a operativně řídí IT procesy.</td></tr>
+    <tr><td>Aktivity</td><td>Evaluate, Direct, Monitor.</td><td>Plan, Build, Run, Monitor.</td></tr>
+    <tr><td>COBIT domény</td><td>EDM.</td><td>APO, BAI, DSS, MEA.</td></tr>
+    <tr><td>Otázka</td><td>Děláme správné věci?</td><td>Děláme věci správně?</td></tr>
+  </table>
+
+  <h2>5 domén COBIT 2019</h2>
+  <table>
+    <tr><th>Doména</th><th>Význam</th><th>Příklad využití</th></tr>
+    <tr><td><strong>EDM</strong> Evaluate, Direct & Monitor</td><td>Governance cíle: hodnota, riziko, zdroje, stakeholder engagement.</td><td>Board hodnotí IT portfolio a nastavuje směr.</td></tr>
+    <tr><td><strong>APO</strong> Align, Plan & Organize</td><td>Strategie, architektura, inovace, rozpočet, zdroje, rizika, bezpečnost.</td><td>IT strategie, EA, sourcing, security management.</td></tr>
+    <tr><td><strong>BAI</strong> Build, Acquire & Implement</td><td>Programy, projekty, změny, řešení, dostupnost a přechod do provozu.</td><td>Vývoj a nasazení změny SAP procesu.</td></tr>
+    <tr><td><strong>DSS</strong> Deliver, Service & Support</td><td>Provoz, service desk, incidenty, kontinuita, bezpečnostní služby.</td><td>Řízení provozu SAP služby a podpory uživatelů.</td></tr>
+    <tr><td><strong>MEA</strong> Monitor, Evaluate & Assess</td><td>Výkonnost, interní kontrola, compliance a audit.</td><td>Auditní zprávy, SLA dashboardy, sledování nápravných opatření.</td></tr>
+  </table>
+
+  <h2>7 komponent systému řízení IT</h2>
+  <div class="pojmy two">
+    <div class="pojem blue"><div class="pojem-head">Procesy</div><div class="pojem-body">Popisují, jak se dosahuje cílů a jak se měří výkon.</div></div>
+    <div class="pojem green"><div class="pojem-head">Organizační struktury</div><div class="pojem-body">Kdo rozhoduje, kdo ručí a kdo je konzultován.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Směrnice a politiky</div><div class="pojem-body">Pravidla řízení, bezpečnostní politiky, change policy, sourcing policy.</div></div>
+    <div class="pojem purple"><div class="pojem-head">Informace</div><div class="pojem-body">Vstupy a výstupy pro rozhodování, reporting, metriky, evidence.</div></div>
+    <div class="pojem red"><div class="pojem-head">Kultura a etika</div><div class="pojem-body">Hodnoty, chování, akceptace kontrol a transparentnost.</div></div>
+    <div class="pojem slate"><div class="pojem-head">Lidé, dovednosti, technologie</div><div class="pojem-body">Kompetence, kapacity, nástroje, aplikace, infrastruktura a služby.</div></div>
+  </div>
+
+  <h2>Design factors a focus areas</h2>
+  <p><strong>Design factors</strong> umožňují přizpůsobit COBIT konkrétní organizaci: velikost, strategická orientace, míra regulace, typ sourcingu, rizikový profil, threat landscape, role IT a technologická adopce. <strong>Focus areas</strong> rozšiřují COBIT pro konkrétní oblasti: cybersecurity, cloud, DevOps, privacy, risk management.</p>
+  <div class="callout"><strong>Jedna věta:</strong> COBIT není šablona. Je to parametrizovatelný rámec, který pomáhá nastavit governance a management IT podle potřeb konkrétní organizace.</div>
+
+  <h2>Audit IS/IT</h2>
+  <p><strong>Audit</strong> je systematický a nezávislý proces hodnocení, jehož cílem je ověřit soulad mezi realitou a stanovenými kritérii. Audit IS/IT hodnotí spolehlivost, bezpečnost, dostupnost, integritu a efektivitu informačních systémů a to, zda IT podporuje obchodní cíle organizace.</p>
+  <table>
+    <tr><th>Oblast auditu</th><th>Co se hodnotí</th><th>Typický nález</th></tr>
+    <tr><td>Access management</td><td>Role, účty, oprávnění, SoD, recertifikace.</td><td>Neaktuální přístupy po odchodu zaměstnance, sdílené účty.</td></tr>
+    <tr><td>Change management</td><td>Schvalování, testování, dokumentace a nasazení změn.</td><td>Změny bez testů, chybějící rollback, slabá evidence.</td></tr>
+    <tr><td>IT security</td><td>Patch management, zranitelnosti, segmentace, logování.</td><td>Neaktuální systémy, chybějící monitoring.</td></tr>
+    <tr><td>Incident management</td><td>Klasifikace, reakce, komunikace, RCA.</td><td>Incidenty nejsou kategorizované, chybí lessons learned.</td></tr>
+    <tr><td>BCM / DRP</td><td>Plány obnovy, testování, BIA, RTO/RPO.</td><td>Plány neaktuální, testy neprobíhají, nejsou kontakty.</td></tr>
+    <tr><td>Vendor management</td><td>SLA, dodavatelská rizika, bezpečnost, exit strategie.</td><td>Smlouvy bez bezpečnostních požadavků a auditních práv.</td></tr>
+  </table>
+
+  <h2>Průběh IT auditu</h2>
+  <ol>
+    <li><strong>Planning:</strong> cíl auditu, scope, kritéria, rizika, relevantní COBIT domény.</li>
+    <li><strong>Fieldwork:</strong> rozhovory, logy, smlouvy, konfigurace, reperformance a testování kontrol.</li>
+    <li><strong>Zpráva:</strong> zjištění, rizika, důkazy, doporučení a priorita nápravy.</li>
+    <li><strong>Prezentace:</strong> komunikace vedení a vlastníků procesů.</li>
+    <li><strong>Follow-up:</strong> sledování nápravných opatření a zlepšení.</li>
+  </ol>
+
+  <div class="callout"><strong>SAP most:</strong> COBIT ti pomůže vysvětlit, kdo rozhoduje o SAP změnách, jak se měří schopnost procesu, kde jsou kontrolní cíle a proč je auditní stopa pro ERP kritická.</div>
+</section>
+
+<section class="lecture" id="p8">
+  <div class="lec-header">
+    <div class="lec-num">P8</div>
+    <div>
+      <div class="lec-title">Enterprise architektura a cloud computing</div>
+      <div class="lec-subtitle">EA jako systémový přístup, TOGAF, Zachman, vrstvy architektury, cloudové modely, obchodní modely, trendy a rizika</div>
+    </div>
+  </div>
+
+  <h2>Enterprise architektura</h2>
+  <p><strong>Enterprise architektura</strong> je systémový přístup k návrhu a řízení podnikové informatiky. Popisuje strukturu procesů, aplikací, dat a technologií ve firmě. Cílem je sladění IT se strategickými cíli organizace, snížení duplicit, řízení komplexity, optimalizace nákladů, vyšší agilita a podpora digitální transformace.</p>
+
+  <table>
+    <tr><th>Pohled</th><th>Co řeší</th><th>Příklad</th></tr>
+    <tr><td>Business architektura</td><td>Procesy, schopnosti, role, produkty, organizační struktura.</td><td>Nákupní proces, schvalování objednávek, vlastníci procesů.</td></tr>
+    <tr><td>Data architektura</td><td>Datové objekty, master data, datové toky, kvalita a vlastnictví dat.</td><td>Kmenová data dodavatelů, materiálů, účtů, zákazníků v SAP.</td></tr>
+    <tr><td>Aplikační architektura</td><td>Aplikace, moduly, rozhraní, integrace, redundance.</td><td>SAP ECC/S/4HANA, CRM, DWH, middleware, API.</td></tr>
+    <tr><td>Technologická architektura</td><td>Infrastruktura, cloud, síť, bezpečnost, provozní platformy.</td><td>Azure/AWS, databáze, monitoring, identity, zálohy.</td></tr>
+  </table>
+
+  <h2>Role EA z hlediska podnikové informatiky</h2>
+  <ul>
+    <li>strategický rámec pro rozvoj IT,</li>
+    <li>jasná pravidla pro plánování a řízení IT,</li>
+    <li>standardizace technologií a procesů,</li>
+    <li>snížení rizika duplicit a nekompatibilit,</li>
+    <li>lepší podpora digitální transformace,</li>
+    <li>snazší integrace nových aplikací a služeb.</li>
+  </ul>
+
+  <h2>Frameworky EA</h2>
+  <table>
+    <tr><th>Framework</th><th>Typ</th><th>Charakteristika</th><th>Jak odpovědět</th></tr>
+    <tr><td><strong>Zachman</strong></td><td>Klasifikační</td><td>Matice perspektiv a kategorií: co, jak, kde, kdo, kdy, proč. Pomáhá třídit informace o architektuře.</td><td>Zachman říká, jak architektonické informace strukturovat, ale neříká, jak architekturu vytvářet krok za krokem.</td></tr>
+    <tr><td><strong>TOGAF</strong></td><td>Procesní</td><td>Metodika tvorby a řízení EA. Obsahuje ADM, Content Framework, Enterprise Continuum a Capability Framework.</td><td>TOGAF je praktická metodika s iterativním cyklem ADM a výstupy/artefakty.</td></tr>
+    <tr><td><strong>FEAF</strong></td><td>Obsahový</td><td>Zaměřuje se na konkrétní obsah a strukturu architektury, typicky ve veřejné správě.</td><td>Další příklad rámce, méně centrální než TOGAF/Zachman.</td></tr>
+  </table>
+
+  <h2>TOGAF vs Zachman</h2>
+  <table>
+    <tr><th>Kritérium</th><th>TOGAF</th><th>Zachman</th></tr>
+    <tr><td>Zaměření</td><td>Praktická metodika pro tvorbu a řízení EA.</td><td>Klasifikační rámec pro strukturování informací.</td></tr>
+    <tr><td>Metodika</td><td>ADM: iterativní proces tvorby architektury.</td><td>Žádná procesní metodika; matice pohledů.</td></tr>
+    <tr><td>Výstupy</td><td>Artefakty, modely, katalogy, roadmapy, architektonické bloky.</td><td>Klasifikované popisy podle perspektiv a otázek.</td></tr>
+    <tr><td>Praktické použití</td><td>Návrh, implementace a správa architektury.</td><td>Kontrola úplnosti a komunikace pohledů.</td></tr>
+  </table>
+
+  <h2>Cloud computing</h2>
+  <p><strong>Cloud computing</strong> je přístup k výpočetním zdrojům přes internet bez nutnosti vlastní správy hardwaru. Z pohledu RPI je důležitý kvůli sourcingu, nákladům, škálování, bezpečnosti, vendor lock-inu, odpovědnostem, datům a kontinuitě služeb.</p>
+  <div class="pojmy three">
+    <div class="pojem blue"><div class="pojem-head">On-demand self-service</div><div class="pojem-body">Uživatel nebo IT tým si umí službu objednat a změnit podle potřeby.</div></div>
+    <div class="pojem green"><div class="pojem-head">Broad network access</div><div class="pojem-body">Přístup přes síť a standardní zařízení.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Resource pooling</div><div class="pojem-body">Sdílení zdrojů mezi více zákazníky a službami.</div></div>
+    <div class="pojem purple"><div class="pojem-head">Rapid elasticity</div><div class="pojem-body">Rychlé škálování nahoru i dolů podle poptávky.</div></div>
+    <div class="pojem red"><div class="pojem-head">Pay-as-you-go</div><div class="pojem-body">Platba podle skutečného využití; výhoda i riziko nepředvídaných nákladů.</div></div>
+    <div class="pojem slate"><div class="pojem-head">Measured service</div><div class="pojem-body">Měření spotřeby a reporting nákladů, základ pro FinOps.</div></div>
+  </div>
+
+  <h2>Modely nasazení</h2>
+  <table>
+    <tr><th>Model</th><th>Výhoda</th><th>Riziko</th></tr>
+    <tr><td>Public cloud</td><td>Nízké vstupní náklady, rychlé spuštění, škálování.</td><td>Omezená kontrola, data/privacy otázky, výpadky poskytovatele.</td></tr>
+    <tr><td>Private cloud</td><td>Vyšší kontrola, bezpečnost, přizpůsobení.</td><td>Vyšší náklady, složitější provoz, menší elasticita.</td></tr>
+    <tr><td>Hybrid cloud</td><td>Kombinace citlivých systémů on-prem/private a flexibilních služeb v public cloudu.</td><td>Komplexní integrace, governance a bezpečnost napříč prostředími.</td></tr>
+    <tr><td>Multi-cloud</td><td>Menší závislost na jednom vendorovi, flexibilita, odolnost.</td><td>Větší komplexita správy, náklady, bezpečnostní nekonzistence.</td></tr>
+  </table>
+
+  <h2>SaaS, PaaS, IaaS</h2>
+  <table>
+    <tr><th>Model služby</th><th>Co dostává zákazník</th><th>Kontrola zákazníkem</th><th>Příklad</th></tr>
+    <tr><td>SaaS</td><td>Hotovou aplikaci přes internet.</td><td>Nízká; konfigurace a uživatelé.</td><td>Microsoft 365, Google Workspace, CRM SaaS.</td></tr>
+    <tr><td>PaaS</td><td>Platformu pro vývoj a provoz aplikací.</td><td>Střední; aplikace a data, méně infrastruktury.</td><td>Azure App Service, Heroku, Firebase.</td></tr>
+    <tr><td>IaaS</td><td>Virtuální servery, sítě, úložiště.</td><td>Vysoká; OS, middleware, aplikace, data.</td><td>AWS EC2, Azure VM, Google Compute Engine.</td></tr>
+  </table>
+
+  <h2>Rizika a trendy</h2>
+  <div class="pojmy two">
+    <div class="pojem red"><div class="pojem-head">Vendor lock-in</div><div class="pojem-body">Migrace mezi poskytovateli může být složitá. RPI musí řešit exit strategii, data export, smlouvy a architektonickou přenositelnost.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Skryté náklady</div><div class="pojem-body">Cloud snižuje CAPEX, ale může zvyšovat OPEX. Bez FinOps, tagování a rozpočtových pravidel náklady utečou.</div></div>
+    <div class="pojem blue"><div class="pojem-head">Zero Trust a cloud security</div><div class="pojem-body">Identita, mikrosegmentace, kontinuální ověřování a monitoring nahrazují starý perimetr.</div></div>
+    <div class="pojem green"><div class="pojem-head">Composable / API-first</div><div class="pojem-body">Architektura jako stavebnice: API, modulární komponenty, PBCs, rychlá adaptace a lepší integrace.</div></div>
+  </div>
+
+  <div class="callout"><strong>SAP most:</strong> EA vysvětluje, kam SAP patří v cílové architektuře, jaké má integrace, jaký technický dluh vznikl customizací a jak změna procesu ovlivní data, aplikace i role.</div>
+</section>
+
+<section class="lecture" id="p9">
+  <div class="lec-header">
+    <div class="lec-num">P9</div>
+    <div>
+      <div class="lec-title">Náklady a přínosy informačních systémů</div>
+      <div class="lec-subtitle">CAPEX/OPEX, TCO, CBA, NPV, IRR, IT Balanced Scorecard, měření hodnoty IT a investiční rozhodování</div>
+    </div>
+  </div>
+
+  <h2>Proč hodnotit IT investice</h2>
+  <p>IT projekty jsou drahé, rizikové a často mají nepřímé přínosy. Hodnocení nákladů a přínosů pomáhá zajistit strategický soulad, efektivní alokaci omezených zdrojů, řízení rizik, predikovatelnost a most mezi IT a byznysem.</p>
+
+  <h2>Náklady a přínosy</h2>
+  <table>
+    <tr><th>Typ</th><th>Význam</th><th>Příklad v IS/IT</th></tr>
+    <tr><td>Přímé náklady</td><td>Přímo přiřaditelné konkrétnímu systému/projektu.</td><td>Licence, implementace, konzultanti, hardware.</td></tr>
+    <tr><td>Nepřímé náklady</td><td>Společné nebo obtížně přiřaditelné náklady.</td><td>Management času, sdílená infrastruktura, interní podpora.</td></tr>
+    <tr><td>Viditelné náklady</td><td>Snadno měřitelné ve fakturách a rozpočtech.</td><td>Předplatné SaaS, servery, maintenance.</td></tr>
+    <tr><td>Skryté náklady</td><td>Reálně existují, ale nejsou ihned vidět.</td><td>Školení, downtime, migrace, bezpečnost, budoucí upgrady.</td></tr>
+    <tr><td>Hmotné přínosy</td><td>Lze je relativně přímo vyjádřit penězi.</td><td>Úspora času, méně FTE, nižší náklady na chyby.</td></tr>
+    <tr><td>Nehmotné přínosy</td><td>Obtížně se oceňují, ale strategicky zásadní.</td><td>Spokojenost uživatelů, kvalita dat, reputace, compliance.</td></tr>
+  </table>
+
+  <h2>CAPEX vs OPEX</h2>
+  <table>
+    <tr><th>Kritérium</th><th>CAPEX</th><th>OPEX</th></tr>
+    <tr><td>Co to je</td><td>Kapitálový výdaj do dlouhodobého majetku.</td><td>Provozní výdaj na běžný provoz.</td></tr>
+    <tr><td>Příklad</td><td>Nákup vlastních serverů a trvalých licencí ERP.</td><td>Měsíční SaaS předplatné a pronájem cloud kapacity.</td></tr>
+    <tr><td>Finanční tok</td><td>Vysoká počáteční investice.</td><td>Pravidelné průběžné platby.</td></tr>
+    <tr><td>Flexibilita</td><td>Nižší, majetek je fixní.</td><td>Vyšší, službu lze škálovat nebo ukončit.</td></tr>
+    <tr><td>Riziko</td><td>Zastarání, špatný odhad kapacity.</td><td>Vendor lock-in, růst cen, závislost na dodavateli.</td></tr>
+  </table>
+
+  <h2>TCO</h2>
+  <p><strong>TCO</strong> (Total Cost of Ownership) je součet všech přímých i nepřímých nákladů spojených s pořízením, provozem, údržbou a ukončením informačního systému po celý životní cyklus. Cíl: zjistit skutečné náklady vlastnictví a porovnat varianty, například cloud vs on-premise.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Nad hladinou</div>
+      <div class="pojem-body">Cena hardwaru, softwaru, licencí, instalace a implementace. Typicky jen menší část celkových nákladů.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Pod hladinou</div>
+      <div class="pojem-body">Administrátoři, podpora, školení, downtime, energie, chlazení, zabezpečení, budoucí upgrady, migrace a likvidace.</div>
+    </div>
+  </div>
+
+  <div class="warn"><strong>Limit TCO:</strong> Je to primárně nákladová metoda. Nezohledňuje dostatečně přínosy, časovou hodnotu peněz ani strategický dopad.</div>
+
+  <h2>CBA, NPV a IRR</h2>
+  <table>
+    <tr><th>Metoda</th><th>Co říká</th><th>Rozhodovací logika</th><th>Past</th></tr>
+    <tr><td><strong>CBA</strong></td><td>Porovnává náklady a přínosy projektu v čase, včetně nehmotných efektů.</td><td>Přínosy mají převážit náklady.</td><td>Nehmotné přínosy se špatně oceňují a snadno se nadhodnotí.</td></tr>
+    <tr><td><strong>NPV</strong></td><td>Součet diskontovaných cash flow během životnosti projektu.</td><td>NPV &gt; 0 podporuje realizaci.</td><td>Silně závisí na odhadu cash flow a diskontní sazbě.</td></tr>
+    <tr><td><strong>IRR</strong></td><td>Výnosové procento, při kterém je NPV rovno nule.</td><td>IRR vyšší než požadovaný výnos = projekt se vyplatí.</td><td>U nestandardních cash flow může být matoucí; procenta nejsou vždy lepší než absolutní hodnota NPV.</td></tr>
+  </table>
+
+  <h2>IT Balanced Scorecard</h2>
+  <p><strong>Balanced Scorecard</strong> převádí strategii do měřitelných perspektiv. V IT verzi se ptá, jak IT vytváří hodnotu pro business, uživatele, interní procesy a budoucí schopnosti.</p>
+  <table>
+    <tr><th>Perspektiva IT BSC</th><th>Otázka</th><th>Příklad metriky</th></tr>
+    <tr><td>Business přínos</td><td>Jak IT podporuje strategii a finanční cíle?</td><td>ROI, NPV, snížení nákladů, přínosy automatizace.</td></tr>
+    <tr><td>Uživatelé / zákazníci</td><td>Jak uživatelé vnímají kvalitu služby?</td><td>Spokojenost, SLA breach, počet incidentů, doba odezvy.</td></tr>
+    <tr><td>Interní procesy</td><td>Jak efektivně IT dodává a provozuje služby?</td><td>Lead time změny, MTTR, change failure rate, first contact resolution.</td></tr>
+    <tr><td>Učení a inovace</td><td>Jak IT rozvíjí schopnosti do budoucna?</td><td>Automatizace, školení, technologická zralost, cloud/adopce AI.</td></tr>
+  </table>
+
+  <div class="callout"><strong>SAP most:</strong> Přínos optimalizace SAP procesu není jen „šetří čas“. Ukaž TCO dopad, CBA přínosy, menší chybovost, auditovatelnost, kvalitu dat, rychlejší průchod procesu a snížení provozního rizika.</div>
+</section>
+
+<section class="lecture" id="p10">
+  <div class="lec-header">
+    <div class="lec-num">P10</div>
+    <div>
+      <div class="lec-title">GDPR a ochrana osobních údajů</div>
+      <div class="lec-subtitle">Osobní údaje, správce/zpracovatel, právní tituly, zvláštní kategorie, DPO, DPIA, ROPA, DSAR, incidenty a zákon 110/2019 Sb.</div>
+    </div>
+  </div>
+
+  <h2>Co je GDPR</h2>
+  <p><strong>GDPR</strong> je obecné nařízení EU 2016/679 o ochraně osobních údajů. Platí od roku 2016 a účinné je od roku 2018. Cílem je jednotná ochrana osobních údajů v EU, kontrola jednotlivců nad jejich údaji, transparentnost zpracování, povinnosti organizací a sankce za porušení.</p>
+
+  <h2>Základní pojmy</h2>
+  <table>
+    <tr><th>Pojem</th><th>Význam</th><th>Příklad</th></tr>
+    <tr><td>Osobní údaj</td><td>Informace, podle níž lze přímo nebo nepřímo identifikovat fyzickou osobu.</td><td>Jméno, e-mail, IP adresa, rodné číslo, fotografie, GPS poloha.</td></tr>
+    <tr><td>Subjekt údajů</td><td>Fyzická osoba, které se osobní údaje týkají.</td><td>Zaměstnanec, zákazník, student.</td></tr>
+    <tr><td>Správce</td><td>Určuje účel a prostředky zpracování.</td><td>Firma rozhodne, proč a jak vede CRM databázi zákazníků.</td></tr>
+    <tr><td>Zpracovatel</td><td>Zpracovává údaje podle pokynů správce.</td><td>Cloudový poskytovatel, externí účetní, payroll služba.</td></tr>
+    <tr><td>Zpracování</td><td>Jakákoli operace s údaji.</td><td>Sběr, uložení, změna, sdílení, vymazání, šifrování.</td></tr>
+    <tr><td>Porušení zabezpečení</td><td>Incident se ztrátou, zpřístupněním nebo změnou osobních údajů.</td><td>Chybně poslaná faktura, únik HR dat, ztracený notebook.</td></tr>
+  </table>
+
+  <h2>Právní tituly podle čl. 6 GDPR</h2>
+  <div class="pojmy three">
+    <div class="pojem blue"><div class="pojem-head">Souhlas</div><div class="pojem-body">Svobodný, konkrétní, informovaný a jednoznačný; musí být odvolatelný a nesmí být skrytý v podmínkách.</div></div>
+    <div class="pojem green"><div class="pojem-head">Smlouva</div><div class="pojem-body">Zpracování nutné pro splnění smlouvy nebo kroky před jejím uzavřením.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Právní povinnost</div><div class="pojem-body">Například evidence zaměstnanců, účetnictví, zákonné povinnosti.</div></div>
+    <div class="pojem purple"><div class="pojem-head">Životně důležitý zájem</div><div class="pojem-body">Ochrana života nebo zdraví subjektu údajů nebo jiné osoby.</div></div>
+    <div class="pojem red"><div class="pojem-head">Veřejný zájem</div><div class="pojem-body">Výkon veřejné moci nebo úkol ve veřejném zájmu.</div></div>
+    <div class="pojem slate"><div class="pojem-head">Oprávněný zájem</div><div class="pojem-body">Zájem správce nebo třetí strany, pokud nepřeváží práva a svobody subjektu údajů.</div></div>
+  </div>
+
+  <h2>Zvláštní kategorie údajů</h2>
+  <p>Článek 9 GDPR chrání citlivější údaje: původ, politické názory, náboženství, odbory, zdraví, genetické a biometrické údaje, sexuální život nebo orientaci. Zpracování je obecně zakázáno, pokud neplatí výjimka: výslovný souhlas, pracovní/sociální právo, životně důležité zájmy, právní nároky, veřejný zájem, zdravotní nebo výzkumné účely.</p>
+
+  <h2>Smlouva o zpracování osobních údajů</h2>
+  <p>Když správce svěří osobní údaje zpracovateli, musí existovat smlouva o zpracování. Obsahuje účel a dobu zpracování, typ údajů, kategorie subjektů, povinnosti správce a zpracovatele, pokyny správce, bezpečnost, mlčenlivost, mazání nebo vrácení dat po ukončení služby.</p>
+  <div class="callout"><strong>Cloud příklad:</strong> Škola používá Microsoft 365 pro e-maily a dokumenty studentů. Škola je správce, Microsoft je zpracovatel. Smlouva musí zajistit, že Microsoft data chrání a nepoužívá je mimo pokyny školy.</div>
+
+  <h2>DPO, ROPA, DPIA, DSAR</h2>
+  <table>
+    <tr><th>Pojem</th><th>Význam</th><th>Prakticky v organizaci</th></tr>
+    <tr><td><strong>DPO</strong></td><td>Pověřenec pro ochranu osobních údajů.</td><td>Radí, školí, monitoruje, vede DPIA, komunikuje s ÚOOÚ a subjekty údajů. Musí být nezávislý a bez konfliktu zájmů.</td></tr>
+    <tr><td><strong>ROPA</strong></td><td>Záznamy činností zpracování.</td><td>Kdo, proč, jaká data, jak dlouho, komu se předávají a jak jsou chráněna.</td></tr>
+    <tr><td><strong>DPIA</strong></td><td>Posouzení vlivu na ochranu osobních údajů.</td><td>U rizikových zpracování: biometrika, kamerové systémy, systematické monitorování.</td></tr>
+    <tr><td><strong>DSAR</strong></td><td>Žádost subjektu údajů o práva.</td><td>Přístup, oprava, výmaz, omezení, přenositelnost; obvykle lhůta 1 měsíc.</td></tr>
+  </table>
+
+  <h2>Incidenty a komunikace s ÚOOÚ</h2>
+  <p>Porušení zabezpečení osobních údajů se musí posoudit podle rizika pro osoby. Pokud hrozí riziko, oznamuje se dozorovému úřadu typicky do 72 hodin. Pokud je riziko vysoké, informují se i dotčené osoby. Organizace musí incident evidovat, komunikovat věcně a provést nápravná opatření.</p>
+
+  <h2>Zákon č. 110/2019 Sb.</h2>
+  <p>Český zákon o zpracování osobních údajů doplňuje GDPR: upravuje pravomoci ÚOOÚ, přestupky, národní odchylky a výjimky. Důležité body z materiálů: věk dítěte pro souhlas se službou informační společnosti je 15 let, rodné číslo lze používat jen při zákonném důvodu nebo nezbytnosti a existují výjimky pro akademické, umělecké a novinářské účely.</p>
+
+  <div class="warn"><strong>Past:</strong> Neříkej „máme souhlas, takže je vše vyřešeno“. Souhlas je jen jeden právní titul a často není nejvhodnější. U zaměstnanců bývá problematický kvůli nerovnováze.</div>
+
+  <div class="callout"><strong>SAP most:</strong> Špatně nastavené role v SAP mohou znamenat nadbytečný přístup k HR nebo finančním osobním údajům. GDPR se pak propojí s access managementem, SoD, auditní stopou, logováním a DPO/DPIA.</div>
+</section>
+
+<section class="lecture" id="p11">
+  <div class="lec-header">
+    <div class="lec-num">P11</div>
+    <div>
+      <div class="lec-title">ISO 27000, NIS2, ZoKB a VoKB</div>
+      <div class="lec-subtitle">ISMS, CIA triáda, ISO 27001/27002, evropská NIS2, nový český ZoKB, role, režimy, incident reporting a dodavatelský řetězec</div>
+    </div>
+  </div>
+
+  <h2>ISO 27000 family</h2>
+  <p><strong>ISO/IEC 27000 family</strong> je sada standardů pro systém řízení bezpečnosti informací. Pomáhá organizacím řídit bezpečnost finančních informací, dat zaměstnanců, dat zákazníků, dat třetích stran a dalších informačních aktiv.</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Confidentiality</div>
+      <div class="pojem-body">Důvěrnost: informace se nedostanou k nepovolaným osobám. Řeší se přístupová práva, šifrování, klasifikace dat.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Integrity</div>
+      <div class="pojem-body">Integrita: informace zůstávají přesné, úplné a nezměněné bez oprávnění. Řeší se logy, kontrolní součty, auditní stopa.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Availability</div>
+      <div class="pojem-body">Dostupnost: informace a systémy jsou k dispozici, když je potřebujeme. Řeší se redundance, monitoring, BCM/DRP.</div>
+    </div>
+  </div>
+
+  <h2>ISO 27001 vs ISO 27002</h2>
+  <table>
+    <tr><th>Standard</th><th>Co obsahuje</th><th>Jak odpovědět</th></tr>
+    <tr><td><strong>ISO/IEC 27001</strong></td><td>Požadavky na zavedení, provoz, monitorování a zlepšování ISMS.</td><td>Certifikovatelný standard systému řízení bezpečnosti informací.</td></tr>
+    <tr><td><strong>ISO/IEC 27002</strong></td><td>Praktická doporučení a kontrolní opatření.</td><td>Katalog best practices kontrol, který pomáhá naplnit požadavky ISMS.</td></tr>
+  </table>
+
+  <h2>Proč ISO 27000 patří do RPI</h2>
+  <ul>
+    <li>zvyšuje důvěryhodnost organizace,</li>
+    <li>chrání před kybernetickými útoky a ztrátou dat,</li>
+    <li>pomáhá plnit legislativní požadavky,</li>
+    <li>zlepšuje vnitřní procesy a odpovědnosti,</li>
+    <li>snižuje rizika a podporuje auditovatelnost.</li>
+  </ul>
+
+  <h2>NIS2</h2>
+  <p><strong>NIS2</strong> je evropská směrnice o vysoké společné úrovni kybernetické bezpečnosti v EU. Navazuje na NIS z roku 2016, v EU platí od roku 2023 a do českého práva byla promítnuta novým zákonem o kybernetické bezpečnosti. Cílem je posílit odolnost kritických a důležitých sektorů, sjednotit pravidla a zpřísnit povinnosti i dohled.</p>
+  <table>
+    <tr><th>Oblast</th><th>NIS2 přináší</th></tr>
+    <tr><td>Rozsah</td><td>Více regulovaných sektorů a povinných subjektů.</td></tr>
+    <tr><td>Požadavky</td><td>Konkrétnější technická a organizační bezpečnostní opatření.</td></tr>
+    <tr><td>Dohled</td><td>Silnější role národních autorit a koordinace v EU.</td></tr>
+    <tr><td>Incidenty</td><td>Přísnější pravidla hlášení a evidence incidentů.</td></tr>
+    <tr><td>Sankce</td><td>Vyšší sankce a odpovědnost vedení.</td></tr>
+    <tr><td>Dodavatelé</td><td>Důraz na zabezpečení dodavatelského řetězce.</td></tr>
+  </table>
+
+  <h2>ZoKB a VoKB</h2>
+  <p><strong>ZoKB</strong> je český zákon o kybernetické bezpečnosti. Podle aktuálních materiálů NÚKIB je nový zákon účinný od 1. listopadu 2025 a zavádí změny dané směrnicí NIS2. <strong>VoKB</strong> je vyhláška, která konkretizuje bezpečnostní opatření, role, procesy, řízení rizik, kontinuitu a technické/organizační požadavky.</p>
+
+  <h2>Role podle kybernetické regulace</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Manažer kybernetické bezpečnosti</div>
+      <div class="pojem-body">Odpovídá za řízení kybernetické bezpečnosti jako celku a informování vrcholového vedení.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Architekt kybernetické bezpečnosti</div>
+      <div class="pojem-body">Zajišťuje návrh a implementaci bezpečnostních opatření v architektuře.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Garant aktiva</div>
+      <div class="pojem-body">Odpovídá za konkrétní informační aktivum z hlediska významu, rizik a bezpečnosti.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Auditor kybernetické bezpečnosti</div>
+      <div class="pojem-body">Nezávisle ověřuje, že opatření fungují a jsou v souladu s pravidly.</div>
+    </div>
+  </div>
+
+  <h2>Nový ZoKB v kostce</h2>
+  <table>
+    <tr><th>Oblast</th><th>Co zdůraznit u zkoušky</th></tr>
+    <tr><td>Rozsah řízení KB</td><td>Poskytovatel regulované služby musí vymezit aktiva související s poskytováním regulované služby.</td></tr>
+    <tr><td>Režimy povinností</td><td>Vyšší a nižší režim povinností; režim se odvíjí od regulované služby, velikosti a sektorového zařazení.</td></tr>
+    <tr><td>Incident reporting</td><td>Režim hlášení typicky 24 hodin prvotní hlášení, 72 hodin doplnění/oznámení, 30 dnů závěrečná zpráva podle typu a pravidel.</td></tr>
+    <tr><td>Dodavatelský řetězec</td><td>Povinnost řídit rizika dodavatelů, smlouvy, bezpečnostní požadavky, auditní práva a možnost omezení rizikových dodavatelů.</td></tr>
+    <tr><td>Vedení</td><td>Důraz na odpovědnost vrcholového vedení a sankce.</td></tr>
+  </table>
+
+  <h2>Vztah ISO 27000, NIS2 a ZoKB</h2>
+  <p>ISO 27000 family je manažerský a standardizační rámec pro bezpečnost informací. NIS2 je evropská právní směrnice. ZoKB a VoKB jsou české právní předpisy a prováděcí pravidla. ISO 27001 může pomoci prokázat systematické řízení bezpečnosti, ale sama o sobě neznamená automatické splnění všech právních povinností.</p>
+  <div class="callout"><strong>Zkoušková formulace:</strong> ISO 27001 říká, jak systematicky řídit ISMS; NIS2 a ZoKB stanovují právní povinnosti pro regulované subjekty. Organizace musí propojit standard, procesy, role, aktiva, incident reporting a dodavatelská rizika.</div>
+
+  <div class="warn"><strong>Past:</strong> Bezpečnost v RPI není jen technická ochrana. Je to governance: role, aktiva, rizika, procesy, školení, monitoring, reporting, audit a odpovědnost vedení.</div>
+</section>
+
+<section class="lecture" id="p12">
+  <div class="lec-header">
+    <div class="lec-num">P12</div>
+    <div>
+      <div class="lec-title">BCM, řízení dostupnosti, kontinuita služeb a DRP</div>
+      <div class="lec-subtitle">Business Continuity Management, BIA, RTO/RPO/MTPD, ISO 22301, crisis management, disaster recovery a havarijní plánování IS/ICT</div>
+    </div>
+  </div>
+
+  <h2>Co je BCM</h2>
+  <p><strong>Business Continuity Management</strong> je holistický manažerský proces, který identifikuje potenciální hrozby a dopady na obchodní operace. Cílem je zajistit, že organizace dokáže pokračovat ve své činnosti i při vážných výpadcích nebo krizích. BCM není jen IT, ale propojuje řízení rizik, krizové řízení, IT, logistiku, HR, komunikaci, dodavatele a vedení.</p>
+
+  <h2>Rozsah BCM</h2>
+  <table>
+    <tr><th>Oblast</th><th>Cíl</th><th>Prostředky</th></tr>
+    <tr><td><strong>Business Continuity</strong></td><td>Udržení nebo rychlé obnovení klíčových obchodních procesů.</td><td>BIA, RTO/RPO, BCP, alternativní procesy.</td></tr>
+    <tr><td><strong>Crisis Communication</strong></td><td>Správné informace správným lidem včas.</td><td>Komunikační plán, šablony zpráv, kontakty, média, zákazníci.</td></tr>
+    <tr><td><strong>Crisis Management</strong></td><td>Řízení krize, rozhodování a koordinace.</td><td>Krizový tým, role, eskalace, scénáře, war room.</td></tr>
+    <tr><td><strong>Disaster Recovery</strong></td><td>Technická obnova IT systémů a infrastruktury.</td><td>Zálohy, replikace, DR site, runbooky, testování obnovy.</td></tr>
+  </table>
+
+  <h2>ISO 22301 a PDCA</h2>
+  <p><strong>ISO 22301</strong> je standard pro systém řízení kontinuity podnikání (BCMS). Stejně jako jiné manažerské normy pracuje s PDCA cyklem.</p>
+  <table>
+    <tr><th>Fáze</th><th>Obsah</th><th>Výstup</th></tr>
+    <tr><td>Plan</td><td>Kontext organizace, stakeholder požadavky, politika BCM, cíle, role, rozsah.</td><td>Scope BCMS, BCM policy, RACI, risk register, plán školení.</td></tr>
+    <tr><td>Do</td><td>BIA, risk assessment, strategie kontinuity, plány, implementace a testování.</td><td>BIA, BCP, DRP, komunikační plán, strategie obnovy.</td></tr>
+    <tr><td>Check</td><td>Monitoring, audit, cvičení, management review.</td><td>Výsledky testů, nálezy, měření připravenosti.</td></tr>
+    <tr><td>Act</td><td>Nápravná opatření a zlepšování.</td><td>Aktualizované plány, lessons learned, nové kontroly.</td></tr>
+  </table>
+
+  <h2>BIA, RTO, RPO, MTPD</h2>
+  <table>
+    <tr><th>Pojem</th><th>Význam</th><th>Příklad</th></tr>
+    <tr><td><strong>BIA</strong><br>Business Impact Analysis</td><td>Analýza dopadů přerušení procesů. Určuje kritičnost, závislosti a toleranci výpadku.</td><td>Výpadek objednávkového procesu zastaví logistiku a fakturaci.</td></tr>
+    <tr><td><strong>RTO</strong><br>Recovery Time Objective</td><td>Za jak dlouho musí být služba obnovena.</td><td>SAP objednávky musí být obnoveny do 4 hodin.</td></tr>
+    <tr><td><strong>RPO</strong><br>Recovery Point Objective</td><td>Kolik dat si organizace může maximálně dovolit ztratit.</td><td>Maximální ztráta 15 minut transakčních dat.</td></tr>
+    <tr><td><strong>MTPD</strong><br>Maximum Tolerable Period of Disruption</td><td>Maximální doba, po kterou může být proces narušen, než dopad překročí toleranci.</td><td>Po 24 hodinách výpadku by nastal kritický finanční nebo regulatorní dopad.</td></tr>
+  </table>
+
+  <h2>BCP vs DRP</h2>
+  <table>
+    <tr><th>Kritérium</th><th>BCP</th><th>DRP</th></tr>
+    <tr><td>Rozsah</td><td>Business procesy a schopnost organizace pokračovat.</td><td>Technická obnova IT systémů a infrastruktury.</td></tr>
+    <tr><td>Vlastník</td><td>Business vedení, procesní vlastníci, crisis management.</td><td>IT operations, infrastruktura, aplikace, bezpečnost.</td></tr>
+    <tr><td>Obsah</td><td>Alternativní procesy, lidé, komunikace, pracoviště, dodavatelé.</td><td>Zálohy, replikace, restore postupy, DR site, runbooky.</td></tr>
+    <tr><td>Otázka</td><td>Jak firma pokračuje v činnosti?</td><td>Jak obnovíme IT podporu pro činnost?</td></tr>
+  </table>
+
+  <h2>Řízení dostupnosti</h2>
+  <p>Dostupnost služby je kombinace architektury, procesů, monitoringu, kapacit, podpory, změnového řízení a obnovy. Nestačí mít redundantní servery; je potřeba znát kritičnost procesu, závislosti, SLA, RTO/RPO, dodavatele a testovat obnovu.</p>
+  <div class="pojmy three">
+    <div class="pojem blue"><div class="pojem-head">High Availability</div><div class="pojem-body">Redundance a architektura pro snížení pravděpodobnosti výpadku.</div></div>
+    <div class="pojem green"><div class="pojem-head">Backup & Restore</div><div class="pojem-body">Zálohování a schopnost obnovy dat podle RPO a RTO.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Testing</div><div class="pojem-body">Pravidelné testy plánů. Netestovaný DRP je jen dokument, ne schopnost obnovy.</div></div>
+  </div>
+
+  <h2>Havarijní plánování IS/ICT</h2>
+  <ol>
+    <li>Identifikuj kritické procesy a systémy.</li>
+    <li>Proveď BIA a stanov RTO/RPO/MTPD.</li>
+    <li>Popiš závislosti: lidé, aplikace, data, infrastruktura, dodavatelé, lokality.</li>
+    <li>Navrhni strategii obnovy: zálohy, replikace, DR site, alternativní procesy.</li>
+    <li>Definuj role, kontakty, eskalace a krizovou komunikaci.</li>
+    <li>Sepiš runbooky a postupy obnovy krok za krokem.</li>
+    <li>Testuj, vyhodnocuj a aktualizuj podle změn systému a organizace.</li>
+  </ol>
+
+  <div class="callout"><strong>SAP most:</strong> U kritického SAP procesu musíš vědět, jaký business dopad má výpadek, jaké jsou RTO/RPO, kdo rozhoduje, kde jsou zálohy, jak se obnoví integrace a jak se komunikuje s uživateli.</div>
+
+  <div class="warn"><strong>Past:</strong> DRP není totéž co BCP. DRP obnovuje technologii; BCP zajišťuje, že firma dokáže pokračovat v činnosti.</div>
+</section>
+
+<section class="lecture" id="pojmy">
+  <div class="lec-header">
+    <div class="lec-num">&#9733;</div>
+    <div>
+      <div class="lec-title">Klíčové pojmy a rychlé rozlišení</div>
+      <div class="lec-subtitle">Krátké definice na poslední průchod před zkouškou</div>
+    </div>
+  </div>
+
+  <h2>Rychlý slovník</h2>
+  <div class="kp-grid">
+    <div class="kp-item"><div class="kp-term">RPI</div><div class="kp-def">Řízení IT služeb, procesů, zdrojů, rizik a hodnoty IT pro cíle organizace.</div></div>
+    <div class="kp-item"><div class="kp-term">IT strategie</div><div class="kp-def">Dlouhodobý plán IT sladěný s firemní strategií, roadmapou, architekturou a metrikami.</div></div>
+    <div class="kp-item"><div class="kp-term">CIO</div><div class="kp-def">Strategický partner byznysu odpovědný za IT hodnotu, portfolio, sourcing, rizika a komunikaci s vedením.</div></div>
+    <div class="kp-item"><div class="kp-term">SLA</div><div class="kp-def">Dohoda o úrovni služby mezi poskytovatelem a odběratelem.</div></div>
+    <div class="kp-item"><div class="kp-term">OLA</div><div class="kp-def">Interní dohoda týmů podporující plnění SLA.</div></div>
+    <div class="kp-item"><div class="kp-term">UC</div><div class="kp-def">Smlouva s externím dodavatelem, která podpírá poskytovanou službu.</div></div>
+    <div class="kp-item"><div class="kp-term">ISO 20000</div><div class="kp-def">Certifikovatelná norma pro systém řízení IT služeb.</div></div>
+    <div class="kp-item"><div class="kp-term">ITIL</div><div class="kp-def">Framework best practices pro ITSM a poskytování hodnoty formou IT služeb.</div></div>
+    <div class="kp-item"><div class="kp-term">ITIL v3</div><div class="kp-def">Životní cyklus služby, 5 fází, 26 procesů, silná procesní disciplína.</div></div>
+    <div class="kp-item"><div class="kp-term">ITIL 4</div><div class="kp-def">Service Value System, Service Value Chain, 4 dimenze, 34 praktik, hodnota a flexibilita.</div></div>
+    <div class="kp-item"><div class="kp-term">Incident</div><div class="kp-def">Neplánované přerušení nebo degradace služby; cílem je rychlá obnova.</div></div>
+    <div class="kp-item"><div class="kp-term">Problem</div><div class="kp-def">Kořenová příčina incidentů; cílem je prevence opakování.</div></div>
+    <div class="kp-item"><div class="kp-term">Change</div><div class="kp-def">Úprava čehokoli, co může ovlivnit službu; musí se řídit podle rizika.</div></div>
+    <div class="kp-item"><div class="kp-term">Release</div><div class="kp-def">Balík změn připravený k nasazení.</div></div>
+    <div class="kp-item"><div class="kp-term">Deployment</div><div class="kp-def">Technické nasazení release do prostředí.</div></div>
+    <div class="kp-item"><div class="kp-term">COBIT</div><div class="kp-def">Rámec ISACA pro governance a management IT, audit, rizika a kontrolní cíle.</div></div>
+    <div class="kp-item"><div class="kp-term">EDM</div><div class="kp-def">Evaluate, Direct, Monitor; governance doména COBIT.</div></div>
+    <div class="kp-item"><div class="kp-term">APO/BAI/DSS/MEA</div><div class="kp-def">Management domény COBIT: plánování, budování, provoz, monitorování.</div></div>
+    <div class="kp-item"><div class="kp-term">Enterprise architektura</div><div class="kp-def">Systémový popis procesů, aplikací, dat a technologií pro sladění IT a strategie.</div></div>
+    <div class="kp-item"><div class="kp-term">TOGAF</div><div class="kp-def">Procesní framework EA s metodou ADM.</div></div>
+    <div class="kp-item"><div class="kp-term">Zachman</div><div class="kp-def">Klasifikační rámec EA jako matice perspektiv a otázek.</div></div>
+    <div class="kp-item"><div class="kp-term">SaaS/PaaS/IaaS</div><div class="kp-def">Cloudové modely služeb od hotové aplikace přes platformu po infrastrukturu.</div></div>
+    <div class="kp-item"><div class="kp-term">TCO</div><div class="kp-def">Celkové náklady vlastnictví IS po celý životní cyklus.</div></div>
+    <div class="kp-item"><div class="kp-term">CBA</div><div class="kp-def">Porovnání nákladů a přínosů projektu včetně nehmotných dopadů.</div></div>
+    <div class="kp-item"><div class="kp-term">NPV</div><div class="kp-def">Součet diskontovaných cash flow; NPV &gt; 0 podporuje realizaci.</div></div>
+    <div class="kp-item"><div class="kp-term">IRR</div><div class="kp-def">Výnosová míra, při níž je NPV nulová.</div></div>
+    <div class="kp-item"><div class="kp-term">GDPR</div><div class="kp-def">EU rámec ochrany osobních údajů: správce, zpracovatel, právní tituly, práva subjektů.</div></div>
+    <div class="kp-item"><div class="kp-term">DPO</div><div class="kp-def">Pověřenec pro ochranu osobních údajů, nezávislá poradní a kontrolní role.</div></div>
+    <div class="kp-item"><div class="kp-term">ISO 27001</div><div class="kp-def">Certifikovatelný standard pro ISMS.</div></div>
+    <div class="kp-item"><div class="kp-term">NIS2</div><div class="kp-def">EU směrnice rozšiřující kybernetické povinnosti, dohled, incident reporting a odpovědnost.</div></div>
+    <div class="kp-item"><div class="kp-term">ZoKB</div><div class="kp-def">Český zákon o kybernetické bezpečnosti, od 1. 11. 2025 promítá NIS2 do českého práva.</div></div>
+    <div class="kp-item"><div class="kp-term">BCM</div><div class="kp-def">Business Continuity Management: schopnost pokračovat v činnosti při narušení.</div></div>
+    <div class="kp-item"><div class="kp-term">BIA</div><div class="kp-def">Business Impact Analysis: určení kritičnosti procesů a dopadů výpadku.</div></div>
+    <div class="kp-item"><div class="kp-term">RTO/RPO</div><div class="kp-def">RTO = čas obnovy; RPO = maximální ztráta dat.</div></div>
+    <div class="kp-item"><div class="kp-term">DRP</div><div class="kp-def">Disaster Recovery Plan: technická obnova IT systémů po havárii.</div></div>
+  </div>
+
+  <h2>Nejčastější dvojice, které nesmíš splést</h2>
+  <table>
+    <tr><th>Dvojice</th><th>Rozlišení jednou větou</th></tr>
+    <tr><td>ITIL vs ISO 20000</td><td>ITIL je framework best practices; ISO 20000 je certifikovatelná norma požadavků na systém řízení IT služeb.</td></tr>
+    <tr><td>Incident vs problem</td><td>Incident obnovuje službu; problem odstraňuje kořenovou příčinu.</td></tr>
+    <tr><td>Release vs deployment</td><td>Release je připravený balík změn; deployment je technické nasazení.</td></tr>
+    <tr><td>COBIT governance vs management</td><td>Governance hodnotí, směřuje a monitoruje; management plánuje, buduje, provozuje a vyhodnocuje.</td></tr>
+    <tr><td>TCO vs CBA</td><td>TCO řeší náklady vlastnictví; CBA porovnává náklady i přínosy.</td></tr>
+    <tr><td>NPV vs IRR</td><td>NPV je absolutní diskontovaná hodnota; IRR je procentní výnosová míra.</td></tr>
+    <tr><td>BCP vs DRP</td><td>BCP drží business procesy; DRP obnovuje IT technologii.</td></tr>
+    <tr><td>Správce vs zpracovatel</td><td>Správce určuje účel a prostředky; zpracovatel jedná podle pokynů správce.</td></tr>
+  </table>
+
+  <h2>Jedna silná závěrečná odpověď</h2>
+  <div class="callout">Řízení podnikové informatiky propojuje strategii, služby, procesy, zdroje, náklady, bezpečnost a kontinuitu. U každého tématu musím ukázat, kdo za něj odpovídá, jak se měří, jaké má riziko, jak podporuje business a jak se dá auditovat. To je rozdíl mezi technickou správou IT a skutečným řízením podnikové informatiky.</div>
+</section>
+
+</body>
+</html>

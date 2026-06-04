@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4SA513 Audit IS – Učební podklady</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, sans-serif; font-size: 15px; line-height: 1.6; color: #111827; background: #f9fafb; -webkit-font-smoothing: antialiased; margin-left: 58px; }
+  #doc-nav { width: 50px; height: 100vh; position: fixed; left: 0; top: 0; z-index: 100; overflow: hidden; background: #fff; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; transition: width 0.32s cubic-bezier(0.4,0,0.2,1), box-shadow 0.32s; }
+  #doc-nav:hover { width: 260px; box-shadow: 6px 0 24px rgba(0,0,0,0.07); }
+  .nav-logo { padding: 14px 13px 12px; border-bottom: 1px solid #e5e7eb; white-space: nowrap; overflow: hidden; position: relative; }
+  .nav-code { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9ca3af; margin-bottom: 3px; }
+  .nav-subject { display: block; font-size: 13px; font-weight: 600; color: #111827; }
+  .nav-logo-icon { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-size: 16px; color: #1d4ed8; opacity: 0; transition: opacity 0.2s; }
+  .nav-logo-text { opacity: 1; transition: opacity 0.2s; }
+  #doc-nav:not(:hover) .nav-logo-icon { opacity: 1; }
+  #doc-nav:not(:hover) .nav-logo-text { opacity: 0; }
+  .nav-items { flex: 1; padding: 6px 0; overflow-y: auto; overflow-x: hidden; }
+  .nav-link { display: flex; align-items: center; gap: 8px; padding: 5px 12px; font-size: 12.5px; font-weight: 500; color: #374151; text-decoration: none; white-space: nowrap; overflow: hidden; transition: background 0.1s, color 0.1s; }
+  .nav-link:hover { background: #f3f4f6; color: #111827; }
+  .nav-num { font-size: 9px; font-weight: 700; background: #1d4ed8; color: #fff; padding: 2px 5px; border-radius: 3px; flex-shrink: 0; min-width: 22px; text-align: center; }
+  .nav-label { max-width: 220px; overflow: hidden; white-space: nowrap; transition: max-width 0.28s, opacity 0.18s; }
+  #doc-nav:not(:hover) .nav-label { max-width: 0; opacity: 0; }
+  #doc-nav:not(:hover) .nav-link { padding-left: 4px; padding-right: 4px; justify-content: center; }
+  .hero { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 44px 56px 40px; }
+  .hero-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #94a3b8; margin-bottom: 12px; }
+  .hero-title { font-size: 44px; font-weight: 800; color: #0f172a; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 16px; }
+  .hero-desc { font-size: 15px; color: #64748b; max-width: 640px; line-height: 1.65; margin-bottom: 20px; }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+  .hero-pill { display: inline-block; padding: 4px 11px; border-radius: 20px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 500; }
+  .lecture { max-width: 840px; margin: 0 auto; padding: 48px 56px; border-bottom: 1px solid #f1f5f9; }
+  .lec-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; }
+  .lec-num { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: #1d4ed8; color: #fff; padding: 5px 9px; border-radius: 5px; flex-shrink: 0; margin-top: 2px; }
+  .lec-title { font-size: 22px; font-weight: 700; color: #0f172a; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .lec-subtitle { font-size: 13px; color: #64748b; }
+  h2 { font-size: 16px; font-weight: 700; color: #0f172a; margin: 32px 0 10px; padding-bottom: 6px; border-bottom: 1px solid #e5e7eb; }
+  h3 { font-size: 14px; font-weight: 700; color: #374151; margin: 22px 0 8px; }
+  p { margin-bottom: 14px; color: #374151; font-size: 14.5px; }
+  ul, ol { margin: 0 0 14px; padding-left: 22px; color: #374151; font-size: 14.5px; }
+  li { margin-bottom: 5px; }
+  strong { font-weight: 700; color: #0f172a; }
+  em { font-style: italic; color: #475569; }
+  .pojmy { display: grid; gap: 8px; margin: 14px 0 20px; }
+  .pojmy.two { grid-template-columns: 1fr 1fr; }
+  .pojmy.three { grid-template-columns: 1fr 1fr 1fr; }
+  .pojmy.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .pojmy.single { grid-template-columns: 1fr; }
+  .pojem { border-radius: 8px; padding: 14px 16px; border: 1px solid; }
+  .pojem.blue { background: #eff6ff; border-color: #bfdbfe; }
+  .pojem.green { background: #f0fdf4; border-color: #bbf7d0; }
+  .pojem.orange { background: #fff7ed; border-color: #fed7aa; }
+  .pojem.purple { background: #faf5ff; border-color: #ddd6fe; }
+  .pojem.red { background: #fff1f2; border-color: #fecdd3; }
+  .pojem.gray { background: #f8fafc; border-color: #e2e8f0; }
+  .pojem-head { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #475569; margin-bottom: 7px; }
+  .pojem.blue .pojem-head { color: #1d4ed8; }
+  .pojem.green .pojem-head { color: #15803d; }
+  .pojem.orange .pojem-head { color: #c2410c; }
+  .pojem.purple .pojem-head { color: #6d28d9; }
+  .pojem.red .pojem-head { color: #be123c; }
+  .pojem.gray .pojem-head { color: #475569; }
+  .pojem-body { font-size: 13.5px; line-height: 1.55; color: #374151; }
+  .tip { background: #fefce8; border-left: 3px solid #eab308; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #713f12; line-height: 1.6; }
+  .callout { background: #f0f9ff; border-left: 3px solid #0ea5e9; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #0c4a6e; line-height: 1.6; }
+  .warn { background: #fff1f2; border-left: 3px solid #f43f5e; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #9f1239; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 13.5px; }
+  th { background: #f8fafc; font-weight: 600; text-align: left; padding: 8px 10px; border: 1px solid #e5e7eb; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  td { padding: 8px 10px; border: 1px solid #e5e7eb; vertical-align: top; color: #374151; }
+  tr:nth-child(even) td { background: #fafafa; }
+  code { font-family: 'SF Mono', monospace; font-size: 12.5px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 3px; padding: 1px 5px; color: #1d4ed8; }
+  .tag { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; margin-right: 5px; border: 1px solid; }
+  .tag.blue { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+  .tag.green { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+  .tag.orange { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+  .tag.red { background: #fff1f2; color: #be123c; border-color: #fecdd3; }
+</style>
+</head>
+<body>
+
+<nav id="doc-nav">
+  <div class="nav-logo">
+    <span class="nav-logo-icon">&#9670;</span>
+    <span class="nav-logo-text">
+      <span class="nav-code">4SA513</span>
+      <span class="nav-subject">Audit IS</span>
+    </span>
+  </div>
+  <div class="nav-items">
+    <a class="nav-link" href="#p1"><span class="nav-num">P1</span><span class="nav-label">Vývoj a definice auditu</span></a>
+    <a class="nav-link" href="#p2"><span class="nav-num">P2</span><span class="nav-label">ISACA, standardy profese</span></a>
+    <a class="nav-link" href="#p3"><span class="nav-num">P3</span><span class="nav-label">Postup IT auditu COBIT</span></a>
+    <a class="nav-link" href="#p4"><span class="nav-num">P4</span><span class="nav-label">Typy IT kontrol</span></a>
+    <a class="nav-link" href="#p5"><span class="nav-num">P5</span><span class="nav-label">Hodnocení procesů (PAM)</span></a>
+    <a class="nav-link" href="#p6"><span class="nav-num">P6</span><span class="nav-label">Řízení rizik IS</span></a>
+    <a class="nav-link" href="#pojmy"><span class="nav-num">&#9733;</span><span class="nav-label">Klíčové pojmy</span></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">4SA513 · doc. Svátá / doc. Smutný · VŠE Praha</div>
+  <div class="hero-title">Audit informačního systému</div>
+  <div class="hero-desc">Kompletní příprava na státní zkoušku: od historického vývoje auditu přes ISACA/CISA a COBIT postup auditu, typy IT kontrol a SOD, hodnocení způsobilosti procesů (PAM/CMMI) až po řízení IT rizik a COSO kontrolní rámec.</div>
+  <div class="hero-pills">
+    <span class="hero-pill">ISACA / CISA</span>
+    <span class="hero-pill">COBIT assurance</span>
+    <span class="hero-pill">GITC &amp; aplikační kontroly</span>
+    <span class="hero-pill">SOD</span>
+    <span class="hero-pill">PAM / CMMI</span>
+    <span class="hero-pill">IT risk lifecycle</span>
+    <span class="hero-pill">COSO</span>
+  </div>
+</div>
+
+<!-- ============================================================ P1 ============================================================ -->
+<section class="lecture" id="p1">
+  <div class="lec-header">
+    <div class="lec-num">P1</div>
+    <div>
+      <div class="lec-title">Vývoj a definice auditu IS</div>
+      <div class="lec-subtitle">Historický vývoj · finanční krize a Enron · definice a 4 vlastnosti · 3 strany · životní cyklus · druhy auditu</div>
+    </div>
+  </div>
+
+  <h2>1.1 Historický vývoj auditu</h2>
+  <p>Slovo <em>audit</em> pochází z latinského <em>audire</em> (slyšet, naslouchat) — původně byl audit ústní přezkoušení správce majetku před panovníkem nebo věřitelem. Historický vývoj audit prošel pěti zřetelnými fázemi:</p>
+
+  <div class="pojmy single">
+    <div class="pojem blue">
+      <div class="pojem-head">Fáze 1: Starověk a středověk — kontrola evidence aktiv</div>
+      <div class="pojem-body">Egypt, Mezopotámie, Řím: kontrola zásob obilí, daní a pokladnice. Cílem bylo odhalení zpronevěry a ověření, zda správce odvádí, co mu bylo svěřeno. Audit byl nástrojem autority panovníka vůči správcům.</div>
+    </div>
+  </div>
+  <div class="pojmy single">
+    <div class="pojem green">
+      <div class="pojem-head">Fáze 2: Průmyslová revoluce (19. stol.) — prevence chyb a podvodů</div>
+      <div class="pojem-body">Oddělení vlastnictví od řízení (agency problem) v anglických akciových společnostech. Akcionáři nemohou sami kontrolovat management — potřebují nezávislou osobu. Vzniká moderní finanční audit. Británie 1844: Companies Act poprvé vyžaduje audit. 1862: povinný audit všech akciových společností.</div>
+    </div>
+  </div>
+  <div class="pojmy single">
+    <div class="pojem orange">
+      <div class="pojem-head">Fáze 3: 20. století — kontrola počítačového zpracování</div>
+      <div class="pojem-body">S rozvojem výpočetní techniky v 60.–70. letech vzniká potřeba auditovat IT systémy. 1969: vznik EDP Auditors Association (předchůdce ISACA). Fokus: správnost počítačového zpracování dat, integrita databází, zálohy. Audit se rozšiřuje z finančního na technologický rozměr.</div>
+    </div>
+  </div>
+  <div class="pojmy single">
+    <div class="pojem purple">
+      <div class="pojem-head">Fáze 4: Počátek 21. stol. — governance a ujištění stakeholderů</div>
+      <div class="pojem-body">Kauzy Enron (2001), WorldCom (2002) a hypoteční krize (2008) ukázaly, že audit selhal jako systémová ochrana. Reakce: SOX 2002, COBIT 4.1 → COBIT 2019, Enterprise Governance of IT (EGIT). Audit IS se stává vědeckou disciplínou a součástí corporate governance.</div>
+    </div>
+  </div>
+  <div class="pojmy single">
+    <div class="pojem red">
+      <div class="pojem-head">Fáze 5: Současnost — AI, kybernetická bezpečnost, ESG</div>
+      <div class="pojem-body">Covidová krize (2020): nárůst kybernetických útoků, vzdálený přístup bez adekvátních kontrol, dopad na business kontinuitu. Energetická krize (2022): válka na Ukrajině, přerušení dodavatelských řetězců, nová IT rizika (RPA, ML, AI). Roste automatizace auditních procedur (GRC software, continuous auditing).</div>
+    </div>
+  </div>
+
+  <div class="callout"><strong>Shrnutí vývoje dle přednášky:</strong> „Audit prošel dlouhým vývojem od kontroly evidence aktiv přes prevenci chyb a podvodů, kontrolu počítačového zpracování až po ujištění různých zájmových skupin, že náklady a rizika spojená s využíváním IT jsou převážena přínosy pro business." (Svátá, P1, slide 22)</div>
+
+  <h2>1.2 Finanční krize a jejich dopad na audit</h2>
+
+  <h3>Enron (2001) — krize účetnictví</h3>
+  <p>Enron byl největší americký energetický podnik počátku 21. století — od roku 1985 do roku 2000 vzrostla aktiva z 10 mld. USD na 111 mld. USD, šestkrát za sebou ocenila Fortune jako „nejinovativnější firmu Ameriky". V roce 2001 se ukázalo, že vedení manipulovalo výkazy třemi mechanismy:</p>
+  <ul>
+    <li><strong>Mark-to-market accounting:</strong> Budoucí příjmy ze smluv se okamžitě zaúčtovávaly jako realizované výnosy, přestože energie nebyla dodána ani zaplacena.</li>
+    <li><strong>Fiktivní SPV (Special Purpose Vehicles):</strong> Přes stovky účelových společností byly přesunuty ztráty mimo konsolidovanou rozvahu.</li>
+    <li><strong>Nepravdivé informace vedení:</strong> CEO a CFO vědomě uváděli nepravdivé finanční výsledky investorům.</li>
+  </ul>
+  <p>25. ledna 2002 Enron vyhlásil bankrot. Akcie padly z 90 USD na 50 centů. Arthur Andersen — auditní firma — byl obviněn z maření spravedlnosti a fakticky zanikl (z „Big Five" zbyla „Big Four": PwC, EY, Deloitte, KPMG).</p>
+
+  <div class="warn"><strong>Trojí selhání Enronu:</strong> (1) Krize účetnictví — manipulace výkazů. (2) Krize interního kontrolního systému — machinace nebyly včas odhaleny. (3) Krize externího auditu — Arthur Andersen selhal v nezávislosti (konzultační příjmy od Enronu výrazně převyšovaly auditní honorář).</div>
+
+  <h3>Sarbanes-Oxley Act (SOX, 2002) — reakce na Enron</h3>
+  <p>SOX byl přijat americkým Kongresem jako přímá odpověď na Enron a WorldCom. Klíčové sekce:</p>
+  <ul>
+    <li><strong>Section 302:</strong> CEO a CFO musí osobně certifikovat přesnost finančních výkazů. Za nepravdivé prohlášení hrozí vězeňský trest.</li>
+    <li><strong>Section 404:</strong> Management musí každoročně hodnotit efektivnost vnitřního kontrolního systému (ICS). Externíauditor toto hodnocení nezávisle potvrzuje. V praxi: IT audit je nutností, protože většina ICS je implementována v IS.</li>
+    <li><strong>Section 201:</strong> Zakazuje auditní firmě poskytovat témuž klientu konzultační služby (odstraňuje konflikt zájmů Andersen–Enron).</li>
+    <li><strong>PCAOB:</strong> Public Company Accounting Oversight Board — nový regulátor dohlížející na auditory veřejně obchodovaných společností.</li>
+  </ul>
+
+  <h3>Hypoteční krize (2008) a dluhová krize</h3>
+  <p>Centrální banka USA snížila úrokové sazby → dostupné hypotéky → obchod s balíky hypoték (deriváty CDO) → neschopnost objektivního ratingu → Lehman Brothers 15. 9. 2008 bankrotuje (čtvrtá největší investiční banka USA). Klíčový dopad na audit: EU 2010 Zelená kniha „Politika v oblasti auditu: poučení z krize" → přechod z národních standardů na ISA (International Standards on Auditing), vznik Rady pro veřejný dohled nad auditem (rvda.cz).</p>
+
+  <h2>1.3 Definice auditu IS</h2>
+  <p>Podle přednášky (Svátá, P2): <em>„Audit IS je proces, který se zabývá posuzováním a poradenstvím objektů v prostředí, kde se používají informační technologie. Jeho cílem je kvalitativně a/nebo kvantitativně přispět ke správné organizaci informačního systému tak, aby byly splněny požadavky uživatelů."</em></p>
+  <p>Objekty auditu IS mohou být: organizace a řízení IS, základní i aplikační software, technické vybavení, telekomunikační systémy, procesy tvorby a údržby systémů, ochrana a bezpečnost systému, data (databáze).</p>
+
+  <h2>1.4 Čtyři vlastnosti auditu</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">1. Komplexnost (Systematičnost)</div>
+      <div class="pojem-body">Audit musí postihnout všechny relevantní aspekty a vazby předmětu auditu. Není to náhodná nebo dílčí kontrola — je to strukturovaný, plánovaný proces od definice cílů přes sběr důkazů po formulaci závěrů. Postupuje podle metodiky (ITAF, COBIT for Assurance).</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">2. Objektivnost</div>
+      <div class="pojem-body">Závěry se opírají o existující standardy, případně zkušenosti, pokud standardy neexistují. Auditor nesmí vydávat soudy bez podkladu — každé zjištění (finding) musí mít konkrétní důkaz (audit evidence) a auditní kritérium, vůči němuž je hodnoceno.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">3. Nezávislost</div>
+      <div class="pojem-body">Auditor nesmí mít s objektem auditu ani se zadavatelem auditu žádné spojení, které by představovalo konflikt zájmů. Rozlišujeme: <strong>faktická nezávislost</strong> (skutečná absence vazby) a <strong>formální nezávislost</strong> (zdánlivá — musí být nezávislost patrná i navenek). Příklad konfliktu: auditor audituje systém, který sám navrhl.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">4. Formalizovanost (Dokumentovanost)</div>
+      <div class="pojem-body">Proces auditu se musí řídit metodikou a existujícími standardy. Veškeré kroky, důkazy a závěry jsou dokumentovány v <em>working papers</em> (pracovních materiálech) — audit trail je zpětně dohledatelný. Zahrnuje: audit plán, program auditu, check listy, testovací skripty, závěrečnou zprávu.</div>
+    </div>
+  </div>
+
+  <h2>1.5 Tři strany auditu (assurance relationship)</h2>
+  <p>Každé ujišťovací angažmá (assurance engagement) musí zahrnovat vztah tří stran — toto je základní požadavek ITAF i ISACA standardů.</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">1. strana: Auditor (Assurance Professional)</div>
+      <div class="pojem-body">Osoba nebo tým odpovědný za proces ujištění a za finální zprávu týkající se objektu ujištění. Musí splňovat požadavky na kompetence, nezávislost a profesní péči. Může být interní (zaměstnanec org.) nebo externí (nezávislá firma). Výstup: auditní zpráva s výrokem.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">2. strana: Odpovědná strana (Auditovaný)</div>
+      <div class="pojem-body">Jednotlivec, skupina nebo organizační entita, která má odpovědnost za objekt ujištění — jeho provoz, rozsah, kvalitu. Poskytuje auditoru přístup k informacím. Přijímá závěry a provádí nápravná opatření. Označení: <em>responsible/accountable party</em>.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">3. strana: Uživatel (Stakeholder)</div>
+      <div class="pojem-body">Příjemci auditní zprávy: akcionáři, banky, zákazníci, představenstvo, výbor auditu, stát a legislativa, regulátoři. V některých případech může být odpovědná strana identická s uživatelem — např. IT management auditující vlastní procesy pro účely interního zlepšení.</div>
+    </div>
+  </div>
+
+  <div class="tip"><strong>Komponenty ujistění (Assurance) podle COBIT 5:</strong> (1) musí jít o vztah mezi třemi partnery, (2) musí být definován předmět ujištění, (3) musí být definována vhodná kritéria ujištění, (4) musí být definován proces ujištění, (5) musí být zformulován závěr ujištění.</div>
+
+  <h2>1.6 Tvrzen&iacute; (Assertions) a kritéria</h2>
+  <p>Dle ISACA General Standard 1007: <em>„Tvrzení jsou jakákoli prohlášení nebo soubor prohlášení o tom, zda předmět vychází ze zvolených kritérií nebo je s nimi v souladu."</em> Auditor testuje, zda jsou tvrzení vedení správná.</p>
+  <p>Příklady kritérií (atributů, vůči nimž se hodnotí): <strong>Důvěrnost</strong> (confidentiality), <strong>Úplnost</strong> (completeness), <strong>Přesnost</strong> (accuracy), <strong>Integrita</strong> (integrity), <strong>Dostupnost</strong> (availability), <strong>Soulad</strong> (compliance).</p>
+  <p>Příklad: Vedení definuje tvrzení — <em>předmět: řízení změn; tvrzení: všechny změny IT systému převedené do produkčního prostředí jsou zaznamenány v aplikaci pro sledování řízení změn.</em> Auditor ověřuje, zda je toto tvrzení pravdivé.</p>
+
+  <h2>1.7 Výrok auditora — 4 typy</h2>
+  <table>
+    <tr><th>Typ výroku</th><th>Podmínky</th><th>Česky</th></tr>
+    <tr><td><strong>Unqualified (bez výhrad)</strong></td><td>Důkazy auditu potvrzují ve všech aspektech očekávání a soulad s kritérii.</td><td>Nekvalifikovaný výrok — stav je v pořádku.</td></tr>
+    <tr><td><strong>Qualified (s výhradou)</strong></td><td>Důkazy odrážejí, co se očekává, s určitými nedostatky, které ale celkový výsledek významně neovlivňují. Zpráva musí obsahovat vysvětlení.</td><td>Kvalifikovaný výrok — stav je OK s výhradami.</td></tr>
+    <tr><td><strong>Adverse (záporný)</strong></td><td>Důkazy nepotvrzují očekávání a soulad s kritérii. Kontroly nejsou zavedeny nebo nefungují.</td><td>Záporný výrok — stav nevyhovuje.</td></tr>
+    <tr><td><strong>Disclaimer (zřeknutí se)</strong></td><td>Stanovisko nemůže být poskytnuto z důvodu nedostatečných důkazů. Možný vliv nedetekovaných slabin může být zásadní.</td><td>Auditor výrok nevydá — nemá dost podkladů.</td></tr>
+  </table>
+
+  <h2>1.8 Životní cyklus auditu — fáze</h2>
+  <p>Postup auditu podle ITAF (Tools and Techniques, Creating Audit Program) má standardizované kroky. V terminologii přednášky:</p>
+  <ol>
+    <li><strong>Krok 1 — Určení objektu auditu:</strong> Identifikace oblasti (funkce businessu, systém, fyzická lokace). Popis účelu auditu.</li>
+    <li><strong>Krok 2 — Definice cílů auditu:</strong> Proč se audituje? Analýza rizik — jaká jsou rizika s vazbou na podnikové cíle? Cíle musí být měřitelné.</li>
+    <li><strong>Krok 3 — Určení rozsahu auditu:</strong> Identifikace specifického systému, funkce nebo organizační jednotky v rozsahu. Auditor musí „ohraničit" audit.</li>
+    <li><strong>Krok 4 — Předauditní plánování:</strong> Hodnocení rizik, rozhovory s auditovanými, identifikace zdrojů, plán komunikace (s kým, kdy, jak). U risk-based auditu je toto klíčový krok.</li>
+    <li><strong>Krok 5 — Určení postupů a kroků pro získání dat/důkazů:</strong> Volba metod a strategie, návrh programu auditu, tvorba Risk Control Matrix (RACM), testovací skripty.</li>
+    <li><strong>Realizace:</strong> Sběr důkazů — interview, pozorování, kontrola dokumentace, re-performance.</li>
+    <li><strong>Závěr a zpráva:</strong> Formulace nálezů (findings), výrok, management response, doporučení.</li>
+    <li><strong>Follow-up:</strong> Ověření implementace nápravných opatření.</li>
+  </ol>
+
+  <div class="callout"><strong>Terminologie auditního procesu:</strong> <strong>Plán auditu</strong> = hrubý popis prací (stakeholders, předmět, rozsah, výstupy, rozpočet, časové údaje). <strong>Program auditu</strong> = podrobnější popis (jednotlivé kroky, testy kontrol, hodnocení výsledků). <strong>Program prací</strong> = seznam procedur pro dosažení cílů auditu. <strong>Working papers</strong> = sada dokumentů získaných během auditu dokládající soulad s auditními standardy.</div>
+
+  <h2>1.9 Druhy auditu — šest hledisek klasifikace</h2>
+  <table>
+    <tr><th>Hledisko</th><th>Druhy</th><th>Poznámka</th></tr>
+    <tr><td><strong>1. Komplexnost</strong></td><td>Komplexní audit, dílčí audit, specifický/technický audit</td><td>Komplexní = pokrývá vše; technický = úzký rozsah (audit firewallu)</td></tr>
+    <tr><td><strong>2. Realizátor</strong></td><td>Interní audit, externíaudit (zákaznický), nezávislý audit (třetí stranou)</td><td>CISA Study Guide: rozlišuje zákaznický (mezi dodavatelem a zákazníkem) a nezávislý (certifikační, třetí stranou)</td></tr>
+    <tr><td><strong>3. Objekt</strong></td><td>Audit obecných kontrol (GITC), audit aplikací, audit vývoje systémů, technický audit</td><td>Audit vývoje: finálního výsledku, dílčích výstupů, metodologie, akceptační procedury</td></tr>
+    <tr><td><strong>4. Úroveň řízení</strong></td><td>Strategický (governance), taktický (management procesů), operativní (provoz)</td><td>Různé úrovně = různé auditní kritéria a příjemci zprávy</td></tr>
+    <tr><td><strong>5. Čas</strong></td><td>Jednorázový, opakující se, projekt, certifikační (počáteční + udržovací + recertifikační), průběžný (continuous)</td><td>Continuous audit = vysoká automatizace, monitoring v reálném čase</td></tr>
+    <tr><td><strong>6. Metodologie</strong></td><td>Substantivní, kontrolní (controls-based), rizikový (risk-based), procesní, compliance, forenzní, due diligence</td><td>Risk-based = auditor provede RA a na jejím základě vybírá kontroly k testování</td></tr>
+  </table>
+
+  <h3>Audit vs. ujišt&eacute;ní — srovnání</h3>
+  <p><strong>Ujišt&eacute;ní (Assurance)</strong> je obecnější pojem — zahrnuje řadu vzájemně provázaných činností s cílem ujistit čtenáře výstupní zprávy o určitém stupni zajišt&eacute;ní/kvality objektu. Může být realizováno různými funkcemi (řízení rizik, řízení kvality, odhalování podvodů, hodnocení bezpečnosti). <strong>Audit</strong> je formou ujišt&eacute;ní, která je exkluzivní pro funkci auditu — musí být realizována profesionály-auditory a musí být nezávislá.</p>
+</section>
+
+<!-- ============================================================ P2 ============================================================ -->
+<section class="lecture" id="p2">
+  <div class="lec-header">
+    <div class="lec-num">P2</div>
+    <div>
+      <div class="lec-title">ISACA a standardy profese</div>
+      <div class="lec-subtitle">ISACA organizace · CISA certifikace · IIA standardy · ITAF · kodex etiky · nezávislost</div>
+    </div>
+  </div>
+
+  <h2>2.1 ISACA — organizace a poslání</h2>
+  <p>ISACA (Information Systems Audit and Control Association) je mezinárodní profesní organizace zaměřená na IT governance, audit, bezpečnost a řízení rizik. Klíčová fakta:</p>
+  <ul>
+    <li>Původně EDP Auditors Association, 1969 USA; přejmenována na ISACA</li>
+    <li>Dnes více než 170 000 členů ve 188 zemích, přes 220 místních kapitol</li>
+    <li>Vydává: COBIT (Control Objectives for Information and Related Technology), Val IT, Risk IT, ITAF</li>
+    <li>Vydává ISACA Journal — odborný časopis pro IT auditory a governance profesionály</li>
+    <li>Webové zdroje: www.isaca.org, http://www.isaca.cz/ (česká pobočka)</li>
+  </ul>
+
+  <h2>2.2 Certifikace ISACA</h2>
+
+  <div class="pojmy single">
+    <div class="pojem blue">
+      <div class="pojem-head">CISA — Certified Information Systems Auditor (nejdůle&zcaron;it&ecaron;j&scaron;&iacute; pro tento předmět)</div>
+      <div class="pojem-body">
+        <strong>Nejrozšířenější IT auditní certifikace světa.</strong> Pokrývá 5 znalostních domén:<br><br>
+        1. <strong>Information Systems Auditing Process</strong> — plánování, realizace a reporting auditu IS<br>
+        2. <strong>Governance and Management of Information Technology</strong> — IT governance, strategie, frameworks<br>
+        3. <strong>Information Systems Acquisition, Development and Implementation</strong> — řízení projektů IS, SDLC<br>
+        4. <strong>Information Systems Operations and Business Resilience</strong> — provoz IT, kontinuita, zálohy<br>
+        5. <strong>Protection of Information Assets</strong> — bezpečnost informací, přístupy, šifrování<br><br>
+        <strong>Požadavky pro udělení:</strong> složení zkoušky + 5 let relevantní praxe v IS auditu (max. 3 roky lze nahradit vzděláním). <strong>Udržování:</strong> 120 hodin CPE (Continuing Professional Education) za 3 roky.
+      </div>
+    </div>
+  </div>
+
+  <div class="pojmy two">
+    <div class="pojem green">
+      <div class="pojem-head">CGEIT — Certified in Governance of Enterprise IT</div>
+      <div class="pojem-body">Pro senior IT manažery a konzultanty governance. Domény: IT governance framework, strategické řízení, realizace benefitů, optimalizace rizik a zdrojů. Vyžaduje 5 let praxe v IT governance roli.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">CRISC — Certified in Risk and IT Systems Control</div>
+      <div class="pojem-body">Pro risk manažery a IT kontrolory. Domény: IT Risk Identification, IT Risk Assessment, Risk Response and Mitigation, Risk and Control Monitoring and Reporting. Propojuje řízení rizik s kontrolním systémem.</div>
+    </div>
+  </div>
+  <div class="pojmy two">
+    <div class="pojem purple">
+      <div class="pojem-head">CISM — Certified Information Security Manager</div>
+      <div class="pojem-body">Pro CISO a bezpečnostní manažery. Domény: Information Security Governance, Information Risk Management, Information Security Programme, Incident Management.</div>
+    </div>
+    <div class="pojem gray">
+      <div class="pojem-head">CDPSE — Certified Data Privacy Solutions Engineer</div>
+      <div class="pojem-body">Nejnovější certifikace ISACA zaměřená na ochranu osobních dat z technické perspektivy. Relevantní v kontextu GDPR a regulatorního souladu.</div>
+    </div>
+  </div>
+
+  <h2>2.3 ITAF — IT Audit Framework</h2>
+  <p>ISACA vydala <strong>ITAF (IT Assurance Framework)</strong> — rámec standardů pro IT auditory. Strukturován do tří kategorií:</p>
+  <table>
+    <tr><th>Kategorie ITAF</th><th>Obsah</th><th>Příklady standardů</th></tr>
+    <tr><td><strong>Obecné standardy</strong> (Level 1)</td><td>Základní požadavky na auditora jako osobu — nezávislost, kompetence, profesní péče (due professional care), objektivita</td><td>1001 Audit Charter, 1004 Relationship between IS Audit and Assurance Standards, 1007 Assertions</td></tr>
+    <tr><td><strong>Výkonnostní standardy</strong> (Level 2)</td><td>Jak provádět audit — plánování, dohled, sběr důkazů, hodnocení rizik, reporting, follow-up</td><td>2001 Audit Planning, 2003 Performance and Supervision, 2201 Planning</td></tr>
+    <tr><td><strong>Praktické pokyny</strong> (Level 3)</td><td>Konkrétní metodiky pro specifické audity — aplikace, cloud, bezpečnost, SDLC, IS compliance</td><td>Specifické IT Audit and Assurance Guidelines pro každou oblast</td></tr>
+  </table>
+
+  <h2>2.4 IIA — Institute of Internal Auditors</h2>
+  <p>IIA (www.theiia.org) je globální profesní organizace pro interní auditory. Vydává <strong>International Standards for the Professional Practice of Internal Auditing</strong> (IPPF). Dvě série standardů:</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Série 1000 — Atributové standardy</div>
+      <div class="pojem-body">Definují charakteristiky interních auditorů a útvarů IA. Klíčové: 1100 Nezávislost a objektivita, 1110 Organizační nezávislost, 1120 Individuální objektivita, 1130 Omezení nezávislosti, 1200 Kompetence a náležitá odborná péče.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Série 2000 — Výkonnostní standardy</div>
+      <div class="pojem-body">Popisují povahu činností interního auditu. Klíčové: 2010 Plánování, 2050 Koordinace, 2100 Povaha práce (governance, řízení rizik, kontrola), 2200 Plánování zakázek, 2300 Realizace zakázek, 2400 Sdělování výsledků.</div>
+    </div>
+  </div>
+
+  <h2>2.5 Kodex etiky auditora IS</h2>
+  <p>ISACA kodex etiky (Code of Professional Ethics) stanovuje závazky pro všechny certifikované auditory ISACA. Klíčové principy:</p>
+  <ul>
+    <li><strong>Podpora a implementace standardů:</strong> Auditor dodržuje standardy ISACA a příslušné zákony.</li>
+    <li><strong>Profesionální kompetence:</strong> Auditor přijímá zakázky pouze v oblastech, kde má dostatečnou odbornost. Průběžné vzdělávání (CPE).</li>
+    <li><strong>Důvěrnost:</strong> Informace získané při auditu jsou důvěrné a nesmí být zneužity nebo předány třetím stranám bez oprávnění.</li>
+    <li><strong>Integrita:</strong> Auditor netoleruje neetické chování, nepřijímá dary nebo zvýhodnění, která by ovlivnila nezávislost.</li>
+    <li><strong>Nezávislost:</strong> Faktická i formální — žádný konflikt zájmů.</li>
+    <li><strong>Objektivita:</strong> Závěry jsou podloženy důkazy, ne vztahy nebo očekáváními zadavatele.</li>
+  </ul>
+
+  <h2>2.6 Nezávislost a objektivita — klíčový princip</h2>
+  <p>Nezávislost je podmínkou důvěryhodnosti auditního výroku. Bez nezávislosti ztrácí audit smysl — uživatel výroku by nemohl důvěřovat, že výrok vyjadřuje skutečný stav, nikoli zájem auditované strany.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Faktická nezávislost</div>
+      <div class="pojem-body">Skutečná absence vazby nebo konfliktu zájmů. Auditor nemá finanční závislost, příbuzenský nebo pracovní vztah k auditovanému subjektu, který by ovlivnil jeho úsudek.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Formální (zdánlivá) nezávislost</div>
+      <div class="pojem-body">Nezávislost musí být patrná i navenek — z pohledu informovaného třetího pozorovatele nesmí existovat zdání konfliktu zájmů. Nestačí být fakticky nezávislý, pokud veřejnost má důvod pochybovat.</div>
+    </div>
+  </div>
+  <p>Příklady ohrožení nezávislosti: auditor audituje systém, který sám navrhl nebo implementoval; auditor má finanční zájem v auditované firmě; auditní honorář tvoří drtivou většinu příjmů firmy z jednoho klienta (self-review threat, advocacy threat, familiarity threat).</p>
+
+  <div class="callout"><strong>Mezinárodní institucionální rámec:</strong> Na mezinárodní úrovni: ISACA (IT audit), IIA (interní audit), IFAC/IAASB (finanční audit — ISA standardy). Na národní úrovni: Komora auditorů ČR, Rada pro veřejný dohled nad auditem (rvda.cz). Na úrovni organizace: Výbor auditu (Audit Committee) — klíčový příjemce auditních zpráv a garant nezávislosti interního auditu.</div>
+</section>
+
+<!-- ============================================================ P3 ============================================================ -->
+<section class="lecture" id="p3">
+  <div class="lec-header">
+    <div class="lec-num">P3</div>
+    <div>
+      <div class="lec-title">Postup IT auditu — COBIT a ITAF</div>
+      <div class="lec-subtitle">5 fází auditu · assurance initiative · risk-based přístup · RACM · sampling · audit evidence · COBIT for Assurance</div>
+    </div>
+  </div>
+
+  <h2>3.1 Dva přístupy k postupu ujišt&eacute;ní</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">ITAF — Tools and Techniques: Creating Audit Program</div>
+      <div class="pojem-body">Upravuje obecný postup auditu pro jakýkoli objekt. Universálně aplikovatelný — od softwarových licencí přes obchodní procesy až po zabezpečení infrastruktury. Klíčový výstup: Risk Control Matrix (RACM). Pět kroků: určení objektu → definice cílů → rozsah → předauditní plánování → postupy a kroky sběru dat.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">COBIT 5 for Assurance</div>
+      <div class="pojem-body">Určený pro audit zaváděcí EGIT (Enterprise Governance of IT) podle COBIT 5 enablerů. Jeden z dokumentů sady COBIT 5. Strukturovaný přístup pro audit: Change management, Risk management, BYOD, a dalších IT oblastí dle COBIT enablerů (7 typů).</div>
+    </div>
+  </div>
+
+  <h2>3.2 Postup auditu podle ITAF — 5 kroků</h2>
+
+  <h3>Krok 1: Určení objektu auditu</h3>
+  <p>Auditor identifikuje oblast, která bude předmětem auditu: funkce businessu, systém, fyzická lokace, nebo kombinace. Popíše účel auditu a co se od něj očekává. Příklad cíle: „Zda změny ve zdrojovém kódu probíhají v dobře definovaném a kontrolovaném prostředí."</p>
+
+  <h3>Krok 2: Definice cílů auditu</h3>
+  <p>Proč se audituje? Provede se analýza rizik — jaká jsou rizika s vazbou na podnikové cíle? Cílem auditu by <strong>nemělo</strong> být pouhé skenování sítě za účelem zjišt&eacute;ní počtu instalací — to je základ a pokud se to nedělá, auditor by měl plánování přerušit a uvést toto jako základní nález (příklad ze Svátá P6: audit softwarových licencí).</p>
+
+  <h3>Krok 3: Určení rozsahu auditu</h3>
+  <p>Přesné vymezení hranic: které systémy, funkce, organizační jednotky jsou v rozsahu. Důležitý krok — auditor musí porozumět prostředí organizace a kontextu, aby mohl „ohraničit" audit. Příklady kritérií rozsahu u auditu softwarových licencí:</p>
+  <ul>
+    <li>Licence se stejným způsobem určování nákladů</li>
+    <li>5 nejdražších ročních licencí</li>
+    <li>Licence produktů, u nichž je největší pravděpodobnost rizik (po fúzi a propojení IS)</li>
+    <li>Licence dodavatelů, kteří v poslední době měnili licenční model</li>
+  </ul>
+
+  <h3>Krok 4: Předauditní plánování</h3>
+  <p>U <strong>risk-based auditu</strong>: hodnocení rizik je klíčové pro určení konečného rozsahu. Rámec NIST Cybersecurity Framework (Identify → Protect → Detect → Respond → Recover) je dobrým podkladem. Auditor identifikuje potřebné zdroje:</p>
+  <ul>
+    <li>Technické dovednosti a zdroje auditního týmu</li>
+    <li>Rozpočet auditu, lokace a zařízení</li>
+    <li>Role a odpovědnosti v auditním týmu</li>
+    <li>Čas potřebný pro jednotlivé činnosti</li>
+    <li>Zdroje informací: modely, diagramy, politiky, standardy</li>
+    <li>Kontaktní osoby, plán komunikace (s kým, kdy, jak často, proč)</li>
+  </ul>
+
+  <h3>Krok 5: Určení postupů a kroků pro sběr dat/důkazů</h3>
+  <p>Stanovení metod a strategie auditu, návrh programu auditu. Doporučené aktivity:</p>
+  <ul>
+    <li>Získej politiky, standardy a návody</li>
+    <li>Seznamte se s regulatorními požadavky</li>
+    <li>Připrav seznam lidí pro interview</li>
+    <li>Identifikuj metody/nástroje pro testování a ověřování kontrol</li>
+    <li>Vytvoř testovací skripty</li>
+    <li>Urči kritéria pro hodnocení výsledků</li>
+  </ul>
+  <p>Klíčový výstup tohoto kroku: <strong>RACM (Risk and Control Matrix)</strong>.</p>
+
+  <h2>3.3 Risk and Control Matrix (RACM)</h2>
+  <p>RACM je základní pracovní dokument risk-based auditu. Propojuje rizika s kontrolami a testovacími postupy. Sloupce matice:</p>
+  <table>
+    <tr><th>Sloupec RACM</th><th>Obsah</th></tr>
+    <tr><td>Riziko</td><td>Identifikované riziko (co se může pokazit?)</td></tr>
+    <tr><td>Cíl kontroly</td><td>Co by kontrola měla zajistit?</td></tr>
+    <tr><td>Kontrola</td><td>Konkrétní implementovaná kontrola (název, popis)</td></tr>
+    <tr><td>Typ kontroly</td><td>Preventivní / Detekční / Korektivní; manuální / automatická</td></tr>
+    <tr><td>Testy</td><td>Auditní procedury pro ověření funkčnosti kontroly</td></tr>
+    <tr><td>Reference</td><td>Odkaz na kontrolní rámce (COSO, COBIT, ITIL…)</td></tr>
+    <tr><td>Výsledek testu</td><td>Pass / Fail / N/A</td></tr>
+    <tr><td>Zjišt&eacute;ní</td><td>Finding nebo observation</td></tr>
+  </table>
+
+  <h2>3.4 COBIT 5 for Assurance — dvě perspektivy</h2>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Perspektiva A: Assurance Function Perspective</div>
+      <div class="pojem-body">Co se musí provést pro to, aby se ujišt&eacute;ní mohlo realizovat jako součást IT Governance a řízení? Otázky: Jaké je organizační zabezpečení ujišt&eacute;ní? Jaké informace jsou výsledkem ujišt&eacute;ní? Jak je ujišt&eacute;ní financováno a kdo je odpovědný?</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Perspektiva B: Assessment Perspective</div>
+      <div class="pojem-body">Jak postupovat při auditu objektu IT? Klíčové procesy ujišt&eacute;ní v COBIT 5: MEA01 (Monitor, Evaluate, Assess Performance and Conformance), MEA02 (Assess the System of Internal Control), MEA03 (Assess Compliance with External Requirements). Obecný postup ujišt&eacute;ní podle enablerů.</div>
+    </div>
+  </div>
+
+  <h3>7 enablerů COBIT 5 — objekty ujišt&eacute;ní</h3>
+  <p>COBIT 5 for Assurance strukturuje audit kolem 7 typů enablerů. Každý enabler má v konkrétní organizaci jinou podobu, která ovlivňuje způsob ujišt&eacute;ní:</p>
+  <ol>
+    <li><strong>Principy, politiky a rámce</strong> — existence a správnost IT politik</li>
+    <li><strong>Procesy</strong> — zralost a efektivita IT procesů (hodnocení capability)</li>
+    <li><strong>Organizační struktury</strong> — správnost rolí, pravomocí a odpovědností</li>
+    <li><strong>Kultura, etika a chování</strong> — soulad chování s hodnotami organizace</li>
+    <li><strong>Informace</strong> — kvalita, dostupnost, integrita informací</li>
+    <li><strong>Služby, infrastruktura a aplikace</strong> — funkčnost a bezpečnost IT infrastruktury</li>
+    <li><strong>Lidé, dovednosti a kompetence</strong> — kompetence IT personálu</li>
+  </ol>
+
+  <h2>3.5 Fáze A: Určení rozsahu ujišt&eacute;ní (COBIT 5 for Assurance)</h2>
+  <p>Příklad BYOD auditu z přednášky:</p>
+  <ul>
+    <li><strong>Předmět auditu:</strong> Bring Your Own Device (BYOD)</li>
+    <li><strong>Cíl auditu:</strong> (1) Využívání BYOD je v souladu s dobrými praxemi, (2) Využívání BYOD splňuje očekávání cíle, (3) Rizika spojená s BYOD se řídí efektivně. Efektivní využívání zdrojů je mimo scope.</li>
+    <li><strong>Rozsah:</strong> Výběr enablerů, které budou předmětem auditu — typicky procesy + politiky + technologická infrastruktura.</li>
+  </ul>
+
+  <h2>3.6 Typy auditních důkazů a jejich spolehlivost</h2>
+  <table>
+    <tr><th>Typ důkazu</th><th>Technika</th><th>Spolehlivost</th><th>Příklady</th></tr>
+    <tr><td>Fyzický důkaz</td><td>Observation (pozorování)</td><td>Střední — zachycuje momentální stav</td><td>Fyzická prohlídka serverovny, pozorování procesu</td></tr>
+    <tr><td>Dokumentový důkaz</td><td>Inspection (kontrola)</td><td>Střední-vysoká — ověřuje existenci a obsah</td><td>Politiky, logy, záznamy o změnách, audit trail</td></tr>
+    <tr><td>Testimonial důkaz</td><td>Inquiry (dotazování)</td><td>Nízká — deklarace osoby, nelze samotná použít</td><td>Rozhovory, dotazníky, management interviews</td></tr>
+    <tr><td>Analytický důkaz</td><td>Re-performance</td><td>Vysoká — auditor sám provede kontrolu</td><td>Opakování výpočtu, test přihlášení, spuštění procedury</td></tr>
+  </table>
+
+  <div class="tip"><strong>Pravidlo spolehlivosti důkazů:</strong> Důkazy získané <em>přímo</em> auditorem (pozorování, re-performance) jsou spolehlivější než důkazy od třetích stran, a ty jsou spolehlivější než důkazy od auditovaného subjektu (inquiry). Auditor vždy kombinuje více typů důkazů pro vyšší jistotu.</div>
+
+  <h2>3.7 Nálezy (Findings) — struktura</h2>
+  <p>Každý nález v auditní zprávě musí mít standardní strukturu:</p>
+  <ol>
+    <li><strong>Popis/stav:</strong> Jaký je nález? Co auditor zjistil?</li>
+    <li><strong>Kritéria:</strong> Jaký by měl být stav? Která norma, politika nebo standard byl porušen?</li>
+    <li><strong>Příčina:</strong> Jaký je důvod stavu?</li>
+    <li><strong>Následek:</strong> Jaký je dopad stavu? Jaké riziko to představuje?</li>
+    <li><strong>Doporučení:</strong> Co by mělo být provedeno k nápravě?</li>
+    <li><strong>Reakce vedení:</strong> Jaké je opatření, kdo ho provede a do kdy?</li>
+    <li><strong>Odpověď auditora (nepovinná):</strong> Zda reakce vedení adekvátně řeší doporučení.</li>
+  </ol>
+</section>
+
+<!-- ============================================================ P4 ============================================================ -->
+<section class="lecture" id="p4">
+  <div class="lec-header">
+    <div class="lec-num">P4</div>
+    <div>
+      <div class="lec-title">Typy IT kontrol</div>
+      <div class="lec-subtitle">GITC · aplikační kontroly · preventivní/detekční/korektivní · SOD · COSO · fyzické a environmentální kontroly</div>
+    </div>
+  </div>
+
+  <h2>4.1 Kontrola — definice a trojice pojmů</h2>
+  <p><strong>Kontrola jako proces</strong> (kontrolní proces): prostředky řízení rizik, včetně zásad, postupů, pokynů, praktik nebo organizačních struktur, které mohou být administrativní, technické, řídicí nebo právní povahy. Je v odpovědnosti nejvyššího vedení organizace, jehož cílem je poskytnout dostatečné ujišt&eacute;ní týkající se činností prováděných organizací.</p>
+  <p><strong>Kontrola jako systém</strong> (kontrolní systém): souhrn dílčích kontrol, které pomáhají organizaci dosáhnout svých cílů.</p>
+  <p><strong>Cíl kontroly</strong>: výstup nebo cíl, který může být splněn různými kontrolami (různé kontroly mohou plnit tentýž cíl).</p>
+  <p>Vlastnosti dobré kontroly: <strong>hospodárnost</strong> (náklady kontroly nepřevyšují riziko), <strong>účelnost</strong> (kontrola plní svůj cíl), <strong>účinnost</strong> (kontrola skutečně snižuje riziko).</p>
+
+  <h2>4.2 COSO — kontrolní rámec pro finanční kontroly</h2>
+  <p>COSO (Committee of Sponsoring Organizations of the Treadway Commission) byl reakcí na vlnu skandálů ve finančním světě v 80. letech. V roce 1992 vydalo COSO model interních kontrol. Sarbanes-Oxley Act (2002) začal vyžadovat, aby management každoročně zhodnotil fungování vnitřního kontrolního systému a externí auditoři toto vyhodnocení ověřili — COSO bylo doporučeno jako model pro toto hodnocení.</p>
+
+  <p>COSO 2013 Framework definuje interní kontrolu jako: <em>„process, effected by an entity's board of directors, management, and other personnel, designed to provide reasonable assurance regarding the achievement of objectives relating to operations, reporting, and compliance."</em></p>
+
+  <h3>COSO — 5 komponent a 3 druhy cílů</h3>
+  <table>
+    <tr><th>Komponenta COSO</th><th>Obsah</th><th>IT relevance</th></tr>
+    <tr><td><strong>1. Kontrolní prostředí</strong></td><td>Etika, hodnoty, kompetence managementu, organizační struktura</td><td>IT governance — jak vrcholové vedení řídí IT</td></tr>
+    <tr><td><strong>2. Analýza rizik</strong></td><td>Identifikace a hodnocení rizik, která ohrožují dosažení cílů</td><td>IT risk assessment — identifikace IT rizik pro finanční data</td></tr>
+    <tr><td><strong>3. Kontrolní činnosti</strong></td><td>Politiky a postupy pro zmírnění rizik (Princip 11: IT kontroly)</td><td>GITC, aplikační kontroly, SOD, přístupová práva</td></tr>
+    <tr><td><strong>4. Informace a komunikace</strong></td><td>Interní a externí komunikace — správné informace správným lidem ve správný čas</td><td>Reporting, audit trail, notifikace incidentů</td></tr>
+    <tr><td><strong>5. Monitorovací činnosti</strong></td><td>Průběžné monitorování fungování kontrolního systému</td><td>Continuous monitoring, interní audit, SIEM</td></tr>
+  </table>
+
+  <p>Tři druhy cílů COSO: <strong>Provozní</strong> (Operations — efektivita a hospodárnost provozu), <strong>Reportingové</strong> (Reporting — spolehlivost finančního a nefinančního výkaznictví), <strong>Souladové</strong> (Compliance — soulad se zákony a předpisy).</p>
+
+  <div class="callout"><strong>COSO vs. COBIT:</strong> Oba rámce jsou komplementární a kompatibilní. COSO poskytuje rámec pro vnitřní kontrolu zaměřený na finanční reporting. COBIT poskytuje podrobnější návod pro IT governance a IT kontroly. SOX Section 404 audit = kombinace obou: COSO pro celkový ICS rámec, COBIT pro IT specifické kontroly.</div>
+
+  <h2>4.3 IT kontrolní rámec (IT Control Framework)</h2>
+  <p>Rámec kontroly je strukturovaný způsob kategorizace a identifikace kontrol, aby bylo možné adekvátně zabezpečit prostředí IT. Může být formální (lépe vyhoví regulatorním požadavkům) nebo neformální. Klíčová dimenze: <strong>Obecné IT kontroly (GITC)</strong> versus <strong>Aplikační kontroly</strong>.</p>
+
+  <h2>4.4 Obecné IT kontroly — GITC (General IT Controls)</h2>
+  <p>GITC platí pro všechny systémové komponenty, procesy a data pro danou organizaci nebo systémové prostředí. Poskytují základ, na němž závisí spolehlivost aplikačních kontrol. <strong>Pokud GITC selžou, aplikační kontroly nejsou důvěryhodné.</strong></p>
+
+  <h3>Kategorie GITC</h3>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">1. Řízení přístupu (Access Management / Logical Security)</div>
+      <div class="pojem-body">
+        Správa uživatelských účtů: přidělování, změny, odebírání oprávnění. Hesla a autentizace (politika hesel na úrovni OS, databáze, aplikace). Privilegované účty (admin, root, SA). Generické a sdílené účty. Monitoring přihlašování a přístupu. SOD — konflikty rolí. Pravidelné revize přístupů. Vzdálený přístup dodavatelů.
+      </div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">2. Řízení změn (Change Management)</div>
+      <div class="pojem-body">
+        Proces nasazení aplikačních změn: vývoj → testování → schválení → produkce. Oddělení vývojového, testovacího a produkčního prostředí. SOD mezi vývojáři, testery a nasazením do produkce. Patchování: OS, databáze, aplikace. Řízení změn systémového software. Záznamy o změnách v change management nástroji.
+      </div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">3. Počítačové operace (Computer Operations)</div>
+      <div class="pojem-body">
+        Zálohování a obnova: strategie, frekvence, monitorování, místa uložení, pravidelné testování obnovy. Dávkové přenosy a zpracování: monitoring vazeb mezi systémy, reakce na chyby. Fyzická bezpečnost: datacenter, serverové místnosti. Kontinuita a DRP (Disaster Recovery Plan). Monitoring bezpečnostních událostí (logy, SIEM).
+      </div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">4. Vývoj a pořizování systémů (IT Development)</div>
+      <div class="pojem-body">
+        SDLC — strukturovaný vývoj (požadavky, design, vývoj, testování, implementace). Akceptační procedury — vlastník systému potvrzuje funkčnost. Dokumentace systémů a procesů. Změnové řízení aplikací (viz Change Management). Řízení dodavatelů IT: smlouvy, SLA, KPI.
+      </div>
+    </div>
+  </div>
+
+  <div class="warn"><strong>Vztah GITC → Aplikační kontroly:</strong> Auditor NEJPRVE testuje GITC. Pokud GITC selhávají (např. nekontrolované změny, slabé řízení přístupů), roste riziko, že aplikační kontroly byly obejity nebo poškozeny. Výsledek: auditor nemůže spoléhat na aplikační kontroly a musí rozšířit substantivní testování.</div>
+
+  <h2>4.5 Aplikační kontroly (Application Controls)</h2>
+  <p>Aplikační kontroly jsou specifické pro každou aplikaci (business proces). Zahrnují kontroly v rámci aplikace týkající se vstupu, zpracování a výstupu dat.</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Vstupní kontroly (Input Controls)</div>
+      <div class="pojem-body">Zajišt&eacute;ní, že všechna vstupní data jsou přesná, úplná, autorizovaná a správná. Příklady: editace dat (validace formátu, rozsahu, povinných polí), kontrolní součty, hlášení chyb při zadání neplatné hodnoty, autorizace transakce před zadáním.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Zpracovávací kontroly (Processing Controls)</div>
+      <div class="pojem-body">Zajišt&eacute;ní, že všechna data jsou zpracovávána tak, jak bylo zamýšleno. Příklady: matematická přesnost výpočtů, sekvenční kontroly (žádná transakce nechybí), logování transakcí, detekce duplicit, řízení dávkového zpracování.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Výstupní kontroly (Output Controls)</div>
+      <div class="pojem-body">Zajišt&eacute;ní, že všechny výstupy jsou přesné a úplné. Příklady: odsouhlasení výstupů s vstupy (report totals), distribuce reportů pouze oprávněným osobám, záznamy o výstupech pro audit trail.</div>
+    </div>
+  </div>
+
+  <h2>4.6 Preventivní — Detekční — Korektivní kontroly</h2>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Preventivní kontroly</div>
+      <div class="pojem-body">
+        Dopředu zabraňují výskytu chyb, opomenutí nebo bezpečnostních incidentů. <strong>Nejlepší typ ochrany.</strong><br><br>
+        Příklady: editace zadávání dat blokující abecední znaky v číselných polích; řízení přístupu chránící citlivá data před neoprávněnými osobami; antivirový software, firewally, systémy prevence narušení; dual control (čtyřoké principy) — SOD.
+      </div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Detekční kontroly</div>
+      <div class="pojem-body">
+        Detekují chyby nebo incidenty, které nezachytily preventivní kontroly.<br><br>
+        Příklady: identifikace čísel účtů neaktivních uživatelů; monitorování a analýza pro odhalení činností překračujících povolené limity; označ&shy;ení zprávy, která byla poškozena; SIEM výstrahy; fyzické inventury; rekonciliace bankovního výpisu.
+      </div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Korektivní kontroly</div>
+      <div class="pojem-body">
+        Opravují chyby, opomenutí nebo incidenty, jakmile byly zjišt&eacute;ny. Minimalizují dopad.<br><br>
+        Příklady: korekce chyb při zadávání dat; identifikace a odstranění neoprávněných uživatelů nebo softwaru; obnova systému po mimořádných událostech (zálohy); patch management po zjišt&eacute;ní zranitelnosti.
+      </div>
+    </div>
+  </div>
+
+  <h2>4.7 SOD — Segregation of Duties (oddělení pravomocí)</h2>
+  <p>SOD je klíčový preventivní princip — žádná jedna osoba by neměla mít kontrolu nad celým procesem takovým způsobem, aby mohla provést chybu nebo podvod bez odhalení. Realizuje <strong>princip čtyř očí</strong> (dual control).</p>
+
+  <h3>4 neslučitelné funkce (podle COSO)</h3>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Autorizace (Authorization)</div>
+      <div class="pojem-body">Schválení transakce nebo operace. Příklad: schválení nákupní objednávky manažerem. Neslučitelné s custody a zaúčtováním.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Custody (Správa aktiv)</div>
+      <div class="pojem-body">Fyzická nebo elektronická správa aktiva — přístup k penězům, zásobám, datům. Osoba spravující pokladnu nesmí zároveň schvalovat výdaje.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Zaúčtování (Recording)</div>
+      <div class="pojem-body">Záznam transakce do účetního nebo IS systému. Osoba zadávající data do IS nesmí zároveň schvalovat transakci.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Rekonciliace (Reconciliation)</div>
+      <div class="pojem-body">Ověření správnosti a úplnosti záznamů. Kontrola bankovního výpisu, inventura. Musí provádět osoba nezávislá na custody i zaúčtování.</div>
+    </div>
+  </div>
+
+  <h3>SOD v IT kontextu — matice konfliktu rolí</h3>
+  <p>V IT systémech SOD znamená: uživatel nesmí mít kombinaci oprávnění, která by mu umožnila provést celý cyklus bez kontroly jiné osoby:</p>
+  <table>
+    <tr><th>Konflikt SOD</th><th>Proč je to problém?</th><th>Řešení</th></tr>
+    <tr><td>Nastavovat přístupová práva AND mít ta samá práva</td><td>Může si přidělit libovolná oprávnění bez kontroly</td><td>Správce přístupů nesmí mít výkonné role v produkci</td></tr>
+    <tr><td>Zadávat dodavatele AND schvalovat faktury</td><td>Může vytvořit fiktivního dodavatele a zaplatit mu</td><td>Oddělení AP a nákupu</td></tr>
+    <tr><td>Vyvíjet kód AND nasazovat do produkce</td><td>Může vložit škodlivý kód bez kontroly</td><td>Release management role oddělená od vývoje</td></tr>
+    <tr><td>Zaznamenávat transakce AND odsouhlasovat výkazy</td><td>Může skrýt chyby nebo podvody v záznamu</td><td>Rekonciliaci provádí jiná osoba</td></tr>
+  </table>
+
+  <div class="tip"><strong>Compensating controls:</strong> V malých organizacích (málo lidí) je úplné SOD obtížně proveditelné. Pak se používají kompenzující kontroly: detailní monitoring aktivity jedné osoby manažerem, pravidelné fyzické inventury, automatizované alerty při podezřelých akcích, pravidelné rotace zaměstnanců na citlivých pozicích.</div>
+
+  <h2>4.8 IT Governance, manažerské a technické kontroly</h2>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">IT Governance kontroly</div>
+      <div class="pojem-body">Dohled nad správou a řízením IT — nad všemi jeho komponentami — s cílem zajistit vytváření hodnot pro stakeholdery. Odpovědnost: statutární orgány (board of directors). Příklady: IT strategie, IT governance framework, výbor auditu.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Manažerské (řídící) kontroly</div>
+      <div class="pojem-body">Kontroly potřebné k dosažení stanovených cílů organizace. Zvláštní pozornost kritickým prostředkům, citlivým informacím a funkcím. Odpovědnost: management na všech úrovních. Příklady: politiky, postupy, SOD, řízení projektů.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Technické kontroly</div>
+      <div class="pojem-body">Základ pro manažerské kontroly. Příklady: kontroly operačního systému, kontroly databáze, šifrování a protokolování, firewall, antivirus. Odpovědnost: IT personál. Bez funkčních technických kontrol manažerské kontroly nemají oporu.</div>
+    </div>
+  </div>
+
+  <h2>4.9 Fyzické a environmentální kontroly</h2>
+  <p>IT zařízení představuje pro mnoho organizací značnou investici a musí být chráněno před náhodným nebo úmyslným poškozením nebo ztrátou:</p>
+  <ul>
+    <li>Umístění serverů v uzamčených místnostech s omezeným přístupem (badge access, biometrika)</li>
+    <li>Instalace zařízení pro detekci a hašení požáru (halon, FM-200)</li>
+    <li>Ukládání citlivých zařízení a záloh mimo prostředí ohrožované přírodními událostmi</li>
+    <li>Záložní napájení (UPS, dieselové generátory)</li>
+    <li>Klimatizace a řízení teploty/vlhkosti</li>
+    <li>Kamerové systémy (CCTV) a fyzické stráže</li>
+  </ul>
+
+  <h2>4.10 Audit IS jako součást finančního auditu</h2>
+  <p>IT auditor v rámci podpory finančního auditu postupuje dle interní metodiky v 5 krocích:</p>
+  <ol>
+    <li><strong>Porozumění IT prostředí a stanovení rozsahu kontrol</strong> — do jaké míry se může auditor spolehnout na vnitřní kontroly. Výstup: hodnocení úrovně kontrolního IT prostředí.</li>
+    <li><strong>Zhodnocení rizika IT</strong> — identifikace IT rizik relevantních pro finanční výkaznictví: nízká bezpečnostní povědomost, nesprávná konfigurace, neautorizovaný přístup k datům.</li>
+    <li><strong>Identifikace a dokumentace relevantních kontrol</strong> — celopodnikové kontroly, aplikační kontroly, obecné kontroly (GITC).</li>
+    <li><strong>Testování kontrol</strong> — testování návrhu (design) a testování výstupu (efektivnosti) na vybraném vzorku dat.</li>
+    <li><strong>Vyvození závěrů</strong> — pokud relevantní IT kontroly nefungují, je nutné upravit povahu a rozsah dalších procedur finančního auditu (zvýšit vzorek).</li>
+  </ol>
+</section>
+
+<!-- ============================================================ P5 ============================================================ -->
+<section class="lecture" id="p5">
+  <div class="lec-header">
+    <div class="lec-num">P5</div>
+    <div>
+      <div class="lec-title">Hodnocení kvality procesů</div>
+      <div class="lec-subtitle">CMM/CMMI · Process Capability vs. Maturity · PAM pro COBIT · 6 úrovní způsobilosti · COBIT 2019 CPM</div>
+    </div>
+  </div>
+
+  <h2>5.1 Kvalita a hodnocení procesů — základní pojmy</h2>
+  <p><strong>Kvalita</strong> je souhrn vlastností a charakteristik produktu nebo služby, které ovlivňují jejich schopnost uspokojit stanovené nebo implicitní potřeby (požadavky). Kvalitu objektu lze určit porovnáním souboru jeho inherentních charakteristik se souborem požadavků. Kvalita je relativní pojem — záleží na tom, s čím se porovnává.</p>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Assurance vs. Assessment — důležité rozlišení</div>
+      <div class="pojem-body"><strong>ASSURANCE/UJIŠT&Eacute;N&Iacute;</strong>: Objektivní zkoumání důkazů za účelem poskytnutí nezávislého posouzení procesů správy, řízení rizik a kontrolních procesů pro organizaci. Vyžaduje nezávislost auditora.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Assessment / Hodnocení</div>
+      <div class="pojem-body"><strong>ASSESSMENT/HODNOCEN&Iacute;</strong>: Vyvození úsudku o předmětu v kontextu dané organizace. Může a nemusí být součástí ujišt&eacute;ní. Méně formální — může ho provádět management sám (self-assessment). Cílem může být odhalení možností snížení nákladů, zlepšení kvality, zajišt&eacute;ní souladu.</div>
+    </div>
+  </div>
+
+  <h2>5.2 Historie CMM — základ pro hodnocení způsobilosti</h2>
+  <p>CMM (Capability Maturity Model) byl vyvinut SEI (Software Engineering Institute, Carnegie Mellon University) jako způsob zlepšování kvality/efektivnosti procesů vývoje systémů:</p>
+  <ul>
+    <li><strong>1987:</strong> První model</li>
+    <li><strong>1990:</strong> Označení CMM — Capability Maturity Model</li>
+    <li><strong>1995:</strong> SE-CMM (System Engineering CMM) pro technické týmy, SW-CMM pro softwarové týmy</li>
+    <li><strong>2006:</strong> CMMI (Capability Maturity Model Integration) — integruje SW-CMM a SE-CMM, 2 reprezentace</li>
+    <li><strong>2018:</strong> CMMI verze 2.0</li>
+  </ul>
+
+  <h2>5.3 CMMI — dva způsoby hodnocení způsobilosti</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Staged Representation — Maturity Levels (ML)</div>
+      <div class="pojem-body">
+        Používá úrovně zralosti ML1–ML5. ML se vztahují na zralost <strong>celé organizace</strong>. Předem definované sady procesů představují postup zlepšování v celé organizaci. Více procesů najednou.<br><br>
+        ML1 Initial → ML2 Managed → ML3 Defined → ML4 Quantitatively Managed → ML5 Optimizing
+      </div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Continuous Representation — Capability Levels (CL)</div>
+      <div class="pojem-body">
+        Používá úrovně CL0–CL5. CL se vztahují k <strong>jednotlivým procesům</strong>. Flexibilní — každý proces může mít jinou úroveň. Vhodné pro cílené zlepšování prioritních procesů. Méně nákladné.<br><br>
+        CL0 Incomplete → CL1 Performed → CL2 Managed → CL3 Defined → CL4 Quantitatively Managed → CL5 Optimizing
+      </div>
+    </div>
+  </div>
+
+  <div class="callout"><strong>Vztah CL a ML:</strong> Všechny procesy přiřazené ML3 musí dosáhnout CL3, aby se dosáhlo ML3 v celé organizaci. Staged = více procesů najednou na stejné úrovni. Continuous = každý proces na jiné úrovni, větší flexibilita.</div>
+
+  <h2>5.4 COBIT 5 PAM — Process Assessment Model</h2>
+  <p>PAM (Process Assessment Model) pro COBIT 5 je dvoudimenzionální model podle ISO/IEC 15504-2 (nyní ISO 33000):</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Dimenze procesní</div>
+      <div class="pojem-body">37 procesů COBIT 5 rozdělených do 5 domén: EDM (Evaluate, Direct, Monitor), APO (Align, Plan, Organise), BAI (Build, Acquire, Implement), DSS (Deliver, Service, Support), MEA (Monitor, Evaluate, Assess). Každý proces má Base Practices (BP) a Work Products (WP).</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Dimenze způsobilosti procesů (atributů)</div>
+      <div class="pojem-body">6 úrovní způsobilosti (0–5). Pro úrovně 2–5 platí Generic Practices (GP) a Generic Work Products (GWP) — jsou společné všem procesům. Pro úroveň 1 platí specifické BP a WP daného procesu.</div>
+    </div>
+  </div>
+
+  <h2>5.5 Šest úrovní způsobilosti COBIT 5 PAM</h2>
+  <table>
+    <tr><th>Úroveň</th><th>Název</th><th>Popis</th></tr>
+    <tr><td><strong>0</strong></td><td>Incomplete</td><td>Proces není úplný nebo nesplňuje svůj cíl. Base Practices se neprovádějí nebo jsou prováděny jen zřídka.</td></tr>
+    <tr><td><strong>1</strong></td><td>Performed</td><td>Realizovaný proces — splňuje svůj cíl. Hodnocení: Base Practices (BP) a Work Products (WP) jsou implementovány.</td></tr>
+    <tr><td><strong>2</strong></td><td>Managed</td><td>Řízený proces — je plánován, monitorován a aktualizován. Výstupy jsou vhodně vytvořeny a kontrolovány. Generic Practices pro úroveň 2 implementovány.</td></tr>
+    <tr><td><strong>3</strong></td><td>Established</td><td>Zavedený proces — implementovaný standardizovaný proces dosahuje výstupů. Definovaný proces je řízen a výstupy jsou konzistentní.</td></tr>
+    <tr><td><strong>4</strong></td><td>Predictable</td><td>Předvídatelný proces — realizuje se v rámci daných omezení. Výkonnost procesu je kvantitativně měřena a řízena.</td></tr>
+    <tr><td><strong>5</strong></td><td>Optimizing</td><td>Optimalizovaný proces — průběžně zlepšovaný podle stanovených business cílů. Identifikace příležitostí ke zlepšení a implementace inovací.</td></tr>
+  </table>
+
+  <h2>5.6 Indikátory hodnocení COBIT 5</h2>
+  <p>Indikátory hodnocení pomáhají určit, zda je dosaženo procesních atributů. Dvou druhů:</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Process Performance Indicators (úroveň 1)</div>
+      <div class="pojem-body">Vztahují se pouze na úroveň 1. Jsou specifické pro každý proces, jejich obsah je v COBIT 5.<br><br>
+      <strong>Base Practices (BP)</strong> — základní praktiky procesu<br>
+      <strong>Work Products (WP)</strong> — výstupy procesu (dokumenty, záznamy, reporty)</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Capability Attribute Indicators (úrovně 2–5)</div>
+      <div class="pojem-body">Vztahují se na úrovně 2–5. Jsou společné všem procesům.<br><br>
+      <strong>Generic Practices (GP)</strong> — obecné praktiky platné pro všechny procesy na dané úrovni<br>
+      <strong>Generic Work Products (GWP)</strong> — obecné výstupy</div>
+    </div>
+  </div>
+
+  <h3>Škála hodnocení COBIT 5 PAM</h3>
+  <table>
+    <tr><th>Zkratka</th><th>Název</th><th>Dosažení atributu</th></tr>
+    <tr><td><strong>N</strong></td><td>Not achieved</td><td>Méně než 15 %</td></tr>
+    <tr><td><strong>P</strong></td><td>Partially achieved</td><td>15 % – 50 %</td></tr>
+    <tr><td><strong>L</strong></td><td>Largely achieved</td><td>50 % – 85 %</td></tr>
+    <tr><td><strong>F</strong></td><td>Fully achieved</td><td>Více než 85 %</td></tr>
+  </table>
+  <p>Příklad: Pokud má proces 3 Base Practices (BP), pak: všechny splněny = F; splněny 2 = L; splněna 1 = P; žádná nesplněna = N.</p>
+
+  <h3>Minimální hodnoty pro dosažení úrovně způsobilosti</h3>
+  <p>Pro dosažení úrovně způsobilosti 1 musí být všechny BP a WP procesu hodnoceny minimálně F. Pro dosažení úrovně 2 musí být všechny GP a GWP pro úroveň 2 hodnoceny F nebo L. Pro úroveň 3 a vyšší platí stejná logika — předchozí úroveň musí být F, aktuální úroveň F nebo L.</p>
+
+  <h2>5.7 COBIT 2019 — CPM (COBIT Performance Management)</h2>
+  <p>COBIT Performance Management (CPM) model pomáhá hodnotit governance systém a zlepšovat ho tak, aby dosáhl optimální úrovně. Je nedílnou součástí COBIT Frameworku a je propojen s konceptem CMMI Development V2.0.</p>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Capability Levels (CL) v COBIT 2019</div>
+      <div class="pojem-body">Spojeny s aktivitami procesu. Každá aktivita procesu má přiřazenou úroveň způsobilosti 0–5. Pokud se realizují všechny aktivity procesu s přiřazenou úrovní 2, je proces na úrovni 2. COBIT core model přiřazuje úrovně způsobilosti aktivitám — cesta: Objective → Process → Management Practice → Activities.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Maturity Levels (ML) v COBIT 2019</div>
+      <div class="pojem-body">Vztaženy k oblastem zaměření (focus areas — kombinace procesů a dalších komponent). Určité úrovně zralosti se dosáhne, když všechny procesy/komponenty dosáhnou určitou úroveň způsobilosti. Nemusí se vztahovat jen na procesy — i na organizační struktury.</div>
+    </div>
+  </div>
+
+  <h3>Škály hodnocení COBIT 2019</h3>
+  <table>
+    <tr><th>Kontext</th><th>Škála hodnocení</th></tr>
+    <tr><td>Nezávislá certifikace</td><td>Binární: Ano / Ne (úroveň způsobilosti je nebo není dosažena)</td></tr>
+    <tr><td>Méně formální hodnocení (zlepšování)</td><td>Fully (&gt;85 %) / Largely (50–85 %) / Partially (15–50 %) / Not (&lt;15 %)</td></tr>
+  </table>
+
+  <h2>5.8 Dokumenty COBIT 5 Assessment Programme</h2>
+  <ul>
+    <li><strong>PAM</strong> — Process Assessment Model (popsán výše)</li>
+    <li><strong>Assessor Guide</strong> — návod jak postupovat při hodnocení; umožňuje rychlou prezentaci výsledků statutárním orgánům; dává návody na zlepšování; redukuje míru subjektivity</li>
+    <li><strong>Self-Assessment Guide</strong> — zjednodušená varianta pro interní hodnocení; organizace hodnotí sama sebe</li>
+    <li><strong>Assessment Scoping Tool</strong> — soubor Excel se mapovacími mechanismy pro určení rozsahu ujišt&eacute;ní</li>
+    <li><strong>Self-Assessment Templates</strong> — soubor Excel s předpřipravenými vzory pro hodnocení všech 37 COBIT 5 procesů</li>
+  </ul>
+
+  <div class="tip"><strong>Příklad: Hodnocení procesu MEA04 Managed Assurance</strong> — Pro úroveň 2: všechny aktivity úrovně 2 musí být hodnoceny F nebo L. Pro úroveň 3: všechny aktivity úrovně 2 musí být F (plně) A aktivity úrovně 3 musí být F nebo L. Odpovědnost za dosažení vyšších úrovní způsobilosti procesů IT se přesouvá na business management (ne jen IT).</div>
+</section>
+
+<!-- ============================================================ P6 ============================================================ -->
+<section class="lecture" id="p6">
+  <div class="lec-header">
+    <div class="lec-num">P6</div>
+    <div>
+      <div class="lec-title">Řízení rizik IS</div>
+      <div class="lec-subtitle">Definice rizika · IT risk lifecycle · kategorie IT rizik · analýza rizik · reakce na rizika · rizika auditu</div>
+    </div>
+  </div>
+
+  <h2>6.1 Definice rizika — obecná a IT specifická</h2>
+  <p><strong>Obecná definice:</strong> Riziko je kombinace pravděpodobnosti události a jejích dopadů. Dopady znamenají, že není dosaženo stanoveného cíle.</p>
+  <p><strong>IT riziko</strong> (podle COBIT/Risk IT): <em>„Riziko IT je business riziko, a to business riziko spojené s užíváním, vlastnictvím, provozem, využíváním a přizpůsobováním IT v rámci organizace. IT riziko se skládá z IT událostí, které mohou potenciálně negativně ovlivnit business."</em></p>
+  <p><strong>Klíčový princip:</strong> IT riziko existuje vždy — i tehdy, pokud není detekováno nebo je organizace o něm ignorantní.</p>
+
+  <h3>Vzorec pro výpočet rizika</h3>
+  <div class="pojmy single">
+    <div class="pojem blue">
+      <div class="pojem-head">Základní vzorec</div>
+      <div class="pojem-body">
+        <code>Risk = dopad × pravděpodobnost</code><br><br>
+        Omezení tohoto vzorce: nebere v úvahu existující kontroly a slabiny.<br><br>
+        <strong>Rozšířený vzorec:</strong><br>
+        <code>Risk = dopad × hrozba × slabina/zranitelnost</code><br><br>
+        kde pravděpodobnost = (pravděpodobnost, že hrozba zneužije zranitelnost)
+      </div>
+    </div>
+  </div>
+
+  <h2>6.2 Kategorie IT rizik — COBIT 2019 Design Factor DF3</h2>
+  <p>COBIT 2019 definuje kategorie IT rizik (Risk Profile Design Factor), které organizace musí zohlednit při designu governance systému:</p>
+  <table>
+    <tr><th>Kategorie IT rizika</th><th>Příklady</th></tr>
+    <tr><td>1. IT investment/project delivery</td><td>Nadrozpočtové projekty, nerealizované benefity, selhání implementace</td></tr>
+    <tr><td>2. IT operations and service delivery</td><td>Výpadky systémů, nedostupnost služeb, SLA selhání</td></tr>
+    <tr><td>3. IT programme and project delivery</td><td>Selhání projektového managementu, scope creep</td></tr>
+    <tr><td>4. IT governance</td><td>Nepřiměřené IT governance struktury</td></tr>
+    <tr><td>5. Information security</td><td>Kybernetické útoky, úniky dat, phishing</td></tr>
+    <tr><td>6. IT operational infrastructure incidents</td><td>Náhodné poškození zařízení, chyby IT personálu, krádež, ztráta zálohy</td></tr>
+    <tr><td>7. Unauthorized actions</td><td>Tampering se softwarem, neautorizované změny, podvod</td></tr>
+    <tr><td>8. Technology adoption</td><td>Zastarávání technologií, nepřijetí nových technologií</td></tr>
+    <tr><td>9. Sensitive information</td><td>Ztráta nebo zneužití citlivých dat (osobní data, obchodní tajemství)</td></tr>
+    <tr><td>10. Regulatory compliance</td><td>Porušení GDPR, ZKB, SOX, PCI DSS</td></tr>
+  </table>
+
+  <h2>6.3 Druhy rizika — aspekt času</h2>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Inherentní riziko</div>
+      <div class="pojem-body">Riziko v daném prostředí <strong>před</strong> zavedením jakýchkoli kontrol. Přirozená náchylnost oblasti k chybám nebo ztrátám. Inherentní riziko většiny objektů auditu IS je spíše vysoké — IT je komplexní a dynamické prostředí.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Současné (hrubé) riziko</div>
+      <div class="pojem-body">Riziko v daném prostředí <strong>s</strong> existujícími kontrolami, ale <strong>před</strong> hodnocením jejich efektivnosti. Reflektuje faktický stav kontrol — mohou existovat, ale nemusí fungovat.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Reziduální riziko</div>
+      <div class="pojem-body">Riziko, které <strong>zůstává</strong> i po zavedení a ověření funkčnosti kontrol. Nikdy nulové — úkolem je dostat reziduální riziko pod <em>rizikový apetit</em> organizace. Klíčový pojem pro reporting managementu.</div>
+    </div>
+  </div>
+
+  <h2>6.4 Proces řízení rizik IS — 3 základní kroky (ISO 27005, COBIT)</h2>
+
+  <h3>Krok A: Určení kontextu</h3>
+  <ul>
+    <li>Zjistit úroveň podnikového apetitu — způsob řízení rizik IT</li>
+    <li>Zjistit, že IT rizika nepřekračují <strong>rizikový apetit</strong> organizace a jeho toleranci</li>
+    <li>Dopad rizik na vytváření hodnoty organizace se identifikuje a je řízen</li>
+    <li>Riziko nesouladu s regulacemi je minimalizováno</li>
+    <li>Podrobnější popis: ISO 27005, COBIT 2019 EDM03 Ensured Risk Optimization</li>
+  </ul>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Risk Appetite (rizikový apetit)</div>
+      <div class="pojem-body">Množství rizika, které je organizace ochotna přijmout při sledování svých cílů. Strategické rozhodnutí — stanovuje board/vrcholové vedení. Vyjadřuje, kolik nejistoty je přijatelné.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Risk Tolerance (tolerance rizika)</div>
+      <div class="pojem-body">Přijatelné odchylky od risk appetite — operativní úroveň. Pokud reziduální riziko přesáhne toleranci, musí být přijato opatření. Risk appetite je strategický, tolerance je operativní limit.</div>
+    </div>
+  </div>
+
+  <h3>Krok B: Analýza / hodnocení rizika</h3>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">B.1 Asset-based risk assessment</div>
+      <div class="pojem-body">Hodnotí riziko podle škody, kterou způsobí hrozby jednotlivým aktivům organizace.<br><br>
+      <strong>Aktiva</strong>: vše, co má hodnotu — informace, hardware, software, fyzická umístění, budovy, systémy a služby, lidé, nehmotný majetek (značka, pověst).<br><br>
+      <strong>Hrozby</strong>: jakákoli situace nebo událost, která může způsobit škodu systému.<br><br>
+      <strong>Zranitelnosti (slabiny)</strong>: slabé místo aktiva nebo bezpečnostního opatření, které může být zneužito hrozbou (heslo, které se nemění, hořlavý koberec, špatně nastavený firewall). Chybějící kontrola je považována za slabinu.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">B.2 Scenario-based risk assessment</div>
+      <div class="pojem-body">Hodnotí riziko podle škody, kterou způsobí jednotlivé scénáře.<br><br>
+      <strong>Rizikový scénář</strong>: popis možné události, která, pokud nastane, bude mít určitý dopad na dosažení cílů organizace (dopad může být pozitivní nebo negativní).<br><br>
+      <strong>Rizikový profil</strong>: seznam známých rizik a jejich atributů (pravděpodobnost, dopad, reakce, potřebné zdroje a kontroly).</div>
+    </div>
+  </div>
+
+  <h3>Metody analýzy rizik</h3>
+  <table>
+    <tr><th>Metoda</th><th>Popis</th><th>Použití</th></tr>
+    <tr><td><strong>Kvalitativní</strong></td><td>Škoda a pravděpodobnost se popisují slovně (vysoká/střední/nízká). Škály se mohou měnit podle prostředí.</td><td>Počáteční identifikace rizik; obtížně měřitelné aspekty (pověst, kultura); chybějící statistická data.</td></tr>
+    <tr><td><strong>Semi-kvantitativní</strong></td><td>Přiřazení číselných hodnot ke škálám jedné z proměnných. Předstupeň kvantitativní metody.</td><td>Zařazení do kategorií bez přesných čísel.</td></tr>
+    <tr><td><strong>Kvantitativní</strong></td><td>Číselné hodnoty přiřazeny oběma proměnným. Výsledek: ALE (Annualized Loss Expectancy).</td><td>Finanční dopad, pojistná rozhodnutí. Příklad: ALE = X × SLE × ARO.</td></tr>
+    <tr><td><strong>Bodové hodnocení</strong></td><td>Tým hodnotitelů, rizikové faktory (s váhami), subjektivní ohodnocení → průměr → seřazení.</td><td>Výběr projektů pro audit; prioritizace auditního plánu.</td></tr>
+    <tr><td><strong>FAIR</strong></td><td>Factor Analysis of Information Risk — taxonomie faktorů ovlivňujících pravděpodobnost a dopad. Hierarchie faktorů.</td><td>Komplexní kvantitativní analýza IT rizik.</td></tr>
+  </table>
+
+  <h3>Krok C: Výběr reakce na rizika</h3>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">4 typy reakce na riziko (Risk IT Framework)</div>
+      <div class="pojem-body">
+        <strong>Accept (přijetí):</strong> Vědomé rozhodnutí přijmout riziko — reziduální riziko pod risk appetite.<br><br>
+        <strong>Avoid (vyhnutí):</strong> Ukončení nebo změna aktivity, která riziko vytváří.<br><br>
+        <strong>Transfer (přenos):</strong> Přesun rizika na třetí stranu (pojišt&eacute;ní, smluvní odpovědnost dodavatele).<br><br>
+        <strong>Mitigate (zmírnění):</strong> Zavedení kontrol snižujících pravděpodobnost nebo dopad rizika.
+      </div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Prioritizace opatření (kontrol)</div>
+      <div class="pojem-body">
+        <strong>Quick wins:</strong> Velmi účelná a účinná řešení s nízkými náklady — provést okamžitě.<br><br>
+        <strong>Business case:</strong> Drahá a obtížná opatření na vysoká rizika nebo účinná opatření na malá rizika — potřeba pečlivé analýzy nákladů a přínosů.<br><br>
+        <strong>Odložitelná opatření:</strong> Nákladná opatření na malá rizika — odložit nebo nerealizovat.
+      </div>
+    </div>
+  </div>
+
+  <h2>6.5 Risk Register a RACI</h2>
+  <p><strong>Risk Register</strong> (registr rizik) je centrální dokument řízení rizik organizace. Obsahuje pro každé riziko: identifikátor, popis, kategorii, pravděpodobnost, dopad, rizikové skóre, vlastníka rizika, aktuální kontroly, reziduální riziko, plánovanou reakci, termín a status.</p>
+  <p><strong>RACI matice</strong> přiřazuje k aktivitám řízení rizik role: <strong>R</strong>esponsible (provádí), <strong>A</strong>ccountable (odpovídá za výsledek), <strong>C</strong>onsulted (konzultován), <strong>I</strong>nformed (informován). V COBIT kontextu: RACI definuje, kdo je zodpovědný za každou Management Practice každého procesu.</p>
+
+  <h2>6.6 COBIT APO12 — Manage Risk</h2>
+  <p>V COBIT 2019 je řízení IT rizik primárně pokryto procesem <strong>APO12 Managed Risk</strong>. Klíčové aktivity:</p>
+  <ul>
+    <li><strong>APO12.01</strong> — Sběr dat o rizicích: identifikace IT rizik a rizikových scénářů</li>
+    <li><strong>APO12.02</strong> — Analýza rizik: hodnocení pravděpodobnosti a dopadu</li>
+    <li><strong>APO12.03</strong> — Udržování rizikového profilu: dokumentace a aktualizace rizikového profilu</li>
+    <li><strong>APO12.04</strong> — Formulace reakce na rizika: výběr adekvátní reakce pro každé riziko</li>
+    <li><strong>APO12.05</strong> — Implementace reakce na rizika: provedení opatření</li>
+    <li><strong>APO12.06</strong> — Monitoring a reporting rizik: průběžné sledování a eskalace</li>
+  </ul>
+
+  <h2>6.7 Rizika auditu — 3 typy</h2>
+  <p>Auditor sám čelí specifickým rizikům při výkonu auditu (definice dle ITAF):</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Inherentní riziko auditu</div>
+      <div class="pojem-body">Náchylnost dané oblasti/předmětu auditu k chybě za předpokladu, že neexistují žádné vhodné kontroly. Inherentní riziko většiny objektů auditu IS je spíše vysoké — IT je komplexní prostředí. Auditor nemůže toto riziko odstranit — může ho jen reflektovat v rozsahu testování.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Kontrolní riziko auditu</div>
+      <div class="pojem-body">Riziko, že dojde k chybě, která nebude včas objevena a opravena kontrolním systémem. Auditor může určit, že riziko kontrol je vysoké, pokud: kontroly neexistují, nejsou hodnoceny jako efektivní, nebo není otestováno jejich dodržování v provozu. Ovlivňuje úroveň substantivního testování — vyšší kontrolní riziko = více testů.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Detekční riziko auditu</div>
+      <div class="pojem-body">Riziko, že auditor sám neodhalí chybu existující v předmětu auditu. Ovlivněno: typem a komplexitou kontrol; konceptem materiality. Příklad: detekční riziko spojené s identifikací narušení bezpečnosti v aplikačním systému může být vysoké, pokud v době auditu nejsou k dispozici žádné logy.</div>
+    </div>
+  </div>
+
+  <div class="callout"><strong>Celkové riziko auditu</strong> = kombinace tří složek. Čím vyšší je hodnocení inherentního a kontrolního rizika, tím více auditních důkazů by auditor měl získat z provádění testů věcné správnosti (substantivní testování).</div>
+
+  <h2>6.8 Kybernetické hrozby — ENISA Threat Landscape</h2>
+  <p>ENISA Threat Landscape 2024 identifikuje 7 hlavních hrozeb pro kybernetickou bezpečnost:</p>
+  <ol>
+    <li><strong>Ransomware</strong> — šifrování dat a vydírání</li>
+    <li><strong>Malware</strong> — škodlivý software různých druhů</li>
+    <li><strong>Sociální inženýrství</strong> — phishing, spear-phishing, vishing</li>
+    <li><strong>Ohrožení dat</strong> — úniky a krádeže citlivých dat</li>
+    <li><strong>Denial of Service (DoS/DDoS)</strong> — útoky na dostupnost</li>
+    <li><strong>FIMI</strong> — Foreign Information Manipulation and Interference — dezinformace</li>
+    <li><strong>Útoky na dodavatelský řetězec</strong> — kompromitace dodavatele = kompromitace zákazníka</li>
+  </ol>
+  <p>Aktéři hrozeb: státem sponzorovaní aktéři, počítačová kriminalita a najímaní hackeři, PSOA (Private Sector Offensive Actors), hacktivisté. Rostou akce zaměřené na veřejnou správu (19 %), dopravu (11 %) a finance (9 %).</p>
+</section>
+
+<!-- ============================================================ KLÍČOVÉ POJMY ============================================================ -->
+<section class="lecture" id="pojmy">
+  <div class="lec-header">
+    <div class="lec-num">&#9733;</div>
+    <div>
+      <div class="lec-title">Klíčové pojmy</div>
+      <div class="lec-subtitle">Přehled všech důležitých termínů a zkratek pro přípravu na státní zkoušku 4SA513</div>
+    </div>
+  </div>
+
+  <h2>Pojmy a definice — kompletní přehled</h2>
+  <table>
+    <tr><th>Pojem / Zkratka</th><th>Definice a kontext</th></tr>
+    <tr><td><strong>Audit IS</strong></td><td>Proces posuzování a poradenství objektů v prostředí IS/IT s cílem přispět ke správné organizaci IS tak, aby byly splněny požadavky uživatelů (Svátá P2).</td></tr>
+    <tr><td><strong>4 vlastnosti auditu</strong></td><td>Komplexnost, Objektivnost, Nezávislost, Formalizovanost (KONF).</td></tr>
+    <tr><td><strong>3 strany auditu</strong></td><td>Auditor (assurance professional), Odpovědná strana (auditovaný), Uživatel (stakeholder — příjemce zprávy).</td></tr>
+    <tr><td><strong>Tvrzení (Assertions)</strong></td><td>Prohlášení o tom, zda předmět auditu je v souladu s kritérii. Vedení je odpovědné za definování a schvalování předmětu a tvrzení.</td></tr>
+    <tr><td><strong>Výrok auditora</strong></td><td>4 typy: Nekvalifikovaný (bez výhrad), Kvalifikovaný (s výhradou), Záporný, Zřeknutí se výroku.</td></tr>
+    <tr><td><strong>Assurance vs. Audit</strong></td><td>Ujišt&eacute;ní je obecnější pojem. Audit je formou ujišt&eacute;ní exkluzivní pro funkci auditu, realizovaná profesionály.</td></tr>
+    <tr><td><strong>Assurance vs. Assessment</strong></td><td>Ujišt&eacute;ní = nezávislé objektivní zkoumání důkazů. Hodnocení = vyvození úsudku, nemusí být nezávislé (self-assessment).</td></tr>
+    <tr><td><strong>ISACA</strong></td><td>Information Systems Audit and Control Association — profesní organizace, vydavatel COBIT, CISA, ITAF.</td></tr>
+    <tr><td><strong>CISA</strong></td><td>Certified Information Systems Auditor — nejrozšířenější IT auditní certifikace. 5 domén, 5 let praxe, 120 CPE/3 roky.</td></tr>
+    <tr><td><strong>CRISC</strong></td><td>Certified in Risk and Information Systems Control — IT rizika a kontroly.</td></tr>
+    <tr><td><strong>CGEIT</strong></td><td>Certified in Governance of Enterprise IT — IT governance certifikace ISACA.</td></tr>
+    <tr><td><strong>CISM</strong></td><td>Certified Information Security Manager — bezpečnostní management.</td></tr>
+    <tr><td><strong>ITAF</strong></td><td>IT Audit Framework (ISACA) — 3 kategorie: Obecné standardy, Výkonnostní standardy, Praktické pokyny.</td></tr>
+    <tr><td><strong>IIA</strong></td><td>Institute of Internal Auditors — organizace pro interní auditory. Standardy: série 1000 (atributové) a 2000 (výkonnostní).</td></tr>
+    <tr><td><strong>COBIT</strong></td><td>Control Objectives for Information and Related Technology — ISACA framework pro IT governance a audit.</td></tr>
+    <tr><td><strong>COBIT 5 for Assurance</strong></td><td>Dokument sady COBIT 5 — strukturovaný přístup pro audit EGIT podle 7 enablerů.</td></tr>
+    <tr><td><strong>7 enablerů COBIT 5</strong></td><td>Principy/politiky, Procesy, Organizační struktury, Kultura/etika, Informace, Služby/infrastruktura, Lidé/kompetence.</td></tr>
+    <tr><td><strong>MEA01/02/03</strong></td><td>Klíčové procesy ujišt&eacute;ní v COBIT 5 — Monitor, Evaluate, Assess (Performance; Internal Control; External Compliance).</td></tr>
+    <tr><td><strong>APO12</strong></td><td>COBIT 2019 proces Managed Risk — 6 aktivit od sběru dat po monitoring a reporting rizik.</td></tr>
+    <tr><td><strong>RACM</strong></td><td>Risk and Control Matrix — základní pracovní dokument risk-based auditu. Propojuje rizika, kontroly, testy a výsledky.</td></tr>
+    <tr><td><strong>Risk-based audit</strong></td><td>Auditor provede hodnocení rizik a na základě výsledků vybírá relevantní kontroly k testování. Nejefektivnější metodologie.</td></tr>
+    <tr><td><strong>Working papers</strong></td><td>Sada dokumentů získaných během auditu dokládající soulad s auditními standardy. Audit trail.</td></tr>
+    <tr><td><strong>Finding (nález)</strong></td><td>Struktura: Popis → Kritéria → Příčina → Následek → Doporučení → Reakce vedení.</td></tr>
+    <tr><td><strong>GITC</strong></td><td>General IT Controls — obecné IT kontroly (Access Mgmt, Change Mgmt, Computer Operations, IT Development). Základ pro aplikační kontroly.</td></tr>
+    <tr><td><strong>Aplikační kontroly</strong></td><td>Kontroly specifické pro každou aplikaci: vstupní, zpracovávací, výstupní.</td></tr>
+    <tr><td><strong>SOD</strong></td><td>Segregation of Duties — dělení pravomocí. 4 neslučitelné funkce: Autorizace, Custody, Zaúčtování, Rekonciliace.</td></tr>
+    <tr><td><strong>Compensating controls</strong></td><td>Kontroly nahrazující SOD v malých organizacích — detailní monitoring, rotace, automatizované alerty.</td></tr>
+    <tr><td><strong>COSO</strong></td><td>Committee of Sponsoring Organizations — model vnitřní kontroly. 5 komponent, 17 principů. SOX Section 404 doporučuje COSO.</td></tr>
+    <tr><td><strong>SOX Section 404</strong></td><td>Požadavek na roční hodnocení vnitřního kontrolního systému managementem; ověření externím auditorem.</td></tr>
+    <tr><td><strong>Preventivní kontroly</strong></td><td>Zabraňují vzniku chyb/incidentů. Nejlepší ochrana (autentizace, SOD, dual control, firewall).</td></tr>
+    <tr><td><strong>Detekční kontroly</strong></td><td>Odhalují chyby po výskytu (logy, SIEM, rekonciliace, inventury).</td></tr>
+    <tr><td><strong>Korektivní kontroly</strong></td><td>Minimalizují dopad a obnovují stav (zálohy, patch management, incident response).</td></tr>
+    <tr><td><strong>CMM</strong></td><td>Capability Maturity Model — SEI 1990. Základ pro CMMI a PAM.</td></tr>
+    <tr><td><strong>CMMI</strong></td><td>Capability Maturity Model Integration (2006, v2.0 2018). Staged (ML1–5) a Continuous (CL0–5) reprezentace.</td></tr>
+    <tr><td><strong>PAM</strong></td><td>Process Assessment Model pro COBIT 5 — podle ISO/IEC 15504-2 / ISO 33000. Dvoudimenzionální (procesní + způsobilosti).</td></tr>
+    <tr><td><strong>6 úrovní způsobilosti PAM</strong></td><td>0 Incomplete, 1 Performed, 2 Managed, 3 Established, 4 Predictable, 5 Optimizing.</td></tr>
+    <tr><td><strong>BP / WP</strong></td><td>Base Practices / Work Products — indikátory pro úroveň způsobilosti 1 (specifické pro každý proces).</td></tr>
+    <tr><td><strong>GP / GWP</strong></td><td>Generic Practices / Generic Work Products — indikátory pro úrovně 2–5 (společné všem procesům).</td></tr>
+    <tr><td><strong>CPM</strong></td><td>COBIT Performance Management — model COBIT 2019 pro hodnocení governance systému. Propojený s CMMI v2.0.</td></tr>
+    <tr><td><strong>Hodnotící škála N/P/L/F</strong></td><td>Not (&lt;15 %), Partially (15–50 %), Largely (50–85 %), Fully (&gt;85 %).</td></tr>
+    <tr><td><strong>IT riziko</strong></td><td>Business riziko spojené s užíváním IT. Existuje vždy, i když není detekováno.</td></tr>
+    <tr><td><strong>Risk = dopad × hrozba × slabina</strong></td><td>Rozšířený vzorec pro výpočet IT rizika zahrnující existující kontroly resp. chybějící kontroly jako slabinu.</td></tr>
+    <tr><td><strong>Risk Appetite</strong></td><td>Množství rizika, které je organizace ochotna přijmout. Stanovuje board.</td></tr>
+    <tr><td><strong>Risk Tolerance</strong></td><td>Přijatelné odchylky od risk appetite — operativní limit.</td></tr>
+    <tr><td><strong>Inherentní riziko</strong></td><td>Riziko bez kontrol. Před zavedením opatření.</td></tr>
+    <tr><td><strong>Reziduální riziko</strong></td><td>Riziko po zavedení kontrol. Musí být pod risk appetite organizace.</td></tr>
+    <tr><td><strong>Risk Register</strong></td><td>Centrální dokument řízení rizik — seznam rizik s atributy, vlastníky, kontrolami a statusem.</td></tr>
+    <tr><td><strong>RACI</strong></td><td>Responsible, Accountable, Consulted, Informed — matice přiřazení odpovědností.</td></tr>
+    <tr><td><strong>4 reakce na riziko</strong></td><td>Accept, Avoid, Transfer, Mitigate.</td></tr>
+    <tr><td><strong>Asset-based vs. Scenario-based</strong></td><td>Dva přístupy k analýze rizik: hodnocení aktiv (hrozby na aktiva) vs. hodnocení scénářů (co se stane, když…).</td></tr>
+    <tr><td><strong>ALE</strong></td><td>Annualized Loss Expectancy = X × SLE × ARO. Kvantitativní výpočet roční očekávané ztráty.</td></tr>
+    <tr><td><strong>Rizika auditu</strong></td><td>3 typy: Inherentní riziko auditu, Kontrolní riziko auditu, Detekční riziko auditu.</td></tr>
+    <tr><td><strong>Enron (2001)</strong></td><td>Největší podvod v historii USA — mark-to-market, SPV, falešné výkazy. Vedl k SOX a zániku Arthur Andersen.</td></tr>
+    <tr><td><strong>Big Four</strong></td><td>PwC, EY, Deloitte, KPMG — po zániku Arthur Andersen (Big Five → Big Four).</td></tr>
+    <tr><td><strong>PCAOB</strong></td><td>Public Company Accounting Oversight Board — dohled nad auditory veřejně obchodovaných společností (vznikl ze SOX).</td></tr>
+    <tr><td><strong>ENISA Threat Landscape</strong></td><td>Každoroční zpráva o kybernetických hrozbách v EU. 7 hlavních hrozeb: Ransomware, Malware, Sociální inženýrství, Ohrožení dat, DoS, FIMI, Supply chain.</td></tr>
+  </table>
+</section>
+
+</body>
+</html>

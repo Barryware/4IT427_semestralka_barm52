@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4SA415 Informační management – Učební podklady</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, sans-serif; font-size: 15px; line-height: 1.6; color: #111827; background: #f9fafb; -webkit-font-smoothing: antialiased; margin-left: 58px; }
+  #doc-nav { width: 50px; height: 100vh; position: fixed; left: 0; top: 0; z-index: 100; overflow: hidden; background: #fff; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; transition: width 0.32s cubic-bezier(0.4,0,0.2,1), box-shadow 0.32s; }
+  #doc-nav:hover { width: 260px; box-shadow: 6px 0 24px rgba(0,0,0,0.07); }
+  .nav-logo { padding: 14px 13px 12px; border-bottom: 1px solid #e5e7eb; white-space: nowrap; overflow: hidden; position: relative; }
+  .nav-code { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9ca3af; margin-bottom: 3px; }
+  .nav-subject { display: block; font-size: 13px; font-weight: 600; color: #111827; }
+  .nav-logo-icon { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-size: 16px; color: #1d4ed8; opacity: 0; transition: opacity 0.2s; }
+  .nav-logo-text { opacity: 1; transition: opacity 0.2s; }
+  #doc-nav:not(:hover) .nav-logo-icon { opacity: 1; }
+  #doc-nav:not(:hover) .nav-logo-text { opacity: 0; }
+  .nav-items { flex: 1; padding: 6px 0; overflow-y: auto; overflow-x: hidden; }
+  .nav-link { display: flex; align-items: center; gap: 8px; padding: 5px 12px; font-size: 12.5px; font-weight: 500; color: #374151; text-decoration: none; white-space: nowrap; overflow: hidden; transition: background 0.1s, color 0.1s; }
+  .nav-link:hover { background: #f3f4f6; color: #111827; }
+  .nav-link.active { background: #eff6ff; color: #1d4ed8; }
+  .nav-num { font-size: 9px; font-weight: 700; background: #1d4ed8; color: #fff; padding: 2px 5px; border-radius: 3px; flex-shrink: 0; min-width: 22px; text-align: center; }
+  .nav-label { max-width: 220px; overflow: hidden; white-space: nowrap; transition: max-width 0.28s, opacity 0.18s; }
+  #doc-nav:not(:hover) .nav-label { max-width: 0; opacity: 0; }
+  #doc-nav:not(:hover) .nav-link { padding-left: 4px; padding-right: 4px; justify-content: center; }
+  .hero { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 44px 56px 40px; }
+  .hero-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #94a3b8; margin-bottom: 12px; }
+  .hero-title { font-size: 44px; font-weight: 800; color: #0f172a; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 16px; }
+  .hero-desc { font-size: 15px; color: #64748b; max-width: 640px; line-height: 1.65; margin-bottom: 20px; }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+  .hero-pill { display: inline-block; padding: 4px 11px; border-radius: 20px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 500; }
+  .lecture { max-width: 860px; margin: 0 auto; padding: 48px 56px; border-bottom: 1px solid #f1f5f9; }
+  .lec-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; }
+  .lec-num { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: #1d4ed8; color: #fff; padding: 5px 9px; border-radius: 5px; flex-shrink: 0; margin-top: 2px; }
+  .lec-title { font-size: 22px; font-weight: 700; color: #0f172a; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .lec-subtitle { font-size: 13px; color: #64748b; }
+  h2 { font-size: 16px; font-weight: 700; color: #0f172a; margin: 32px 0 10px; padding-bottom: 6px; border-bottom: 1px solid #e5e7eb; }
+  h3 { font-size: 14px; font-weight: 700; color: #374151; margin: 20px 0 8px; }
+  p { margin-bottom: 14px; color: #374151; font-size: 14.5px; }
+  ul, ol { margin: 0 0 14px; padding-left: 22px; color: #374151; font-size: 14.5px; }
+  li { margin-bottom: 5px; }
+  strong { font-weight: 700; color: #0f172a; }
+  em { font-style: italic; color: #475569; }
+  .pojmy { display: grid; gap: 8px; margin: 14px 0 20px; }
+  .pojmy.two { grid-template-columns: 1fr 1fr; }
+  .pojmy.three { grid-template-columns: 1fr 1fr 1fr; }
+  .pojmy.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .pojmy.single { grid-template-columns: 1fr; }
+  .pojem { border-radius: 8px; padding: 14px 16px; border: 1px solid; }
+  .pojem.blue { background: #eff6ff; border-color: #bfdbfe; }
+  .pojem.green { background: #f0fdf4; border-color: #bbf7d0; }
+  .pojem.orange { background: #fff7ed; border-color: #fed7aa; }
+  .pojem.purple { background: #faf5ff; border-color: #ddd6fe; }
+  .pojem.red { background: #fff1f2; border-color: #fecdd3; }
+  .pojem.slate { background: #f8fafc; border-color: #cbd5e1; }
+  .pojem-head { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 7px; }
+  .pojem.blue .pojem-head { color: #1d4ed8; }
+  .pojem.green .pojem-head { color: #15803d; }
+  .pojem.orange .pojem-head { color: #c2410c; }
+  .pojem.purple .pojem-head { color: #6d28d9; }
+  .pojem.red .pojem-head { color: #be123c; }
+  .pojem.slate .pojem-head { color: #475569; }
+  .pojem-body { font-size: 13.5px; line-height: 1.55; color: #374151; }
+  .tip { background: #fefce8; border-left: 3px solid #eab308; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #713f12; line-height: 1.6; }
+  .callout { background: #f0f9ff; border-left: 3px solid #0ea5e9; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #0c4a6e; line-height: 1.6; }
+  .warn { background: #fff1f2; border-left: 3px solid #f43f5e; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #9f1239; line-height: 1.6; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 13.5px; }
+  th { background: #f8fafc; font-weight: 600; text-align: left; padding: 8px 10px; border: 1px solid #e5e7eb; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  td { padding: 8px 10px; border: 1px solid #e5e7eb; vertical-align: top; color: #374151; }
+  tr:nth-child(even) td { background: #fafafa; }
+  .kp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 14px 0; }
+  .kp-item { background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 6px; padding: 10px 13px; }
+  .kp-term { font-size: 12px; font-weight: 700; color: #1d4ed8; margin-bottom: 3px; }
+  .kp-def { font-size: 12.5px; color: #374151; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<nav id="doc-nav">
+  <div class="nav-logo">
+    <span class="nav-logo-icon">&#9670;</span>
+    <span class="nav-logo-text">
+      <span class="nav-code">4SA415</span>
+      <span class="nav-subject">Informační management</span>
+    </span>
+  </div>
+  <div class="nav-items">
+    <a class="nav-link" href="#p1"><span class="nav-num">P1</span><span class="nav-label">IM jako disciplína</span></a>
+    <a class="nav-link" href="#p2"><span class="nav-num">P2</span><span class="nav-label">DIKW model a data</span></a>
+    <a class="nav-link" href="#p3"><span class="nav-num">P3</span><span class="nav-label">Strategické řízení IS/IT</span></a>
+    <a class="nav-link" href="#p4"><span class="nav-num">P4</span><span class="nav-label">Měření hodnoty IS/IT</span></a>
+    <a class="nav-link" href="#p5"><span class="nav-num">P5</span><span class="nav-label">Organizační zabezpečení IT</span></a>
+    <a class="nav-link" href="#p6"><span class="nav-num">P6</span><span class="nav-label">ITIL / COBIT propojení</span></a>
+    <a class="nav-link" href="#pojmy"><span class="nav-num">&#9733;</span><span class="nav-label">Klíčové pojmy</span></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">4SA415 · doc. Sigmund · státnice červen 2026</div>
+  <div class="hero-title">Informační management</div>
+  <div class="hero-desc">Kompletní příprava: 5 komponent IM, funkční architektura IS, DIKW, strategické řízení IT, McFarlan, Nolan, Solow paradox, TCO/TBO, ITIL/COBIT synergies, CIO/CISO/SOC/CSIRT, EGIT.</div>
+  <div class="hero-pills">
+    <span class="hero-pill">5 komponent IM (Sigmund)</span>
+    <span class="hero-pill">TPS/RIS/DSS/EIS/ES</span>
+    <span class="hero-pill">DIKW + MDM</span>
+    <span class="hero-pill">McFarlan Strategic Grid</span>
+    <span class="hero-pill">Solow paradox</span>
+    <span class="hero-pill">TCO / TBO</span>
+    <span class="hero-pill">COBIT / ITIL</span>
+    <span class="hero-pill">CIO / CISO / SOC</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ P1 ═══ -->
+<section class="lecture" id="p1">
+  <div class="lec-header">
+    <div class="lec-num">P1</div>
+    <div>
+      <div class="lec-title">IM jako disciplína</div>
+      <div class="lec-subtitle">Definice IM, 5 komponent Sigmund, funkční architektura IS, zdroje podnikové informatiky, KPI/KGI/KSI, IT portfolio Run/Grow/Transform</div>
+    </div>
+  </div>
+
+  <h2>Definice informačního managementu</h2>
+  <p><strong>Informační management (IM)</strong> je vědecká disciplína i praktická činnost stojící na průsečíku obecného managementu a informatiky. Zahrnuje řízení informačních zdrojů, informačních procesů a informačních systémů za účelem dosažení strategických a operativních cílů organizace.</p>
+  <p><strong>Wilson a Macevičiūtė (2025)</strong> rozlišují IM jako disciplínu (akademická oblast zkoumající procesy vzniku, zpracování, distribuce a využití informací v organizacích) od IM jako praxe (soubor manažerských aktivit, jimiž organizace zajišťuje efektivní využití informací a IS/IT). Praxe předchází disciplíně — teorie IM se formovala na základě empirických zkušeností z 70. a 80. let, kdy podniky začaly pociťovat potřebu systematicky řídit informační zdroje stejně jako fyzické nebo finanční.</p>
+  <div class="callout"><strong>Klíčová teze:</strong> IM není synonymum pro IT management. IT management řídí technologii; IM řídí informace jako strategický zdroj podniku — technologie jsou pouze jedním z prostředků, jak s informacemi pracovat.</div>
+
+  <h2>5 komponent IM (Sigmund)</h2>
+  <p>Model Sigmunda definuje IM skrze pět navzájem provázaných komponent. Každá je nezbytná; chybějící nebo špatně fungující komponenta degraduje celý systém.</p>
+  <div class="pojmy single">
+    <div class="pojem blue">
+      <div class="pojem-head">1. Okolí podniku (Environment)</div>
+      <div class="pojem-body">Vnější prostředí organizace — legislativa (GDPR, zákon o kybernetické bezpečnosti ZKB č. 181/2014, NIS2), konkurenti, partneři, zákazníci, trh, technologické trendy. Okolí definuje požadavky a omezení pro IS/IT: regulatorní compliance, požadavky zákazníků na digitální služby, dostupnost technologií. <strong>Vazba na ostatní komponenty:</strong> Změny v okolí (nová regulace, nová disruptivní technologie) spouštějí přehodnocení IT strategie (Management) i architektury IS (Informatika). PEST analýza je nástrojem systematického sledování okolí.</div>
+    </div>
+  </div>
+  <div class="pojmy single">
+    <div class="pojem green">
+      <div class="pojem-head">2. Systémový přístup (Systems Thinking)</div>
+      <div class="pojem-body">IS je chápán jako systém — celek s definovanými vstupy, procesy, výstupy a zpětnou vazbou (Norbert Wiener, kybernetika). Systémový přístup odmítá izolované řešení dílčích problémů; změna jedné části ovlivňuje ostatní. <strong>Vazba:</strong> Zavedení nového ERP modulu ovlivní procesy, datové toky i lidi. Meadows (2008) „Thinking in Systems" ukazuje, jak zpětné vazby a zpoždění způsobují neočekávané chování systémů. PDCA cyklus (Plan-Do-Check-Act) je praktická aplikace systémového přístupu pro kontinuální zlepšování IS.</div>
+    </div>
+  </div>
+  <div class="pojmy single">
+    <div class="pojem orange">
+      <div class="pojem-head">3. Management organizace</div>
+      <div class="pojem-body">Manažerské funkce aplikované na IS/IT — sekvenční: <strong>plánování</strong> (IT strategie, IT plán, definice cílů, BSC), <strong>organizování</strong> (struktura IT oddělení, role, kompetence, RACI matice), <strong>personální zajištění</strong> (nábor a rozvoj IT specialistů, HR plánování), <strong>vedení</strong> (leadership CIO, motivace IT týmu, sdílení hodnot, CIO jako business partner), <strong>kontrola</strong> (KPI/KGI monitoring, IT audit, reporting boardu). Paralelní funkce: analýza problémů, rozhodování, realizace. IT governance a IT management jsou specializované aplikace těchto funkcí na doménu IS/IT.</div>
+    </div>
+  </div>
+  <div class="pojmy single">
+    <div class="pojem purple">
+      <div class="pojem-head">4. Informatika — HW/SW technologická základna</div>
+      <div class="pojem-body">Technologická vrstva: <strong>hardware</strong> (servery, sítě, pracovní stanice, IoT, mobilní zařízení, datacentry), <strong>software</strong> (ERP, CRM, BI, middleware, OS, databáze, vlastní vývoj), <strong>datová úložiště</strong> (RDBMS, DWH, Data Lake, NoSQL), <strong>cloudové platformy</strong> (IaaS, PaaS, SaaS). <strong>Vazba:</strong> Informatika je enablerem — bez odpovídající technologické základny nelze realizovat IS strategii. Zároveň technologie sama o sobě nepřináší hodnotu. Trendy: cloud-first strategie, edge computing, AI/ML jako infrastrukturní služby (Azure AI, AWS Bedrock).</div>
+    </div>
+  </div>
+  <div class="pojmy single">
+    <div class="pojem red">
+      <div class="pojem-head">5. Přistupování k procesům (Process Management / BPM)</div>
+      <div class="pojem-body">IS existují, aby podporovaly nebo automatizovaly podnikové procesy. Procesní přístup (BPM — Business Process Management) zahrnuje modelování procesů (BPMN, EPC), jejich analýzu, redesign a kontinuální zlepšování. <strong>Vazba:</strong> Kvalita IS je přímo závislá na kvalitě procesů, které podporuje. Referenční procesní modely (ITIL pro IT procesy, SCOR pro supply chain, eTOM pro telco) definují best practice procesy, které IS musí podporovat. Procesní integrace (SOA, API management, ESB) zajišťuje, že IS v různých procesech spolu komunikují.</div>
+    </div>
+  </div>
+
+  <h2>Funkční architektura IS — hierarchie dle úrovně řízení</h2>
+  <p>Klasická pyramida IS (Anthony framework, 1965 — adaptována pro IT) rozlišuje informační systémy dle úrovně rozhodování, kterou podporují:</p>
+  <table>
+    <tr><th>Zkratka</th><th>Plný název</th><th>Úroveň řízení</th><th>Charakteristika a funkce</th><th>Typičtí uživatelé</th><th>Technologie / Příklady</th></tr>
+    <tr>
+      <td><strong>TPS</strong></td>
+      <td>Transaction Processing System</td>
+      <td>Operativní</td>
+      <td>Zpracování velkého objemu rutinních transakcí v reálném čase nebo dávkově. Důraz na rychlost, přesnost, dostupnost (ACID). Základní zdroj dat pro vyšší úrovně IS.</td>
+      <td>Řadoví pracovníci, skladníci, pokladní, bankovní operátoři</td>
+      <td>ERP (SAP FI, MM, SD), POS systémy, bankovní core systémy, e-shop checkout</td>
+    </tr>
+    <tr>
+      <td><strong>RIS / MIS</strong></td>
+      <td>Reporting IS / Management IS</td>
+      <td>Taktická</td>
+      <td>Standardní periodické reporty, výjimkové zprávy, souhrny z TPS. Porovnání s plánem, sledování odchylek od KPI. Strukturovaná, opakující se rozhodnutí v definovaných intervalech.</td>
+      <td>Střední management, vedoucí oddělení, controllingové týmy</td>
+      <td>SAP BI/BW, Power BI reportovací vrstva, Crystal Reports, měsíční finanční reporty</td>
+    </tr>
+    <tr>
+      <td><strong>DSS</strong></td>
+      <td>Decision Support System</td>
+      <td>Taktická / Strategická</td>
+      <td>Podpora polostrukturovaných a nestrukturovaných rozhodnutí. What-if analýzy, scénářové modelování, OLAP kostky pro multidimenzionální analýzu (drill-down, slice, dice, pivot, roll-up). Simulace Monte Carlo.</td>
+      <td>Manažeři, analytici, controlleři, finanční ředitelé</td>
+      <td>DWH (SAP BW, Snowflake), OLAP nástroje, Excel modely, Python/R analytika, Tableau</td>
+    </tr>
+    <tr>
+      <td><strong>EIS / ESS</strong></td>
+      <td>Executive IS / Executive Support System</td>
+      <td>Strategická</td>
+      <td>Souhrnné přehledy kritických KGI a trendů pro top management. Drill-down schopnost, vizualizace, integrace vnějších dat (trh, konkurence, makroekonomika). Okamžitý přehled strategické situace.</td>
+      <td>Generální ředitel, členové představenstva, investoři, board</td>
+      <td>Tableau, Power BI exekutivní dashboardy, Bloomberg terminály, SAP Analytics Cloud</td>
+    </tr>
+    <tr>
+      <td><strong>ES</strong></td>
+      <td>Expert System / AI systém</td>
+      <td>Průřezová</td>
+      <td>Zachycuje a aplikuje odborné znalosti pomocí znalostní báze a inference enginu (rule-based nebo ML/AI). Diagnostika, doporučovací systémy, automatická rozhodnutí, fraud detection.</td>
+      <td>Specialisté, lékaři, právníci, finanční poradci, zákaznická podpora (chatboty)</td>
+      <td>ML modely, IBM Watson, Prolog-based expert systémy, LLM-based copiloty (Microsoft Copilot)</td>
+    </tr>
+  </table>
+  <div class="callout"><strong>OLAP technologie:</strong> OLAP (Online Analytical Processing) pracuje s multidimenzionálními datovými kostkami. Základní operace: <em>drill-down</em> (agregát → detail), <em>roll-up</em> (detail → agregát), <em>slice</em> (filtr na jednu dimenzi), <em>dice</em> (filtr na více dimenzí), <em>pivot</em> (rotace os). OLAP je základ DSS — umožňuje interaktivní exploraci dat business analytiky bez IT znalostí. ETL pipeline (Extract-Transform-Load) plní OLAP kostky daty z TPS systémů.</div>
+
+  <h2>6 typů zdrojů podnikové informatiky</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">1. Technologické a konfigurační zdroje</div>
+      <div class="pojem-body">HW (servery, síťová zařízení, pracovní stanice), infrastruktura (DC, cloud, síťové propojení), konfigurace systémů (CMDB — Configuration Management Database v ITIL). Spravováno ITIL Service Asset and Configuration Management procesem.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">2. Aplikační software</div>
+      <div class="pojem-body">Podnikové aplikace: ERP, CRM, BI, DMS, ECM, vlastní vývoj. Licence (perpetual vs. subscription), SaaS modely. Spravováno přes Application Portfolio Management (APM) a Software Asset Management (SAM) — COBIT BAI09.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">3. Datové zdroje</div>
+      <div class="pojem-body">Transakční data, master data, referenční data, analytická data, metadata, nestrukturovaná data. Klíčové podnikové aktivum — „data jako nová ropa" (Economist, 2017). Řízeno přes Data Governance a MDM. Kvalita dat přímo ovlivňuje kvalitu rozhodování.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">4. Personální zdroje</div>
+      <div class="pojem-body">IT odborníci (architekti, vývojáři, DBA, bezpečnostní specialisté), IT management (CIO, CISO, CDO, CTO), IT-gramotní uživatelé. Lidé jsou kritický faktor — technologie bez kompetentních lidí nepřináší hodnotu. COBIT APO07 — Manage Human Resources.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">5. Finanční zdroje</div>
+      <div class="pojem-body">IT rozpočet (CAPEX + OPEX), IT investiční portfolio (Run/Grow/Transform), chargeback model (přeúčtování IT nákladů businessu). Metriky: IT náklady jako % tržeb, TCO, ROI z IT investic. COBIT APO06 — Manage Budget and Costs.</div>
+    </div>
+    <div class="pojem slate">
+      <div class="pojem-head">6. Procesní a metodologické zdroje</div>
+      <div class="pojem-body">ITIL procesy pro provoz IT služeb, COBIT governance framework, projektové metodologie (PRINCE2, PMI PMBOK, SAFe, Scrum), bezpečnostní procesy (ISMS/ISO 27001), BPM procesy. Procesy koordinují využití ostatních zdrojů.</div>
+    </div>
+  </div>
+
+  <h2>KPI vs. KGI vs. KSI — definice a příklady</h2>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">KPI — Key Performance Indicator</div>
+      <div class="pojem-body"><strong>Definice:</strong> Ukazatel výkonu probíhajícího procesu — <em>leading indicator</em> (předstihující ukazatel). Měří, jak dobře aktuálně funguje proces nebo aktivita.<br><br>
+      <strong>Příklady IT KPI:</strong><br>
+      — % SLA splněných v daném měsíci<br>
+      — MTTR (Mean Time To Repair) — prům. doba opravy<br>
+      — Počet open P1 incidentů<br>
+      — % záplat aplikovaných do 30 dnů<br>
+      — Change success rate (% změn bez incidentu)</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">KGI — Key Goal Indicator</div>
+      <div class="pojem-body"><strong>Definice:</strong> Ukazatel dosažení strategického cíle — <em>lagging indicator</em> (opožděný ukazatel). Měří retrospektivně, zda byl cíl splněn.<br><br>
+      <strong>Příklady IT KGI:</strong><br>
+      — % IT projektů dokončených v termínu a rozpočtu<br>
+      — Roční dostupnost kritických systémů (99,9 %)<br>
+      — Snížení počtu bezp. incidentů YoY o 20 %<br>
+      — CSAT skóre spokojenosti uživatelů s IT<br>
+      — Dosažení TCO reduction o 15 %</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">KSI — Key Success Indicator</div>
+      <div class="pojem-body"><strong>Definice:</strong> Ukazatel kritických faktorů úspěchu (CSF). Méně formalizovaný, situačně definovaný. Někdy používán jako nadřazená kategorie zahrnující KPI i KGI.<br><br>
+      <strong>Příklady IT KSI:</strong><br>
+      — User adoption rate nového IS<br>
+      — Spokojenost klíčových business stakeholderů<br>
+      — Schopnost IT dodávat inovace dle business poptávky<br>
+      <em>COBIT 2019 pracuje primárně s KPI a KGI v rámci kaskády cílů.</em></div>
+    </div>
+  </div>
+  <div class="tip"><strong>Vztah KPI → KGI:</strong> KPI jsou „teploměry" procesu (varují dopředu), KGI jsou výsledky. COBIT kaskáda: Management Objectives → KGI (Co chceme dosáhnout?) → KPI (Jak to probíhá právě teď?). Správné IT řízení sleduje obojí.</div>
+
+  <h2>IT Portfolio: Run / Grow / Transform</h2>
+  <table>
+    <tr><th>Kategorie</th><th>Záměr</th><th>Příklady investic</th><th>Typické % rozpočtu</th></tr>
+    <tr>
+      <td><strong>Run</strong> (Provoz)</td>
+      <td>Udržení stávajících IT systémů v chodu. Bez těchto investic se firma zastaví. Nulová diferenciace — nutné minimum.</td>
+      <td>Maintenance ERP, DC náklady, helpdesk, bezpečnostní záplaty, SW licence</td>
+      <td>55–70 % (firmy s tech. dluhem až 80 %+)</td>
+    </tr>
+    <tr>
+      <td><strong>Grow</strong> (Růst)</td>
+      <td>Rozšíření stávajících schopností pro podporu obchodního růstu. Přírůstková inovace.</td>
+      <td>Nové moduly ERP, rozšíření CRM, analytické nástroje, mobile apps pro stávající procesy</td>
+      <td>15–25 %</td>
+    </tr>
+    <tr>
+      <td><strong>Transform</strong> (Transformace)</td>
+      <td>Zásadní změna obchodního modelu nebo vytváření nových digitálních schopností. Disruptivní inovace.</td>
+      <td>AI/ML platforma, IoT, nové digitální produkty, cloud migrace, blockchain piloty</td>
+      <td>5–15 % (ambiciózní firmy cílí 20 %+)</td>
+    </tr>
+  </table>
+  <div class="warn"><strong>Past „Run trap":</strong> Organizace s vysokým tech. dluhem uvíznou — 80 % IT rozpočtu jde na udržení starých systémů, nezbývá na inovaci. Řešení: Application Portfolio rationalization (APM), cloud migrace snižující TCO, sunset legacy aplikací dle Gartner TIME modelu (Tolerate / Invest / Migrate / Eliminate).</div>
+
+<!-- ═══════════════════════════════════════════════════════════ P2 ═══ -->
+<section class="lecture" id="p2">
+  <div class="lec-header">
+    <div class="lec-num">P2</div>
+    <div>
+      <div class="lec-title">DIKW model a data</div>
+      <div class="lec-subtitle">DIKW hierarchie, DIKIW rozšíření, 6 typů dat, MDM, COBIT 5 Data Quality kritéria, GDPR, Data Governance</div>
+    </div>
+  </div>
+
+  <h2>DIKW hierarchie — Data → Information → Knowledge → Wisdom</h2>
+  <p>DIKW (Russell Ackoff, 1989; Rowley, 2007) je základní model pro pochopení, jak se surová data transformují do moudrosti schopné řídit rozhodování. Každá úroveň přidává kontext, porozumění a schopnost jednat.</p>
+  <div class="pojmy four">
+    <div class="pojem blue">
+      <div class="pojem-head">Data (D)</div>
+      <div class="pojem-body"><strong>Definice:</strong> Surová fakta bez kontextu — symboly, čísla, písmena reprezentující měření nebo pozorování.<br><br>
+      <strong>Příklad:</strong> „25", „Praha", „2024-05-01", „#A3F2"<br><br>
+      <strong>Jak IS zpracovává:</strong> TPS zaznamenává transakce do databází (INSERT do tabulky). Data jsou uložena ve strukturované (RDBMS) nebo nestrukturované formě. Bez zpracování nemají pro uživatele žádný smysl.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Information (I)</div>
+      <div class="pojem-body"><strong>Definice:</strong> Data s kontextem, strukturou a významem — odpovídají na otázky „Kdo? Co? Kde? Kdy? Kolik?".<br><br>
+      <strong>Příklad:</strong> „Zákazník Jan Novák z Prahy nakoupil 25 kusů produktu X dne 1. 5. 2024 za 2 500 Kč."<br><br>
+      <strong>Jak IS zpracovává:</strong> MIS/RIS generuje reporty, dashboardy, tabulky agregující TPS data. SQL SELECT + JOIN transformuje data v informace pro konkrétní kontext.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Knowledge (K)</div>
+      <div class="pojem-body"><strong>Definice:</strong> Informace + zkušenosti, pravidla, vzorce — odpovídá na otázku „Jak? Proč?".<br><br>
+      <strong>Příklad:</strong> „Zákazníci z Prahy obvykle nakupují v Q2 ve větších objemech — historicky +30 % oproti Q1."<br><br>
+      <strong>Jak IS zpracovává:</strong> DSS, analytická platforma (DWH + OLAP) odhaluje vzorce. ML algoritmy extrahují znalosti z dat automaticky. Knowledge management systémy (KMS) uchovávají explicitní znalosti.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Wisdom (W)</div>
+      <div class="pojem-body"><strong>Definice:</strong> Znalosti + etický úsudek + schopnost správně rozhodovat v novém kontextu. Odpovídá na otázku „Proč to tak dělat? Jaká je správná volba?".<br><br>
+      <strong>Příklad:</strong> „Přestože zákazníci z Prahy v Q2 nakupují více, zvýšení cen by snížilo objem a poškodilo vztah — nedělat to."<br><br>
+      <strong>Jak IS zpracovává:</strong> IS samo o sobě Wisdom negeneruje — je výsledkem lidské reflexe a zkušenosti. EIS a executive dashboardy poskytují podklady, ale finální soud je lidský.</div>
+    </div>
+  </div>
+
+  <h3>Liew (2013) — DIKIW model: přidání Intelligence</h3>
+  <p>Liew (2013) navrhuje rozšíření DIKW o vrstvu <strong>Intelligence</strong> — mezivrstva mezi Knowledge a Wisdom. Intelligence reprezentuje schopnost aplikovat znalosti v konkrétním kontextu k dosažení cíle („know-how" v akci). V IS kontextu: prediktivní analytics (ML modely) a prescriptivní analytics (automatizovaná doporučení) odpovídají vrstvě Intelligence — strojová inteligence aplikující znalosti bez lidského úsudku, ale chybí etická dimenze Wisdom.</p>
+  <div class="callout"><strong>Praktický dopad DIKW pro IM:</strong> Každý IS projekt musí odpovědět: Na které úrovni DIKW sloužím? TPS = Data, MIS = Information, DSS = Knowledge, EIS = Knowledge/Wisdom podpora. Chyba: investice do sofistikovaného EIS, když základní datová kvalita (D vrstva) je problematická — garbage in, garbage out.</div>
+
+  <h2>6 typů dat v podnikových IS</h2>
+  <table>
+    <tr><th>Typ dat</th><th>Charakteristika</th><th>Příklady</th><th>IS / Nástroje</th><th>Klíčová rizika</th></tr>
+    <tr>
+      <td><strong>Transakční data</strong></td>
+      <td>Generována každodenními business operacemi. Velký objem, rychle zastarává, historicky cenné pro analýzu trendů.</td>
+      <td>Objednávky, faktury, pohyby skladu, platby, záznamy přihlášení</td>
+      <td>ERP (SAP FI/MM/SD), POS systémy, e-shop databáze</td>
+      <td>Objem → výkon, konzistence při distribuovaném zpracování, archivace</td>
+    </tr>
+    <tr>
+      <td><strong>Kmenová data (Master Data)</strong></td>
+      <td>Referenční data sdílená across aplikací. Stabilní, pomalé změny, klíčová pro konzistenci — každý zákazník, produkt a dodavatel existuje jen jednou.</td>
+      <td>Zákazník, dodavatel, produkt, zaměstnanec, nákladové středisko, materiál</td>
+      <td>MDM systémy: SAP MDG, Informatica MDM, Stibo STEP</td>
+      <td>Duplikáty, nekonzistence napříč systémy, chybějící golden record</td>
+    </tr>
+    <tr>
+      <td><strong>Referenční data (Reference Data)</strong></td>
+      <td>Číselníky a klasifikace — sdílené standardy pro kategorizaci. Nejstabilnější typ — mění se jen při změně standardu nebo interní klasifikace.</td>
+      <td>ISO kódy zemí (ISO 3166), měnové kódy (ISO 4217), NACE kódy odvětví, interní číselníky středisek</td>
+      <td>Reference Data Management (RDM), ERP číselníky</td>
+      <td>Nekonzistentní verze číselníků v různých systémech</td>
+    </tr>
+    <tr>
+      <td><strong>Analytická data</strong></td>
+      <td>Historická, agregovaná, denormalizovaná data pro BI a reporting. Odvozena z transakčních dat přes ETL procesy.</td>
+      <td>DWH tabulky faktů a dimenzí, OLAP kostky, Data Marty (finanční, obchodní)</td>
+      <td>SAP BW, Snowflake, Azure Synapse, Google BigQuery, Power BI</td>
+      <td>Datová čerstvost (latence ETL), konzistence s operativními systémy</td>
+    </tr>
+    <tr>
+      <td><strong>Metadata</strong></td>
+      <td>Data o datech — popis struktury, původu (data lineage), vlastnictví a definic. Umožňují porozumět ostatním datům a řídit jejich kvalitu.</td>
+      <td>Datový slovník, business glossary, data lineage graf, ERD schémata, API specifikace</td>
+      <td>Alation, Collibra, Azure Purview, Apache Atlas, SAP Information Steward</td>
+      <td>Zastaralá metadata, chybějící lineage, neudržovaný datový slovník</td>
+    </tr>
+    <tr>
+      <td><strong>Nestrukturovaná data</strong></td>
+      <td>Bez předem definované struktury. Tvoří 80–90 % veškerých podnikových dat. Rychle rostou s digitalizací komunikace a médií.</td>
+      <td>E-maily, Word/PDF dokumenty, obrázky, video, audio záznamy, logy, social media posty</td>
+      <td>ECM systémy, SharePoint, Data Lake (ADLS, S3), Elasticsearch, AI/NLP pro analýzu</td>
+      <td>Vyhledatelnost, klasifikace, přístupová práva, GDPR (osobní údaje v dokumentech)</td>
+    </tr>
+  </table>
+
+  <h2>MDM — Master Data Management</h2>
+  <p><strong>MDM</strong> je soubor procesů, politik a technologií, který zajišťuje, že master data mají jediný autoritativní zdroj pravdy (<strong>Golden Record</strong> / Single Source of Truth — SSOT) sdílený napříč všemi IS. Cílem je eliminovat datové duplikáty, nekonzistenci a konflikty mezi systémy.</p>
+  <p><strong>Stewardship</strong> v MDM: každá master datová doména (zákazníci, produkty, dodavatelé) má definovaného <strong>Data Ownera</strong> (business odpovědnost) a <strong>Data Stewarda</strong> (operativní správa dat, monitoring kvality, řešení konfliktů). Bez jasné ownership nelze MDM udržet dlouhodobě.</p>
+
+  <h3>3 architekturní styly MDM</h3>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Registry (Hub) styl</div>
+      <div class="pojem-body">MDM hub udržuje <em>golden record</em> — autoritativní záznamy. Zdrojové systémy zůstávají nezměněny, hub porovnává a sjednocuje záznamy (entity resolution / matching). <strong>Invazivita:</strong> nejnižší — zdrojové systémy nevyžadují změny. <strong>Vhodné pro:</strong> organizace s mnoha Legacy systémy, kde integrace je nákladná. Příklad: banka s 10 různými CRM systémy synchronizuje klientské záznamy přes centrální hub.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Consolidation styl</div>
+      <div class="pojem-body">MDM agreguje (kopíruje) data ze zdrojových systémů do centrálního repozitáře pro reporting a analytiku. Zdrojové systémy nejsou přepisovány — MDM hub je čtecí kopie. <strong>Invazivita:</strong> střední. <strong>Vhodné pro:</strong> BI a analytika potřebující konsolidovaný pohled. Omezení: operativní systémy nadále pracují s nekonsolidovanými daty.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Coexistence / Centralized styl</div>
+      <div class="pojem-body">MDM hub je <em>autoritativní zdroj</em> — zlatý záznam vzniká v MDM a publikuje se zpět do všech zdrojových systémů (bidirectional synchronization). <strong>Invazivita:</strong> nejvyšší — vyžaduje integraci všech systémů. <strong>Výhoda:</strong> nejvyšší konzistence dat across celou organizaci. <strong>Vhodné pro:</strong> velké organizace s vyspělou datovou governance (bankovnictví, farma).</div>
+    </div>
+  </div>
+
+  <h2>COBIT 5 Data Quality kritéria</h2>
+  <p>COBIT 5 definuje kritéria kvality informací ve třech skupinách — tato kritéria jsou základ pro datový audit a Data Governance politiky:</p>
+  <table>
+    <tr><th>Skupina</th><th>Kritérium</th><th>Popis a praktický dopad</th></tr>
+    <tr><td rowspan="4"><strong>Intrinsic</strong><br>(vnitřní — vlastnosti samotných dat)</td><td>Accuracy (přesnost)</td><td>Data správně representují realitu. Zákaznická adresa je aktuální a správná.</td></tr>
+    <tr><td>Objectivity (objektivita)</td><td>Data jsou nestranná, faktická — neodrážejí subjektivní pohled.</td></tr>
+    <tr><td>Believability (věrohodnost)</td><td>Uživatelé důvěřují datům. Závisí na reputaci zdroje a historické spolehlivosti.</td></tr>
+    <tr><td>Reputation (reputace)</td><td>Zdroj dat je v organizaci uznávaný jako spolehlivý.</td></tr>
+    <tr><td rowspan="5"><strong>Contextual</strong><br>(kontextuální — vztah k účelu použití)</td><td>Completeness (úplnost)</td><td>Data obsahují všechny potřebné atributy. Zákazník bez IČO není použitelný pro B2B fakturaci.</td></tr>
+    <tr><td>Currency / Timeliness (aktuálnost / včasnost)</td><td>Data jsou dostatečně čerstvá a dostupná tehdy, kdy jsou potřeba.</td></tr>
+    <tr><td>Relevancy (relevance)</td><td>Data odpovídají účelu, pro který jsou použita — správná granularita a kategorie.</td></tr>
+    <tr><td>Value-added (přidaná hodnota)</td><td>Použití dat přináší konkrétní prospěch nebo výhodu pro rozhodování.</td></tr>
+    <tr><td>Appropriate amount</td><td>Množství dat je přiměřené — ani příliš málo (neúplnost), ani příliš mnoho (přetížení).</td></tr>
+    <tr><td rowspan="2"><strong>Security / Accessibility</strong><br>(přístupnost a bezpečnost)</td><td>Restricted access (řízený přístup)</td><td>Přístup k datům je řízen dle oprávnění — RBAC, need-to-know princip.</td></tr>
+    <tr><td>Confidentiality (důvěrnost)</td><td>Citlivá data jsou chráněna před neoprávněným přístupem — šifrování, DLP.</td></tr>
+  </table>
+
+  <h3>GDPR a data quality</h3>
+  <p><strong>GDPR (Nařízení EU 2016/679)</strong> přímo vyžaduje specifické úrovně datové kvality pro osobní údaje. Vazba na COBIT 5 kritéria:</p>
+  <ul>
+    <li><strong>Čl. 5(1)(d) — Accuracy:</strong> Správce musí zajistit přesnost osobních údajů a jejich opravu bez zbytečného odkladu → vazba na COBIT Accuracy a Completeness</li>
+    <li><strong>Čl. 5(1)(e) — Storage limitation:</strong> Osobní údaje uchovávány jen po nezbytnou dobu → vazba na Currency (aktuálnost) a relevance</li>
+    <li><strong>Čl. 5(1)(f) — Integrity and confidentiality:</strong> Technická a organizační opatření pro bezpečnost → vazba na COBIT Security / Confidentiality</li>
+    <li><strong>Čl. 25 — Privacy by Design:</strong> Ochrana osobních údajů musí být zabudována do IS při jejich návrhu → vliv na celý DIKW lifecycles</li>
+  </ul>
+  <div class="warn"><strong>GDPR porušení a data quality:</strong> Chybná data (neaktuální adresa, duplicitní záznamy) mohou způsobit, že organizace zpracovává osobní údaje osoby, která si uplatnila právo na výmaz (čl. 17), nebo posílá komunikaci nesprávné osobě. Duplicity v MDM jsou tedy nejen datový problém, ale i GDPR riziko.</div>
+
+  <h2>Data Governance</h2>
+  <p><strong>Data Governance</strong> (DAMA DMBOK 2017) je soubor procesů, politik, rolí, metrik a standardů, který zajišťuje, že podniková data jsou přesná, konzistentní, bezpečná a dostupná pro rozhodování. Governance definuje pravidla hry — kdo smí co s daty dělat a za co zodpovídá.</p>
+  <p><strong>DAMA DMBOK</strong> (Data Management Body of Knowledge) definuje 11 oblastí data managementu: Data Governance, Data Architecture, Data Modeling, Data Storage, Data Security, Data Integration, Document Management, Reference &amp; Master Data, Data Warehousing &amp; BI, Metadata Management, Data Quality Management.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Klíčové role Data Governance</div>
+      <div class="pojem-body">
+        <strong>Chief Data Officer (CDO):</strong> C-level vedoucí datové strategie, Data Governance programu, analytických platforem a AI/ML governance<br><br>
+        <strong>Data Owner:</strong> Business manažer odpovědný za konkrétní datovou doménu (zákazníci, produkty) — definuje pravidla a schvaluje přístup<br><br>
+        <strong>Data Steward:</strong> Operativní správce dat — monitoruje kvalitu, řeší konflikty, implementuje pravidla Data Governance<br><br>
+        <strong>Data Governance Council:</strong> Cross-funkční výbor (CDO, CIO, CISO, business ředitelé) — schvaluje datové politiky a standardy
+      </div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Data Ownership — klíčový princip</div>
+      <div class="pojem-body">
+        Každý datový záznam nebo doména musí mít jednoznačně určeného vlastníka (Data Owner). Bez jasné ownership:<br>
+        — Nikdo nezodpovídá za kvalitu dat<br>
+        — Konflikty o autoritativní verzi nelze rozhodnout<br>
+        — MDM golden record nemá kdo schválit<br>
+        — Data Governance politiky nejsou vymahatelné<br><br>
+        <strong>Prakticky:</strong> „Zákaznická data vlastní obchodní ředitel, produktová data vlastní produktový manažer."
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ P3 ═══ -->
+<section class="lecture" id="p3">
+  <div class="lec-header">
+    <div class="lec-num">P3</div>
+    <div>
+      <div class="lec-title">Strategické řízení IS/IT</div>
+      <div class="lec-subtitle">IT strategie vs. podniková strategie, McFarlan Strategic Grid, TIME model, Nolan Stage Model, IT outsourcing vs. insourcing, cloud, Make-or-Buy</div>
+    </div>
+  </div>
+
+  <h2>IT strategie a podniková strategie — propojení</h2>
+  <p>IT strategie definuje, jak organizace plánuje využívat IT k dosažení svých podnikatelských cílů. Klíčovým principem je <strong>business-IT alignment</strong> — soulad IT strategie s podnikovou strategií (Henderson &amp; Venkatraman, Strategic Alignment Model, 1993).</p>
+  <p><strong>Tři typy IT strategie</strong> dle vztahu k podnikové strategii:</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Leading (IT vede inovaci)</div>
+      <div class="pojem-body">IT je hybatelem business strategie — nové technologie vytvářejí nové obchodní modely a příležitosti. Organizace aktivně hledá, jak technologie změní odvětví a staví na tom svou strategii.<br><br>
+      <strong>Příklady:</strong> Amazon (cloud jako business), Uber (mobilní platforma), Tesla (software-defined car). V praxi: fintech startupy, digitální native firmy.<br><br>
+      <em>Riziko: Vysoké investice do technologií, které nemusí být trhem přijaty.</em></div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Following (IT následuje business)</div>
+      <div class="pojem-body">IT reaguje na požadavky businessu — business definuje strategii, IT hledá technologická řešení. Tradiční pohled, kdy IT je „service provider" pro business.<br><br>
+      <strong>Příklady:</strong> Většina tradičních průmyslových podniků (výroba, retail). IT oddělení dostává požadavky a implementuje.<br><br>
+      <em>Riziko: IT zaostává za business potřebami, vzniká technologický dluh, pomalá reakce na tržní změny.</em></div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Co-evolving (IT a business se vyvíjejí společně)</div>
+      <div class="pojem-body">IT a business jsou rovnocennými partnery — strategie vzniká jako výsledek dialogu. CIO sedí u strategického stolu, IT schopnosti jsou faktorem při formulaci strategie.<br><br>
+      <strong>Příklady:</strong> Zralé organizace s digitální transformací (banky, pojišťovny, retail s omnichannel). IT-savvy CEO/board.<br><br>
+      <em>Best practice: CIO jako Chief Innovation Officer (ne jen Chief Infrastructure Officer).</em></div>
+    </div>
+  </div>
+
+  <h2>McFarlan Strategic Grid (IT Strategic Grid) — 2×2 matice</h2>
+  <p>F. Warren McFarlan (Harvard Business School, 1984) navrhl matici, která klasifikuje organizaci dle <strong>strategické důležitosti stávajících IS</strong> (osa Y) a <strong>strategické důležitosti plánovaných IS</strong> (osa X). Výsledek: 4 kvadranty definující, jak by IT mělo být řízeno.</p>
+
+  <table>
+    <tr><th>Kvadrant</th><th>Stávající IS</th><th>Plánované IS</th><th>Charakteristika a implikace pro IT management</th><th>Příklady organizací</th></tr>
+    <tr>
+      <td><strong>Support</strong><br>(levý dolní)</td>
+      <td>Nízká strategická důl.</td>
+      <td>Nízká strategická důl.</td>
+      <td>IT podporuje provoz, ale není kritické pro business. Výpadek IS neohrožuje podnik. IT je nákladové centrum — zaměření na efektivitu a minimalizaci TCO. CIO nemá přístup k boardu. Vhodné pro firmy, kde core business není IT-dependent.</td>
+      <td>Malé výrobní firmy, řemeslné podniky, lokální obchody</td>
+    </tr>
+    <tr>
+      <td><strong>Factory</strong><br>(levý horní)</td>
+      <td>Vysoká strategická důl.</td>
+      <td>Nízká strategická důl.</td>
+      <td>Stávající IS jsou kritické pro provoz (výpadek = zastavení business), ale plánované IT projekty neposkytují strategickou výhodu. Priorita: vysoká dostupnost, reliabilita, BCP/DRP. IT jako kritická infrastruktura — provozní excelence. CIO je VP Operations. Outsourcing provozu (ITSM) může být vhodný.</td>
+      <td>Aerolinie (rezervační systémy), banky (core banking), pojišťovny (pojistné systémy)</td>
+    </tr>
+    <tr>
+      <td><strong>Turnaround</strong><br>(pravý dolní)</td>
+      <td>Nízká strategická důl.</td>
+      <td>Vysoká strategická důl.</td>
+      <td>Stávající IS nejsou kritické, ale plánované IT projekty přinesou strategickou výhodu. Firma je v přechodu — digitální transformace teprve začíná. Priorita: rychlé dodání nových IT schopností. CIO musí být inovativní vizionář. Vysoké investice do nových technologií, tolerance vyššího rizika.</td>
+      <td>Tradiční retaileři přecházející na e-commerce, výrobci zavádějící IoT a digitální dvojčata</td>
+    </tr>
+    <tr>
+      <td><strong>Strategic</strong><br>(pravý horní)</td>
+      <td>Vysoká strategická důl.</td>
+      <td>Vysoká strategická důl.</td>
+      <td>IT je zdrojem konkurenční výhody — jak stávající IS, tak plánované projekty jsou strategicky kritické. Výpadek ohrožuje businesss model. CIO = člen boardu / vrcholového managementu. IT investice jsou prioritou. Governance: IT Steering Committee na úrovni CEO. Firmy „živí nebo umírají" s IT.</td>
+      <td>Technologické firmy, online platformy, banky s digitální transformací, logistické firmy (Amazon)</td>
+    </tr>
+  </table>
+
+  <div class="callout"><strong>Jak používat McFarlan Grid v praxi:</strong> Identifikujte, ve kterém kvadrantu se vaše organizace nachází. Klíčová otázka: „Bylo by naše podnikání vážně narušeno, kdyby IS 24 hodin nefungovaly?" (→ Y osa) a „Přinese náš pipeline IT projektů strategickou výhodu?" (→ X osa). Pohyb mezi kvadranty je strategické rozhodnutí — vyžaduje investice nebo restrukturalizaci IT.</div>
+
+  <h2>Gartner TIME Model — Application Portfolio Management</h2>
+  <p>TIME model (Gartner) slouží pro rozhodování o osudu stávajících aplikací v aplikačním portfoliu — doplňuje McFarlan Grid pohledem na konkrétní systémy:</p>
+  <div class="pojmy four">
+    <div class="pojem slate">
+      <div class="pojem-head">T — Tolerate (Tolerovat)</div>
+      <div class="pojem-body">Aplikace má nízkou technickou kvalitu, ale přiměřenou business hodnotu. Nenahrazujte teď — náklady na výměnu převyšují přínosy. Plánujte postupnou migraci. Typicky: legacy systémy s kritickou function, ale zastaralou architekturou.</div>
+    </div>
+    <div class="pojem blue">
+      <div class="pojem-head">I — Invest (Investovat)</div>
+      <div class="pojem-body">Aplikace má vysokou technickou kvalitu i vysokou business hodnotu. Investujte do rozvoje — přidávejte funkce, škálujte, integrujte s novými systémy. Toto jsou váš IT základ pro budoucnost.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">M — Migrate (Migrovat)</div>
+      <div class="pojem-body">Aplikace má vysokou business hodnotu, ale nízkou technickou kvalitu — technologický dluh brzdí rozvoj. Migrujte na modernější platformu nebo SaaS. Prioritizujte plán migrace a alokujte zdroje.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">E — Eliminate (Eliminovat)</div>
+      <div class="pojem-body">Aplikace má nízkou technickou kvalitu i nízkou business hodnotu. Vyřaďte z provozu — uvolníte IT zdroje a snížíte TCO. Nejprve ověřte, že žádný skrytý kritický proces nezávisí na dané aplikaci.</div>
+    </div>
+  </div>
+
+  <h2>Nolan Stage Model — 6 fází vývoje IT v organizaci</h2>
+  <p>Richard Nolan (Harvard, 1979) popsal evoluci IT v organizacích jako 6 na sebe navazujících fází. Model vychází z S-křivky inovace — každá fáze přináší jiné výzvy a vyžaduje jiný styl IT managementu.</p>
+  <table>
+    <tr><th>Fáze</th><th>Název</th><th>Charakteristika IT</th><th>Management IT</th></tr>
+    <tr>
+      <td>1</td>
+      <td><strong>Initiation</strong> (Iniciace)</td>
+      <td>První počítače ve firmě — batch processing, účetní nebo mzdové aplikace. Uživatelé s IT nesouvisí. Nízké náklady.</td>
+      <td>IT je nástroj pro snížení administrativní práce. Řízeno účetním nebo administrátorem.</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><strong>Contagion</strong> (Rozšíření)</td>
+      <td>Rychlé šíření IT — každé oddělení chce svůj systém. Proliferace aplikací bez centrálního plánování. Náklady rostou nekontrolovaně.</td>
+      <td>IT management reaguje na požadavky. Chybí IT governance. Vznikají izolované „ostrůvky" dat.</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><strong>Control</strong> (Kontrola)</td>
+      <td>Vedení reaguje na rostoucí náklady — zavádí IT governance, standardy, centralizaci IT. IT projekty jsou schvalovány centrálně.</td>
+      <td>Formalizace IT managementu — IT steering committee, IT budget control, IT audit.</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><strong>Integration</strong> (Integrace)</td>
+      <td>Integrace databází a aplikací — sdílená data, propojené systémy. Uživatelé začínají chápat hodnotu IT. ERP implementace.</td>
+      <td>IT jako klíčový podpůrný zdroj. CIO vstupuje do top managementu. Datová architektura.</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><strong>Data Administration</strong> (Správa dat)</td>
+      <td>Data jako strategický zdroj. Data Governance, datové standardy, MDM. IS podporují strategické rozhodování.</td>
+      <td>CDO role vzniká. Data Quality management, DWH, BI platformy. IT jako business partner.</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td><strong>Maturity</strong> (Zralost)</td>
+      <td>IT plně integrováno do strategie organizace. IS jsou zdrojem konkurenční výhody. Agilní IT, DevOps, kontinuální inovace.</td>
+      <td>IT governance je součástí corporate governance. CIO = Chief Innovation Officer. EGIT framework. IT investment = business investment.</td>
+    </tr>
+  </table>
+  <div class="tip"><strong>Nolan a COBIT:</strong> COBIT Capability Level (0–5) pro jednotlivé procesy lze zmapovat na Nolanovy fáze — organizace v Control fázi (3) obvykle dosahuje capability level 2–3 u klíčových procesů. Nolan model je dnes kombinován s digitální zralostí (Gartner Digital Business Maturity Model).</div>
+
+  <h2>IT Outsourcing vs. Insourcing — rozhodování Make-or-Buy</h2>
+  <table>
+    <tr><th>Model</th><th>Definice</th><th>Výhody</th><th>Rizika / Nevýhody</th><th>Kdy vhodné</th></tr>
+    <tr>
+      <td><strong>Insourcing</strong></td>
+      <td>IT aktivity jsou realizovány vlastními zaměstnanci. Interní IT oddělení.</td>
+      <td>Plná kontrola, know-how zůstává uvnitř, customizace, ochrana citlivých dat, rychlá reakce</td>
+      <td>Vyšší CAPEX, problémy s náborem IT specialistů, skalování v čase poptávky, opportunity cost</td>
+      <td>Strategické systémy, citlivá data, core business systémy, kdy IT je zdrojem konkurenční výhody</td>
+    </tr>
+    <tr>
+      <td><strong>Outsourcing</strong></td>
+      <td>IT aktivity jsou svěřeny externímu poskytovateli (vendor).</td>
+      <td>CAPEX → OPEX přechod, přístup ke specialistům, skalování, focus na core business</td>
+      <td>Vendor lock-in, ztráta know-how, hidden costs (SLA penalties, change requests), závislost na dodavateli, GDPR při zpracování osobních údajů</td>
+      <td>Commodity IT (helpdesk, síťový provoz), SAP hosting, cloud managed services</td>
+    </tr>
+    <tr>
+      <td><strong>Cloud (IaaS/PaaS/SaaS)</strong></td>
+      <td>IT jako služba z cloudu — platba dle spotřeby.</td>
+      <td>Elasticita (pay-per-use), rychlý deployment, globální dostupnost, nulové CAPEX na HW</td>
+      <td>Cloud cost sprawl, bezpečnost dat (data sovereignty), latence, compliance omezení, závislost na internetu</td>
+      <td>Dev/test prostředí, nové aplikace bez předvídatelné zátěže, SME firmy, digital-native startupy</td>
+    </tr>
+    <tr>
+      <td><strong>Hybrid</strong></td>
+      <td>Kombinace on-premise + cloud + outsourcing dle charakteru systémů.</td>
+      <td>Flexibilita — citlivá data on-prem, škálovatelné workloady v cloudu, optimalizace nákladů</td>
+      <td>Komplexní správa, integrace on-prem ↔ cloud, konzistentní governance, multi-cloud complexity</td>
+      <td>Velké organizace s různorodým portfoliem systémů, regulované odvětví (bankovnictví, zdravotnictví)</td>
+    </tr>
+  </table>
+
+  <h3>Kritéria Make-or-Buy rozhodování</h3>
+  <ul>
+    <li><strong>Strategická hodnota:</strong> Je daná IT schopnost zdrojem konkurenční výhody? Pokud ano — Build (insourcing).</li>
+    <li><strong>Dostupnost na trhu:</strong> Existuje kvalitní SaaS/outsourcing řešení? Je customizovatelné dle potřeb?</li>
+    <li><strong>TCO porovnání:</strong> Celkové náklady Build vs. Buy na 5 let (CAPEX + OPEX + implementace + integrace)</li>
+    <li><strong>Riziko vendor lock-in:</strong> Jak těžká je migrace, pokud vendor změní podmínky nebo zkrachuje?</li>
+    <li><strong>Regulatorní omezení:</strong> GDPR, ZKB — mohou omezit možnosti cloudového nebo zahraničního outsourcingu pro citlivé systémy</li>
+    <li><strong>Rychlost:</strong> Buy/SaaS je typicky rychlejší time-to-value; Build dává vyšší kontrolu a customizaci</li>
+  </ul>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ P4 ═══ -->
+<section class="lecture" id="p4">
+  <div class="lec-header">
+    <div class="lec-num">P4</div>
+    <div>
+      <div class="lec-title">Měření hodnoty IS/IT</div>
+      <div class="lec-subtitle">Solow paradox, TCO/TBO, ROI z IT investic, tangible vs. intangible přínosy, IT portfolio management, Gartner benchmarking, BSC pro IT</div>
+    </div>
+  </div>
+
+  <h2>Solow Computer Paradox (1987)</h2>
+  <p>Robert Solow, laureát Nobelovy ceny za ekonomii, v roce 1987 pronesl proslulý výrok: <em>„You can see the computer age everywhere but in the productivity statistics."</em> Přestože v 70.–80. letech firmy masivně investovaly do IT, agregátní produktivita práce v USA stagnovala nebo rostla jen pomalu — paradoxně v předchozích dekádách před computerizací byl růst produktivity vyšší.</p>
+
+  <h3>4 hlavní vysvětlení Solow paradoxu</h3>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">1. Zpoždění přínosů (Time Lag)</div>
+      <div class="pojem-body"><strong>Podstata:</strong> IT přínosy se materializují až po letech — organizace potřebuje čas na adaptaci procesů, budování dovedností a redesign pracovních postupů. Technologie sama nestačí.<br><br>
+      <strong>Empirické potvrzení:</strong> Brynjolfsson &amp; Hitt (1994) prokázali na mikroúrovni firem, že IT investice z 80. let přinesly produktivitu v 90. letech. V 90. letech USA zaznamenalo IT-tažený produktivní boom.<br><br>
+      <strong>Implikace pro IT management:</strong> IT projekty musí mít realistické horizony pro benefits realization (2–5 let). Okamžité měření ROI po go-live je zavádějící.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">2. Chybné měření (Mismeasurement)</div>
+      <div class="pojem-body"><strong>Podstata:</strong> Tradiční statistiky HDP nezachycují kvalitativní přínosy IT — zrychlení zpracování, přesnost, nové typy digitálních produktů a služeb (e-mail vs. papírová korespondence).<br><br>
+      <strong>Příklady nenaměřených přínosů:</strong> Rychlejší zákaznický servis, přesnost diagnóz, dostupnost informací, vznik nových odvětví (internet ekonomika).<br><br>
+      <strong>Implikace:</strong> Organizace musí měřit nejen finanční, ale i nefinanční (intangible) přínosy IT.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">3. Redistribuce (Redistribution Effect)</div>
+      <div class="pojem-body"><strong>Podstata:</strong> IT zvyšuje produktivitu konkrétní firmy na úkor konkurentů — efekt je nulový na makroúrovni. IT je z makroekonomického pohledu „zero-sum game" — přesouvá tržní podíl, nezvyšuje celkovou produkci odvětví.<br><br>
+      <strong>Reference:</strong> Pianta &amp; Vivarelli (1994).<br><br>
+      <strong>Implikace:</strong> IT investice jsou nutné pro zachování konkurenceschopnosti (threshold) — bez nich firma ztrácí tržní pozici, i když makroagregát neroste.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">4. Neefektivní implementace</div>
+      <div class="pojem-body"><strong>Podstata:</strong> IT bylo nasazeno na stávající neefektivní procesy bez redesignu — <em>„computerizing a bad process makes it worse"</em> (Michael Hammer, BPR). Organizace neinvestovaly do komplementárních aktiv: dovednosti, redesign procesů, organizační změna.<br><br>
+      <strong>Reference:</strong> Brynjolfsson (1993) — IT produktivita vyžaduje organizační komplementy.<br><br>
+      <strong>Implikace:</strong> IT projekty musí zahrnovat Change Management, školení a BPR. COBIT BAI05 — Manage Organisational Change Enablement.</div>
+    </div>
+  </div>
+  <div class="callout"><strong>Obnova produktivity v 90. letech:</strong> Po 1995 USA zaznamenala výrazný nárůst produktivity — „New Economy Boom". Klíčem bylo kombinování IT investic s organizačními změnami. Poučení pro IT management: IT + komplementární organizační aktiva = produktivita. Samotná technologie nestačí.</div>
+
+  <h2>TCO — Total Cost of Ownership</h2>
+  <p><strong>TCO</strong> zahrnuje <em>všechny</em> náklady spojené s IT aktivem po celou dobu jeho životního cyklu — nejen pořizovací cenu. Původ: Gartner (1987). Cílem je odhalení skrytých nákladů.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Přímé náklady (Direct Costs)</div>
+      <div class="pojem-body">
+        <strong>Kapitálové (CAPEX):</strong> nákup HW, SW licencí (perpetual, CAL), implementace IS (konzultanti, vývoj, integrace), projektové náklady<br><br>
+        <strong>Provozní (OPEX):</strong> HW a SW podpora a údržba, cloud/hosting subscription (SaaS, IaaS, PaaS), energie a chlazení DC, telekomunikace
+      </div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Nepřímé / Skryté náklady (Indirect / Hidden Costs)</div>
+      <div class="pojem-body">
+        <strong>Organizační:</strong> školení uživatelů a IT pracovníků, produktivita lost při implementaci a migraci, neformální IT podpora (peer-to-peer), čas managementu věnovaný IT rozhodnutím<br><br>
+        <strong>Rizikové:</strong> downtime costs (ztracené tržby + produktivita), bezpečnostní incidenty (breach costs), příležitostné náklady (delayed innovation)
+      </div>
+    </div>
+  </div>
+
+  <h2>TBO — Total Benefit of Ownership</h2>
+  <p><strong>TBO</strong> systematicky identifikuje a kvantifikuje všechny přínosy IT aktiva. Val IT framework (ISACA) propojuje TCO a TBO do <strong>IT Business Case</strong>. Čistý přínos = TBO − TCO.</p>
+  <div class="pojmy two">
+    <div class="pojem green">
+      <div class="pojem-head">Tangible (měřitelné) přínosy</div>
+      <div class="pojem-body">
+        — Přímé úspory nákladů (automatizace = méně FTE)<br>
+        — Snížení TCO (migrace z legacy na SaaS/cloud)<br>
+        — Zrychlení procesů → kratší výrobní cykly → vyšší obrat<br>
+        — Snížení zásob díky lepšímu plánování (ERP MRP)<br>
+        — Snížení chybovosti → méně reklamací a penalt<br>
+        — Nové příjmy z digitálních produktů a kanálů
+      </div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Intangible (obtížně měřitelné) přínosy</div>
+      <div class="pojem-body">
+        — Lepší zákaznická zkušenost (CX) → vyšší NPS → nižší churn<br>
+        — Zlepšení kvality rozhodování (lepší data = Wisdom vrstva DIKW)<br>
+        — Zvýšení agilnosti (rychlejší time-to-market)<br>
+        — Compliance a snížení regulatorního rizika<br>
+        — Spokojenost zaměstnanců (lepší nástroje → retence)<br>
+        <em>Intangible přínosy tvoří 60–70 % skutečné hodnoty IT investic — obtížně obhajitelné v business case.</em>
+      </div>
+    </div>
+  </div>
+
+  <h2>ROI z IT investic — výpočet a limitace</h2>
+  <p><strong>ROI = (Celkový přínos − Celkové náklady) / Celkové náklady × 100 %</strong></p>
+  <table>
+    <tr><th>Metoda</th><th>Výpočet / Princip</th><th>Výhody</th><th>Limitace</th></tr>
+    <tr><td><strong>ROI</strong></td><td>(Přínosy − Náklady) / Náklady × 100 %</td><td>Jednoduchost, srozumitelnost</td><td>Nezohledňuje čas, inflaci; nezachycuje intangible přínosy</td></tr>
+    <tr><td><strong>NPV</strong></td><td>Σ CF_t / (1+r)^t − Počáteční investice</td><td>Zohledňuje časovou hodnotu peněz, vhodné pro dlouhodobé projekty</td><td>Závislé na zvoleném diskontním faktoru r</td></tr>
+    <tr><td><strong>IRR</strong></td><td>Diskontní sazba při NPV = 0; srovnávat s WACC</td><td>Standardní finanční metrika, srovnatelná napříč projekty</td><td>Předpokládá reinvestici CF za IRR — ne vždy realistické</td></tr>
+    <tr><td><strong>Payback Period</strong></td><td>Investice / Roční přínos</td><td>Jednoduchost; pochopitelné pro non-finance management</td><td>Ignoruje CF po payback, nezohledňuje riziko</td></tr>
+    <tr><td><strong>Benefits Realization</strong> (Val IT)</td><td>Sledování realizace přislíbených přínosů v průběhu projektu i po go-live. Benefits register, ownership, měření.</td><td>Zajišťuje accountability — business vlastní přínosy, ne IT</td><td>Vyžaduje spolupráci businessu</td></tr>
+  </table>
+
+  <h2>Gartner IT Budget Benchmarking</h2>
+  <table>
+    <tr><th>Odvětví</th><th>IT výdaje / tržby</th><th>Klíčové IT oblasti</th></tr>
+    <tr><td>Bankovnictví a pojišťovnictví</td><td>6–8 %</td><td>Regulace (NIS2, DORA), digitalizace, cyber security, core banking modernizace</td></tr>
+    <tr><td>Zdravotnictví</td><td>3–5 %</td><td>EHR systémy, telemedicína, PACS, AI diagnostika</td></tr>
+    <tr><td>Výroba</td><td>1–3 %</td><td>ERP/MES integrace, IoT (Industry 4.0), prediktivní maintenance</td></tr>
+    <tr><td>Retail / Obchod</td><td>1–2 %</td><td>E-commerce, omnichannel CRM, supply chain optimization</td></tr>
+    <tr><td>Média a telekomunikace</td><td>4–6 %</td><td>Síťová infrastruktura (5G), OTT platformy, billing systémy</td></tr>
+    <tr><td>Vzdělávání</td><td>2–4 %</td><td>LMS platformy, edtech, digitalizace výuky</td></tr>
+    <tr><td>Veřejná správa</td><td>2–4 %</td><td>eGovernment, datové schránky, základní registry, ZKB/NIS2</td></tr>
+  </table>
+
+  <h2>BSC pro IT — 4 perspektivy s IT metrikami</h2>
+  <p>Balanced Scorecard (Kaplan &amp; Norton, 1992) aplikovaný na IT — COBIT 2019 kaskáda cílů vychází přímo ze 4 BSC perspektiv:</p>
+  <table>
+    <tr><th>BSC Perspektiva</th><th>Klíčová otázka pro IT</th><th>Příklady IT KGI</th><th>Příklady IT KPI</th></tr>
+    <tr>
+      <td><strong>Finanční</strong></td>
+      <td>Jak IT přispívá k finanční výkonnosti?</td>
+      <td>TCO reduction o 15 % YoY, IT ROI &gt; 20 %, compliance penalty = 0</td>
+      <td>IT náklady jako % tržeb, CAPEX vs. OPEX poměr, cloud spend efficiency</td>
+    </tr>
+    <tr>
+      <td><strong>Zákaznická</strong></td>
+      <td>Jak IT vnímají interní i externí zákazníci?</td>
+      <td>SLA plnění &gt; 99 %, CSAT IT &gt; 4/5, time-to-market &lt; 4 týdny</td>
+      <td>% SLA splněných, počet eskalací, NPS IT oddělení, průměrná doba odezvy helpdesku</td>
+    </tr>
+    <tr>
+      <td><strong>Interní procesy</strong></td>
+      <td>Kde musí IT dosahovat excelence?</td>
+      <td>Change success rate &gt; 95 %, % automatizovaných procesů &gt; 60 %, nulové kritické bezp. incidenty</td>
+      <td>MTTR incidentů P1, počet P1 incidentů, change lead time, % patch compliance</td>
+    </tr>
+    <tr>
+      <td><strong>Učení a růst</strong></td>
+      <td>Jak si IT udrží schopnost inovovat?</td>
+      <td>% IT pracovníků s certifikací &gt; 70 %, tech. dluh &lt; 20 % portfolia</td>
+      <td>Počet IT školení, % retence klíčových IT pracovníků, hodiny věnované inovacím</td>
+    </tr>
+  </table>
+  <div class="callout"><strong>COBIT kaskáda cílů:</strong> Stakeholder needs → 13 Enterprise Goals (BSC dimenze) → 13 IT-related Goals → 40 Governance/Management Objectives → KGI + KPI. Tato kaskáda zajišťuje, že každý IT proces je obhajitelný vůči konkrétnímu podnikovému cíli.</div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ P5 ═══ -->
+<section class="lecture" id="p5">
+  <div class="lec-header">
+    <div class="lec-num">P5</div>
+    <div>
+      <div class="lec-title">Organizační zabezpečení IT</div>
+      <div class="lec-subtitle">Role CIO/CISO/CDO/CTO, SOC vs. CSIRT, IT organizační struktury, COBIT PO4/APO01</div>
+    </div>
+  </div>
+
+  <h2>Klíčové IT role v organizaci — CIO, CISO, CDO, CTO</h2>
+  <table>
+    <tr><th>Role</th><th>Plný název</th><th>Hlavní odpovědnosti</th><th>Typické reportování</th><th>Klíčový rozdíl</th></tr>
+    <tr>
+      <td><strong>CIO</strong></td>
+      <td>Chief Information Officer</td>
+      <td>IT strategie a business-IT alignment, IT portfolio management, IT budget, digitální transformace, vztah s businessem, IT governance. Zodpovídá za hodnotu IT pro organizaci.</td>
+      <td>CEO / Board (u strategicky orientovaných org.)</td>
+      <td>Zaměřen na <em>business hodnotu IT</em> — CIO je business partner, nejen provozní technolog</td>
+    </tr>
+    <tr>
+      <td><strong>CISO</strong></td>
+      <td>Chief Information Security Officer</td>
+      <td>ISMS (informační bezpečnostní management systém), bezpečnostní politika a strategie, risk management, incident response, soulad s GDPR, ZKB, NIS2, ISO 27001. Řídí SOC a CSIRT.</td>
+      <td>CIO nebo přímo CEO (závisí na vyspělosti security governance)</td>
+      <td>Zaměřen na <em>ochranu aktiv a rizika</em> — doplňuje CIO pohled o bezpečnostní perspektivu</td>
+    </tr>
+    <tr>
+      <td><strong>CDO</strong></td>
+      <td>Chief Data Officer</td>
+      <td>Datová strategie, Data Governance program, MDM, analytické platformy (DWH, BI, AI/ML), Data Quality management, GDPR compliance z datové perspektivy, hodnotové využití dat.</td>
+      <td>CEO nebo CIO (závisí na datové vyspělosti organizace)</td>
+      <td>Zaměřen na <em>data jako strategický aktivum</em> — relativně nová role, vzniká s datovou ekonomikou a AI</td>
+    </tr>
+    <tr>
+      <td><strong>CTO</strong></td>
+      <td>Chief Technology Officer</td>
+      <td>Technologická strategie a architektura, výzkum a vývoj nových technologií, hodnocení technologických trendů, technologická inovace. Typicky v tech. firmách odpovídá za product technology.</td>
+      <td>CEO (v tech firmách), CIO (v non-tech firmách kde CTO = Enterprise Architect)</td>
+      <td>Zaměřen na <em>technologický vývoj a inovaci</em> — CTO hledí vpřed, CIO řídí stávající IT</td>
+    </tr>
+    <tr>
+      <td><strong>IT manažer / IT Operations Manager</strong></td>
+      <td>IT Operations Manager</td>
+      <td>Provoz IT infrastruktury a systémů, service desk, SLA řízení, ITSM procesy (ITIL), řízení IT týmu, vendor management pro provozní smlouvy.</td>
+      <td>CIO</td>
+      <td>Zaměřen na <em>operativní excelenci</em> — zajišťuje, že IT systémy fungují denně dle dohodnutých SLA</td>
+    </tr>
+  </table>
+  <div class="callout"><strong>Umístění v org. struktuře:</strong> V malých organizacích je CIO = CTO = CISO jedna osoba (IT ředitel). V podnicích středních a velkých se role dělí. Nejpokročilejší model: CIO + CISO + CDO jako tři samostatné C-level pozice, každá reportující CEO nebo boardu. CISO zpravidla nereportuje CIO, aby nedocházelo ke konfliktu zájmů (IT a bezpečnost mají různé incentives).</div>
+
+  <h2>SOC vs. CSIRT — role, schopnosti, propojení s NÚKIB</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">SOC — Security Operations Center</div>
+      <div class="pojem-body">
+        <strong>Definice:</strong> Centrum pro 24/7 detekci, analýzu a reakci na bezpečnostní hrozby a incidenty v reálném čase.<br><br>
+        <strong>Klíčové schopnosti:</strong><br>
+        — Monitoring SIEM (Security Information and Event Management) — korelace logů a alertů<br>
+        — Endpoint Detection and Response (EDR/XDR)<br>
+        — Threat Intelligence — sledování aktuálních hrozeb (IOC, TTPs)<br>
+        — Vulnerability Management — sledování a prioritizace zranitelností<br>
+        — Forensics a incident investigation<br><br>
+        <strong>Úrovně analytiků:</strong><br>
+        — L1 (Triage): filtruje alerty, klasifikuje incidenty<br>
+        — L2 (Investigation): hloubková analýza incidentů, containment<br>
+        — L3 (Threat Hunting): proaktivní hledání hrozeb v síti<br><br>
+        <strong>Modely:</strong> Interní SOC, MSSP (Managed Security Service Provider — outsourcovaný SOC), hybridní.
+      </div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">CSIRT / CERT — Incident Response Team</div>
+      <div class="pojem-body">
+        <strong>Definice:</strong> Computer Security Incident Response Team — specializovaný tým pro koordinaci reakce na kybernetické incidenty, jejich analýzu a komunikaci s externími stakeholdery.<br><br>
+        <strong>Klíčové schopnosti:</strong><br>
+        — Incident response koordinace (eskalace, containment, eradication, recovery)<br>
+        — Malware analýza a forensics<br>
+        — Koordinace s NÚKIB a hlášení incidentů dle ZKB<br>
+        — Sdílení threat intelligence s komunitou (ISAC)<br>
+        — Post-incident reviews a lessons learned<br><br>
+        <strong>Národní struktura v ČR:</strong><br>
+        — <strong>NÚKIB</strong> (Národní úřad pro kybernetickou a informační bezpečnost): Vládní CERT ČR, národní autorita kybernetické bezpečnosti, vydává doporučení, koordinuje při krizích<br>
+        — <strong>CSIRT.CZ</strong>: Provozuje CZ.NIC, národní CSIRT pro komerční sektor<br>
+        — <strong>Firemní CSIRT</strong>: Interní tým organizace pro incident response
+      </div>
+    </div>
+  </div>
+  <div class="tip"><strong>SOC vs. CSIRT propojení:</strong> SOC detekuje incidenty (reactive + proactive monitoring). Když SOC klasifikuje incident jako bezpečnostní, aktivuje CSIRT pro formální incident response proces. CSIRT koordinuje s NÚKIB (povinnost hlásit dle ZKB/NIS2 incidenty kritické infrastruktury do 24/72 hodin). SOC je technická funkce, CSIRT je koordinační a procesní funkce.</div>
+
+  <h2>IT organizační struktury — centralizovaná / decentralizovaná / federální</h2>
+  <table>
+    <tr><th>Model</th><th>Definice</th><th>Výhody</th><th>Nevýhody</th><th>Vhodné pro</th></tr>
+    <tr>
+      <td><strong>Centralizovaná IT</strong></td>
+      <td>Veškeré IT aktivity, rozhodnutí a zdroje jsou koncentrovány v centrálním IT oddělení podřízeném CIO.</td>
+      <td>Jednotné standardy a governance, ekonomie z rozsahu (sdílená infrastruktura), silná bezpečnostní kontrola, konzistentní data</td>
+      <td>Pomalá reakce na potřeby business jednotek (BU), vzdálenost od businessu, „IT bottleneck", potlačení lokální inovace</td>
+      <td>Regulované odvětví (bankovnictví, zdravotnictví), organizace s přísnou compliance, centralizovaný obchodní model</td>
+    </tr>
+    <tr>
+      <td><strong>Decentralizovaná IT</strong></td>
+      <td>Každá business jednotka (divize, dceřiná společnost) má vlastní IT tým a IT budget, nezávislý na centru.</td>
+      <td>Rychlá reakce na lokální potřeby, blízkost businessu, inovativnost, autonomie</td>
+      <td>Duplicity (každá BU reinventuje kolo), nekonzistentní data a standardy, vyšší celkové náklady, bezpečnostní mezery, shadow IT</td>
+      <td>Konglomeráty s diverzifikovanými businessy, organizace s vysokou autonomií BU, geograficky distribuované firmy</td>
+    </tr>
+    <tr>
+      <td><strong>Federální IT (hybridní)</strong></td>
+      <td>Centrální IT spravuje sdílenou infrastrukturu, standardy a governance; BU mají vlastní IT zdroje pro specifické business potřeby. Best of both worlds.</td>
+      <td>Standardy a sdílené služby centrálně (úspory), inovace a flexibilita lokálně, CIO jako koordinátor, ne diktátor</td>
+      <td>Komplexní governance (kdo rozhoduje co?), konflikty mezi centrem a BU, potřeba jasných pravidel pro „central vs. local"</td>
+      <td>Velké korporace s diverzifikovanými BU, multinacionální společnosti, organizace v digitální transformaci</td>
+    </tr>
+  </table>
+
+  <h2>COBIT PO4 / APO01 — Define IT Processes, Organisation and Relationships</h2>
+  <p>COBIT 4.1 procesní oblast PO4 (dnes v COBIT 2019 označována jako <strong>APO01 — Manage the I&amp;T Management Framework</strong>) zajišťuje, že existuje jasná organizační struktura IT s definovanými rolemi, odpovědnostmi, procesy a komunikačními kanály.</p>
+  <p><strong>Klíčové výstupy APO01:</strong></p>
+  <ul>
+    <li>Definice rolí a odpovědností IT (RACI matice pro každý klíčový IT proces)</li>
+    <li>Organizační schéma IT (org chart s popisem funkcí a reporting lines)</li>
+    <li>IT politiky, standardy a směrnice (Information Security Policy, Change Management Policy…)</li>
+    <li>Komunikační plán IT (jak IT komunikuje s businessem, boardem, dodavateli)</li>
+    <li>Definice IT service portfolio a service catalog</li>
+    <li>Governance principy a pravidla pro IT rozhodování</li>
+  </ul>
+  <div class="callout"><strong>RACI v COBIT:</strong> COBIT 2019 definuje RACI matice pro každý z 40 governance/management objectives. Klíčová zásada: vždy jen jeden „A" (Accountable) — jasná odpovědnost za výsledek. Absence jasného Accountable je nejčastější příčina selhání IT projektů a procesů.</div>
+
+  <h2>IT Governance struktury</h2>
+  <ul>
+    <li><strong>IT Steering Committee (Řídící výbor IT):</strong> Strategický výbor (CEO, CIO, CFO, business ředitelé) — prioritizuje IT portfolio, schvaluje IT strategii a velké IT investice (nad definovaný threshold)</li>
+    <li><strong>IT Architecture Review Board (ARB):</strong> Schvaluje architekturní rozhodnutí a výjimky ze standardů — zajišťuje architekturní konzistenci</li>
+    <li><strong>Change Advisory Board (CAB):</strong> ITIL výbor schvalující normal changes — posuzuje riziko a dopad IT změn před implementací</li>
+    <li><strong>Project Portfolio Office (PPO / PMO):</strong> Centralizovaná správa IT projektů — metodologie (PRINCE2, Scrum), reporting, resource management</li>
+    <li><strong>Data Governance Council:</strong> Cross-funkční výbor CDO + CIO + CISO + business ředitelé — schvaluje datové politiky, standardy MDM, GDPR opatření</li>
+  </ul>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ P6 ═══ -->
+<section class="lecture" id="p6">
+  <div class="lec-header">
+    <div class="lec-num">P6</div>
+    <div>
+      <div class="lec-title">ITIL / COBIT propojení a IT Governance</div>
+      <div class="lec-subtitle">ITIL + COBIT synergy, IT Governance vs. IT Management, EGIT v corporate governance, jak rámce doplňují</div>
+    </div>
+  </div>
+
+  <h2>ITIL + COBIT synergy — jak se rámce doplňují</h2>
+  <p>ITIL a COBIT jsou komplementární — každý plní jinou funkci a cílí na jinou skupinu stakeholderů. Profesionální organizace implementuje oba.</p>
+  <table>
+    <tr><th>Kritérium</th><th>COBIT 2019</th><th>ITIL 4</th></tr>
+    <tr><td><strong>Vydavatel</strong></td><td>ISACA</td><td>AXELOS / PeopleCert</td></tr>
+    <tr><td><strong>Primární zaměření</strong></td><td>IT Governance &amp; Management — <em>co</em> řídit a jak měřit. Definuje goals, objectives, accountability.</td><td>IT Service Management — <em>jak</em> provozovat IT služby. Detailní best practices pro operativu.</td></tr>
+    <tr><td><strong>Cílová skupina</strong></td><td>Board, CIO, CISO, IT auditoři — strategická a governance úroveň</td><td>IT manažeři, service desk, provozní týmy — operativní úroveň</td></tr>
+    <tr><td><strong>Granularita</strong></td><td>Střední — rámec s procesy, metrikami a governance principy</td><td>Vysoká — detailní popis 34 ITSM praktik (incident, change, problem…)</td></tr>
+    <tr><td><strong>Klíčové koncepty</strong></td><td>40 governance/mgmt objectives, Design Factors, kaskáda cílů, capability levels, RACI</td><td>Service Value System (SVS), 4 dimenze, 7 principů, Service Value Chain, 34 praktik</td></tr>
+    <tr><td><strong>Vztah k ISO 27001</strong></td><td>APO13 = ISMS mapping; COBIT mapuje na ISO 27001 kontroly</td><td>Information Security Practice v ITIL 4 — doplňkový</td></tr>
+    <tr><td><strong>Certifikace</strong></td><td>COBIT Foundation, COBIT Design &amp; Implementation</td><td>ITIL 4 Foundation, Managing Professional, Strategic Leader</td></tr>
+  </table>
+
+  <h3>Praktická kombinace: COBIT + ITIL + ISO 38500</h3>
+  <ul>
+    <li><strong>ISO 38500 / EGIT</strong> — definuje principy pro board: direction, evaluation, monitoring IT. Nastavuje „pravidla hry" na nejvyšší úrovni.</li>
+    <li><strong>COBIT 2019</strong> — implementuje governance systém, mapuje procesy, měří zralost, definuje accountability (RACI). Je „management framework" organizace.</li>
+    <li><strong>ITIL 4</strong> — operacionalizuje service management (incident, change, problem, service level management…). Jsou to „jak to dělat" pokyny pro IT provoz.</li>
+    <li><strong>ISO/IEC 27001</strong> — zajišťuje ISMS. COBIT APO13 na to odkazuje; ITIL Information Security Practice doplňuje.</li>
+    <li><strong>PRINCE2 / PMBOK</strong> — řídí IT projekty. COBIT BAI01, BAI11 definují governance projektů a programů.</li>
+  </ul>
+  <div class="callout"><strong>COBIT 2019 obsahuje mapovací tabulky</strong> na ISO 27001, ITIL 4, TOGAF, CMMI, ISO/IEC 20000 a další. Organizace si tak může ověřit, které COBIT objectives pokrývají konkrétní ITIL praktiky nebo ISO 27001 kontroly — a identifikovat mezery.</div>
+
+  <h2>ITIL v3 — 5 fází Service Lifecycle</h2>
+  <table>
+    <tr><th>Fáze</th><th>Zkratka</th><th>Obsah a cíl</th><th>Klíčové procesy</th></tr>
+    <tr><td><strong>Service Strategy</strong></td><td>SS</td><td>Strategické nasměrování IT služeb — co nabídnout, pro koho a jak financovat. Definuje IT jako poskytovatele hodnoty.</td><td>Financial Management, Service Portfolio Management, Strategy Management</td></tr>
+    <tr><td><strong>Service Design</strong></td><td>SD</td><td>Návrh nových a změněných IT služeb splňujících business požadavky — architecture, capacity, availability, security, continuity.</td><td>SLA Management, Capacity Mgmt, Availability Mgmt, IT Service Continuity Mgmt, Information Security Mgmt</td></tr>
+    <tr><td><strong>Service Transition</strong></td><td>ST</td><td>Bezpečný přechod nových nebo změněných služeb do produkce. Koordinace testování, nasazení a release.</td><td>Change Management, Release &amp; Deployment Mgmt, Configuration Mgmt (CMDB), Knowledge Management</td></tr>
+    <tr><td><strong>Service Operation</strong></td><td>SO</td><td>Denní provoz IT služeb — místo, kde zákazník vidí skutečnou hodnotu IT. Řeší incidenty, problémy, požadavky, přístupy.</td><td>Incident Management, Problem Management, Service Desk, Request Fulfilment, Access Management</td></tr>
+    <tr><td><strong>Continual Service Improvement</strong></td><td>CSI</td><td>Kontinuální zlepšování IT procesů a služeb na základě metrik. Uzavírá Deming PDCA cyklus napříč celým lifecycle.</td><td>7-Step Improvement Process, Service Measurement and Reporting, PDCA (Plan-Do-Check-Act)</td></tr>
+  </table>
+
+  <h2>IT Governance vs. IT Management — srovnání</h2>
+  <table>
+    <tr><th>Aspekt</th><th>IT Governance</th><th>IT Management</th></tr>
+    <tr><td><strong>Definice</strong></td><td>Soubor procesů, na jejichž základě board a management hodnotí, řídí a monitoruje využití IT, aby zajistili dosažení podnikových cílů (ISO 38500)</td><td>Plánování, budování, provoz a monitoring IT procesů a služeb v souladu s direction nastavenou governance</td></tr>
+    <tr><td><strong>Kdo</strong></td><td>Board directors, CEO, top management, IT Steering Committee</td><td>CIO, CISO, CDO, IT manažeři, provozní týmy</td></tr>
+    <tr><td><strong>Primární aktivity</strong></td><td>Evaluate (hodnotit IT plány), Direct (nastavit směr a politiky), Monitor (sledovat výkon a soulad) — EDM model ISO 38500</td><td>Align-Plan-Organise, Build-Acquire-Implement, Deliver-Service-Support, Monitor-Evaluate-Assess — COBIT 4 domény</td></tr>
+    <tr><td><strong>Časový horizont</strong></td><td>Strategický (3–5 let a více)</td><td>Operativní až taktický (denní až roční)</td></tr>
+    <tr><td><strong>Klíčové otázky</strong></td><td>„Investujeme do správných věcí? Vytváříme hodnotu? Řídíme rizika?" (Weill &amp; Ross)</td><td>„Jak dodáme IT projekt? Jak zajistíme SLA? Jak zvládneme incident?"</td></tr>
+    <tr><td><strong>Rámce</strong></td><td>ISO 38500, EGIT, COBIT governance objectives (EDM01–EDM06)</td><td>COBIT management objectives (APO, BAI, DSS, MEA), ITIL 4, ITSM</td></tr>
+  </table>
+
+  <h2>EGIT — Enterprise Governance of IT</h2>
+  <p><strong>EGIT</strong> (Enterprise Governance of IT) je nadřazený koncept propojující IT governance s celkovým corporate governance organizace. Vydává jej ISACA; úzce svázáno s ISO 38500.</p>
+  <p><strong>Základní princip EGIT:</strong> IT governance není oddělenou disciplínou — je integrální součástí corporate governance. Board directors odpovídají za IT stejně, jako odpovídají za finanční reporting nebo compliance. Tato myšlenka je v Česku zakotvena i v kybernetickém zákoně (ZKB č. 181/2014, NIS2 transpozice) — odpovědnost vedení organizací za kybernetickou bezpečnost.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">ISO 38500 — 6 principů IT governance</div>
+      <div class="pojem-body">
+        <strong>Responsibility:</strong> Jasné role a odpovědnosti za IT rozhodnutí<br>
+        <strong>Strategy:</strong> IT strategie je součástí podnikové strategie<br>
+        <strong>Acquisition:</strong> IT akvizice jsou prováděny z oprávněných důvodů (business case)<br>
+        <strong>Performance:</strong> IT je dostatečně výkonné pro potřeby businessu<br>
+        <strong>Conformance:</strong> IT splňuje legislativní a regulatorní požadavky<br>
+        <strong>Human Behaviour:</strong> IT politiky respektují lidský faktor<br><br>
+        <em>Board hodnotí IT dle těchto principů třemi aktivitami: Evaluate → Direct → Monitor (EDM model)</em>
+      </div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">COBIT 2019 — EDM objekty (Governance)</div>
+      <div class="pojem-body">
+        <strong>EDM01:</strong> Ensure Governance Framework Setting and Maintenance<br>
+        <strong>EDM02:</strong> Ensure Benefits Delivery (hodnota IT)<br>
+        <strong>EDM03:</strong> Ensure Risk Optimisation (IT risk management)<br>
+        <strong>EDM04:</strong> Ensure Resource Optimisation (IT zdroje)<br>
+        <strong>EDM05:</strong> Ensure Stakeholder Engagement<br>
+        <strong>EDM06:</strong> Ensure Innovation (nové v COBIT 2019)<br><br>
+        <em>EDM objekty jsou zodpovědností boardu/CEO — zbytek 34 management objectives je pro CIO a IT management.</em>
+      </div>
+    </div>
+  </div>
+
+  <h2>COBIT 4.1 — 4 domény a 34 procesů (historický kontext)</h2>
+  <p>COBIT 4.1 (dnes překonán COBIT 2019, ale stále v otázkách zmiňován) strukturoval IT governance do 4 domén:</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">PO — Plan and Organise (10 procesů)</div>
+      <div class="pojem-body">PO1 Define IT Strategic Plan, PO2 Define Information Architecture, PO3 Determine Technological Direction, <strong>PO4 Define IT Processes/Organisation/Relationships</strong>, PO5 Manage IT Investment, PO6 Communicate Aims, PO7 Manage HR, PO8 Manage Quality, PO9 Assess Risks, PO10 Manage Projects</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">AI — Acquire and Implement (7 procesů)</div>
+      <div class="pojem-body">AI1 Identify Automated Solutions, AI2 Acquire/Maintain Application SW, AI3 Acquire/Maintain Technology Infrastructure, AI4 Enable Operation and Use, AI5 Procure IT Resources, AI6 Manage Changes, AI7 Install and Accredit Solutions</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">DS — Deliver and Support (13 procesů)</div>
+      <div class="pojem-body">DS1 Define/Manage Service Levels, DS2 Manage 3rd Party Services, DS3 Manage Performance/Capacity, DS4 Ensure Continuous Service, DS5 Ensure Systems Security, DS6 Identify/Allocate Costs, DS7 Educate/Train Users, DS8 Manage Service Desk/Incidents, DS9 Manage Configuration, DS10 Manage Problems, DS11 Manage Data, DS12 Manage Physical Environment, DS13 Manage Operations</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">ME — Monitor and Evaluate (4 procesy)</div>
+      <div class="pojem-body">ME1 Monitor/Evaluate IT Performance, ME2 Monitor Internal Controls, ME3 Ensure Regulatory Compliance, ME4 Provide IT Governance</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ POJMY ═══ -->
+<section class="lecture" id="pojmy">
+  <div class="lec-header">
+    <div class="lec-num">&#9733;</div>
+    <div>
+      <div class="lec-title">Klíčové pojmy</div>
+      <div class="lec-subtitle">Kompletní přehled termínů pro státnici — 4SA415 Informační management</div>
+    </div>
+  </div>
+
+  <div class="kp-grid">
+    <div class="kp-item">
+      <div class="kp-term">IM (Informační management)</div>
+      <div class="kp-def">Disciplína i praxe na průsečíku managementu a informatiky — řízení informačních zdrojů, procesů a IS pro dosažení cílů organizace. Wilson &amp; Macevičiūtė (2025).</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">5 komponent IM (Sigmund)</div>
+      <div class="kp-def">Okolí podniku / Systémový přístup / Management organizace / Informatika (HW/SW) / Přistupování k procesům (BPM) — každá složka nezbytná pro funkční IM.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">TPS (Transaction Processing System)</div>
+      <div class="kp-def">Operativní úroveň IS — zpracování rutinních transakcí v reálném čase. Základ datové pyramidy. Příklady: ERP (SAP SD/MM/FI), POS, core banking.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">RIS / MIS (Reporting / Management IS)</div>
+      <div class="kp-def">Taktická úroveň — standardní reporty a výjimkové zprávy z TPS. Sledování KPI, odchylek od plánu. Power BI, SAP BW dashboardy.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">DSS (Decision Support System)</div>
+      <div class="kp-def">Taktická/strategická úroveň — podpora polostrukturovaných rozhodnutí. What-if analýzy, OLAP kostky, scénářové modelování. DWH + OLAP základ.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">EIS / ESS (Executive IS)</div>
+      <div class="kp-def">Strategická úroveň — souhrnné KGI přehledy pro top management. Drill-down, vnější data, vizualizace trendů. Tableau, Power BI exec dashboardy.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">ES (Expert System / AI)</div>
+      <div class="kp-def">Průřezová úroveň — znalostní báze + inference engine. Diagnostika, doporučení, fraud detection, chatboty. Dnes: ML/AI modely, LLM copiloty.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">OLAP (Online Analytical Processing)</div>
+      <div class="kp-def">Technologie multidimenzionálních datových kostek pro interaktivní analýzu. Operace: drill-down, roll-up, slice, dice, pivot. ETL naplňuje OLAP z TPS dat.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">KPI (Key Performance Indicator)</div>
+      <div class="kp-def">Leading indicator — měří výkon probíhajícího procesu. Příklady: % SLA splněných, MTTR incidentů. Varuje dopředu o problémech v procesu.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">KGI (Key Goal Indicator)</div>
+      <div class="kp-def">Lagging indicator — měří, zda byl strategický cíl dosažen. Příklady: roční dostupnost systémů 99,9 %, % projektů v termínu. Retrospektivní hodnocení.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">KSI (Key Success Indicator)</div>
+      <div class="kp-def">Ukazatel kritických faktorů úspěchu (CSF). Méně formalizovaný, situačně definovaný. Kombinuje KPI a KGI pohled. Příklad: user adoption rate nového IS.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">IT Portfolio: Run / Grow / Transform</div>
+      <div class="kp-def">Kategorizace IT investic (Gartner / Weill). Run = udržení provozu (55–70 %), Grow = rozšíření schopností (15–25 %), Transform = inovace a nové digitální modely (5–15 %).</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">DIKW (Data → Information → Knowledge → Wisdom)</div>
+      <div class="kp-def">Hierarchie hodnoty informací (Ackoff, 1989; Rowley, 2007). Data = fakta bez kontextu; Information = data s kontextem; Knowledge = informace + vzorce; Wisdom = znalosti + úsudek.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">DIKIW (Liew 2013)</div>
+      <div class="kp-def">Rozšíření DIKW o vrstvu Intelligence (mezivrstva Knowledge → Wisdom) — strojová inteligence aplikující znalosti v kontextu. Odpovídá ML/AI prediktivní a prescriptivní analytice.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Master Data (kmenová data)</div>
+      <div class="kp-def">Referenční data sdílená across aplikací — zákazníci, produkty, dodavatelé, zaměstnanci. Stabilní, klíčová pro konzistenci IS. Spravována přes MDM systémy.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">MDM (Master Data Management)</div>
+      <div class="kp-def">Procesy a technologie pro Single Source of Truth (SSOT) master dat. 3 styly: Registry Hub (nejnižší invazivita), Consolidated (pro BI), Coexistence/Centralized (nejvyšší konzistence). Golden Record.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Golden Record</div>
+      <div class="kp-def">Autoritativní, zlatý záznam entity (zákazníka, produktu) v MDM systému — výsledek entity resolution/matching. Jediná pravda o dané entitě napříč celou organizací.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Data Governance</div>
+      <div class="kp-def">Procesy, politiky, role a standardy zajišťující, že podniková data jsou přesná, konzistentní, bezpečná a dostupná. DAMA DMBOK definuje 11 oblastí DM. Klíčové role: CDO, Data Owner, Data Steward.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">COBIT 5 Data Quality kritéria</div>
+      <div class="kp-def">Tři skupiny: Intrinsic (Accuracy, Objectivity, Believability, Reputation), Contextual (Completeness, Currency, Timeliness, Relevancy, Value-added), Security (Restricted Access, Confidentiality).</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">GDPR (Nařízení EU 2016/679)</div>
+      <div class="kp-def">Regulace ochrany osobních údajů. Čl. 5: přesnost, účelové omezení, storage limitation. Čl. 25: Privacy by Design. Přímá vazba na data quality management a MDM.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">McFarlan Strategic Grid</div>
+      <div class="kp-def">2×2 matice IT strategické důležitosti (McFarlan, 1984). Kvadranty: Support (nízká/nízká), Factory (vysoká stávající/nízká nová), Turnaround (nízká/vysoká), Strategic (vysoká/vysoká).</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Gartner TIME model</div>
+      <div class="kp-def">Tolerate / Invest / Migrate / Eliminate — framework pro Application Portfolio Management. Hodnotí kombinaci business hodnoty a technické kvality aplikace. Základ APM rozhodnutí.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Nolan Stage Model (1979)</div>
+      <div class="kp-def">6 fází vývoje IT v organizaci: Initiation → Contagion → Control → Integration → Data Administration → Maturity. S-křivka inovace aplikovaná na IT v podniku.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">IT strategie: Leading / Following / Co-evolving</div>
+      <div class="kp-def">Typy vztahu IT strategie k podnikové strategii. Leading = IT vede inovaci. Following = IT reaguje na business. Co-evolving = IT a business jsou rovnocennými partnery.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">BSC (Balanced Scorecard)</div>
+      <div class="kp-def">Kaplan &amp; Norton (1992). 4 perspektivy: Finanční / Zákaznická / Interní procesy / Učení a růst. COBIT 2019 kaskáda cílů vychází ze 4 BSC perspektiv. Strategy Map vizualizuje příčinné vztahy.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Solow Computer Paradox (1987)</div>
+      <div class="kp-def">„IT everywhere, not in productivity stats." Čtyři vysvětlení: Time Lag, Mismeasurement, Redistribution, Bad Process Computerization. Paradox se vyřešil v 90. letech s organizačními komplementy.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">TCO (Total Cost of Ownership)</div>
+      <div class="kp-def">Všechny náklady IT aktiva po celý životní cyklus: CAPEX + OPEX + nepřímé (školení, downtime, příležitostné náklady). Původ: Gartner (1987). Odhaluje skryté náklady.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">TBO (Total Benefit of Ownership)</div>
+      <div class="kp-def">Celkové přínosy IT — tangible (přímé úspory, nové výnosy) + intangible (CX, agilita, compliance). TBO − TCO = čistý přínos. Val IT framework propojuje TCO a TBO v IT Business Case.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">ROI / NPV / IRR / Payback</div>
+      <div class="kp-def">Metody hodnocení IT investic. ROI = (přínosy−náklady)/náklady×100 %. NPV = diskontované CF minus investice. IRR = diskontní sazba při NPV=0. Payback = investice / roční přínos.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Benefits Realization (Val IT)</div>
+      <div class="kp-def">ISACA Val IT framework — sledování realizace přislíbených přínosů IT projektu v průběhu i po go-live. Benefits register, ownership (business vlastní přínosy), benefits measurement.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">IT Portfolio Management</div>
+      <div class="kp-def">Řízení souboru IT projektů a investic jako portfolia. Fáze: Inventarizace → Kategorizace → Hodnocení → Prioritizace → Balancování → Monitoring. COBIT APO05.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">CIO (Chief Information Officer)</div>
+      <div class="kp-def">Strategický lídr IT — IT strategie, business-IT alignment, IT portfolio, digitální transformace, IT budget. V moderním pojetí: CIO jako Chief Innovation Officer, business partner. Reportuje CEO/board.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">CISO (Chief Information Security Officer)</div>
+      <div class="kp-def">Zodpovědný za ISMS, bezpečnostní politiku, risk management, incident response, soulad s GDPR/ZKB/NIS2. Zpravidla nereportuje CIO — aby nedocházelo ke konfliktu zájmů.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">CDO (Chief Data Officer)</div>
+      <div class="kp-def">Datová strategie, Data Governance, MDM, analytické platformy, AI/ML governance, GDPR datová compliance. Relativně nová C-level role — vzniká s datovou ekonomikou.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">CTO (Chief Technology Officer)</div>
+      <div class="kp-def">Technologická strategie, R&amp;D nových technologií, inovace, hodnocení tech. trendů. V tech firmách: product technology leader. V non-tech firmách: podobná roli Enterprise Architekta.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">SOC (Security Operations Center)</div>
+      <div class="kp-def">24/7 centrum pro detekci, analýzu a reakci na bezpečnostní hrozby. Využívá SIEM, EDR/XDR, threat intelligence. Úrovně: L1 (triage), L2 (investigation), L3 (threat hunting). Interní nebo MSSP.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">CSIRT / CERT</div>
+      <div class="kp-def">Computer Security Incident Response Team — koordinuje reakci na incidenty, komunikuje s NÚKIB, hlásí dle ZKB. ČR: NÚKIB = vládní CERT, CSIRT.CZ = CZ.NIC (komerční sektor).</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">NÚKIB</div>
+      <div class="kp-def">Národní úřad pro kybernetickou a informační bezpečnost. Vládní CERT ČR, národní autorita kybernetické bezpečnosti. Koordinuje při kybernetických krizích, vydává doporučení, metodiku ZKB/NIS2.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">IT Governance</div>
+      <div class="kp-def">Board-level odpovědnost za IT — hodnotit (Evaluate), řídit směr (Direct), monitorovat (Monitor). ISO 38500 / EGIT. Strategický horizont (3–5 let). Kdo: board, CEO, IT Steering Committee.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">IT Management</div>
+      <div class="kp-def">Plánování, budování, provoz a monitoring IT procesů a služeb. Kdo: CIO, CISO, IT manažeři. Operativní–taktický horizont. COBIT management objectives (APO, BAI, DSS, MEA). ITIL 4.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">EGIT (Enterprise Governance of IT)</div>
+      <div class="kp-def">IT governance jako integrální součást corporate governance. ISACA / ISO 38500. Boards Directors odpovídají za IT stejně jako za finanční reporting. ZKB/NIS2: odpovědnost managementu za kybernetickou bezpečnost.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">ISO 38500</div>
+      <div class="kp-def">Mezinárodní standard IT governance pro board. 6 principů: Responsibility, Strategy, Acquisition, Performance, Conformance, Human Behaviour. EDM model: Evaluate → Direct → Monitor.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">COBIT 2019</div>
+      <div class="kp-def">ISACA framework IT governance a management. 40 objectives: 6 EDM (governance) + 34 management (APO, BAI, DSS, MEA). Design Factors, kaskáda cílů BSC → Enterprise Goals → IT Goals → Objectives.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">COBIT 4.1 (PO/AI/DS/ME)</div>
+      <div class="kp-def">Historická verze COBIT. 4 domény: Plan&amp;Organise (10 procesů), Acquire&amp;Implement (7), Deliver&amp;Support (13), Monitor&amp;Evaluate (4). Celkem 34 procesů. PO4 = Define IT Processes/Organisation.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">ITIL v3 (Service Lifecycle)</div>
+      <div class="kp-def">5 fází: Service Strategy (SS), Service Design (SD), Service Transition (ST), Service Operation (SO), Continual Service Improvement (CSI). Zaměřen na provoz IT služeb. Vydává AXELOS/PeopleCert.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">RACI matice</div>
+      <div class="kp-def">Nástroj přiřazení odpovědností. R = Responsible (vykonává), A = Accountable (odpovídá — jen 1!), C = Consulted (konzultován), I = Informed (informován). COBIT definuje RACI pro každý z 40 objectives.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">IT Steering Committee</div>
+      <div class="kp-def">Strategický výbor IT governance. Složení: CEO, CIO, CFO, business ředitelé. Prioritizuje IT portfolio, schvaluje IT strategii a velké IT investice nad definovaný threshold.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">CAB (Change Advisory Board)</div>
+      <div class="kp-def">ITIL výbor schvalující normal changes před implementací. Posuzuje riziko a dopad IT změn. Emergency CAB (ECAB) schvaluje urgentní změny. COBIT AI6 / BAI06 — Manage Changes.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">APM (Application Portfolio Management)</div>
+      <div class="kp-def">Inventarizace a hodnocení aplikací dle business hodnoty a technické kvality. Rozhodnutí: Keep / Consolidate / Sunset / Replace. Gartner TIME model. Základ IT portfolio rationalization.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">IMS (Integrated Management System)</div>
+      <div class="kp-def">Integrovaný systém řízení zahrnující QMS (ISO 9001), EMS (ISO 14001), OHSMS (ISO 45001) a ISMS (ISO 27001). Stejné principy (PDCA) aplikovány na všechny komponenty současně.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">PDCA (Plan-Do-Check-Act)</div>
+      <div class="kp-def">Demingiho cyklus kontinuálního zlepšování. Základ ITIL CSI, IMS, ISMS (ISO 27001). Plan = definovat cíle, Do = implementovat, Check = měřit výsledky, Act = korigovat a zlepšovat.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">ZKB (Zákon o kybernetické bezpečnosti)</div>
+      <div class="kp-def">Zákon č. 181/2014 Sb. Povinnosti provozovatelů kritické infrastruktury a významných IS — hlásit incidenty NÚKIB, implementovat bezpečnostní opatření. Transpozice EU NIS2 směrnice.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">NIS2 (směrnice EU 2022/2555)</div>
+      <div class="kp-def">Nástupce NIS1 — rozšiřuje rozsah povinných subjektů (essential + important entities), zpřísňuje požadavky na bezpečnostní opatření a hlášení incidentů. Odpovědnost vedení za cyber bezpečnost.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">DAMA DMBOK</div>
+      <div class="kp-def">Data Management Body of Knowledge. 11 oblastí data managementu včetně Data Governance, MDM, Data Quality, Metadata Management, DWH &amp; BI. Standardní referenční rámec pro CDO a data manažery.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Make-or-Buy rozhodování</div>
+      <div class="kp-def">Kritéria: strategická hodnota, dostupnost na trhu, TCO porovnání (5 let), vendor lock-in riziko, regulatorní omezení, speed to value. Buy/SaaS = rychlost; Build = kontrola a customizace.</div>
+    </div>
+  </div>
+
+  <div class="tip"><strong>Tip pro státnici:</strong> Zkouška z IM se typicky zaměřuje na schopnost propojit koncepty — např. jak DIKW souvisí s typy IS (Data=TPS, Information=MIS, Knowledge=DSS, Wisdom=EIS), jak Nolan fáze koreluje s McFarlan Grid kvadranty, nebo jak TCO/TBO vstupují do IT Business Case ve Val IT. Naučte se příklady z praxe, ne jen definice.</div>
+
+</section>
+
+<script>
+(function(){
+  const links = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll('section[id]');
+  function onScroll(){
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 80) current = s.id;
+    });
+    links.forEach(l => {
+      l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+
+</body>
+</html>

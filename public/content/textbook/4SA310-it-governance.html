@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4SA310 IT Governance – Učební podklady</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, sans-serif; font-size: 15px; line-height: 1.6; color: #111827; background: #f9fafb; -webkit-font-smoothing: antialiased; margin-left: 58px; }
+  #doc-nav { width: 50px; height: 100vh; position: fixed; left: 0; top: 0; z-index: 100; overflow: hidden; background: #fff; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; transition: width 0.32s cubic-bezier(0.4,0,0.2,1), box-shadow 0.32s; }
+  #doc-nav:hover { width: 240px; box-shadow: 6px 0 24px rgba(0,0,0,0.07); }
+  .nav-logo { padding: 14px 13px 12px; border-bottom: 1px solid #e5e7eb; white-space: nowrap; overflow: hidden; position: relative; }
+  .nav-code { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9ca3af; margin-bottom: 3px; }
+  .nav-subject { display: block; font-size: 13px; font-weight: 600; color: #111827; }
+  .nav-logo-icon { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-size: 16px; color: #1d4ed8; opacity: 0; transition: opacity 0.2s; }
+  .nav-logo-text { opacity: 1; transition: opacity 0.2s; }
+  #doc-nav:not(:hover) .nav-logo-icon { opacity: 1; }
+  #doc-nav:not(:hover) .nav-logo-text { opacity: 0; }
+  .nav-items { flex: 1; padding: 6px 0; overflow-y: auto; overflow-x: hidden; }
+  .nav-link { display: flex; align-items: center; gap: 8px; padding: 5px 12px; font-size: 12.5px; font-weight: 500; color: #374151; text-decoration: none; white-space: nowrap; overflow: hidden; transition: background 0.1s, color 0.1s; }
+  .nav-link:hover { background: #f3f4f6; color: #111827; }
+  .nav-num { font-size: 9px; font-weight: 700; background: #1d4ed8; color: #fff; padding: 2px 5px; border-radius: 3px; flex-shrink: 0; min-width: 22px; text-align: center; }
+  .nav-label { max-width: 200px; overflow: hidden; white-space: nowrap; transition: max-width 0.28s, opacity 0.18s; }
+  #doc-nav:not(:hover) .nav-label { max-width: 0; opacity: 0; }
+  #doc-nav:not(:hover) .nav-link { padding-left: 4px; padding-right: 4px; justify-content: center; }
+  .hero { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 44px 56px 40px; }
+  .hero-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #94a3b8; margin-bottom: 12px; }
+  .hero-title { font-size: 44px; font-weight: 800; color: #0f172a; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 16px; }
+  .hero-desc { font-size: 15px; color: #64748b; max-width: 600px; line-height: 1.65; margin-bottom: 20px; }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+  .hero-pill { display: inline-block; padding: 4px 11px; border-radius: 20px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 500; }
+  .lecture { max-width: 820px; margin: 0 auto; padding: 48px 56px; border-bottom: 1px solid #f1f5f9; }
+  .lec-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; }
+  .lec-num { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: #1d4ed8; color: #fff; padding: 5px 9px; border-radius: 5px; flex-shrink: 0; margin-top: 2px; }
+  .lec-title { font-size: 22px; font-weight: 700; color: #0f172a; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .lec-subtitle { font-size: 13px; color: #64748b; }
+  h2 { font-size: 16px; font-weight: 700; color: #0f172a; margin: 28px 0 10px; padding-bottom: 6px; border-bottom: 1px solid #e5e7eb; }
+  h3 { font-size: 14px; font-weight: 700; color: #374151; margin: 20px 0 8px; }
+  p { margin-bottom: 14px; color: #374151; font-size: 14.5px; }
+  ul, ol { margin: 0 0 14px; padding-left: 22px; color: #374151; font-size: 14.5px; }
+  li { margin-bottom: 5px; }
+  strong { font-weight: 700; color: #0f172a; }
+  em { font-style: italic; color: #475569; }
+  .pojmy { display: grid; gap: 8px; margin: 14px 0 20px; }
+  .pojmy.two { grid-template-columns: 1fr 1fr; }
+  .pojmy.three { grid-template-columns: 1fr 1fr 1fr; }
+  .pojmy.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .pojmy.single { grid-template-columns: 1fr; }
+  .pojem { border-radius: 8px; padding: 14px 16px; border: 1px solid; }
+  .pojem.blue { background: #eff6ff; border-color: #bfdbfe; }
+  .pojem.green { background: #f0fdf4; border-color: #bbf7d0; }
+  .pojem.orange { background: #fff7ed; border-color: #fed7aa; }
+  .pojem.purple { background: #faf5ff; border-color: #ddd6fe; }
+  .pojem.red { background: #fff1f2; border-color: #fecdd3; }
+  .pojem-head { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #475569; margin-bottom: 7px; }
+  .pojem.blue .pojem-head { color: #1d4ed8; }
+  .pojem.green .pojem-head { color: #15803d; }
+  .pojem.orange .pojem-head { color: #c2410c; }
+  .pojem.purple .pojem-head { color: #6d28d9; }
+  .pojem.red .pojem-head { color: #be123c; }
+  .pojem-body { font-size: 13.5px; line-height: 1.55; color: #374151; }
+  .tip { background: #fefce8; border-left: 3px solid #eab308; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #713f12; line-height: 1.6; }
+  .callout { background: #f0f9ff; border-left: 3px solid #0ea5e9; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #0c4a6e; line-height: 1.6; }
+  .warn { background: #fff1f2; border-left: 3px solid #f43f5e; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #9f1239; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 13.5px; }
+  th { background: #f8fafc; font-weight: 600; text-align: left; padding: 8px 10px; border: 1px solid #e5e7eb; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  td { padding: 8px 10px; border: 1px solid #e5e7eb; vertical-align: top; color: #374151; }
+  tr:nth-child(even) td { background: #fafafa; }
+  code { font-family: 'SF Mono', monospace; font-size: 12.5px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 3px; padding: 1px 5px; color: #1d4ed8; }
+  .tag { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; margin-right: 5px; border: 1px solid; }
+  .tag.blue { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+  .tag.green { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+  .tag.orange { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+  .tag.red { background: #fff1f2; color: #be123c; border-color: #fecdd3; }
+</style>
+</head>
+<body>
+
+<nav id="doc-nav">
+  <div class="nav-logo">
+    <span class="nav-logo-icon">&#9670;</span>
+    <span class="nav-logo-text">
+      <span class="nav-code">4SA310</span>
+      <span class="nav-subject">IT Governance</span>
+    </span>
+  </div>
+  <div class="nav-items">
+    <a class="nav-link" href="#p1"><span class="nav-num">P1</span><span class="nav-label">EGIT &amp; ISO 38500</span></a>
+    <a class="nav-link" href="#p2"><span class="nav-num">P2</span><span class="nav-label">BSC a strategické řízení</span></a>
+    <a class="nav-link" href="#p3"><span class="nav-num">P3</span><span class="nav-label">COBIT 5 a COBIT 2019</span></a>
+    <a class="nav-link" href="#p4"><span class="nav-num">P4</span><span class="nav-label">ITIL v3 a ITIL 4</span></a>
+    <a class="nav-link" href="#p5"><span class="nav-num">P5</span><span class="nav-label">BPMN a procesní řízení</span></a>
+    <a class="nav-link" href="#p6"><span class="nav-num">P6</span><span class="nav-label">Organizace IT a ECM</span></a>
+    <a class="nav-link" href="#klicove"><span class="nav-num">&#9733;</span><span class="nav-label">Klíčové pojmy</span></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">4SA310 · doc. Smutný · Státnice červen 2026</div>
+  <div class="hero-title">IT Governance</div>
+  <div class="hero-desc">Správa a řízení podnikového IT — EGIT, ISO/IEC 38500, COBIT 5 a 2019, ITIL, BSC, procesní řízení BPMN/EPC, organizační struktury IT a ECM.</div>
+  <div class="hero-pills">
+    <span class="hero-pill">ISO/IEC 38500</span>
+    <span class="hero-pill">COBIT 5 &amp; 2019</span>
+    <span class="hero-pill">ITIL 4</span>
+    <span class="hero-pill">EDM model</span>
+    <span class="hero-pill">BSC &amp; Kaskáda</span>
+    <span class="hero-pill">BPMN 2.0</span>
+    <span class="hero-pill">Design Factors</span>
+  </div>
+</div>
+
+<section class="lecture" id="p1">
+  <div class="lec-header">
+    <div class="lec-num">P1</div>
+    <div>
+      <div class="lec-title">EGIT &amp; ISO/IEC 38500</div>
+      <div class="lec-subtitle">Enterprise Governance of IT — governance vs. management, EDM model, 6 principů ISO 38500, kaskáda cílů, RACI</div>
+    </div>
+  </div>
+
+  <h2>Co je IT Governance a EGIT?</h2>
+  <p><strong>Governance</strong> je odvozeno z řeckého <em>kubernáo</em> = kormidlovat, řídit, vést. Systém řízení Governance umožňuje zainteresovaným skupinám (stakeholders) formalizovaně hodnotit podmínky a příležitosti, určovat směr vývoje organizací a monitorovat realizaci vůči stanoveným cílům. Je v odpovědnosti statutárních orgánů nebo ekvivalentních entit.</p>
+  <p><strong>EGIT (Enterprise Governance of Information and Technology)</strong> je součástí podnikového řízení (corporate governance). Zahrnuje vedení, organizační struktury a procesy, které zajišťují, že IT organizace podporuje a rozšiřuje strategii a cíle podniku. Pojem EGIT zdůrazňuje, že jde o správu nejen IT jako technologie, ale i informací (I&amp;T) v celém podniku.</p>
+
+  <h3>Governance vs. Management — základní rozdíl</h3>
+  <table>
+    <tr><th>Dimenze</th><th>Governance (správa)</th><th>Management (řízení)</th></tr>
+    <tr><td><strong>Odpovědnost</strong></td><td>Board / dozorčí rada / statutární orgány</td><td>CEO, CIO, exekutivní management</td></tr>
+    <tr><td><strong>Klíčové aktivity</strong></td><td>Evaluate, Direct, Monitor (EDM)</td><td>Plan, Build, Run, Monitor (PBRM)</td></tr>
+    <tr><td><strong>Zaměření</strong></td><td>Hodnocení potřeb stakeholderů, nastavení směru, monitoring dosažení cílů</td><td>Plánování, budování, provoz a monitorování aktivit v souladu s nastaveným směrem</td></tr>
+    <tr><td><strong>COBIT doména</strong></td><td>EDM (5 cílů)</td><td>APO, BAI, DSS, MEA (35 cílů)</td></tr>
+    <tr><td><strong>Otázka</strong></td><td>Děláme správné věci? (Effectiveness)</td><td>Děláme věci správně? (Efficiency)</td></tr>
+  </table>
+
+  <div class="callout"><strong>Klíčový vztah:</strong> ISO 38500 definuje, <em>co</em> by board měl dělat (principy správy IT). COBIT 2019 říká, <em>jak</em> to prakticky implementovat. COBIT přejímá EDM jako první doménu svého modelu. Tedy: ISO 38500 = „co", COBIT = „jak".</div>
+
+  <h2>ISO/IEC 38500 — Správa IT v organizacích</h2>
+  <p>Mezinárodní norma definující principy, model a rámec pro řídící orgány organizace (board, vedení) ke správě IT. Verze: 2008, 2015, 2024. Platí pro všechny typy a velikosti organizací. Norma neříká <em>jak</em> řídit, ale <em>co</em> by měl board hodnotit, řídit a monitorovat.</p>
+  <p>ISO 38500 popisuje tři nástroje pro dosažení „dobrého" IT governance: <strong>Model</strong> (hlavní úkoly a vztahy), <strong>Principy</strong> (usnadňují implementaci), <strong>Rámec</strong> (identifikuje hlavní komponenty: Strategie, Schopnosti, Politika, Delegování, Výkonnost, Odpovědnost).</p>
+
+  <h3>6 principů ISO/IEC 38500:2015</h3>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">1. Odpovědnost (Responsibility)</div>
+      <div class="pojem-body">Jednotlivci a skupiny chápou a přijímají odpovědnost za dodávku i poptávku IT. Ti, kdo jsou zodpovědní za akce, jsou zároveň zodpovědní za výsledky. Odpovědnost musí být explicitně přiřazena.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">2. Strategie (Strategy)</div>
+      <div class="pojem-body">IT strategie organizace zohledňuje současné i budoucí IT možnosti. IT plány splňují požadavky obchodní strategie — IT je strategickým aktivem, ne jen nákladovým centrem.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">3. Akvizice (Acquisition)</div>
+      <div class="pojem-body">IT pořizování probíhá z oprávněných důvodů, na základě vhodné a průběžné analýzy. Respektuje se rovnováha benefitů, příležitostí, nákladů a rizik — krátkodobých i dlouhodobých.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">4. Výkonnost (Performance)</div>
+      <div class="pojem-body">IT je vhodné pro účel: podporuje organizaci a poskytuje potřebné služby, úrovně a kvalitu pro splnění současných a budoucích potřeb. Výkonnost se měří a monitoruje.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">5. Soulad (Conformance)</div>
+      <div class="pojem-body">IT je v souladu s platnými zákony a předpisy. Politiky a postupy jsou jasně definovány, implementovány a vynucovány. Zahrnuje regulatorní i interní soulad.</div>
+    </div>
+    <div class="pojem blue">
+      <div class="pojem-head">6. Lidské chování (Human Behaviour)</div>
+      <div class="pojem-body">Politiky, postupy a rozhodování IT respektují lidské chování, včetně aktuálních i budoucích potřeb všech zapojených lidí. Přidáno v revizi 2015 — zdůrazňuje sociální aspekty IT governance.</div>
+    </div>
+  </div>
+
+  <div class="tip"><strong>ISO 38500:2024</strong> rozšiřuje sadu principů na 11: Účel, Tvorba hodnoty, Strategie, Dohled, Odpovědnost, Zapojení zainteresovaných stran, Vedení, Data a rozhodnutí, Řízení rizik, Sociální odpovědnost, Životaschopnost a výkonnost v čase. Na zkoušce je relevantní verze 2015 (6 principů).</div>
+
+  <h2>EDM model — Evaluate, Direct, Monitor</h2>
+  <p>Jádro ISO 38500 i COBIT 2019. Popisuje tři základní aktivity boardu vůči IT:</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Evaluate (Hodnotit)</div>
+      <div class="pojem-body">Hodnotit současné a budoucí využití IT, strategie, návrhy a možnosti poskytování. Posuzovat benefity, rizika a omezení zdrojů ve vztahu k obchodním cílům. Vstup pro Direction.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Direct (Řídit/Nasměrovat)</div>
+      <div class="pojem-body">Nastavovat směr a připravovat politiky a plány. Přidělovat odpovědnosti. Nasměrovat management k implementaci politik a plánů. Výstup: direktivy pro management.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Monitor (Monitorovat)</div>
+      <div class="pojem-body">Monitorovat soulad s politikami a výkonnost vůči plánům. Sledovat soulad IT s regulatorními požadavky. Využívat metriky (KPI, KGI). Zpětná vazba do Evaluate.</div>
+    </div>
+  </div>
+
+  <h2>Kaskádování cílů COBIT 5 — 4 úrovně</h2>
+  <p>Mechanismus propojující potřeby stakeholderů s konkrétními IT procesy. Zajišťuje, že aktivity IT opravdu přispívají k podnikovým cílům.</p>
+  <div class="callout">
+    <strong>Úroveň 1:</strong> Potřeby zúčastněných stran (Stakeholder Needs) — hodnota, riziko, zdroje<br>
+    <strong>Úroveň 2:</strong> Podnikové cíle (Enterprise Goals, EG) — 17 cílů COBIT 5 ve 4 dimenzích BSC<br>
+    <strong>Úroveň 3:</strong> IT cíle (IT-Related Goals, ITG) — 17 IT cílů<br>
+    <strong>Úroveň 4:</strong> Cíle enablerů (Process Goals) — 37 procesů v 5 doménách COBIT 5
+  </div>
+  <p>V COBIT 2019 se kaskáda mírně mění: Enterprise Goals (13 cílů) → Alignment Goals (13 IT cílů) → Governance &amp; Management Objectives (40 procesů/cílů).</p>
+
+  <h2>RACI matice</h2>
+  <p>Nástroj pro přiřazení odpovědností v procesech a aktivitách. Každá buňka matice přiřazuje roli jednu ze čtyř hodnot:</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">R — Responsible (Zodpovídá)</div>
+      <div class="pojem-body">Role, která provádí danou aktivitu. Může být více R na jeden úkol. Příklad: IT analytik zodpovídá za analýzu požadavků.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">A — Accountable (Ručí)</div>
+      <div class="pojem-body">Role, která je konečně odpovědná za výsledek — „vlastník" aktivity. Vždy právě jedno A na úkol. Příklad: CIO ručí za IT strategii.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">C — Consulted (Konzultován)</div>
+      <div class="pojem-body">Role, která poskytuje vstupní informace nebo odborné poradenství. Obousměrná komunikace. Příklad: právník konzultován při smlouvách s dodavateli.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">I — Informed (Informován)</div>
+      <div class="pojem-body">Role, která je informována o rozhodnutích a výsledcích. Jednosměrná komunikace. Příklad: CFO informován o dokončení IT projektu.</div>
+    </div>
+  </div>
+  <p>V COBIT každý proces má RACI chart přiřazující odpovědnosti typickým rolím (Board, CEO, CIO, CFO, Architect, IT Operations, Business Process Owner, Audit). COBIT 2019 bere v úvahu i další role, ale pro čitelnost uvádí zejména role s odpovědností A/R.</p>
+
+</section>
+
+<!-- P2 -->
+<section class="lecture" id="p2">
+  <div class="lec-header">
+    <div class="lec-num">P2</div>
+    <div>
+      <div class="lec-title">BSC a strategické řízení IT</div>
+      <div class="lec-subtitle">Balanced Scorecard, Strategy Map, Checkland SSM, Lean Startup, Design Thinking — strategické nástroje pro IT governance</div>
+    </div>
+  </div>
+
+  <h2>Balanced Scorecard (BSC) — Kaplan &amp; Norton</h2>
+  <p>BSC (Robert Kaplan &amp; David Norton, 1992) je strategický nástroj pro měření a řízení výkonu organizace. Překonává jednostranné zaměření na finanční ukazatele — výkon se sleduje ve <strong>4 perspektivách</strong>, které jsou vzájemně propojeny příčinnými vztahy.</p>
+
+  <table>
+    <tr><th>Perspektiva BSC</th><th>Klíčová otázka</th><th>Příklady IT metrik / cílů</th></tr>
+    <tr><td><strong>Finanční (Financial)</strong></td><td>Jak nás vnímají akcionáři / vlastníci?</td><td>ROI IT investic, TCO (Total Cost of Ownership), IT cost jako % revenue, NPV projektů</td></tr>
+    <tr><td><strong>Zákaznická (Customer)</strong></td><td>Jak nás vnímají zákazníci?</td><td>SLA plnění %, zákaznická spokojenost (CSAT), NPS, dostupnost systémů, Time-to-market</td></tr>
+    <tr><td><strong>Interní procesy (Internal Process)</strong></td><td>V čem musíme vynikat interně?</td><td>Change success rate, incident closure rate, % IT projektů v čase a rozpočtu, kapacita zdrojů</td></tr>
+    <tr><td><strong>Učení a růst (Learning &amp; Growth)</strong></td><td>Dokážeme se zlepšovat a inovovat?</td><td>% zaměstnanců s IT certifikací, inovační projekty, retence IT specialistů, znalostní báze</td></tr>
+  </table>
+
+  <p>V COBIT 5 i COBIT 2019 se BSC perspektivy přímo používají pro definici <strong>Enterprise Goals (EG)</strong>. Každý podnikový cíl patří do jedné ze 4 dimenzí BSC — tím je zajištěna vyváženost (balance) celkového governance systému.</p>
+
+  <h3>Strategy Map — kauzální propojení perspektiv</h3>
+  <p>Strategy Map (Kaplan &amp; Norton, 2004) vizualizuje příčinné vztahy mezi strategickými cíli ve všech 4 perspektivách. Logika: <em>Učení a růst → Interní procesy → Zákazníci → Finanční výsledky.</em></p>
+  <div class="callout">
+    <strong>Příklad IT Strategy Map:</strong><br>
+    <strong>L&amp;G:</strong> Zvýšit IT kompetence zaměstnanců → <strong>Internal:</strong> Snížit počet incidentů P1 → <strong>Customer:</strong> Zlepšit SLA plnění na 99,5 % → <strong>Financial:</strong> Snížit TCO o 15 %
+  </div>
+
+  <h3>Kaskádování cílů BSC → IT cíle</h3>
+  <p>Strategické cíle definované v BSC se kaskádují na operativní IT cíle. Každý IT cíl musí mít jasnou vazbu na alespoň jeden podnikový cíl (Enterprise Goal). Tento princip je základem COBIT kaskády cílů — IT aktivity jsou ospravedlnitelné jen tehdy, přispívají-li k podnikovým cílům.</p>
+
+  <h2>Checkland SSM — Soft Systems Methodology</h2>
+  <p>Peter Checkland (1981) vyvinul SSM pro řešení „měkkých" (soft) problémů — situací, kde není jednoznačná definice problému, různí stakeholdeři mají různé pohledy a řešení vyžaduje porozumění lidskému, sociálnímu a organizačnímu kontextu.</p>
+
+  <h3>7 kroků SSM</h3>
+  <ol>
+    <li><strong>Zjistit situaci (Find out about the problem situation)</strong> — shromáždění informací o reálném světě, stakeholdeři, kontext</li>
+    <li><strong>Vyjádřit problémovou situaci (Express the problem situation)</strong> — Rich Picture: vizualizace situace, vztahů, konfliktů</li>
+    <li><strong>Formulovat kořenové definice (Root definitions)</strong> — CATWOE analýza, co systém dělá a pro koho</li>
+    <li><strong>Sestavit konceptuální modely (Build conceptual models)</strong> — model aktivit nutných pro dosažení cíle systému</li>
+    <li><strong>Porovnat model s realitou (Compare models with real world)</strong> — identifikovat rozdíly mezi ideálním a skutečným stavem</li>
+    <li><strong>Definovat změny (Define changes)</strong> — systémově žádoucí a kulturně proveditelné změny</li>
+    <li><strong>Implementovat změny (Take action)</strong> — realizace změn a zahájení nového cyklu učení</li>
+  </ol>
+
+  <h3>CATWOE analýza</h3>
+  <p>Nástroj pro formulaci kořenové definice systému. Každý prvek odpovídá na konkrétní otázku:</p>
+  <table>
+    <tr><th>Prvek</th><th>Anglicky</th><th>Popis</th><th>IT příklad (systém helpdesk)</th></tr>
+    <tr><td><strong>C</strong></td><td>Customers</td><td>Kdo jsou příjemci výstupů systému? Kdo profituje nebo trpí?</td><td>Zaměstnanci firmy s IT problémy</td></tr>
+    <tr><td><strong>A</strong></td><td>Actors</td><td>Kdo systém provozuje a realizuje aktivity?</td><td>IT technici, Service Desk operátoři</td></tr>
+    <tr><td><strong>T</strong></td><td>Transformation</td><td>Co systém transformuje — vstup → výstup?</td><td>Nahlášený IT incident → vyřešený incident</td></tr>
+    <tr><td><strong>W</strong></td><td>Weltanschauung</td><td>Světonázor — jaké předpoklady dávají transformaci smysl?</td><td>IT podpora je klíčová pro produktivitu firmy</td></tr>
+    <tr><td><strong>O</strong></td><td>Owner</td><td>Kdo může systém zastavit nebo změnit?</td><td>CIO / IT manažer</td></tr>
+    <tr><td><strong>E</strong></td><td>Environment</td><td>Vnější omezení, v nichž systém operuje</td><td>Rozpočet IT, SLA smlouvy, legislativa (GDPR)</td></tr>
+  </table>
+
+  <h2>Lean Startup — Build-Measure-Learn</h2>
+  <p>Eric Ries (2011) — metodika pro rychlé testování podnikatelských hypotéz s minimálními zdroji. Základem je iterativní smyčka:</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Build (Vytvořit)</div>
+      <div class="pojem-body">Vytvořit <strong>MVP (Minimum Viable Product)</strong> — nejjednodušší verzi produktu/funkce, která umožní testovat hypotézu. Cíl: co nejrychleji dostat produkt před zákazníka.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Measure (Měřit)</div>
+      <div class="pojem-body">Sbírat data o chování zákazníků a výkonu MVP. Definovat <strong>actionable metrics</strong> (ne vanity metrics). Validovat nebo vyvracet hypotézy na základě dat.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Learn (Učit se)</div>
+      <div class="pojem-body">Analyzovat data, vyvodit závěry. Rozhodnutí: <strong>Pivot</strong> (změnit směr — hypotéza vyvrácena) nebo <strong>Persevere</strong> (pokračovat — hypotéza potvrzena). Spustit nový cyklus.</div>
+    </div>
+  </div>
+  <p><strong>MVP (Minimum Viable Product)</strong> je verze produktu s minimálním množstvím funkcí postačujícím k otestování klíčové podnikatelské hypotézy u reálných zákazníků. Není to „nedodělané" — je to záměrně omezené pro maximální rychlost učení.</p>
+
+  <h2>Design Thinking — 5 fází</h2>
+  <p>Design Thinking (Stanford d.school, IDEO) je iterativní přístup k inovaci zaměřený na hluboké porozumění uživatelům. Oproti tradičnímu analytickému přístupu pracuje s empatií, prototypováním a tolerancí k chybám.</p>
+  <div class="pojmy single">
+    <div class="pojem blue">
+      <div class="pojem-head">5 fází Design Thinking</div>
+      <div class="pojem-body">
+        <ol style="padding-left:18px; margin:0; line-height:1.8;">
+          <li><strong>Empathize (Vcítit se)</strong> — pozorovat a porozumět uživatelům, jejich potřebám a frustracím; rozhovory, stínování, terénní výzkum. IT příklad: výzkum, proč uživatelé obcházejí firemní IT systémy.</li>
+          <li><strong>Define (Definovat)</strong> — syntetizovat poznatky do jasného <em>Point of View (POV)</em> — přesná formulace problému z pohledu uživatele. Výstup: <em>„[Uživatel] potřebuje [potřebu], protože [insight]."</em></li>
+          <li><strong>Ideate (Generovat nápady)</strong> — brainstorming co nejvíce návrhů řešení bez předčasného hodnocení. Nástroje: How Might We otázky, SCAMPER, mind mapping. IT příklad: návrhy nového UX pro IT samoobslužný portál.</li>
+          <li><strong>Prototype (Prototypovat)</strong> — rychle vytvořit levné fyzické nebo digitální prototypy pro testování. Cíl: „fail early, fail cheap." IT příklad: papírový drátěný model nového dashboardu.</li>
+          <li><strong>Test (Testovat)</strong> — testovat prototypy s reálnými uživateli, sbírat zpětnou vazbu, iterovat. Výsledky zpravidla vedou k návratu do dřívějších fází (non-lineární proces).</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="tip"><strong>IT aplikace Design Thinking:</strong> Redesign IT self-service portálu, návrh nového ERP rozhraní, UX audit interního ITSM systému, návrh onboardingového procesu pro nové zaměstnance. Design Thinking je vhodný pro „wicked problems" — špatně definované problémy s mnoha stakeholdery.</div>
+
+</section>
+
+<!-- P3 -->
+<section class="lecture" id="p3">
+  <div class="lec-header">
+    <div class="lec-num">P3</div>
+    <div>
+      <div class="lec-title">COBIT 5 a COBIT 2019</div>
+      <div class="lec-subtitle">5 principů, 7 enablerů, 37/40 cílů, 5 domén, 11 Design Factors, Focus Areas, Capability Levels</div>
+    </div>
+  </div>
+
+  <h2>COBIT — přehled vývoje</h2>
+  <p><strong>COBIT</strong> (Control Objectives for Information and Related Technologies) je framework pro IT governance a management od ISACA. Vývoj: COBIT 1 (1996) → 2 (1998) → 3 (2000) → 4.0 (2005) → 4.1 (2007) → COBIT 5 (2012) → COBIT 2019. COBIT 5 nahradil 4.1 a integroval Val IT, Risk IT. COBIT 2019 nahradil COBIT 5.</p>
+
+  <h2>COBIT 5 (2012) — 5 principů</h2>
+  <div class="pojmy single">
+    <div class="pojem blue">
+      <div class="pojem-head">5 principů COBIT 5</div>
+      <div class="pojem-body">
+        <ol style="padding-left:18px; margin:0; line-height:1.9;">
+          <li><strong>Meeting Stakeholder Needs (Uspokojení potřeb zájmových skupin)</strong> — Cílem existence organizací je vytvářet hodnoty pro stakeholdery. Governance musí brát v úvahu tvorbu hodnoty, řízení zdrojů a rizik pro všechny stakeholdery. Pomůcka: kaskádování cílů.</li>
+          <li><strong>Covering the Enterprise End-to-End (Pokrytí podniku od konce do konce)</strong> — COBIT integruje GEIT do EG (enterprise governance). Pokrývá všechny funkce a procesy — nejen IT oddělení. Informace a technologie jsou stejnými aktivy jako lidé, procesy a finance.</li>
+          <li><strong>Applying a Single Integrated Framework (Aplikace jednoho integrovaného rámce)</strong> — COBIT 5 využívá nejlepší praxi z ITIL, ISO 38500, ISO 27000, TOGAF, PMBOK/PRINCE2, CMMI, COSO. Funguje jako integrátor/zastřešení regulací a best practice.</li>
+          <li><strong>Enabling a Holistic Approach (Podpora holistického přístupu)</strong> — 7 enablerů (katalizátorů), které jednotlivě nebo společně ovlivňují, zda bude IT governance fungovat. Jsou součástí kaskádování cílů.</li>
+          <li><strong>Separating Governance from Management (Oddělení Governance od managementu)</strong> — Jasné oddělení procesů, organizačních struktur a cílů. Governance = EDM (statutární orgány). Management = PBRM (exekutiva, CEO).</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <h3>7 enablerů (katalizátorů) COBIT 5</h3>
+  <p>Enablery jsou faktory, které jednotlivě nebo společně ovlivňují, zda IT governance funguje. Každý enabler má generický framework: stakeholders, goals, lifecycle, good practices.</p>
+  <table>
+    <tr><th>#</th><th>Enabler</th><th>Popis</th><th>Příklad (v kontextu kurzu 4SA513)</th></tr>
+    <tr><td>1</td><td><strong>Principy, politiky a rámce</strong></td><td>Nástroje pro transformaci požadovaného chování do praktických návodů pro každodenní řízení</td><td>Zákon o VŠ, vnitřní předpisy VŠE, opatření děkana</td></tr>
+    <tr><td>2</td><td><strong>Procesy</strong></td><td>Organizované sady praktik a aktivit vedoucí k dosažení cílů; výstupy podporují obecnější IT cíle</td><td>Proces přihlášení do kurzu, výuky, zadání SP</td></tr>
+    <tr><td>3</td><td><strong>Organizační struktury</strong></td><td>Klíčové rozhodovací entity — výbory, role, RACI matice odpovědností</td><td>Přednášející, cvičící, garant studijního programu, týmy</td></tr>
+    <tr><td>4</td><td><strong>Kultura, etika a chování</strong></td><td>Způsoby myšlení a jednání — „soft factors" ovlivňující governance, často podceňované</td><td>Etický kodex, správné citace v SP, omlouvání absence</td></tr>
+    <tr><td>5</td><td><strong>Informace</strong></td><td>Pronikají do všech oblastí řízení; základní integrující prvek i klíčový produkt organizace</td><td>Uživatelské jméno, heslo, pravidla hodnocení</td></tr>
+    <tr><td>6</td><td><strong>Služby, infrastruktura a aplikace</strong></td><td>IT infrastruktura a aplikace pro zpracování informací a poskytování IT služeb</td><td>Univerzitní síť, ISIS (studentský IS), ubytování IS</td></tr>
+    <tr><td>7</td><td><strong>Lidé, dovednosti a kompetence</strong></td><td>Kapacity potřebné pro úspěšné plnění aktivit, rozhodování a opravných akcí</td><td>Požadavky na vzdělání učitelů, vstupní testy do Ing.</td></tr>
+  </table>
+
+  <h2>COBIT 5 — 37 procesů v 5 doménách</h2>
+  <table>
+    <tr><th>Doména</th><th>Plný název</th><th>Počet procesů</th><th>Klíčové procesy</th></tr>
+    <tr><td><strong>EDM</strong></td><td>Evaluate, Direct and Monitor</td><td>5</td><td>EDM01 Governance Framework, EDM02 Benefits, EDM03 Risk, EDM04 Resources, EDM05 Stakeholders</td></tr>
+    <tr><td><strong>APO</strong></td><td>Align, Plan and Organise</td><td>13</td><td>APO01 I&amp;T Framework, APO02 Strategy, APO03 Architecture, APO10 Suppliers, APO12 Risk, APO13 Security</td></tr>
+    <tr><td><strong>BAI</strong></td><td>Build, Acquire and Implement</td><td>10</td><td>BAI01 Programmes, BAI02 Requirements, BAI06 Changes, BAI09 Assets, BAI10 Configuration</td></tr>
+    <tr><td><strong>DSS</strong></td><td>Deliver, Service and Support</td><td>6</td><td>DSS01 Operations, DSS02 Incidents, DSS03 Problems, DSS04 Continuity, DSS05 Security, DSS06 Controls</td></tr>
+    <tr><td><strong>MEA</strong></td><td>Monitor, Evaluate and Assess</td><td>3</td><td>MEA01 Performance, MEA02 Internal Control, MEA03 Compliance</td></tr>
+  </table>
+  <div class="callout"><strong>Součet:</strong> EDM(5) + APO(13) + BAI(10) + DSS(6) + MEA(3) = 37 procesů COBIT 5. Poznámka: některé zdroje uvádí APO jako 13, jiné jako 14 procesů — záleží na verzi dokumentace. Klíčové je rozlišit EDM (governance = board) vs. ostatní (management = exekutiva).</div>
+
+  <h2>COBIT 2019 — hlavní změny oproti COBIT 5</h2>
+  <p>COBIT 2019 byl vydán z důvodu digitální transformace, rostoucí komplexnosti I&amp;T a potřeby větší flexibility governance systémů. Hlavní změny:</p>
+  <table>
+    <tr><th>Oblast</th><th>COBIT 5</th><th>COBIT 2019</th></tr>
+    <tr><td><strong>Principy</strong></td><td>Jedna sada — 5 principů</td><td>Dvě sady: 6 principů Governance systému + 3 principy Governance rámce</td></tr>
+    <tr><td><strong>Terminologie</strong></td><td>Enablery (7 kategorií)</td><td>Komponenty governance systému</td></tr>
+    <tr><td><strong>Kaskáda</strong></td><td>IT-related goals</td><td>Alignment goals</td></tr>
+    <tr><td><strong>Počet procesů/cílů</strong></td><td>37 procesů</td><td>40 governance a management cílů (objectives)</td></tr>
+    <tr><td><strong>Nové cíle</strong></td><td>—</td><td>APO14 Managed Data; BAI01 Managed Programs + BAI11 Managed Projects (rozdělení BAI01); MEA04 Managed Assurance</td></tr>
+    <tr><td><strong>Flexibilita</strong></td><td>Relativně rigidní rámec</td><td>Design factors (11 DF) + Focus Areas — přizpůsobení kontextu</td></tr>
+  </table>
+
+  <h3>11 Design Factors (DF1–DF11)</h3>
+  <p>Design factors jsou kontextové proměnné, které ovlivňují, jak má být governance systém pro konkrétní organizaci navržen. Organizace vyplní „design toolkit" — výsledkem je prioritizovaná sada governance/management objectives a doporučená capability level procesů.</p>
+  <table>
+    <tr><th>Kód</th><th>Design Factor</th><th>Typické hodnoty / škála</th></tr>
+    <tr><td>DF1</td><td>Enterprise Strategy</td><td>Growth/Acquisition, Innovation/Differentiation, Cost Leadership, Client Service/Stability; škála 1–5</td></tr>
+    <tr><td>DF2</td><td>Enterprise Goals</td><td>13 Enterprise Goals — prioritizace (škála 1–5)</td></tr>
+    <tr><td>DF3</td><td>Risk Profile (IT Risk Categories)</td><td>Kategorie IT rizik; dopad 1–5, pravděpodobnost 1–5 → výsledné hodnocení (velmi vysoké/vysoké/normální/nízké)</td></tr>
+    <tr><td>DF4</td><td>I&amp;T-Related Issues</td><td>Aktuální problémy s IT; škála 1–3 (žádný problém → vážný problém)</td></tr>
+    <tr><td>DF5</td><td>Threat Landscape</td><td>Dvě hodnoty (vysoká/normální hrozba); součet = 100 %</td></tr>
+    <tr><td>DF6</td><td>Compliance Requirements</td><td>Tři hodnoty (nízké/střední/vysoké); součet = 100 %</td></tr>
+    <tr><td>DF7</td><td>Role of IT</td><td>Support, Factory, Turnaround, Strategic; škála 1–5</td></tr>
+    <tr><td>DF8</td><td>Sourcing Model for IT</td><td>Insourcing, Outsourcing, Cloud; součet = 100 %</td></tr>
+    <tr><td>DF9</td><td>IT Implementation Methods</td><td>Agile, DevOps, Traditional; součet = 100 %</td></tr>
+    <tr><td>DF10</td><td>Technology Adoption Strategy</td><td>First mover, Follower, Slow adopter; součet = 100 %</td></tr>
+    <tr><td>DF11</td><td>Enterprise Size</td><td>Small (&lt;250 zaměstnanců) nebo Large; ovlivňuje pouze Focus Area pro SME</td></tr>
+  </table>
+
+  <h3>Focus Areas (Oblasti zaměření)</h3>
+  <p>Focus Area popisuje určité zaměření, doménu nebo problém, které je vhodné řešit již připravenou standardní sadou governance a management cílů a jejich komponent. Příklady Focus Areas: <strong>Information Security, DevOps, Cloud Computing, Cyber Security, Digital Transformation, SME (malé a střední podniky), Privacy.</strong></p>
+  <p>Focus Areas jsou popsány kombinací generických komponent (ze COBIT Core Modelu) a variantních komponent (přizpůsobených dané oblasti). Počet Focus Areas je teoreticky nekonečný — COBIT 2019 je „open-ended" framework.</p>
+
+  <h3>Capability Levels — úrovně způsobilosti procesů</h3>
+  <p>COBIT 2019 integruje CPM (COBIT Performance Management) model — hodnocení způsobilosti vychází z CMMI a ISO/IEC 33000. Škála 0–5:</p>
+  <table>
+    <tr><th>Úroveň</th><th>Název</th><th>Charakteristika</th></tr>
+    <tr><td>0</td><td>Incomplete</td><td>Proces není implementován nebo nedosahuje svého účelu</td></tr>
+    <tr><td>1</td><td>Initial / Performed</td><td>Proces dosahuje svého účelu, ale ad hoc — bez systematického plánování</td></tr>
+    <tr><td>2</td><td>Managed</td><td>Proces je plánován, monitorován a přizpůsobován; výstupy jsou kontrolovány</td></tr>
+    <tr><td>3</td><td>Defined</td><td>Standardní definovaný proces, dokumentace, měření, přizpůsobení standardu</td></tr>
+    <tr><td>4</td><td>Quantitatively Managed</td><td>Kvantitativní kontrola výkonu, statistické řízení procesů</td></tr>
+    <tr><td>5</td><td>Optimising</td><td>Kontinuální zlepšování, inovace, benchmarking — nejlepší praxe</td></tr>
+  </table>
+  <div class="tip"><strong>Pozor:</strong> DF11 (Enterprise Size) nemá vliv na prioritizaci governance a management cílů ani na doporučené capability levels — ovlivňuje pouze to, zda je vhodné použít Focus Area pro SME.</div>
+
+</section>
+
+<!-- P4 -->
+<section class="lecture" id="p4">
+  <div class="lec-header">
+    <div class="lec-num">P4</div>
+    <div>
+      <div class="lec-title">ITIL — správa IT služeb</div>
+      <div class="lec-subtitle">ITIL v3 (5 fází životního cyklu) vs. ITIL 4 (SVS, SVC, 4 dimenze, 7 principů); SLA/OLA/UC, Incident/Problem/Change</div>
+    </div>
+  </div>
+
+  <h2>ITIL — vývoj verzí</h2>
+  <p><strong>ITIL (Information Technology Infrastructure Library)</strong> je sbírka best practices pro IT Service Management (ITSM). Vývoj: ITIL v1 (1989, UK CCTA, 31 knih) → v2 (2001, 9 knih) → v3 (2007, 5 fází životního cyklu; revize 2011) → ITIL 4 (2019, Service Value System).</p>
+  <p><strong>ITSM vs. ITIL:</strong> ITSM je disciplína (přístup k řízení IT jako k poskytování služeb zákazníkům). ITIL je konkrétní framework/sbírka best practices pro ITSM — nejrozšířenější na světě.</p>
+
+  <h2>ITIL v3 — 5 fází životního cyklu</h2>
+  <table>
+    <tr><th>Fáze</th><th>Zaměření</th><th>Klíčové procesy</th></tr>
+    <tr><td><strong>Service Strategy (SS)</strong></td><td>Pochopení potřeb zákazníků, definice hodnoty, finanční management IT</td><td>Strategy Management for IT Services, Service Portfolio Management, Financial Management for IT Services, Demand Management, Business Relationship Management</td></tr>
+    <tr><td><strong>Service Design (SD)</strong></td><td>Návrh nových nebo změněných služeb pro produkci; 4P (People, Process, Products, Partners)</td><td>SLA Management (SLM), Capacity Management, Availability Management, IT Service Continuity Management (ITSCM), Information Security Management, Supplier Management</td></tr>
+    <tr><td><strong>Service Transition (ST)</strong></td><td>Zavedení nových/změněných služeb do produkce; kontrola rizik</td><td>Change Management, Release &amp; Deployment Management, Configuration Management (CMDB), Knowledge Management, Service Validation &amp; Testing, Transition Planning</td></tr>
+    <tr><td><strong>Service Operation (SO)</strong></td><td>Každodenní provoz a podpora IT služeb</td><td>Incident Management, Problem Management, Event Management, Request Fulfilment, Access Management; Service Desk (SPOC)</td></tr>
+    <tr><td><strong>Continual Service Improvement (CSI)</strong></td><td>Průběžné zlepšování kvality služeb a procesů</td><td>7-krokový model zlepšování, CSI register, PDCA (Deming cycle); metriky KPI, CSF</td></tr>
+  </table>
+
+  <h2>ITIL 4 — Service Value System (SVS)</h2>
+  <p>ITIL 4 (2019) přešel od procesního modelu k hodnotovému systému. SVS popisuje, jak všechny komponenty a aktivity organizace spolupracují na vytváření hodnoty prostřednictvím IT-enabled services.</p>
+
+  <h3>Service Value Chain (SVC) — 6 aktivit</h3>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Plan</div>
+      <div class="pojem-body">Zajistit sdílené porozumění vizi, aktuálnímu stavu a směru zlepšení na všech úrovních organizace.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Improve</div>
+      <div class="pojem-body">Průběžné zlepšování produktů, služeb a praktik ve všech aktivitách SVC.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Engage</div>
+      <div class="pojem-body">Poskytovat dobré porozumění potřebám stakeholderů, transparentnost a trvalé dobré vztahy.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Design &amp; Transition</div>
+      <div class="pojem-body">Zajistit, že produkty a služby trvale splňují expectace stakeholderů — kvalita, náklady, time-to-market.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Obtain/Build</div>
+      <div class="pojem-body">Zajistit, že komponenty služeb jsou dostupné tehdy a tam, kde jsou potřeba — insource i outsource.</div>
+    </div>
+    <div class="pojem blue">
+      <div class="pojem-head">Deliver &amp; Support</div>
+      <div class="pojem-body">Zajistit dodávku a podporu služeb dle specifikace a dle expectací stakeholderů.</div>
+    </div>
+  </div>
+
+  <h3>7 guiding principles ITIL 4</h3>
+  <ol>
+    <li><strong>Focus on value</strong> — vše musí přinášet hodnotu zákazníkovi</li>
+    <li><strong>Start where you are</strong> — nevyhazovat, co funguje; navazovat na stávající stav</li>
+    <li><strong>Progress iteratively with feedback</strong> — iterace + zpětná vazba; malé kroky snižují riziko</li>
+    <li><strong>Collaborate and promote visibility</strong> — transparentnost, spolupráce přes týmy i organizace</li>
+    <li><strong>Think and work holistically</strong> — holistický pohled na systém; žádná část nefunguje izolovaně</li>
+    <li><strong>Keep it simple and practical</strong> — jednoduchost; eliminate waste</li>
+    <li><strong>Optimise and automate</strong> — nejprve optimalizovat, pak automatizovat</li>
+  </ol>
+
+  <h3>4 dimenze ITIL 4</h3>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">1. Organisations &amp; People</div>
+      <div class="pojem-body">Role, odpovědnosti, kultura, kapacity a kompetence. Otázka: Mají lidé správné dovednosti a motivaci?</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">2. Information &amp; Technology</div>
+      <div class="pojem-body">Informace, znalosti, technologie potřebné k managementu a provozu služeb (AI, cloud, blockchain).</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">3. Partners &amp; Suppliers</div>
+      <div class="pojem-body">Vztahy s partnery a dodavateli, smlouvy (SLA, UC), integrace, závislosti v dodavatelském řetězci.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">4. Value Streams &amp; Processes</div>
+      <div class="pojem-body">Hodnotové toky — jak se aktivity koordinují a integrují pro tvorbu hodnoty. Procesní modely.</div>
+    </div>
+  </div>
+
+  <h2>Klíčové pojmy ITIL — SLA, OLA, UC</h2>
+  <table>
+    <tr><th>Pojem</th><th>Plný název</th><th>Definice</th><th>Příklad</th></tr>
+    <tr><td><strong>SLA</strong></td><td>Service Level Agreement</td><td>Formální dohoda mezi poskytovatelem IT a zákazníkem (business) o úrovni poskytované služby</td><td>„IT zajistí dostupnost ERP systému 99,5 % v pracovní době, MTTR &lt; 4 h."</td></tr>
+    <tr><td><strong>OLA</strong></td><td>Operational Level Agreement</td><td>Interní dohoda mezi skupinami uvnitř IT organizace; podporuje plnění SLA</td><td>„IT síťový tým zajistí dostupnost sítě 99,9 % pro IT provozní tým."</td></tr>
+    <tr><td><strong>UC</strong></td><td>Underpinning Contract</td><td>Smlouva s externím dodavatelem; nejnižší vrstva, podporuje OLA i SLA</td><td>„Smlouva s ISP o konektivitě s garantovanou dostupností 99,8 %."</td></tr>
+  </table>
+
+  <h2>Klíčové pojmy ITIL — typy událostí a změn</h2>
+  <table>
+    <tr><th>Pojem</th><th>Definice</th><th>Cíl procesu</th></tr>
+    <tr><td><strong>Event (Událost)</strong></td><td>Výskyt nebo změna stavu, která má nebo může mít vliv na IT služby nebo konfigurační položky</td><td>Event Management: detekce, filtrace, klasifikace; eskalace na Incident pokud je potřeba</td></tr>
+    <tr><td><strong>Incident (Incident)</strong></td><td>Neplánované přerušení nebo snížení kvality IT služby</td><td>Incident Management: co nejrychlejší obnova služby (restore) — ne nutně řešení příčiny</td></tr>
+    <tr><td><strong>Problem (Problém)</strong></td><td>Příčina jednoho nebo více incidentů; nebo potenciální příčina, která dosud nezpůsobila incident</td><td>Problem Management: identifikace root cause, workaround, prevence opakování</td></tr>
+    <tr><td><strong>Known Error</strong></td><td>Problem s identifikovanou příčinou (root cause) a workaroundem; uložen v KEDB</td><td>KEDB (Known Error Database) — zrychluje řešení incidentů se stejnou příčinou</td></tr>
+    <tr><td><strong>Change (Změna)</strong></td><td>Přidání, úprava nebo odebrání čehokoli, co může mít vliv na IT služby</td><td>Change Management: řízené zavádění změn; typy: Standard, Normal, Emergency</td></tr>
+    <tr><td><strong>RFC</strong></td><td>Request for Change</td><td>Formální žádost o schválení a realizaci změny; schvaluje CAB (Change Advisory Board)</td></tr>
+    <tr><td><strong>MTTR</strong></td><td>Mean Time To Restore/Repair</td><td>Průměrná doba obnovení služby po incidentu — klíčová metrika dostupnosti</td></tr>
+    <tr><td><strong>MTBF</strong></td><td>Mean Time Between Failures</td><td>Průměrná doba mezi výpadky — metrika spolehlivosti; A = MTBF/(MTBF+MTTR) × 100 %</td></tr>
+  </table>
+  <div class="tip"><strong>Incident vs. Problem na zkoušce:</strong> Incident = symptom, akutní výpadek. Problem = příčina, diagnostická práce. Service Desk řeší incidenty. Problem Management hledá root cause. Jeden Problem může způsobit mnoho incidentů.</div>
+
+</section>
+
+<!-- P5 -->
+<section class="lecture" id="p5">
+  <div class="lec-header">
+    <div class="lec-num">P5</div>
+    <div>
+      <div class="lec-title">Procesní řízení — BPM, BPMN 2.0 a EPC</div>
+      <div class="lec-subtitle">BPM disciplína, as-is/to-be, GAP analýza; BPMN 2.0 elementy; EPC notace; srovnání BPMN vs. EPC</div>
+    </div>
+  </div>
+
+  <h2>BPM — Business Process Management</h2>
+  <p><strong>BPM</strong> je disciplína kombinující znalosti z managementu a IT za účelem zlepšení podnikových procesů. Základní cyklus BPM: <strong>Identifikace → Popis → Analýza → Redesign → Implementace → Monitoring</strong>.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">As-Is model (současný stav)</div>
+      <div class="pojem-body">Popis a dokumentace procesu tak, jak aktuálně funguje. Cíl: porozumět realitě, identifikovat problémy, nadbytečné kroky, úzká hrdla, redundance, časové a nákladové ztráty.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">To-Be model (cílový stav)</div>
+      <div class="pojem-body">Návrh optimalizovaného nebo nového procesu. Cíl: eliminovat problémy z As-Is analýzy, zavést automatizaci, zefektivnit tok práce, sladit s business cíli.</div>
+    </div>
+  </div>
+  <p><strong>GAP analýza</strong> porovnává As-Is a To-Be model — identifikuje mezery (gaps) mezi aktuálním a požadovaným stavem. Výstupem jsou konkrétní požadavky na změny procesů, IT systémů nebo organizace.</p>
+
+  <h2>BPMN 2.0 — Business Process Model and Notation</h2>
+  <p>BPMN 2.0 je standard OMG (Object Management Group) pro grafické znázornění podnikových procesů. Cílem je poskytnout notaci srozumitelnou jak business analytikům, tak IT vývojářům.</p>
+  <p>BPMN 2.0 má <strong>5 kategorií elementů</strong>:</p>
+
+  <table>
+    <tr><th>Kategorie</th><th>Elementy</th><th>Popis a příklady</th></tr>
+    <tr>
+      <td><strong>Flow Objects (Objekty toku)</strong></td>
+      <td>Events, Activities, Gateways</td>
+      <td>
+        <strong>Events:</strong> Start Event (zelený kruh), Intermediate Event (kruh s dvojitou hranicí), End Event (červený/tučný kruh). Typy: Message, Timer, Error, Signal, Terminate.<br>
+        <strong>Activities:</strong> Task (zaoblený obdélník) — atomic work unit; Sub-Process (zaoblený obdélník se znakem +) — rozložitelná aktivita.<br>
+        <strong>Gateways:</strong> Exclusive (XOR) — diamant s X; Inclusive (OR) — diamant s O; Parallel (AND) — diamant s +; Event-Based — diamant s pětiúhelníkem.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Swimlanes (Plavecké dráhy)</strong></td>
+      <td>Pool, Lane</td>
+      <td>
+        <strong>Pool:</strong> Oddělená účastnická entita (organizace, systém) — zpravidla jeden proces (black-box nebo white-box pool).<br>
+        <strong>Lane:</strong> Subdivize Pool — role, oddělení nebo systém uvnitř organizace. Aktivita patří do dráhy toho, kdo ji vykonává.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Artifacts (Artefakty)</strong></td>
+      <td>Data Object, Data Store, Group, Text Annotation</td>
+      <td>
+        <strong>Data Object:</strong> vstup/výstup aktivity (dokument, zpráva).<br>
+        <strong>Data Store:</strong> trvalé úložiště dat (databáze).<br>
+        <strong>Group:</strong> vizuální seskupení (bez vlivu na tok).<br>
+        <strong>Text Annotation:</strong> poznámka pro čtenáře diagramu.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Connecting Objects (Spojovací objekty)</strong></td>
+      <td>Sequence Flow, Message Flow, Association</td>
+      <td>
+        <strong>Sequence Flow</strong> (plná šipka): pořadí aktivit uvnitř Poolu.<br>
+        <strong>Message Flow</strong> (přerušovaná šipka): komunikace mezi Pooly (organizacemi).<br>
+        <strong>Association</strong> (tečkovaná čára): spojení artefaktu s elementem toku.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Data (Datové objekty)</strong></td>
+      <td>Data Input, Data Output, Data Object, Data Store</td>
+      <td>Vstupy a výstupy aktivit; propojeny Data Associations. Umožňují modelovat datové toky vedle procesního toku.</td>
+    </tr>
+  </table>
+
+  <h2>EPC — Event-driven Process Chain</h2>
+  <p>EPC (Scheer, 1990s, ARIS) je notace pro modelování podnikových procesů používaná zejména v SAP R/3 a ARIS. Základní elementy:</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Function (Funkce)</div>
+      <div class="pojem-body">Aktivita/úkol — zobrazena jako zaoblený obdélník (oranžový v ARIS). Reprezentuje aktivní element, kde se vykonává práce.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Event (Událost)</div>
+      <div class="pojem-body">Stav, který spouští nebo je výsledkem funkce — zobrazena jako šestiúhelník (fialový v ARIS). EPC začíná a končí eventem.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">XOR gateway (vylučující nebo)</div>
+      <div class="pojem-body">Split: přesně jedna z větví pokračuje. Join: čeká na přesně jednu větev. V ARIS: kruh s X.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">OR gateway (nevylučující nebo)</div>
+      <div class="pojem-body">Split: jedna nebo více větví pokračuje. Join: čeká na všechny aktivní větve. Kruh s V (nebo OR).</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">AND gateway (a zároveň)</div>
+      <div class="pojem-body">Split: všechny větve pokračují paralelně. Join: čeká na dokončení všech větví. Kruh s ∧ (nebo AND).</div>
+    </div>
+    <div class="pojem blue">
+      <div class="pojem-head">Pravidlo alternace</div>
+      <div class="pojem-body">EPC střídá Functions a Events: Event → Function → Event → Function... Funkci musí předcházet a následovat event (čistý EPC model).</div>
+    </div>
+  </div>
+
+  <h3>Srovnání BPMN 2.0 vs. EPC</h3>
+  <table>
+    <tr><th>Kritérium</th><th>BPMN 2.0</th><th>EPC</th></tr>
+    <tr><td><strong>Standardizace</strong></td><td>OMG standard — mezinárodně nejrozšířenější</td><td>Proprietary (Scheer/SAP/ARIS) — rozšířen zejména v SAP prostředí</td></tr>
+    <tr><td><strong>Základní stavební bloky</strong></td><td>Events, Activities, Gateways, Sequence/Message Flow</td><td>Events, Functions, Connectors (AND/OR/XOR)</td></tr>
+    <tr><td><strong>Swimlanes / role</strong></td><td>Pool + Lane — plná podpora organizačních rolí</td><td>Organizační jednotky a role jako samostatné objekty (Org. Chart)</td></tr>
+    <tr><td><strong>Datové modelování</strong></td><td>Data Objects, Data Stores, Data Associations — integrováno</td><td>Oddělené — datové objekty v ARIS mimo EPC diagram</td></tr>
+    <tr><td><strong>Čitelnost</strong></td><td>Technicky bohatší — vhodné i pro implementaci</td><td>Jednodušší pro business analytiky; dobré pro dokumentaci SAP procesů</td></tr>
+    <tr><td><strong>Použití</strong></td><td>Business analýza, BPMS, SOA, systémová integrace</td><td>Dokumentace SAP R/3, ARIS metodika, podnikové procesy v německém prostředí</td></tr>
+  </table>
+
+</section>
+
+<!-- P6 -->
+<section class="lecture" id="p6">
+  <div class="lec-header">
+    <div class="lec-num">P6</div>
+    <div>
+      <div class="lec-title">Organizace IT a ECM</div>
+      <div class="lec-subtitle">Organizační struktury IT, ECM (Enterprise Content Management), typy dokumentace IS/IT</div>
+    </div>
+  </div>
+
+  <h2>Organizační struktury IT v podniku</h2>
+  <p>Způsob organizace IT funkcí v podniku zásadně ovlivňuje schopnost IT podporovat business cíle, rychlost rozhodování a efektivitu zdrojů.</p>
+  <table>
+    <tr><th>Struktura</th><th>Popis</th><th>Výhody</th><th>Nevýhody / Rizika IT</th></tr>
+    <tr><td><strong>Liniová (Line)</strong></td><td>Hierarchická struktura — každý podřízený má jednoho nadřízeného; IT jako samostatný útvar</td><td>Jasné odpovědnosti, jednoduchá komunikace</td><td>Silová hřiště, IT odděleno od businessu, pomalé reakce na změny</td></tr>
+    <tr><td><strong>Funkcionální (Functional)</strong></td><td>Organizace dle funkcí (IT, Finance, HR, Marketing) — CIO odpovídá za celé IT</td><td>Specializace, efektivita IT expertů, sdílení zdrojů</td><td>Silová hřiště, špatná koordinace napříč funkcemi, IT vnímáno jako „cost center"</td></tr>
+    <tr><td><strong>Maticová (Matrix)</strong></td><td>Kombinace funkcionální a projektové — IT pracovníci mají dvojí odpovědnost (IT manager + PM)</td><td>Flexibilita, efektivní využití IT zdrojů, blízkost k businessu</td><td>Konflikt odpovědností, složitá komunikace, potřeba silného PM</td></tr>
+    <tr><td><strong>Projektová (Project-based)</strong></td><td>IT organizováno kolem projektů — IT pracovníci přiděleni na projekty</td><td>Zaměření na výsledek projektu, agilita</td><td>Diskontinuita znalostí, riziko siložního myšlení, obtížná standardizace</td></tr>
+  </table>
+
+  <h3>Centralizace vs. decentralizace IT</h3>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Centralizované IT (Shared Services Center)</div>
+      <div class="pojem-body">Jednotné IT pro celou organizaci. Výhody: standardizace, úspory z rozsahu, jednotná bezpečnostní politika, lepší governance. Nevýhody: nižší flexibilita pro business jednotky, vzdálenost od potřeb uživatelů.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Decentralizované IT (Federated Model)</div>
+      <div class="pojem-body">Každá business jednotka má vlastní IT. Výhody: rychlá reakce na business potřeby, lokální znalost. Nevýhody: duplikace nákladů, nekonzistentní standardy, bezpečnostní rizika, IT shadow.</div>
+    </div>
+  </div>
+
+  <h2>ECM — Enterprise Content Management</h2>
+  <p><strong>ECM (Enterprise Content Management)</strong> je soubor metod, nástrojů a technologií pro zachytávání, správu, ukládání, ochranou a doručování obsahu a dokumentů v podnikovém prostředí. Cílem je zajistit správnou informaci správné osobě ve správný čas.</p>
+  <p>ECM zahrnuje 5 klíčových oblastí (AIIM definice): <strong>Capture</strong> (zachycení obsahu — skenování, OCR, import), <strong>Manage</strong> (správa — DMS, WCM, RM, Collaboration), <strong>Store</strong> (krátkodobé úložiště — repositories, verzování), <strong>Preserve</strong> (dlouhodobá archivace — ILM, eArchiv), <strong>Deliver</strong> (doručování — portály, workflow, distribuce).</p>
+
+  <h3>Typy dokumentace IS/IT</h3>
+  <table>
+    <tr><th>Typ dokumentace</th><th>Obsah</th><th>Primární cílová skupina</th></tr>
+    <tr><td><strong>Technická dokumentace</strong></td><td>Architektura systému, ER diagramy, API dokumentace, databázové schéma, deployment diagram, source code komentáře</td><td>Vývojáři, architekti, správci systémů</td></tr>
+    <tr><td><strong>Uživatelská dokumentace</strong></td><td>Manuály, návody k obsluze, online nápověda, training materials, FAQ</td><td>Koncoví uživatelé, zákazníci</td></tr>
+    <tr><td><strong>Administrátorská dokumentace</strong></td><td>Instalační postupy, konfigurační příručky, disaster recovery plány, runbooks, monitoring postupy</td><td>IT správci, provozní tým</td></tr>
+    <tr><td><strong>Procesní dokumentace</strong></td><td>BPMN/EPC diagramy, procedury (SOP), WI (Work Instructions), flowcharty, RACI matice</td><td>Business analytici, procesní manažeři, auditoři</td></tr>
+    <tr><td><strong>Bezpečnostní dokumentace</strong></td><td>Bezpečnostní politika, klasifikace dat, ISMS dokumentace (ISO 27001), BCP/DRP, přístupová práva</td><td>CISO, IT management, auditoři</td></tr>
+    <tr><td><strong>Projektová dokumentace</strong></td><td>Project Charter, WBS, harmonogram, rizikový registr, change log, akceptační protokoly</td><td>PM, sponzor projektu, steering committee</td></tr>
+  </table>
+
+  <div class="callout"><strong>DMS vs. ECM:</strong> DMS (Document Management System) je součástí ECM — zaměřuje se na správu dokumentů (verzování, check-in/out, přístupy). ECM je širší pojem zahrnující také capture, workflow, archivaci a doručování obsahu.</div>
+
+</section>
+
+<!-- Klíčové pojmy -->
+<section class="lecture" id="klicove">
+  <div class="lec-header">
+    <div class="lec-num">&#9733;</div>
+    <div>
+      <div class="lec-title">Klíčové pojmy — přehled</div>
+      <div class="lec-subtitle">Rychlý přehled 40+ pojmů, zkratek a definic pro přípravu na státnici</div>
+    </div>
+  </div>
+
+  <table>
+    <tr><th>Zkratka / Pojem</th><th>Plný název / Vysvětlení</th></tr>
+    <tr><td><strong>EGIT</strong></td><td>Enterprise Governance of Information and Technology — správa IT jako součást corporate governance; odpovědnost boardu</td></tr>
+    <tr><td><strong>EDM</strong></td><td>Evaluate, Direct, Monitor — tři základní aktivity boardu v ISO 38500 a COBIT EDM doméně</td></tr>
+    <tr><td><strong>ISO/IEC 38500</strong></td><td>Mezinárodní norma správy IT; verze 2008/2015/2024; 6 principů (2015): Odpovědnost, Strategie, Akvizice, Výkonnost, Soulad, Lidské chování</td></tr>
+    <tr><td><strong>COBIT</strong></td><td>Control Objectives for Information &amp; Related Technologies — framework IT governance od ISACA; verze 1–5 a 2019</td></tr>
+    <tr><td><strong>COBIT 5 — 5 principů</strong></td><td>1. Stakeholder Needs, 2. End-to-End, 3. Integrated Framework, 4. Holistic Approach (7 enablerů), 5. Governance vs. Management</td></tr>
+    <tr><td><strong>7 enablerů COBIT 5</strong></td><td>Principy+politiky, Procesy, Org. struktury, Kultura+etika, Informace, Služby+infrastruktura, Lidé+dovednosti</td></tr>
+    <tr><td><strong>COBIT 2019 domény</strong></td><td>EDM (5) + APO (14) + BAI (11) + DSS (6) + MEA (4) = 40 cílů; nové oproti C5: APO14 Managed Data, BAI11 Managed Projects, MEA04 Managed Assurance</td></tr>
+    <tr><td><strong>Design Factors (DF)</strong></td><td>DF1–DF11 — kontextové faktory pro přizpůsobení COBIT governance systému konkrétní organizaci</td></tr>
+    <tr><td><strong>Focus Area</strong></td><td>COBIT 2019 — předpřipravená sada governance cílů pro konkrétní doménu (Cybersecurity, DevOps, Cloud, SME, Privacy)</td></tr>
+    <tr><td><strong>Capability Level</strong></td><td>Úroveň způsobilosti procesu 0–5 (Incomplete → Initial → Managed → Defined → Quantitatively Managed → Optimising); vychází z CMMI</td></tr>
+    <tr><td><strong>RACI</strong></td><td>Responsible / Accountable / Consulted / Informed — matice přiřazení odpovědností v procesech; vždy právě 1× A</td></tr>
+    <tr><td><strong>Kaskáda cílů</strong></td><td>COBIT 5: Stakeholder Needs → Enterprise Goals (EG, 17) → IT Goals (17) → Process Goals (37). COBIT 2019: EG (13) → Alignment Goals (13) → Objectives (40)</td></tr>
+    <tr><td><strong>BSC</strong></td><td>Balanced Scorecard (Kaplan &amp; Norton, 1992) — 4 perspektivy: Finanční, Zákaznická, Interní procesy, Učení &amp; růst</td></tr>
+    <tr><td><strong>Strategy Map</strong></td><td>Kauzální diagram propojující BSC perspektivy; logika: L&amp;G → Internal → Customer → Financial</td></tr>
+    <tr><td><strong>SSM</strong></td><td>Soft Systems Methodology (Checkland) — 7 kroků pro řešení „měkkých" problémů; klíčový nástroj: CATWOE analýza</td></tr>
+    <tr><td><strong>CATWOE</strong></td><td>Customers, Actors, Transformation, Weltanschauung, Owner, Environment — analýza pro kořenovou definici systému v SSM</td></tr>
+    <tr><td><strong>Lean Startup</strong></td><td>Ries (2011) — Build-Measure-Learn smyčka; MVP (Minimum Viable Product); Pivot vs. Persevere rozhodování</td></tr>
+    <tr><td><strong>MVP</strong></td><td>Minimum Viable Product — nejjednodušší verze produktu pro testování klíčové hypotézy u reálných zákazníků</td></tr>
+    <tr><td><strong>Design Thinking</strong></td><td>5 fází: Empathize → Define → Ideate → Prototype → Test; zaměřeno na empatii s uživatelem; vhodné pro wicked problems</td></tr>
+    <tr><td><strong>ITIL</strong></td><td>Information Technology Infrastructure Library — best practices pro IT Service Management (ITSM); vydává AXELOS</td></tr>
+    <tr><td><strong>ITIL v3 — 5 fází</strong></td><td>Service Strategy, Service Design, Service Transition, Service Operation, Continual Service Improvement (CSI)</td></tr>
+    <tr><td><strong>ITIL 4 SVS</strong></td><td>Service Value System — srdce ITIL 4; obsahuje: SVC + 34 Practices + 7 Guiding Principles + Governance + Continual Improvement</td></tr>
+    <tr><td><strong>SVC</strong></td><td>Service Value Chain — 6 aktivit ITIL 4: Plan, Improve, Engage, Design &amp; Transition, Obtain/Build, Deliver &amp; Support</td></tr>
+    <tr><td><strong>4 dimenze ITIL 4</strong></td><td>1. Organisations &amp; People, 2. Information &amp; Technology, 3. Partners &amp; Suppliers, 4. Value Streams &amp; Processes</td></tr>
+    <tr><td><strong>SLA / OLA / UC</strong></td><td>Service Level Agreement (zákazník) / Operational Level Agreement (interní IT) / Underpinning Contract (dodavatel) — 3 vrstvy dohod</td></tr>
+    <tr><td><strong>Incident vs. Problem</strong></td><td>Incident = symptom (výpadek, snížení kvality), cíl: rychlé obnovení. Problem = příčina, cíl: root cause analýza, prevence. KEDB = Known Error Database</td></tr>
+    <tr><td><strong>Change typy</strong></td><td>Standard Change (předschválený), Normal Change (prochází CAB), Emergency Change (urgentní, ECAB)</td></tr>
+    <tr><td><strong>MTTR / MTBF</strong></td><td>Mean Time To Restore (obnovení po výpadku) / Mean Time Between Failures (spolehlivost). Dostupnost A = MTBF/(MTBF+MTTR) × 100 %</td></tr>
+    <tr><td><strong>CMDB</strong></td><td>Configuration Management Database — databáze konfiguračních položek (CI) a jejich vztahů; základ ITIL Configuration Management</td></tr>
+    <tr><td><strong>BPM</strong></td><td>Business Process Management — disciplína pro identifikaci, analýzu, redesign a monitoring podnikových procesů; cyklus: As-Is → GAP analýza → To-Be</td></tr>
+    <tr><td><strong>BPMN 2.0</strong></td><td>Business Process Model and Notation (OMG standard) — 5 kategorií: Flow Objects (Events/Activities/Gateways), Swimlanes (Pool/Lane), Artifacts, Connecting Objects, Data</td></tr>
+    <tr><td><strong>EPC</strong></td><td>Event-driven Process Chain (Scheer, ARIS/SAP) — střídání Events a Functions; konektory AND/OR/XOR; silně rozšířené v SAP prostředí</td></tr>
+    <tr><td><strong>Gateways BPMN</strong></td><td>XOR (Exclusive — přesně 1 větev), OR (Inclusive — 1+ větví), AND (Parallel — všechny větve), Event-Based</td></tr>
+    <tr><td><strong>ECM</strong></td><td>Enterprise Content Management — Capture, Manage, Store, Preserve, Deliver; zahrnuje DMS, WCM, Records Management, workflow</td></tr>
+    <tr><td><strong>DMS</strong></td><td>Document Management System — součást ECM; správa dokumentů: verzování, check-in/out, přístupová práva, fulltextové vyhledávání</td></tr>
+    <tr><td><strong>Maticová struktura IT</strong></td><td>IT pracovníci podřízeni jak IT manažerovi, tak PM — umožňuje efektivní využití zdrojů; riziko konfliktu odpovědností</td></tr>
+    <tr><td><strong>ISACA</strong></td><td>Information Systems Audit and Control Association — vydavatel COBIT, CISA, CISM certifikací; autor ITAF a profesního etického kódu</td></tr>
+    <tr><td><strong>ITAF</strong></td><td>IT Assurance Framework — ISACA framework pro IS audit; standardy, znalosti, dovednosti, metodika auditů IS</td></tr>
+    <tr><td><strong>IPPF</strong></td><td>International Professional Practices Framework — rámec interního auditu IIA; zahrnuje Global IA Standards (2024, platné 9.1.2025), Topical Requirements, Global Guidance</td></tr>
+    <tr><td><strong>Three Lines of Defense</strong></td><td>1. linie: business management (operativní kontroly); 2. linie: risk management, compliance; 3. linie: interní audit (nezávislé ujištění)</td></tr>
+    <tr><td><strong>SOC 1 / SOC 2</strong></td><td>Service Organization Control reports (AICPA). SOC 1: kontroly relevantní pro finanční výkaznictví (ICFR). SOC 2: bezpečnostní kontroly (5 TSP). Typ I = stav k datu; Typ II = po dobu 12 měsíců</td></tr>
+    <tr><td><strong>KGI / KPI / KSI</strong></td><td>Key Goal Indicator (výstup/lagging) / Key Performance Indicator (výkon procesu/leading) / Key Success Indicator (situační); COBIT metriky</td></tr>
+    <tr><td><strong>Val IT</strong></td><td>ISACA framework pro řízení hodnoty IT investic (VG + PM + IM); integrován do COBIT 5. Otázka: „Investujeme správně a realizujeme slibované benefity?"</td></tr>
+  </table>
+
+  <div class="warn"><strong>Nejčastější záměny na státnici:</strong> NBÚ (utajované info) ≠ NÚKIB (kybernetická bezpečnost). Incident (symptom) ≠ Problem (příčina). Governance (board/EDM) ≠ Management (exekutiva/PBRM). BPMN Pool ≠ Lane. COBIT 5 enablery ≠ COBIT 2019 komponenty. SLA (zákazník) ≠ OLA (interní IT) ≠ UC (dodavatel).</div>
+
+</section>
+
+<script>
+(function(){
+  var nav = document.getElementById('doc-nav');
+  var links = nav.querySelectorAll('.nav-link');
+  var sections = Array.from(links).map(function(l){ return document.querySelector(l.getAttribute('href')); }).filter(Boolean);
+  function onScroll(){
+    var scrollY = window.pageYOffset + 80;
+    var active = sections[0];
+    for(var i = 0; i < sections.length; i++){
+      if(sections[i] && sections[i].offsetTop <= scrollY) active = sections[i];
+    }
+    links.forEach(function(l){
+      l.style.background = '';
+      l.style.color = '';
+    });
+    var activeLink = nav.querySelector('.nav-link[href="#'+active.id+'"]');
+    if(activeLink){ activeLink.style.background = '#eff6ff'; activeLink.style.color = '#1d4ed8'; }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>

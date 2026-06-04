@@ -1,0 +1,38 @@
+[
+  {
+    "id": "tip-1",
+    "title": "Mluv strukturovaně",
+    "body": "Vždy začni definicí, pokračuj rozdílem od podobných pojmů, ukaž konkrétní příklad a uzavři dopadem nebo rizikem.",
+    "category": "Komunikace"
+  },
+  {
+    "id": "tip-2",
+    "title": "Připrav si tři univerzální příklady",
+    "body": "Komise se často ptá na praxi. Mít připravené tři příklady (governance, bezpečnost, proces) ti pomůže navázat odpověď na cokoli.",
+    "category": "Příprava"
+  },
+  {
+    "id": "tip-3",
+    "title": "Neboj se říct nevím",
+    "body": "Lepší je přiznat mezeru a navrhnout, jak by ses k odpovědi dostal, než vymýšlet nesmysly. Komise to ocení.",
+    "category": "Postoj"
+  },
+  {
+    "id": "tip-4",
+    "title": "Propojuj předměty",
+    "body": "Otázky napříč moduly (governance + bezpečnost, audit + risk) ukazují systémové myšlení a vynesou bonusové body.",
+    "category": "Strategie"
+  },
+  {
+    "id": "tip-5",
+    "title": "Pracuj s časem",
+    "body": "Sleduj časový limit na odpověď. Lepší tři krátké a hluboké body než nekonečný monolog bez pointy.",
+    "category": "Komunikace"
+  },
+  {
+    "id": "tip-6",
+    "title": "Učení v cyklech",
+    "body": "Procvičuj v krátkých intervalech (25–30 min), pak krátkou pauzu. Spaced repetition funguje lépe než cramming.",
+    "category": "Příprava"
+  }
+]

@@ -1,0 +1,960 @@
+﻿<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4SA313 Bezpečnost IS – Učební podklady</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, sans-serif; font-size: 15px; line-height: 1.6; color: #111827; background: #f9fafb; -webkit-font-smoothing: antialiased; margin-left: 58px; }
+  #doc-nav { width: 50px; height: 100vh; position: fixed; left: 0; top: 0; z-index: 100; overflow: hidden; background: #fff; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; transition: width 0.32s cubic-bezier(0.4,0,0.2,1), box-shadow 0.32s; }
+  #doc-nav:hover { width: 260px; box-shadow: 6px 0 24px rgba(0,0,0,0.07); }
+  .nav-logo { padding: 14px 13px 12px; border-bottom: 1px solid #e5e7eb; white-space: nowrap; overflow: hidden; position: relative; }
+  .nav-code { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9ca3af; margin-bottom: 3px; }
+  .nav-subject { display: block; font-size: 13px; font-weight: 600; color: #111827; }
+  .nav-logo-icon { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-size: 16px; color: #1d4ed8; opacity: 0; transition: opacity 0.2s; }
+  .nav-logo-text { opacity: 1; transition: opacity 0.2s; }
+  #doc-nav:not(:hover) .nav-logo-icon { opacity: 1; }
+  #doc-nav:not(:hover) .nav-logo-text { opacity: 0; }
+  .nav-items { flex: 1; padding: 6px 0; overflow-y: auto; overflow-x: hidden; }
+  .nav-link { display: flex; align-items: center; gap: 8px; padding: 5px 12px; font-size: 12.5px; font-weight: 500; color: #374151; text-decoration: none; white-space: nowrap; overflow: hidden; transition: background 0.1s, color 0.1s; }
+  .nav-link:hover { background: #f3f4f6; color: #111827; }
+  .nav-num { font-size: 9px; font-weight: 700; background: #1d4ed8; color: #fff; padding: 2px 5px; border-radius: 3px; flex-shrink: 0; min-width: 22px; text-align: center; }
+  .nav-label { max-width: 200px; overflow: hidden; white-space: nowrap; transition: max-width 0.28s, opacity 0.18s; }
+  #doc-nav:not(:hover) .nav-label { max-width: 0; opacity: 0; }
+  #doc-nav:not(:hover) .nav-link { padding-left: 4px; padding-right: 4px; justify-content: center; }
+  .hero { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 44px 56px 40px; }
+  .hero-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #94a3b8; margin-bottom: 12px; }
+  .hero-title { font-size: 44px; font-weight: 800; color: #0f172a; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 16px; }
+  .hero-desc { font-size: 15px; color: #64748b; max-width: 640px; line-height: 1.65; margin-bottom: 20px; }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+  .hero-pill { display: inline-block; padding: 4px 11px; border-radius: 20px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 500; }
+  .lecture { max-width: 860px; margin: 0 auto; padding: 48px 56px; border-bottom: 1px solid #f1f5f9; }
+  .lec-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; }
+  .lec-num { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: #1d4ed8; color: #fff; padding: 5px 9px; border-radius: 5px; flex-shrink: 0; margin-top: 2px; }
+  .lec-title { font-size: 22px; font-weight: 700; color: #0f172a; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .lec-subtitle { font-size: 13px; color: #64748b; }
+  h2 { font-size: 16px; font-weight: 700; color: #0f172a; margin: 30px 0 10px; padding-bottom: 6px; border-bottom: 1px solid #e5e7eb; }
+  h3 { font-size: 14px; font-weight: 700; color: #374151; margin: 20px 0 8px; }
+  p { margin-bottom: 14px; color: #374151; font-size: 14.5px; }
+  ul, ol { margin: 0 0 14px; padding-left: 22px; color: #374151; font-size: 14.5px; }
+  li { margin-bottom: 5px; }
+  strong { font-weight: 700; color: #0f172a; }
+  em { font-style: italic; color: #475569; }
+  code { font-family: 'Consolas', 'Menlo', monospace; font-size: 12.5px; background: #f1f5f9; padding: 1px 5px; border-radius: 3px; color: #0f172a; }
+  .pojmy { display: grid; gap: 8px; margin: 14px 0 20px; }
+  .pojmy.two { grid-template-columns: 1fr 1fr; }
+  .pojmy.three { grid-template-columns: 1fr 1fr 1fr; }
+  .pojmy.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .pojmy.single { grid-template-columns: 1fr; }
+  .pojem { border-radius: 8px; padding: 14px 16px; border: 1px solid; }
+  .pojem.blue { background: #eff6ff; border-color: #bfdbfe; }
+  .pojem.green { background: #f0fdf4; border-color: #bbf7d0; }
+  .pojem.orange { background: #fff7ed; border-color: #fed7aa; }
+  .pojem.purple { background: #faf5ff; border-color: #ddd6fe; }
+  .pojem.red { background: #fff1f2; border-color: #fecdd3; }
+  .pojem.gray { background: #f8fafc; border-color: #e2e8f0; }
+  .pojem-head { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 7px; }
+  .pojem.blue .pojem-head { color: #1d4ed8; }
+  .pojem.green .pojem-head { color: #15803d; }
+  .pojem.orange .pojem-head { color: #c2410c; }
+  .pojem.purple .pojem-head { color: #6d28d9; }
+  .pojem.red .pojem-head { color: #be123c; }
+  .pojem.gray .pojem-head { color: #475569; }
+  .pojem-body { font-size: 13.5px; line-height: 1.55; color: #374151; }
+  .tip { background: #fefce8; border-left: 3px solid #eab308; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #713f12; line-height: 1.6; }
+  .callout { background: #f0f9ff; border-left: 3px solid #0ea5e9; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #0c4a6e; line-height: 1.6; }
+  .warn { background: #fff1f2; border-left: 3px solid #f43f5e; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #9f1239; line-height: 1.6; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 13.5px; }
+  th { background: #f8fafc; font-weight: 600; text-align: left; padding: 8px 10px; border: 1px solid #e5e7eb; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  td { padding: 8px 10px; border: 1px solid #e5e7eb; vertical-align: top; color: #374151; }
+  tr:nth-child(even) td { background: #fafafa; }
+  .step { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
+  .step-num { background: #1d4ed8; color: #fff; font-size: 11px; font-weight: 700; min-width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .step-text { font-size: 14px; color: #374151; line-height: 1.55; }
+</style>
+</head>
+<body>
+
+<nav id="doc-nav">
+  <div class="nav-logo">
+    <span class="nav-logo-icon">&#9670;</span>
+    <span class="nav-logo-text">
+      <span class="nav-code">4SA313</span>
+      <span class="nav-subject">Bezpečnost IS</span>
+    </span>
+  </div>
+  <div class="nav-items">
+    <a class="nav-link" href="#p1"><span class="nav-num">P1</span><span class="nav-label">Kryptografie</span></a>
+    <a class="nav-link" href="#p2"><span class="nav-num">P2</span><span class="nav-label">Autentizace &amp; autorizace</span></a>
+    <a class="nav-link" href="#p3"><span class="nav-num">P3</span><span class="nav-label">Síťová bezpečnost — útoky</span></a>
+    <a class="nav-link" href="#p4"><span class="nav-num">P4</span><span class="nav-label">Síťová bezpečnost — ochrana</span></a>
+    <a class="nav-link" href="#p5"><span class="nav-num">P5</span><span class="nav-label">Bezpečnostní politika</span></a>
+    <a class="nav-link" href="#p6"><span class="nav-num">P6</span><span class="nav-label">Forenzní aspekty</span></a>
+    <a class="nav-link" href="#pojmy"><span class="nav-num">&#9733;</span><span class="nav-label">Klíčové pojmy</span></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">4SA313 · Bezpečnost informačních systémů</div>
+  <div class="hero-title">Bezpečnost informačních systémů</div>
+  <div class="hero-desc">Kryptografie od symetrických šifer po PKI a TLS 1.3, autentizace a autorizace (MFA, SSO, RBAC, Zero Trust), síťové útoky a obrana (OWASP, firewall, IDS/IPS, VPN, SIEM), bezpečnostní politika, logging a zálohy.</div>
+  <div class="hero-pills">
+    <span class="hero-pill">AES / RSA / ECC</span>
+    <span class="hero-pill">PKI &amp; TLS 1.3</span>
+    <span class="hero-pill">MFA / FIDO2 / SSO</span>
+    <span class="hero-pill">OWASP Top 10</span>
+    <span class="hero-pill">NGFW / IDS / IPS / SIEM</span>
+    <span class="hero-pill">Zero Trust / ZTNA</span>
+    <span class="hero-pill">CVE / CVSS / Pentesting</span>
+  </div>
+</div>
+
+<!-- P1 — Kryptografie -->
+<section class="lecture" id="p1">
+  <div class="lec-header">
+    <div class="lec-num">P1</div>
+    <div>
+      <div class="lec-title">Kryptografie</div>
+      <div class="lec-subtitle">Symetrická a asymetrická kryptografie, hash funkce, MAC, PKI, TLS 1.3 — přednášky 1–6 (Pavlíček)</div>
+    </div>
+  </div>
+
+  <h2>Základní cíle kryptografie</h2>
+  <p>Kryptografie řeší čtyři bezpečnostní vlastnosti dat: <strong>důvěrnost</strong> (confidentiality), <strong>integritu</strong> (data integrity), <strong>autentizaci</strong> (authentication — prokázání totožnosti odesílatele a původu dat) a <strong>nepopiratelnost</strong> (non-repudiation — nelze popřít odeslání). Kryptografická primitiva jsou základní stavební bloky; kombinací vznikají kryptografické protokoly (TLS, SSH, Kerberos, Blockchain).</p>
+
+  <h2>Symetrická kryptografie</h2>
+  <p>Obě strany používají <strong>stejný tajný klíč</strong> — jak pro šifrování, tak pro dešifrování. Výhody: vysoká rychlost, bezpečné a prověřené algoritmy. Nevýhoda: nutnost bezpečného kanálu pro distribuci klíče; nelze rozlišit, kdo ze dvou stran zprávu vytvořil.</p>
+
+  <h3>Proudové vs. blokové šifry</h3>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Proudová šifra (Stream cipher)</div>
+      <div class="pojem-body">Šifruje bit po bitu (nebo byte po byte) kombinací s pseudonáhodným proudem (keystream). Příklady: <strong>RC4</strong> (zastaralý, zranitelný), <strong>ChaCha20</strong> (moderní, používá TLS 1.3). Výhoda: rychlý, vhodný pro neznámou délku zprávy (streamy). Klíčové požadavky: nikdy znovu nepoužít stejný nonce se stejným klíčem.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Bloková šifra (Block cipher)</div>
+      <div class="pojem-body">Šifruje pevné bloky (64 bit u 3DES, 128 bit u AES). Délka klíče: <strong>DES</strong> 56 bitů (prolomeno 1998, nepoužívat), <strong>3DES</strong> 112 bitů (dosluhující), <strong>AES-128/192/256</strong> (standard). NIST doporučuje minimální sílu zabezpečení 128 bitů pro nové aplikace. Klíč AES se pravidelně obnovuje (doporučení: po 5 letech).</div>
+    </div>
+  </div>
+
+  <h3>Módy blokových šifer</h3>
+  <table>
+    <tr><th>Mód</th><th>Princip</th><th>Vlastnosti / použití</th></tr>
+    <tr><td><strong>ECB</strong> (Electronic Codebook)</td><td>Každý blok šifrován nezávisle stejným klíčem</td><td><span style="color:#be123c">Nebezpečný</span> — stejné bloky plaintextu dají stejný ciphertext; nevhodný pro cokoli než nízko-entropická izolovaná data</td></tr>
+    <tr><td><strong>CBC</strong> (Cipher Block Chaining)</td><td>Každý blok XOR-ován s předchozím ciphertextem před šifrováním; IV pro první blok</td><td>Sekvenční zpracování; citlivý na padding oracle (POODLE). Dříve standard pro TLS.</td></tr>
+    <tr><td><strong>CTR</strong> (Counter)</td><td>Šifruje čítač (nonce + counter), výsledek XOR s plaintextem — de facto proudová šifra</td><td>Paralelizovatelný, žádný padding. Nutný unikátní nonce pro každou zprávu.</td></tr>
+    <tr><td><strong>GCM</strong> (Galois/Counter Mode)</td><td>CTR + GHASH autentizační tag — AEAD mód (Authenticated Encryption with Associated Data)</td><td><strong>Doporučený standard</strong> (AES-256-GCM v TLS 1.3). Zajišťuje zároveň důvěrnost i integritu.</td></tr>
+  </table>
+  <div class="callout"><strong>AEAD (Authenticated Encryption with Associated Data)</strong> — moderní módy (GCM, ChaCha20-Poly1305) v jedné operaci šifrují a autentizují. Navíc chrání „associated data" (hlavičky), které nejsou šifrována, ale jsou autentizována. Výsledný tag detekuje jakoukoli manipulaci.</div>
+
+  <h2>Asymetrická kryptografie</h2>
+  <p>Každá entita má <strong>pár klíčů: veřejný</strong> (public key, lze sdílet) a <strong>soukromý</strong> (private key, musí zůstat tajný). Matematika staví na jednosměrných funkcích — snadno se počítají jedním směrem, prakticky neinvertovatelné bez dalšího tajemství.</p>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">RSA (Rivest–Shamir–Adleman)</div>
+      <div class="pojem-body">Bezpečnost závisí na obtížnosti faktorizace velkých čísel (součin dvou prvočísel). <br><strong>Šifrování:</strong> odesilatel šifruje veřejným klíčem příjemce → dešifrovat může pouze příjemce soukromým klíčem.<br><strong>Podpis:</strong> podepisující hashe zprávy podepíše svým soukromým klíčem → kdokoli ověří veřejným klíčem.<br>Doporučená délka klíče: min. 2048 bitů (3072+ pro nové aplikace, síla 128 bitů). RSA je pomalé — nepoužívá se pro šifrování objemných dat (hybridní schéma).</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">ECC (Elliptic Curve Cryptography)</div>
+      <div class="pojem-body">Bezpečnost závisí na obtížnosti diskrétního logaritmu na eliptické křivce. <strong>Klíče jsou výrazně kratší:</strong> 256bitový ECC klíč poskytuje sílu srovnatelnou s 3072bitovým RSA. Algoritmy: <strong>ECDSA</strong> (podpis), <strong>ECDH</strong> (výměna klíčů). Křivky: P-256 (secp256r1), P-384, X25519 (Curve25519, moderní). TLS 1.3 používá ECDHE pro forward secrecy.</div>
+    </div>
+  </div>
+
+  <div class="callout"><strong>Kvantová hrozba:</strong> Shorův algoritmus na kvantovém počítači rozkládá RSA a ECC. NIST v roce 2022 standardizoval post-kvantové algoritmy (CRYSTALS-Kyber pro šifrování, CRYSTALS-Dilithium pro podpis). Symetrická kryptografie je méně zasažena — kvantové počítače snižují efektivní délku klíče na polovinu, takže AES-256 zůstává silné.</div>
+
+  <h2>Hybridní šifrování (krok za krokem)</h2>
+  <p>Asymetrická kryptografie je pomalá pro velká data. Řešení je <strong>hybridní schéma</strong>: asymetricky se přenese symetrický klíč (session key), veškerá data pak šifruje rychlá symetrická šifra.</p>
+  <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Odeslatel generuje náhodný session key</strong> (např. 256bitový AES klíč) pro tuto konkrétní relaci.</div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Session key se zašifruje veřejným klíčem příjemce</strong> (RSA nebo ECDH). Vzniká „digital envelope" (obálka).</div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Zpráva se zašifruje session keym</strong> (AES-256-GCM) — rychlé, bez ohledu na velikost dat.</div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Příjemce rozšifruje obálku</strong> svým soukromým klíčem → získá session key → dešifruje zprávu.</div></div>
+  <div class="step"><div class="step-num">5</div><div class="step-text">Session key se po relaci <strong>zahodí</strong> — i při kompromitaci soukromého klíče v budoucnu nelze zprávy dešifrovat (forward secrecy, pokud klíče jsou efemérní).</div></div>
+  <p>Příklady: TLS (ECDHE + AES-GCM), PGP/GPG (šifrování e-mailů), S/MIME.</p>
+
+  <h2>Hašovací funkce</h2>
+  <p><strong>Hash</strong> je jednosměrná funkce h(m) = H, která z libovolně dlouhé zprávy vytvoří pevnou hash hodnotu (digest). Tři klíčové vlastnosti:</p>
+  <ul>
+    <li><strong>One-way (preimage resistance)</strong> — z H nelze zpětně získat m.</li>
+    <li><strong>Collision resistance</strong> — nelze nalézt dvě různé zprávy m₁ ≠ m₂ se stejným H. Kolize kompromituje podpisy a certifikáty.</li>
+    <li><strong>Avalanche effect</strong> — minimální změna vstupu (1 bit) způsobí dramatickou změnu hashe (≈50 % bitů se změní).</li>
+  </ul>
+
+  <table>
+    <tr><th>Algoritmus</th><th>Délka digestu</th><th>Stav</th><th>Poznámka</th></tr>
+    <tr><td><strong>MD5</strong></td><td>128 bitů</td><td style="color:#be123c">Zastaralý — nepoužívat pro bezpečnost</td><td>Kolize nalezeny 2004, praktické kolizní útoky fungují v minutách</td></tr>
+    <tr><td><strong>SHA-1</strong></td><td>160 bitů</td><td style="color:#c2410c">Dosluhující</td><td>Kolize SHAttered (Google 2017) — z TLS/certifikátů zcela odstraněn</td></tr>
+    <tr><td><strong>SHA-256</strong> (SHA-2)</td><td>256 bitů</td><td style="color:#15803d">Doporučený standard</td><td>Používán v TLS, Bitcoin, X.509 certifikátech, JWT</td></tr>
+    <tr><td><strong>SHA-3</strong> (Keccak)</td><td>224/256/384/512 bitů</td><td style="color:#15803d">Alternativní standard</td><td>Odlišná konstrukce (sponge) — odolnější vůči length-extension útokům</td></tr>
+    <tr><td><strong>bcrypt / Argon2</strong></td><td>variabilní</td><td style="color:#15803d">Pro hashování hesel</td><td>Záměrně pomalé, mají cost parametr (work factor), resistant na GPU/ASIC</td></tr>
+  </table>
+
+  <h2>MAC vs. digitální podpis</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">MAC (Message Authentication Code)</div>
+      <div class="pojem-body">Hash zprávy kombinovaný se <strong>sdíleným tajným klíčem</strong>. Příklady: HMAC-SHA256, CMAC (pro blokové šifry). <br>Zajišťuje: <strong>integritu + autentizaci zdroje</strong>.<br>Nezajišťuje: <strong>nepopiratelnost</strong> — MAC může vytvořit i příjemce (oba znají klíč).<br>Použití: API authentication (HMAC v hlavičkách), ověření integrity souborů mezi dvěma stranami se sdíleným tajemstvím.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Digitální podpis (asymetrický)</div>
+      <div class="pojem-body">Hash zprávy zašifrovaný <strong>soukromým klíčem</strong> podepisujícího. Ověření veřejným klíčem.<br>Zajišťuje: <strong>integritu + autentizaci + nepopiratelnost</strong>.<br>Klíčový rozdíl: pouze vlastník soukromého klíče mohl podpis vytvořit → nepopiratelnost (non-repudiation).<br>Algoritmy: RSA-PKCS1, ECDSA, EdDSA (Ed25519). Nutnost PKI nebo jiného modelu důvěry pro distribuci veřejných klíčů.</div>
+    </div>
+  </div>
+
+  <h2>PKI — Public Key Infrastructure</h2>
+  <p>PKI je soubor politik, procedur a technologií pro <strong>správu digitálních certifikátů</strong> a ověření vazby veřejný klíč ↔ identita. Certifikát X.509 je datová struktura obsahující: identifikační údaje (Subject/Issuer v Distinguished Name), veřejný klíč, dobu platnosti, sériové číslo a digitální podpis vydávající CA.</p>
+
+  <h3>Hierarchie PKI</h3>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Root CA (Kořenová CA)</div>
+      <div class="pojem-body">Vrchol hierarchie. Self-signed certifikát předinstalovaný v OS/prohlížeči (Mozilla NSS, Windows, macOS trust stores). Root CA by měla být offline — klíč uložen v HSM, fyzicky zabezpečen. Kompromitace Root CA = kompromitace celé hierarchie.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Intermediate CA (Mezilehlá CA)</div>
+      <div class="pojem-body">Certifikát vydán Root CA. Online, vydává koncové certifikáty. Izoluje Root CA — i při kompromitaci Intermediate CA lze Root CA použít k vydání nové. Příklady: Let's Encrypt R3, R10 (podepsány ISRG Root X1).</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Koncový certifikát (End-entity)</div>
+      <div class="pojem-body">Certifikát serveru (TLS), osoby (S/MIME, kvalifikovaný podpis) nebo kódu (code signing). Obsahuje rozšíření: Subject Alternative Name (SAN — domény), Key Usage (šifrování vs. podpis), Extended Key Usage (TLS server auth, email, …).</div>
+    </div>
+  </div>
+
+  <h3>Odvolávání certifikátů: CRL vs. OCSP</h3>
+  <div class="pojmy two">
+    <div class="pojem gray">
+      <div class="pojem-head">CRL (Certificate Revocation List)</div>
+      <div class="pojem-body">Periodicky vydávaný seznam odvolaných sériových čísel (podepsán CA). Nevýhody: velký soubor (stovky KB), periodická aktualizace = zpoždění, klientská strana musí stáhnout celý seznam. Dnes nahrazován OCSP.</div>
+    </div>
+    <div class="pojem blue">
+      <div class="pojem-head">OCSP (Online Certificate Status Protocol)</div>
+      <div class="pojem-body">Online dotaz na konkrétní certifikát (požadavek s hash certifikátu → odpověď „good/revoked/unknown"). <strong>OCSP Stapling:</strong> server si sám stapl (předem získá a k TLS handshaku přiloží) OCSP odpověď → klient nemusí kontaktovat OCSP responder → lepší soukromí a rychlost.</div>
+    </div>
+  </div>
+
+  <h3>Kvalifikované certifikáty v ČR — PostSignum a I.CA</h3>
+  <p><strong>PostSignum</strong> (Česká pošta) a <strong>I.CA</strong> (První certifikační autorita, a.s.) jsou <em>kvalifikované certifikační autority</em> dle eIDAS nařízení EU č. 910/2014. Vydávají <strong>kvalifikované certifikáty</strong> fyzickým osobám a organizacím. Kvalifikovaný elektronický podpis (QES) má právní účinky rovnocenné vlastnoručnímu podpisu. Ověření identity před vydáním: fyzicky na pobočce nebo prostřednictvím NIA (Národní identitní autorita). I.CA je přítomna i v korporátním segmentu (certifikáty pro SSL servery, code signing).</p>
+  <div class="callout"><strong>eIDAS (nařízení EU 910/2014):</strong> Definuje 4 úrovně elektronického podpisu — prostý elektronický podpis (PES), zaručený (AdES), uznaný/zdokonalený (AdES + kvalifikovaný certifikát) a <strong>kvalifikovaný</strong> (QES — kvalifikovaný certifikát + kvalifikovaný prostředek pro vytváření podpisu, např. čipová karta nebo USB token). QES je právně nejsilnější a cross-border uznávaný v EU.</div>
+
+  <h2>TLS 1.3 vs. TLS 1.2</h2>
+  <p>TLS (Transport Layer Security) je kryptografický protokol chránící komunikaci na transportní vrstvě. TLS 1.3 (RFC 8446, 2018) přinesl zásadní zlepšení oproti TLS 1.2 (RFC 5246, 2008):</p>
+
+  <table>
+    <tr><th>Vlastnost</th><th>TLS 1.2</th><th>TLS 1.3</th></tr>
+    <tr><td><strong>Počet round-trips (handshake)</strong></td><td>2-RTT (2 round-tripy)</td><td><strong>1-RTT</strong> (standardní); <strong>0-RTT</strong> volitelně pro opakovaná spojení (pozor — replay attack risk)</td></tr>
+    <tr><td><strong>Forward Secrecy</strong></td><td>Volitelná (závisí na cipher suite)</td><td><strong>Povinná</strong> — pouze ECDHE nebo DHE pro výměnu klíčů</td></tr>
+    <tr><td><strong>Šifrovací sady</strong></td><td>Stovky sad, včetně slabých (RC4, DES, NULL)</td><td>Pouze 5 AEAD sad: TLS_AES_256_GCM_SHA384, TLS_CHACHA20_POLY1305_SHA256, TLS_AES_128_GCM_SHA256 a dvě SHA-256 varianty</td></tr>
+    <tr><td><strong>Šifrování handshaku</strong></td><td>Certifikát viditelný v síti (partially)</td><td><strong>Handshake šifrován</strong> od Server Hello (certifikát skrytý)</td></tr>
+    <tr><td><strong>Odstraněné funkce</strong></td><td>Podporovány RSA key exchange, MD5/SHA1, RC4, CBC s MAC</td><td>RSA key exchange odstraněn, žádný CBC, žádný MD5/SHA1 v podpisech</td></tr>
+    <tr><td><strong>0-RTT (Early Data)</strong></td><td>Nepodporováno</td><td>Volitelné; používá PSK z předchozí session; <em>pozor na replay útoky</em> — vhodné jen pro idempotentní požadavky</td></tr>
+  </table>
+
+  <h3>TLS 1.3 handshake (zjednodušeně)</h3>
+  <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Client Hello:</strong> klient pošle podporované cipher suites, klíčové skupiny (key_share s ECDHE hodnotami), random nonce.</div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Server Hello + Change Cipher Spec:</strong> server vybere suite, pošle svůj ECDHE key share → obě strany derivují handshake traffic secret. Od tohoto momentu je komunikace šifrována.</div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Server Certificate + CertificateVerify + Finished:</strong> server pošle certifikát (šifrovaně), podpis handshaku, MAC over transcript.</div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Client Finished:</strong> klient ověří certifikát (chain → Root CA), ověří CertificateVerify, pošle Finished. Obě strany derivují application traffic secrets.</div></div>
+  <div class="tip"><strong>Perfect Forward Secrecy (PFS):</strong> Každá relace generuje nový efemérní ECDHE klíčový pár. I kdyby byl soukromý klíč serveru kompromitován v budoucnu, minulé relace nelze zpětně dešifrovat — session key není odvozován ze statického klíče serveru.</div>
+
+</section>
+
+<!-- P2 — Autentizace a autorizace -->
+<section class="lecture" id="p2">
+  <div class="lec-header">
+    <div class="lec-num">P2</div>
+    <div>
+      <div class="lec-title">Autentizace a autorizace</div>
+      <div class="lec-subtitle">Faktory autentizace, útoky na hesla, MFA/FIDO2, IAM, RBAC/ABAC, PAM, SSO (SAML, OAuth 2, OIDC), Zero Trust — přednášky 7–8, 12 (Pavlíček)</div>
+    </div>
+  </div>
+
+  <h2>Identifikace — autentizace — autorizace — odpovědnost</h2>
+  <div class="pojmy four">
+    <div class="pojem blue">
+      <div class="pojem-head">Identifikace</div>
+      <div class="pojem-body">Entita předloží identifikátor (jméno, e-mail, ID). Systém ji rozezná. <em>Kdo jsi?</em></div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Autentizace</div>
+      <div class="pojem-body">Systém provede testy a potvrdí identitu entity. <em>Opravdu jsi to ty?</em></div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Autorizace</div>
+      <div class="pojem-body">Udělení přístupu na základě ověřené identity a přístupových práv. <em>Co smíš dělat?</em></div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Accounting / Odpovědnost</div>
+      <div class="pojem-body">Odpovědnost entity za její činnosti; sledování akcí a tvorba auditních záznamů. <em>Co jsi udělal?</em></div>
+    </div>
+  </div>
+
+  <h2>Faktory autentizace</h2>
+  <p>Autentizace pracuje s <strong>ověřovači (verifikátory)</strong> — uloženými tajemstvími nebo vlastnostmi, které prokazují identitu. Faktory se dělí do tří kategorií:</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Znalost — Something You Know</div>
+      <div class="pojem-body">Heslo, PIN, odpověď na bezpečnostní otázku. Nevýhody: zapomínání, sdílitelnost, útoky hrubou silou, phishing. Heslo musí být uloženo jako hash (ne plaintext) se solí.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Vlastnictví — Something You Have</div>
+      <div class="pojem-body">Hardware token (TOTP generátor — Google Authenticator), SMS OTP, smart card, FIDO2 bezpečnostní klíč (YubiKey). SMS je nejslabší — SIM swapping útok. FIDO2 hardware klíč je nejsilnější.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Biometrie — Something You Are</div>
+      <div class="pojem-body">Otisk prstu, sken obličeje (Face ID), sken duhovky, hlas. Výhoda: nelze zapomenout. Nevýhody: biometrie se nedá změnit po kompromitaci, falešná přijetí (FAR) vs. falešná odmítnutí (FRR).</div>
+    </div>
+  </div>
+
+  <h2>Útoky na hesla a obrana</h2>
+  <table>
+    <tr><th>Útok</th><th>Princip</th><th>Obrana</th></tr>
+    <tr><td><strong>Brute Force</strong></td><td>Systematické zkoušení všech kombinací. Online (pomalý — omezení pokusů); offline (rychlý – GPU farming)</td><td>Dostatečná délka/entropie hesla, account lockout, rate limiting, MFA</td></tr>
+    <tr><td><strong>Dictionary Attack</strong></td><td>Zkoušení slov ze slovníku (+ mutace: heslo123, H3sl0!). Efektivní proti slabým heslům.</td><td>Zákaz common passwords (HIBP databáze), min. délka, vyhnout se slovníkovým slovům</td></tr>
+    <tr><td><strong>Rainbow Table</strong></td><td>Předpočítaná tabulka hashů → rychlé vyhledání plaintextu z hashe. Funguje pokud hash ukládán bez soli.</td><td><strong>Salting</strong> — ke každému heslu přidána unikátní náhodná sůl před hashováním → Rainbow tables nefungují</td></tr>
+    <tr><td><strong>Credential Stuffing</strong></td><td>Použití uniklých přihlašovacích údajů (z jiných breachů) na dalších službách. Efektivní při password reuse.</td><td>Unikátní hesla pro každou službu (password manager), MFA, breach notification (HaveIBeenPwned)</td></tr>
+    <tr><td><strong>Pass-the-Hash</strong></td><td>Windows NTLM — útočník získá hash hesla z paměti (Mimikatz) a použije ho přímo bez znalosti plaintextu.</td><td>Kerberos místo NTLM, Credential Guard, omezení privilegovaných účtů</td></tr>
+  </table>
+
+  <h3>Bezpečné hashování hesel: bcrypt vs. Argon2</h3>
+  <p><strong>bcrypt</strong> a <strong>Argon2</strong> jsou záměrně pomalé hashovací funkce navržené pro ukládání hesel. Na rozdíl od SHA-256 (navržen pro rychlost) jsou odolné vůči GPU/ASIC útokům díky nastavitelnému <em>work factor</em> (cost parametr). Argon2 (vítěz Password Hashing Competition 2015) nabízí navíc paměťovou náročnost (memory-hard) a paralelizaci. Doporučení NIST SP 800-63b: min. 8 znaků, neomezovat složitost, kontrolovat proti breached passwords, solení + iterovaný hash.</p>
+
+  <h2>MFA — Multi-Factor Authentication</h2>
+  <p><strong>MFA (2FA)</strong> kombinuje alespoň dva různé faktory autentizace. Blokuje odhadem 99,9 % automatizovaných útoků (dle Microsoft Security). Implementace seřazeny od nejméně po nejbezpečnější:</p>
+  <ol>
+    <li><strong>SMS OTP</strong> — nejrozšířenější, ale nejslabší (SIM swapping, SS7 útoky). Stále výrazně lepší než jen heslo.</li>
+    <li><strong>TOTP (Time-based OTP)</strong> — standardizováno v RFC 6238; Google Authenticator, Authy. 6místný kód platí 30 sekund. Sdílené tajemství uloženo v aplikaci.</li>
+    <li><strong>Push Notification</strong> — Duo Security, Microsoft Authenticator. Ohroženo MFA fatigue (útočník záplava notifikací).</li>
+    <li><strong>FIDO2 / WebAuthn</strong> — hardware klíč (YubiKey) nebo device-bound credential (Windows Hello, Face ID). Phishing-resistant — odpověď kryptograficky vázána na origin (doménu). Nejbezpečnější varianta.</li>
+  </ol>
+  <div class="callout"><strong>FIDO2 / WebAuthn (W3C + FIDO Alliance):</strong> Klient generuje asymetrický pár klíčů vázaný na konkrétní origin (doménu). Soukromý klíč <em>nikdy neopustí zařízení</em> (uložen v TPM/Secure Enclave/hardware klíči). Ověření: server pošle challenge, klient podepíše soukromým klíčem. Phishing nefunguje — klíče jsou domain-specific.</div>
+
+  <h2>IAM architektura</h2>
+  <p><strong>IAM (Identity and Access Management)</strong> je soubor procesů a technologií pro správu digitálních identit a řízení přístupu:</p>
+  <ul>
+    <li><strong>Identity Provider (IdP)</strong> — autentizuje uživatele a vydává tokeny/assertions (Active Directory, Azure AD/Entra ID, Okta, Auth0).</li>
+    <li><strong>Service Provider (SP)</strong> — aplikace, která deleguje autentizaci na IdP a přijímá tokeny.</li>
+    <li><strong>Provisioning</strong> — automatizované zakládání účtů při nástupu (onboarding) prostřednictvím HR systému → IdP → aplikace. Standard SCIM (System for Cross-domain Identity Management) pro automatizaci.</li>
+    <li><strong>Deprovisioning</strong> — okamžité rušení přístupů při odchodu zaměstnance (offboarding). Jedno z nejrizikovějších míst: orphaned accounts.</li>
+    <li><strong>Directory Services</strong> — Microsoft Active Directory (LDAP + Kerberos), Azure AD/Entra ID (cloud), LDAP (OpenLDAP).</li>
+  </ul>
+
+  <h2>RBAC — Role-Based Access Control</h2>
+  <p>Uživatelé mají přiřazeny <strong>role</strong>; rolím jsou přiřazena <strong>oprávnění</strong> (operace na objektech). Uživatel → Role → Oprávnění → Objekt. Klíčové vlastnosti: role mohou být hierarchické, subjekt může mít více rolí (práva se sčítají), lze definovat separation of duties (SOD — neslučitelné role).</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">RBAC — příklad (WordPress)</div>
+      <div class="pojem-body">Role: administrator, editor, author, contributor, subscriber. Operace v oprávnění: edit_published_posts, upload_files, publish_posts, delete_posts, read. Role <em>author</em> = publish_posts + edit_posts + upload_files + delete_posts + read. Vlastnictví: author může editovat pouze vlastní příspěvky.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">RBAC vs. ABAC</div>
+      <div class="pojem-body">RBAC: jednoduchost, výkon, snadno auditovatelný. Vhodný pro stabilní role.<br>ABAC: granulárnost, flexibilita, kontext (čas, IP, zařízení). Složitější implementace, pomalejší vyhodnocení. Kombinace běžná: role je jedním z atributů v ABAC politice.</div>
+    </div>
+  </div>
+
+  <h2>ABAC — Attribute-Based Access Control</h2>
+  <p>Přístup se vyhodnocuje na základě <strong>atributů subjektu</strong> (uživatele), <strong>atributů objektu</strong> (zdroje), <strong>atributů prostředí</strong> (čas, IP, způsob přihlášení) a <strong>atributů operace</strong>. Politiky se definují pomocí jazyka XACML nebo podobných.</p>
+  <p>Příklady ABAC politik z přednášky: „Dan může editovat článek, pokud je jeho autorem a článek není publikován." | „Dan má přístup pouze ze školní IP adresy." | „Dan se přihlásil přes 2FA → může editovat; jinak pouze číst." | „Soubor stažený z internetu → otevřít jen pro čtení."</p>
+
+  <h2>PAM — Privileged Access Management</h2>
+  <p><strong>PAM</strong> chrání privilegované účty (admin, root, service accounts) — nejatraktivnější cíle útočníků. Klíčové principy:</p>
+  <ul>
+    <li><strong>Just-in-Time (JIT) Access</strong> — privilegovaný přístup udělen jen na nezbytnou dobu (minuty/hodiny), pak automaticky odvolán. Eliminuje trvalá admin oprávnění.</li>
+    <li><strong>Session Recording</strong> — nahrávání video/textového záznamu privilegovaných relací pro audit a forenzní analýzu.</li>
+    <li><strong>Password Vaulting</strong> — hesla admin účtů uložena v šifrovaném trezoru; aplikace je čerpají automaticky bez znalosti uživatele (CyberArk, BeyondTrust, HashiCorp Vault).</li>
+    <li><strong>Dual Control</strong> — kritické operace vyžadují schválení druhé osoby (four-eyes principle).</li>
+    <li><strong>Least Privilege</strong> — ani administrátor nemá více práv, než je pro danou úlohu nezbytné.</li>
+  </ul>
+
+  <h2>SSO protokoly: SAML 2.0, OAuth 2.0, OpenID Connect</h2>
+  <p><strong>Single Sign-On (SSO)</strong> odděluje autentizaci od aplikace. Uživatel se autentizuje jednou u IdP; SP přijme assertion/token. Výhody: uživatel si nepamatuje mnoho hesel, kompromitace jedné aplikace nevyzradí heslo, snazší správa (onboarding/offboarding na jednom místě), snadné přidání MFA.</p>
+
+  <h3>SAML 2.0 (Security Assertion Markup Language)</h3>
+  <p>XML-based protokol, typicky webové SSO v podnikovém prostředí a federované identity (eduID, ADFS). SP přesměruje uživatele na IdP s SAML AuthnRequest (šifrovaný veřejným klíčem IdP). Uživatel se přihlásí u IdP → IdP vydá SAML Assertion (XML dokument podepsaný soukromým klíčem IdP, šifrovaný veřejným klíčem SP). Assertion obsahuje: identitu uživatele, atributy (e-mail, skupiny), dobu platnosti. SP ověří podpis a přihlásí uživatele.</p>
+  <div class="callout"><strong>SAML flow (SP-initiated):</strong> Uživatel navštíví SP → SP přesměruje na IdP (AuthnRequest) → IdP autentizuje uživatele → IdP POST assertion na SP → SP ověří, přihlásí, přesměruje. Použití na VŠE: Office 365, vydávání certifikátů CESNETu (tcs.cesnet.cz), eduroam hesla.</div>
+
+  <h3>OAuth 2.0</h3>
+  <p>Framework pro <strong>delegaci autorizace</strong> — ne autentizace. Aplikace (client) dostane access token k přístupu ke zdrojům uživatele (resource owner) na resource serveru, aniž by znala jeho heslo. Klíčové pojmy: <strong>Resource Owner</strong> (uživatel), <strong>Client</strong> (aplikace), <strong>Resource Server</strong> (API), <strong>Authorization Server</strong> (vydává tokeny). Typy grantů: Authorization Code (nejbezpečnější — pro web apps), Implicit (zastaralý), Client Credentials (machine-to-machine), Device Code (IoT). Tokeny jsou JSON, přenášeny přes TLS.</p>
+
+  <h3>OpenID Connect (OIDC)</h3>
+  <p>Nadstavba OAuth 2.0 pro <strong>autentizaci</strong>. Přidává <strong>ID token</strong> (JWT — JSON Web Token — obsahuje identitu uživatele: sub, iss, aud, iat, exp). Klient (Relying Party) získá ID token + access token; UserInfo endpoint vrátí atributy o uživateli. OIDC řeší problém, který OAuth 2.0 sám o sobě neřeší — prokázání identity uživatele (OAuth 2.0 řeší pouze delegaci práv).</p>
+
+  <table>
+    <tr><th>Protokol</th><th>Primární účel</th><th>Token formát</th><th>Typické použití</th></tr>
+    <tr><td><strong>SAML 2.0</strong></td><td>Autentizace (enterprise SSO)</td><td>XML Assertion</td><td>Firemní aplikace, akademické federace (eduID), Office 365</td></tr>
+    <tr><td><strong>OAuth 2.0</strong></td><td>Delegace autorizace k API</td><td>Access Token (opaque nebo JWT)</td><td>API přístup třetích stran (Google API, GitHub API)</td></tr>
+    <tr><td><strong>OIDC</strong></td><td>Autentizace nad OAuth 2</td><td>ID Token (JWT) + Access Token</td><td>„Přihlásit se přes Google/Microsoft", moderní SSO</td></tr>
+    <tr><td><strong>Kerberos</strong></td><td>Autentizace v lokální síti</td><td>Ticket Granting Ticket (TGT)</td><td>Active Directory, Windows domény, Unix (GSSAPI)</td></tr>
+  </table>
+
+  <h2>Zero Trust — principy a architektura</h2>
+  <p>Zero Trust (pojem poprvé 2010, Forrester/John Kindervag) je bezpečnostní paradigma pro prostředí, kde <em>nelze definovat bezpečnou interní síť</em>: cloud, BYOD, vzdálená práce, SaaS aplikace. Základní teze: <strong>„Never trust, always verify"</strong>.</p>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Klíčové myšlenky Zero Trust</div>
+      <div class="pojem-body">
+        1. Neexistuje bezpečná (důvěryhodná) síť — požadavek ze známé sítě nemusí být bezpečný.<br>
+        2. Vše je dostupné z internetu, služby se přesouvají do cloudu.<br>
+        3. Více zdrojů důvěry: autentizace identity, místo, registrované zařízení, stav zařízení (MDM compliance).<br>
+        4. Předpokládat, že narušení je možné nebo že k němu již došlo.<br>
+        5. Základ bezpečnosti: využívání standardů (silná autentizace, šifrování, least privilege).
+      </div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">NIST 800-207 — Zero Trust Architecture</div>
+      <div class="pojem-body">
+        <strong>Policy Engine (PE)</strong> — rozhoduje o přístupu na základě politiky, signálů ze všech zdrojů.<br>
+        <strong>Policy Administrator (PA)</strong> — vykonává rozhodnutí PE, konfiguruje přístup.<br>
+        <strong>Policy Enforcement Point (PEP)</strong> — vynucuje přístup k zdroji.<br>
+        Principy: ověření každé identity (MFA, SSO), ověření každého zařízení (MDM), ochrana dat (klasifikace, šifrování), mikrosegmentace sítě, monitorování anomálií.
+      </div>
+    </div>
+  </div>
+
+  <h3>Mikrosegmentace a ZTNA</h3>
+  <p><strong>Mikrosegmentace</strong> (micro-segmentation) rozděluje síť do malých izolovaných segmentů (workload-level) — i v případě kompromitace jednoho segmentu útočník nemá lateral movement. Implementace: softwarově definované sítě (SDN), NSX, Kubernetes Network Policies.</p>
+  <p><strong>ZTNA (Zero Trust Network Access)</strong> nahrazuje tradiční VPN. Místo přístupu k celé síti poskytuje přístup <em>k konkrétní aplikaci</em>, a to až po ověření identity + stavu zařízení. Příklady: Cloudflare Access, Zscaler ZPA, Cisco Duo. Na rozdíl od VPN: menší attack surface, granulárnost, žádné lateral movement.</p>
+
+</section>
+
+<!-- P3 — Síťová bezpečnost: útoky -->
+<section class="lecture" id="p3">
+  <div class="lec-header">
+    <div class="lec-num">P3</div>
+    <div>
+      <div class="lec-title">Síťová bezpečnost — útoky</div>
+      <div class="lec-subtitle">OSI model z bezpečnostního pohledu, OWASP Top 10 (2021), SQL injection, XSS, CSRF, DoS/DDoS, Man-in-the-Middle, social engineering — přednáška 9 (Pavlíček)</div>
+    </div>
+  </div>
+
+  <h2>OSI model z bezpečnostního pohledu</h2>
+  <table>
+    <tr><th>Vrstva OSI</th><th>Typické hrozby</th><th>Příklady útoků</th><th>Opatření</th></tr>
+    <tr><td><strong>L1 Fyzická</strong></td><td>Fyzický přístup k médiu</td><td>Odposlechnutí kabelu, WiFi odposlech</td><td>Fyzická bezpečnost, šifrování L2</td></tr>
+    <tr><td><strong>L2 Linková</strong></td><td>MAC spoofing, ARP poisoning, VLAN hopping</td><td>ARP cache poisoning → MitM, CAM table flooding</td><td>Dynamic ARP Inspection, 802.1X, port security</td></tr>
+    <tr><td><strong>L3 Síťová</strong></td><td>IP spoofing, routing útoky</td><td>ICMP floods, BGP hijack, OSPF injection</td><td>BCP38 (anti-spoofing), RPKI pro BGP</td></tr>
+    <tr><td><strong>L4 Transportní</strong></td><td>TCP SYN flood, UDP flood, port scanning</td><td>SYN flood → DoS, session hijacking (TCP RST)</td><td>SYN cookies, firewally, rate limiting</td></tr>
+    <tr><td><strong>L7 Aplikační</strong></td><td>Injection, XSS, CSRF, authentication bypass</td><td>SQL injection, XSS, session fixation, API abuse</td><td>WAF, OWASP secure coding, input validation</td></tr>
+  </table>
+
+  <h2>OWASP Top 10 (2021) — tabulka</h2>
+  <p>OWASP (Open Web Application Security Project) vydává seznam nejkritičtějších bezpečnostních rizik webových aplikací. Verze 2021 přeřadila kategorie a přidala nové:</p>
+  <table>
+    <tr><th>#</th><th>Kategorie</th><th>Popis</th><th>Příklad útoku</th><th>Hlavní obrana</th></tr>
+    <tr><td><strong>A01</strong></td><td>Broken Access Control</td><td>Uživatel přistupuje k datům/funkcím mimo svá oprávnění (IDOR, chybějící server-side kontroly). <em>Nejčastější od 2021</em>.</td><td>Změna ID v URL: /api/orders/<strong>1234</strong> → /api/orders/<strong>5678</strong> (cizí objednávka)</td><td>Enforce least privilege, server-side access checks na každý request</td></tr>
+    <tr><td><strong>A02</strong></td><td>Cryptographic Failures</td><td>Slabá/chybějící kryptografie: HTTP místo HTTPS, MD5/SHA1 pro hesla, hardcoded keys, plaintext úložiště.</td><td>Uniklá DB s MD5 hashy hesel → crack za hodiny</td><td>TLS everywhere, bcrypt/Argon2 pro hesla, AES-256 pro data at rest</td></tr>
+    <tr><td><strong>A03</strong></td><td>Injection</td><td>SQL, LDAP, OS command injection — nevalidovaný vstup interpretován jako příkaz.</td><td><code>' OR '1'='1' --</code> v login formuláři</td><td>Prepared statements, ORM, parametrizované dotazy, WAF</td></tr>
+    <tr><td><strong>A04</strong></td><td>Insecure Design</td><td>Chybějící bezpečnostní vzory a hrozby neřešeny již v návrhu aplikace.</td><td>Resetování hesla bez ověření identity</td><td>Threat modeling, bezpečnostní vzory, security by design</td></tr>
+    <tr><td><strong>A05</strong></td><td>Security Misconfiguration</td><td>Výchozí hesla, zbytečné služby, chybné HTTP hlavičky, detailní chybové hlášky.</td><td>Admin panel s výchozím heslem admin/admin</td><td>Hardening guides, automation (IaC), security headers scanner</td></tr>
+    <tr><td><strong>A06</strong></td><td>Vulnerable &amp; Outdated Components</td><td>Zastaralé knihovny, frameworky, OS s veřejně známými CVE.</td><td>Log4Shell (CVE-2021-44228) v neaktualizovaných systémech</td><td>SCA (Software Composition Analysis), patch management, SBOM</td></tr>
+    <tr><td><strong>A07</strong></td><td>Identification &amp; Authentication Failures</td><td>Brute force, slabé session management, chybějící MFA, session fixation.</td><td>Session token v URL → ukradnutí session z logu/referreru</td><td>Secure session tokens, HTTPS-only cookies, MFA, account lockout</td></tr>
+    <tr><td><strong>A08</strong></td><td>Software &amp; Data Integrity Failures</td><td>CI/CD bez ověření integrity, supply chain útoky, deserializace nedůvěryhodných dat.</td><td>SolarWinds supply chain útok — kompromitace build pipeline</td><td>Code signing, SRI (Subresource Integrity), zabezpečený CI/CD pipeline</td></tr>
+    <tr><td><strong>A09</strong></td><td>Security Logging &amp; Monitoring Failures</td><td>Nedostatečné logování, chybějící detekce incidentů, absence SIEM.</td><td>Breach odhalit až po měsících kvůli absenci logů</td><td>Centrální SIEM, logování přihlášení/chyb/API volání, alerting</td></tr>
+    <tr><td><strong>A10</strong></td><td>Server-Side Request Forgery (SSRF)</td><td>Server vykonává HTTP požadavky na URL specifikované útočníkem — přístup k interním službám.</td><td>URL parametr → <code>http://169.254.169.254/metadata</code> (AWS metadata)</td><td>Whitelist povolených URL/domén, blokování interních rozsahů, deny by default</td></tr>
+  </table>
+
+  <h2>SQL Injection — detail</h2>
+  <p>SQL injection nastane, když aplikace sestavuje SQL dotaz zřetězením vstupů uživatele bez sanitizace. Útočník vloží SQL syntaxi, která změní logiku dotazu.</p>
+  <p><strong>Příklad payloadu:</strong> Login formulář sestavuje dotaz:<br>
+  <code>SELECT * FROM users WHERE username='[input]' AND password='[input]'</code><br>
+  Vstup: <code>' OR '1'='1' --</code> → dotaz se stane: <code>... WHERE username='' OR '1'='1' --' AND password='...'</code> → vždy true, přihlásí útočníka jako první uživatel v DB.</p>
+  <ul>
+    <li><strong>Typy SQL injection:</strong> In-band (výsledek přímo v odpovědi), Blind (boolovský nebo časový — odpověď neobsahuje data, ale chování se mění), Out-of-band (exfiltrace DNS/HTTP kanálem).</li>
+    <li><strong>Nástroje útoku:</strong> SQLmap, SQLninja, Mole — automatické testování a exploitace.</li>
+    <li><strong>Obrana:</strong> (1) Prepared statements / parametrizované dotazy — vstup NIKDY není součástí SQL syntaxe. (2) ORM (Object-Relational Mapping) — abstrakce DB dotazů. (3) Whitelist validace vstupu. (4) WAF jako doplňkový filtr. (5) Minimální DB oprávnění pro aplikaci.</li>
+  </ul>
+
+  <h2>XSS — Cross-Site Scripting</h2>
+  <p>Útočník vloží škodlivý JavaScript do webové stránky, který se vykoná v prohlížeči oběti. XSS umožňuje: krádež session cookies, keylogging, přesměrování, defacement, BeEF framework (browser exploitation).</p>
+  <div class="pojmy three">
+    <div class="pojem red">
+      <div class="pojem-head">Stored XSS</div>
+      <div class="pojem-body">Škodlivý skript uložen v DB (komentáře, profily). Zobrazí se každému uživateli, který navštíví stránku. Nejnebezpečnější.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Reflected XSS</div>
+      <div class="pojem-body">Skript v URL parametru, server ho vrátí v odpovědi bez sanitizace. Oběť musí kliknout na škodlivý odkaz. Časté ve vyhledávacích formulářích.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">DOM-based XSS</div>
+      <div class="pojem-body">Skript se nevykoná přes server, ale manipulací DOM na straně klienta (JavaScript čte URL/localStorage a vkládá do DOM bez sanitizace).</div>
+    </div>
+  </div>
+  <p><strong>Obrana XSS:</strong> (1) Output encoding — escapování HTML entit (<code>&lt; → &amp;lt;</code>). (2) <strong>Content Security Policy (CSP)</strong> hlavička — definuje, odkud lze načítat skripty; zakazuje inline JavaScript; podporuje nonce pro legitimní inline skripty. (3) HttpOnly cookie — JavaScript nemá přístup k session cookie. (4) WAF filtrace. (5) Testování: Burp Suite, OWASP ZAP.</p>
+  <div class="callout"><strong>Content Security Policy (CSP):</strong> HTTP hlavička limitující zdroje, ze kterých browser může načítat obsah. <code>Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-xyz'</code> — zakazuje inline skripty a načítání skriptů z cizích domén. Ochrání i před clickjackingem (direktiva <code>frame-ancestors 'none'</code>).</div>
+
+  <h2>CSRF — Cross-Site Request Forgery</h2>
+  <p>Útočník na cizím webu (example.cz) vytvoří požadavek k cílové aplikaci (insis.vse.cz). Pokud má oběť v prohlížeči platné session cookie pro insis.vse.cz, prohlížeč cookie automaticky přiloží → požadavek se provede jménem oběti.</p>
+  <p><strong>Příklad:</strong> Útočník vloží <code>&lt;img src="https://bank.cz/transfer?to=attacker&amp;amount=10000" width="1" height="1"&gt;</code> na škodlivou stránku. Oběť (přihlášená u banky) navštíví stránku → prohlížeč pošle GET požadavek s cookie → převod proveden.</p>
+  <p><strong>Obrana CSRF:</strong> (1) <strong>CSRF Token</strong> — unikátní náhodný token vložen do formuláře; server ověří. (2) <strong>SameSite cookie atribut</strong> — <code>Strict</code> (cookie není odesláno z cizích webů vůbec), <code>Lax</code> (cookie odesláno jen při top-level navigaci, ne pro <code>img</code>), <code>None</code> (bez omezení — nutný Secure). (3) <strong>Same-Origin Policy</strong> — browser blokuje čtení odpovědí z jiného originu (ale požadavky stále odesílá!). (4) Referer/Origin header validace jako doplněk.</p>
+
+  <h2>DoS / DDoS útoky</h2>
+  <div class="pojmy three">
+    <div class="pojem red">
+      <div class="pojem-head">Volumetrické (Volumetric)</div>
+      <div class="pojem-body">Zahlcení šířky pásma. UDP flood, ICMP flood, DNS amplification (útočník pošle malý dotaz s podvrženou zdrojovou IP → DNS server pošle velkou odpověď oběti). Amplification factor až 100×.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Protokolové (Protocol)</div>
+      <div class="pojem-body">SYN flood — vyčerpání stavové tabulky firewallu/serveru. Ping of Death (historický). Smurf attack. Obrana: SYN cookies, stavový firewall, rate limiting.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Aplikační vrstva (L7)</div>
+      <div class="pojem-body">HTTP flood — velký počet legitimně vypadajících HTTP požadavků. Slowloris — drží otevřená HTTP spojení zasíláním neúplných hlaviček. Těžko odlišitelný od legitimního provozu.</div>
+    </div>
+  </div>
+  <p><strong>Obrana DDoS:</strong> (1) <strong>Scrubbing center</strong> — přesměrování provozu přes filtrovací centrum (Cloudflare, Akamai, AWS Shield), kde je škodlivý provoz odfiltrován. (2) <strong>Anycast routing</strong> — provoz distribuován do mnoha PoP (Points of Presence), kapacita útoku se rozmělní. (3) Rate limiting na L7 (WAF). (4) CDN a reverse proxy jako buffer.</p>
+
+  <h2>Man-in-the-Middle (MitM)</h2>
+  <p>Útočník se vloží mezi dvě komunikující strany — čte, upravuje nebo injektuje data, aniž to strany vědí.</p>
+  <ul>
+    <li><strong>ARP Poisoning / ARP Cache Poisoning:</strong> útočník posílá falešné ARP odpovědi do lokální sítě → ostatní zařízení si zapíší, že útočníkova MAC adresa odpovídá IP adrese brány → provoz jde přes útočníka. Nástroj: arpspoof, Ettercap.</li>
+    <li><strong>DNS Spoofing / DNS Cache Poisoning:</strong> falešné DNS odpovědi → oběť přeložení domény na IP útočníka. Obrana: DNSSEC.</li>
+    <li><strong>SSL Stripping (sslstrip):</strong> útočník stojí na cestě, degraduje HTTPS na HTTP → oběť komunikuje nešifrovaně (nevidí v adresní řádce https). Obrana: HSTS, HSTS Preloading.</li>
+    <li><strong>Rogue WiFi Access Point:</strong> útočník vysílá stejné SSID jako legitimní AP → zařízení se připojí k falešnému AP (zejm. open sítě).</li>
+  </ul>
+  <p><strong>Obrana MitM:</strong> (1) <strong>HSTS (HTTP Strict Transport Security)</strong> — server deklaruje, že příští přístupy musí být přes HTTPS; prohlížeč odmítne HTTP a nelze obejít certifikátové varování. (2) <strong>Certificate Pinning</strong> — aplikace akceptuje pouze konkrétní certifikát/veřejný klíč. (3) <strong>CAA (DNS Certification Authority Authorization)</strong> — DNS záznam omezuje, které CA smí vydat certifikát pro doménu. (4) Certificate Transparency — monitorování certificate logů.</p>
+
+  <h2>Social Engineering</h2>
+  <p>Útoky, které cílí na lidi, ne na technické zranitelnosti. Principy exploitují psychologické mechanismy: autoritu, naléhavost, reciprocitu, sociální důkaz.</p>
+  <table>
+    <tr><th>Typ</th><th>Popis</th><th>Příklad</th></tr>
+    <tr><td><strong>Phishing</strong></td><td>Hromadný podvodný e-mail napodobující legitimní organizaci (banka, Microsoft). Cíl: ukrást přihlašovací údaje nebo donutit ke stažení malware.</td><td>E-mail „Váš účet byl zablokován — klikněte zde pro ověření"</td></tr>
+    <tr><td><strong>Spear-phishing</strong></td><td>Cílený phishing na konkrétní osobu nebo organizaci. Útočník zná jméno, roli, kolegy — vysoká věrohodnost.</td><td>E-mail zdánlivě od CFO s žádostí o urgentní platbu</td></tr>
+    <tr><td><strong>Vishing</strong></td><td>Voice phishing — telefonní hovor. Útočník se vydává za banku, IT support, úřad.</td><td>„Voláme ze supportu Microsoftu, váš počítač má virus…"</td></tr>
+    <tr><td><strong>Pretexting</strong></td><td>Vymyšlený scénář (pretext) pro získání informací nebo přístupu. Útočník hraje roli.</td><td>Útočník se vydává za auditora, který potřebuje přístup k systémům</td></tr>
+    <tr><td><strong>Baiting</strong></td><td>USB klíčenka zanechaná na parkovišti → oběť ji zapojí do počítače → malware.</td><td>USB se štítkem „Výplatní pásky 2024"</td></tr>
+    <tr><td><strong>Quid pro quo</strong></td><td>Nabídka pomoci výměnou za informace (IT support volá a nabídne pomoc výměnou za heslo).</td><td>„Pomůžu vám s problémem, potřebuji jen vaše přihlašovací údaje"</td></tr>
+  </table>
+  <div class="warn"><strong>Obrana:</strong> Bezpečnostní školení (security awareness training), simulované phishingové kampaně (phishing simulation), procedury ověřování identity telefonem/osobně, politika „nikdy nesdělujeme hesla telefonicky/e-mailem", multi-factor authentication (phishing kradou hesla — MFA to znehodnotí).</div>
+
+</section>
+
+<!-- P4 — Síťová bezpečnost: ochrana -->
+<section class="lecture" id="p4">
+  <div class="lec-header">
+    <div class="lec-num">P4</div>
+    <div>
+      <div class="lec-title">Síťová bezpečnost — ochrana</div>
+      <div class="lec-subtitle">Generace firewallů, IDS vs. IPS, DMZ, VPN, ZTNA, síťová segmentace, SIEM, pentesting, CVE/CVSS, Red/Blue/Purple team — přednášky 10–11 (Pavlíček)</div>
+    </div>
+  </div>
+
+  <h2>Generace firewallů</h2>
+  <table>
+    <tr><th>Generace</th><th>Název</th><th>Pracuje na</th><th>Schopnosti</th><th>Příklady</th></tr>
+    <tr><td><strong>1. generace</strong></td><td>Paketový filtr (Stateless)</td><td>L3/L4</td><td>Filtruje pakety na základě zdrojové/cílové IP, portu, protokolu (TCP/UDP/ICMP). Každý paket samostatně — nezná kontext spojení. ACL na routerech.</td><td>iptables bez ct state, Cisco ACL</td></tr>
+    <tr><td><strong>2. generace</strong></td><td>Stavový firewall (Stateful)</td><td>L3/L4 + stav</td><td>Udržuje stavovou tabulku spojení (connection tracking). Zná kontext — povolí odpovědné pakety (ESTABLISHED, RELATED). Blokuje SYN flood, podvržené pakety.</td><td>iptables/nftables (ct state), Windows Firewall, pf (BSD)</td></tr>
+    <tr><td><strong>3. generace</strong></td><td>Aplikační proxy (L7 proxy)</td><td>L7</td><td>Rozumí aplikačním protokolům (HTTP, FTP, DNS, SIP, H.323). Ukončuje a znovu sestavuje spojení — plný přístup k obsahu. Pomalejší než stavový FW.</td><td>Squid (HTTP), NGINX, HAProxy</td></tr>
+    <tr><td><strong>NGFW</strong></td><td>Firewall nové generace</td><td>L3–L7</td><td>Stavový FW + IPS inline + DPI (Deep Packet Inspection) + SSL/TLS inspekce (MitM na TLS) + identifikace aplikací (App-ID) + URL filtrování + antivirus + uživatelská identita (User-ID) + centralizovaná správa.</td><td>Palo Alto Networks, Fortinet FortiGate, Cisco Firepower, Check Point</td></tr>
+  </table>
+  <div class="callout"><strong>WAF (Web Application Firewall)</strong> — specializovaný aplikační firewall (L7) pro webové aplikace. Filtruje HTTP/HTTPS požadavky na základě pravidel (OWASP ModSecurity Core Rule Set). Detekuje SQL injection, XSS, CSRF, path traversal. Může být jako samostatný modul (Apache mod_security), cloudová služba (Cloudflare WAF, AWS WAF) nebo součást NGFW. <em>Kam zařadit WAF v generacích?</em> — funkčně 3. generace (L7 proxy), ale specializovaný na webové protokoly.</div>
+
+  <h2>IDS vs. IPS — detekce a prevence průniků</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">IDS — Intrusion Detection System</div>
+      <div class="pojem-body"><strong>Pasivní</strong> — monitoruje provoz a generuje alerty, ale nablokuje nic. Typ NIDS (Network IDS — analyzuje síťový provoz ze zrcadlícího portu) nebo HIDS (Host IDS — analyzuje logy, integritu souborů, registry systému). Nástroj: Snort, Suricata (NIDS), OSSEC (HIDS — analýza logů, kontrola integrity, detekce rootkitů, centralizovaný server + agenti).</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">IPS — Intrusion Prevention System</div>
+      <div class="pojem-body"><strong>Aktivní</strong> — nasazeno inline (v toku provozu); detekuje škodlivou aktivitu a automaticky blokuje, resetuje spojení nebo quarantinuje. Kombinace IDS + akce (drop paketu, TCP RST, vypnutí služby). Riziko false positives — nesprávné blokování legitimního provozu. Proto musí být pečlivě kalibrováno.</div>
+    </div>
+  </div>
+
+  <h3>Detekční metody IDS/IPS</h3>
+  <div class="pojmy two">
+    <div class="pojem orange">
+      <div class="pojem-head">Signature-based (Signaturová detekce)</div>
+      <div class="pojem-body">Porovnání provozu s databází podpisů (signatures) známých útoků. Přesná pro známé hrozby, nulová false positive u dobře napsaných signatur. Nevýhoda: nedetekuje zero-day útoky (neznámý exploit bez signatury). Závisí na aktuálnosti databáze (denní aktualizace).</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Anomaly-based (Detekce anomálií)</div>
+      <div class="pojem-body">Stanoví baseline normálního chování; odchylky generují alert. Detekuje neznámé útoky (zero-day), nové malware. Nevýhoda: vyšší false positive rate, náročná kalibrace. Metody: statistické modely, machine learning, heuristiky. Příklady anomálií: skenování portů, neobvyklá komunikace do cizích zemí, velký objem dat v neobvyklou hodinu.</div>
+    </div>
+  </div>
+  <p><strong>SIEM integrace:</strong> IDS/IPS generují alerty, které jsou agregována v SIEM systému (Splunk, Microsoft Sentinel, IBM QRadar). SIEM koreluje události z více zdrojů — jeden alert může být nedůležitý, ale kombinace (skenování portů + failed logins + neobvyklý outbound traffic) indikuje incident.</p>
+
+  <h2>DMZ — Demilitarizovaná zóna</h2>
+  <p>DMZ je síťová zóna oddělující internet od interní sítě, kde jsou umístěny <strong>veřejně přístupné servery</strong> (web servery, e-mailové servery, DNS, VPN concentrator). Architektura se dvěma firewally:</p>
+  <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Vnější firewall (edge)</strong> — odděluje internet od DMZ. Povoluje jen specifické porty do DMZ (80/TCP, 443/TCP, 25/TCP SMTP). Blokuje vše ostatní z internetu.</div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-text"><strong>DMZ zóna</strong> — web servery, reverzní proxy, e-mail gateway, API gateway, VPN server. Servery jsou „semi-důvěryhodné" — i při jejich kompromitaci útočník nesmí snadno přejít do interní sítě.</div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Vnitřní firewall</strong> — odděluje DMZ od interní sítě. Povoluje pouze nezbytné komunikace (DB server v interní síti přijímá dotazy jen z konkrétního web serveru v DMZ).</div></div>
+  <div class="callout"><strong>Co kam patří?</strong> DMZ: web servery, mail relay, reverzní proxy, SFTP servery, VPN concentrator, DNS resolver pro veřejnost. Interní síť: databázové servery, Active Directory, file servery, zálohovací systémy, HR/účetní aplikace, monitoring. Nikdy v DMZ: Domain Controller, interní databáze, zálohy.</div>
+
+  <h2>VPN — typy a protokoly</h2>
+  <p>VPN (Virtual Private Network) vytváří soukromé propojení přes veřejnou síť, typicky s autentizací a šifrováním.</p>
+
+  <h3>Typy VPN dle použití</h3>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Remote Access VPN</div>
+      <div class="pojem-body">Připojení jednotlivého zařízení (stanice, notebook) do firemní sítě. VPN server přidělí klientovi IP adresu a upraví routing. Veškerý nebo část provozu jde tunelem (split tunneling). Použití: práce z domova, přístup k interním systémům. Příklad: VŠE vpn.vse.cz (Cisco AnyConnect, OpenConnect).</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Site-to-Site VPN</div>
+      <div class="pojem-body">Propojení dvou podsítí (pobočky, datová centra) přes veřejný internet. VPN brána na každé straně tunelu — zařízení uvnitř sítí nemusí mít VPN klienta. Transparentní pro koncová zařízení. Příklad: VŠE propojuje rekreační areály (Dobronice) přes IPsec tunnel.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Public VPN</div>
+      <div class="pojem-body">Komerční VPN od třetí strany (NordVPN, ExpressVPN). Cíl: anonymita, změna geografické polohy, obcházení omezení. <em>Pozor:</em> poskytovatel VPN vidí veškerou komunikaci. Nevhodné pro firemní použití. „Don't use VPN services" — EFF ssd.eff.org.</div>
+    </div>
+  </div>
+
+  <h3>VPN protokoly</h3>
+  <table>
+    <tr><th>Protokol</th><th>Bezpečnost</th><th>Výkon</th><th>Poznámka</th></tr>
+    <tr><td><strong>PPTP</strong></td><td style="color:#be123c">Slabá (prolomeno)</td><td>Nejrychlejší</td><td>Nejstarší protokol; MS-CHAPv2 zranitelný; <em>nepoužívat</em></td></tr>
+    <tr><td><strong>IPsec (IKEv2/L2TP)</strong></td><td>Silná</td><td>Rychlý</td><td>Standard 1995; problémy s NAT traversal (UDP 500/4500); 2 tunelové protokoly</td></tr>
+    <tr><td><strong>OpenVPN / SSL VPN</strong></td><td>Silná (TLS)</td><td>Střední</td><td>Tunelování přes TLS/TCP nebo UDP; dobře prochází firewally a NAT; větší režie</td></tr>
+    <tr><td><strong>WireGuard</strong></td><td>Silná (moderní)</td><td>Nejrychlejší (nízká latence)</td><td>Nový (2020); méně kódu (4000 řádků vs. 70K u OpenVPN); ChaCha20+Poly1305; podpora roamingu; Linux kernel modul</td></tr>
+  </table>
+
+  <h3>IPsec — transportní vs. tunelovací mód</h3>
+  <div class="pojmy two">
+    <div class="pojem gray">
+      <div class="pojem-head">Transportní mód (Transport Mode)</div>
+      <div class="pojem-body">Šifruje pouze payload (obsah) paketu; originální IP hlavička zůstává viditelná. Point-to-point komunikace — ví se, kdo s kým komunikuje. Typicky s L2TP pro Remote Access VPN (L2TP/IPsec). Autentizace přes certifikáty nebo PSK (Pre-Shared Key). ESP protokol (IP číslo 50).</div>
+    </div>
+    <div class="pojem blue">
+      <div class="pojem-head">Tunelovací mód (Tunnel Mode)</div>
+      <div class="pojem-body">Celý původní paket (včetně IP hlavičky) je zašifrován a zabalen do nového paketu s novou IP hlavičkou. Skrývá interní IP adresy. Standardní mód pro Site-to-Site VPN a Remote Access VPN. Vytváří SA (Security Association) přes port 500/UDP (IKE).</div>
+    </div>
+  </div>
+
+  <h2>Zero Trust Network Access (ZTNA) vs. VPN</h2>
+  <table>
+    <tr><th>Vlastnost</th><th>Tradiční VPN</th><th>ZTNA</th></tr>
+    <tr><td>Přístup k</td><td>Celé síti (nebo velkému segmentu)</td><td>Konkrétní aplikaci nebo službě</td></tr>
+    <tr><td>Lateral movement</td><td>Možný po připojení</td><td>Eliminován — přístup jen k autorizovaným aplikacím</td></tr>
+    <tr><td>Ověření zařízení</td><td>Minimální (certifikát klienta)</td><td>Kontinuální ověření zařízení (MDM compliance, patch level)</td></tr>
+    <tr><td>Granularita</td><td>Nízká (ACL po sítích)</td><td>Vysoká (per-aplikace, per-uživatel, kontext)</td></tr>
+    <tr><td>Příklady</td><td>OpenVPN, IPsec, WireGuard</td><td>Cloudflare Access, Zscaler ZPA, Cisco Duo, BeyondCorp</td></tr>
+  </table>
+
+  <h2>Síťová segmentace — VLANy a mikrosegmentace</h2>
+  <p><strong>Síťová segmentace</strong> rozděluje síť do izolovaných segmentů pro omezení útočníkova pohybu a zjednodušení pravidel.</p>
+  <ul>
+    <li><strong>VLAN (Virtual LAN)</strong> — logické oddělení na L2 (IEEE 802.1Q tagging). Každý segment má vlastní broadcast doménu. Komunikace mezi VLANy prochází routerem/firewallem → možnost filtrování. VŠE: ~120 podsítí, ~40 segmentů (zaměstnanci, studenti, eduroam, koleje, IP telefony, IP kamery, switche…).</li>
+    <li><strong>Mikrosegmentace</strong> — granularnější oddělení na úrovni workloadů (jednotlivých serverů, kontejnerů). Softwarově definované (NSX, Kubernetes Network Policies). I při kompromitaci jednoho serveru útočník nemá přístup k ostatním.</li>
+    <li><strong>Účel segmentace:</strong> omezit šíření útoků (lateral movement), zjednodušit firewall pravidla, oddělit kritická zařízení (IP telefony, kamery, tiskárny) od uživatelských stanic.</li>
+  </ul>
+
+  <h2>SIEM — Security Information and Event Management</h2>
+  <p>SIEM agreguje, normalizuje a koreluje bezpečnostní logy z celé infrastruktury v reálném čase pro detekci incidentů.</p>
+  <h3>SIEM architektura</h3>
+  <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Log Collection:</strong> agenti nebo syslog forwarding sbírají logy z firewallů, IDS/IPS, webových serverů, AD, cloudových služeb (Office 365), EDR, databází.</div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Normalizace a parsing:</strong> různé formáty logů (syslog, CEF, JSON, Windows Event Log) jsou převedeny do unifikovaného schématu.</div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Korelační pravidla:</strong> engine testuje kombinace událostí proti předem definovaným pravidlům. Příklady (z Office 365): přihlášení z anonymní IP, atypická cesta (dva přístupy z geograficky vzdálených míst v krátkém čase), přihlášení z IP botnetu, odeslání velkého množství odchozích e-mailů.</div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Alerting a SOC:</strong> při splnění korelačního pravidla SIEM vygeneruje incident → SOC analytik analyzuje, rozhodne o reakci. Příklady alertů VŠE: blokování účtu v Office 365, změna hesla v InSIS, změna čísla bankovního účtu.</div></div>
+  <p>Příklady SIEM platforem: Splunk, Microsoft Sentinel (cloud-native), IBM QRadar, Elastic SIEM (ELK Stack), AlienVault OSSIM (open-source).</p>
+
+  <h2>Penetrační testování — 5 fází</h2>
+  <p>Penetrační test (pentest) je autorizované simulované testování bezpečnosti systému za účelem nalezení zranitelností dříve, než je najde skutečný útočník. Musí mít <strong>písemný souhlas vlastníka</strong> systému (bez souhlasu = trestný čin).</p>
+  <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Reconnaissance (Průzkum):</strong> Pasivní (OSINT — LinkedIn, WHOIS, Google dorking, Shodan) a aktivní (ping sweep, banner grabbing, DNS enumeration). Cíl: zmapovat attack surface bez přímého kontaktu s cílovým systémem.</div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Scanning (Skenování):</strong> Aktivní skenování portů (Nmap), identifikace verzí softwaru a OS (fingerprinting), skenování zranitelností (Nessus, OpenVAS). Výsledek: seznam otevřených portů, služeb, OS verzí, potenciálních zranitelností.</div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Exploitation (Exploitace):</strong> Využití nalezených zranitelností k získání přístupu. Nástroje: Metasploit Framework, Burp Suite (web), SQLmap (SQL injection), Mimikatz (credentials). Scope musí být přísně dodržen (pouze autorizované systémy).</div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Post-Exploitation:</strong> Po průniku: privilege escalation (zvýšení oprávnění), lateral movement (šíření do dalších systémů), persistence (backdoor), data exfiltration (simulace krádeže dat). Prokázání reálného dopadu kompromitace.</div></div>
+  <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Reporting:</strong> Komplexní zpráva s executive summary (pro management), technickými detaily (CVE reference, CVSS skóre, reprodukční kroky), rizikovou klasifikací a konkrétními doporučeními k nápravě (remediation). Klíčová část — bez dobrého reportu má pentest malou hodnotu.</div></div>
+
+  <h2>CVE a CVSS — klasifikace zranitelností</h2>
+  <p><strong>CVE (Common Vulnerabilities and Exposures)</strong> — standardizovaný identifikátor konkrétní zranitelnosti. Formát: <code>CVE-YYYY-NNNNN</code> (např. CVE-2021-44228 = Log4Shell). Spravuje MITRE, databáze NVD (National Vulnerability Database, NIST — nvd.nist.gov). Každé CVE má popis, odkaz na patch, CVSS skóre.</p>
+
+  <h3>CVSS v3.1 — Common Vulnerability Scoring System</h3>
+  <p>Standardizované skóre zranitelnosti od 0.0 do 10.0. Tři skupiny metrik:</p>
+  <table>
+    <tr><th>Skupina metrik</th><th>Co měří</th><th>Příklady metrik</th></tr>
+    <tr><td><strong>Base (Základní)</strong></td><td>Neměnné vlastnosti zranitelnosti — skóre 0–10</td><td>Attack Vector (Network/Adjacent/Local/Physical), Attack Complexity, Privileges Required, User Interaction, Scope, Confidentiality/Integrity/Availability Impact</td></tr>
+    <tr><td><strong>Temporal (Časová)</strong></td><td>Mění se v čase — dostupnost exploitu, existence patche</td><td>Exploit Code Maturity, Remediation Level, Report Confidence</td></tr>
+    <tr><td><strong>Environmental (Prostředí)</strong></td><td>Specifické pro organizaci — závisí na kontextu nasazení</td><td>Modified Attack Vector, Modified Impact Subscores, Confidentiality/Integrity/Availability Requirements</td></tr>
+  </table>
+  <div class="pojmy four">
+    <div class="pojem green"><div class="pojem-head">None</div><div class="pojem-body">Skóre 0.0</div></div>
+    <div class="pojem blue"><div class="pojem-head">Low / Medium</div><div class="pojem-body">0.1–6.9</div></div>
+    <div class="pojem orange"><div class="pojem-head">High</div><div class="pojem-body">7.0–8.9</div></div>
+    <div class="pojem red"><div class="pojem-head">Critical</div><div class="pojem-body">9.0–10.0</div></div>
+  </div>
+
+  <h2>Red Team / Blue Team / Purple Team</h2>
+  <table>
+    <tr><th>Tým</th><th>Role</th><th>Metody</th><th>Výstup</th></tr>
+    <tr><td><strong>Red Team</strong></td><td>Útočník — simuluje APT (Advanced Persistent Threat). Útočí na celou organizaci (lidi, procesy, technologie)</td><td>Phishing, social engineering, exploitace, lateral movement, persistence — realistický útok</td><td>Nalezené mezery v detekci a odpovědi (ne jen technické zranitelnosti)</td></tr>
+    <tr><td><strong>Blue Team</strong></td><td>Obránce — monitoruje, detekuje, reaguje na incidenty. SOC (Security Operations Center)</td><td>SIEM monitoring, threat hunting, incident response, forensics</td><td>Detekce a zvládnutí incidentu; zlepšení detection capabilities</td></tr>
+    <tr><td><strong>Purple Team</strong></td><td>Kooperace Red + Blue — sdílení poznatků pro zlepšení detekce</td><td>Red testuje konkrétní techniku (MITRE ATT&amp;CK), Blue ověřuje, zda SIEM detekuje; iterativní vylepšení</td><td>Matice pokrytí detekce (ATT&amp;CK coverage), zlepšení SIEM pravidel</td></tr>
+  </table>
+  <div class="callout"><strong>MITRE ATT&amp;CK Framework</strong> — globálně přijímaná znalostní báze reálných technik útočníků (tactics, techniques, procedures — TTPs). Kategorizuje přes 300 technik do 14 taktik (Reconnaissance, Initial Access, Execution, Persistence, Privilege Escalation, Defense Evasion, Credential Access, Discovery, Lateral Movement, Collection, Exfiltration, Impact…). Používá se pro mapování Red Team aktivit, identifikaci detekčních mezer v SIEM a komunikaci s managementem.</div>
+
+</section>
+
+<!-- P5 — Bezpečnostní politika -->
+<section class="lecture" id="p5">
+  <div class="lec-header">
+    <div class="lec-num">P5</div>
+    <div>
+      <div class="lec-title">Bezpečnostní politika IS</div>
+      <div class="lec-subtitle">3 úrovně bezpečnostní politiky, klasifikace dat, bezpečnostní dokumentace dle ZKB / ISO 27001 — přednáška 12 (Pavlíček)</div>
+    </div>
+  </div>
+
+  <h2>Informační bezpečnost — CIA triáda a základní pojmy</h2>
+  <p><strong>Bezpečnost informací (information security)</strong> představuje ochranu informací ve všech jejich formách a po celý jejich životní cyklus. Tři pilíře (CIA triáda):</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Důvěrnost (Confidentiality)</div>
+      <div class="pojem-body">Informace přístupné pouze oprávněným osobám. Metody: fyzická bezpečnost, šifrování, autentizace, autorizace, DLP (Data Loss Prevention). Ohrožuje: neoprávněný přístup, únik dat, odposlech.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Integrita (Integrity)</div>
+      <div class="pojem-body">Zabránit neoprávněným změnám dat při uložení, přenosu i zpracování. Metody: digitální podpisy, hashe, auditování operací. Ohrožuje: úprava dat útočníkem, malware, chyby.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Dostupnost (Availability)</div>
+      <div class="pojem-body">Dostupnost systémů a informací pro oprávněné uživatele. Metody: redundance, zálohy, BCP/DRP, aktualizace, řízení prostředí (napájení, chlazení). Ohrožuje: DDoS, ransomware, hardwarové selhání.</div>
+    </div>
+  </div>
+  <div class="callout"><strong>Kybernetická bezpečnost vs. informační bezpečnost:</strong> Bezpečnost informací chrání i analogové informace a před fyzickými hrozbami (požár, krádež zařízení). Kybernetická bezpečnost může chránit i jiná aktiva než informace (semafory, zdravotní zařízení). Překrývají se; NIS2 (zákon ZKB 181/2014 Sb. v ČR) hovoří o kybernetické bezpečnosti — gestor: NÚKIB.</div>
+
+  <h2>Bezpečnostní politika — 3 úrovně</h2>
+  <p>Bezpečnostní politika IS je soubor pravidel, směrnic a postupů chránících informační aktiva. Dělí se na tři hierarchické úrovně:</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Strategická (Top-level)</div>
+      <div class="pojem-body">Obecné prohlášení vedení o záměrech a cílech bezpečnosti. Schvaluje board / top management. Odkazuje na legislativu (ZKB, GDPR, NIS2) a normy (ISO 27001). Málo detailní, platí pro celou organizaci. Příklad: „Organizace se zavazuje chránit data zákazníků v souladu s GDPR."</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Taktická (Issue-specific)</div>
+      <div class="pojem-body">Politiky pro konkrétní oblasti: politika hesel (min. délka, MFA), politika zálohování (3-2-1), politika BYOD, politika acceptable use, politika incidentů. Schvaluje CISO. Závazná pro definované skupiny uživatelů.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Operativní (System-specific)</div>
+      <div class="pojem-body">Konfigurace konkrétních systémů: bezpečnostní nastavení OS (hardening guide), firewall pravidla, ACL databáze, patch management plán. Nejdetailnější. Zodpovídá IT administrátor. Může mít formu technické dokumentace nebo runbooku.</div>
+    </div>
+  </div>
+
+  <h2>Klasifikace dat</h2>
+  <p>Klasifikace dat přiřazuje každé informaci úroveň citlivosti, která určuje, jak s ní zacházet (přístup, šifrování, sdílení, likvidace):</p>
+  <table>
+    <tr><th>Úroveň</th><th>Popis</th><th>Příklady</th><th>Opatření</th></tr>
+    <tr><td><strong>Public (Veřejné)</strong></td><td>Informace určené pro veřejnost; žádné omezení sdílení</td><td>Marketingové materiály, veřejné dokumenty, tiskové zprávy</td><td>Žádná speciální opatření</td></tr>
+    <tr><td><strong>Internal (Interní)</strong></td><td>Pro interní použití; nesmí být sdíleny vně bez souhlasu</td><td>Interní e-maily, organizační směrnice, projekty</td><td>Šifrování při přenosu (TLS), řízení přístupu</td></tr>
+    <tr><td><strong>Confidential (Důvěrné)</strong></td><td>Citlivé obchodní informace; přístup jen pro oprávněné</td><td>Smlouvy, finanční výkazy, HR data, výzkumné projekty</td><td>Šifrování at-rest i in-transit, IAM, přísná ACL, logování přístupu</td></tr>
+    <tr><td><strong>Restricted (Přísně důvěrné)</strong></td><td>Nejvyšší citlivost; kompromitace = kritický dopad</td><td>Hesla, soukromé klíče, zdravotní záznamy, obchodní tajemství</td><td>Šifrování, MFA, PAM, DLP, audit, fyzická bezpečnost, minimální přístup</td></tr>
+  </table>
+
+  <h2>Bezpečnostní dokumentace dle ISO 27001 a ZKB</h2>
+  <p><strong>ISO/IEC 27001:2022</strong> — mezinárodní standard pro Information Security Management System (ISMS). Definuje 93 kontrol v Příloze A (reorganizovány do 4 témat: Organizational, People, Physical, Technological). Certifikace prokazuje ISMS auditované třetí stranou.</p>
+  <p><strong>ZKB (Zákon o kybernetické bezpečnosti, 181/2014 Sb.)</strong> — český zákon definující povinnosti pro provozovatele kritické infrastruktury (KII — Kritická informační infrastruktura) a poskytovatele základních digitálních služeb. Transpozice NIS/NIS2 direktivy EU. Gestor: NÚKIB.</p>
+  <ul>
+    <li><strong>Politika ISMS</strong> — strategická politika bezpečnosti informací, cíle, závazky vedení.</li>
+    <li><strong>Analýza rizik</strong> — identifikace aktiv, hrozeb, zranitelností, výpočet rizika (pravděpodobnost × dopad), plán zvládání rizik (risk treatment plan).</li>
+    <li><strong>Prohlášení o aplikovatelnosti</strong> (SoA — Statement of Applicability) — které kontroly ISO 27001 Přílohy A jsou aplikovány a proč.</li>
+    <li><strong>Bezpečnostní plán</strong> — konkrétní opatření, harmonogram, zodpovědné osoby.</li>
+    <li><strong>Plán kontinuity</strong> (BCP — Business Continuity Plan) a obnovy (DRP — Disaster Recovery Plan).</li>
+    <li><strong>Plán zvládání incidentů</strong> — identifikace, klasifikace, eskalace, zvládnutí, post-incident review.</li>
+  </ul>
+
+  <h2>Bezpečnostní modely přístupu</h2>
+  <p>Formální bezpečnostní modely popisují pravidla pro řízení přístupu subjektů k objektům:</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Bell-LaPadula Model (důvěrnost)</div>
+      <div class="pojem-body">Zajišťuje důvěrnost utajovaných dat. Bezpečnostní úrovně (Přísně tajné / Tajné / Důvěrné / Veřejné). Pravidla: <strong>No Read Up</strong> (nelze číst z vyšší úrovně), <strong>No Write Down</strong> (nelze zapisovat na nižší úroveň). Vojenské a vládní systémy.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Biba Model (integrita)</div>
+      <div class="pojem-body">Zajišťuje integritu dat. Opačná pravidla: <strong>No Read Down</strong> (nelze číst z nižší úrovně — kontaminace), <strong>No Write Up</strong> (nelze zapisovat na vyšší úroveň). Ochrana dat před neautorizovanými změnami. Použití v systémech vyžadujících integritu dat (vojenské povely, certifikace).</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- P6 — Forenzní aspekty -->
+<section class="lecture" id="p6">
+  <div class="lec-header">
+    <div class="lec-num">P6</div>
+    <div>
+      <div class="lec-title">Forenzní aspekty — logging, zálohy, vulnerability management</div>
+      <div class="lec-subtitle">Typy logů, SIEM korelace, chain of custody, vulnerability management cyklus, patch management, strategie zálohování — přednáška 13 (Pavlíček)</div>
+    </div>
+  </div>
+
+  <h2>Logging — typy a účely logů</h2>
+  <p><strong>Log</strong> je záznam o činnosti programu, systému nebo uživatele. Cíle logování: záznamy o využití aplikace, auditování operací a uživatelů, vývoj a ladění, obnova po pádu (transakční logy), bezpečnostní monitoring.</p>
+
+  <h3>Typy logů</h3>
+  <table>
+    <tr><th>Typ logu</th><th>Obsah</th><th>Příklady</th></tr>
+    <tr><td><strong>Systémové logy</strong></td><td>Události jádra OS, komponenty systému, start/stop služeb</td><td>/var/log/syslog (Linux), Windows System Event Log, journald</td></tr>
+    <tr><td><strong>Bezpečnostní logy</strong></td><td>Autentizace, autorizace, změny oprávnění, audit přístupu</td><td>Windows Security Event Log (EventID 4624/4625 login), /var/log/auth.log, SSH logy</td></tr>
+    <tr><td><strong>Aplikační logy</strong></td><td>Události aplikace — chyby, varování, informace. Strukturované nebo textové.</td><td>Apache/Nginx access.log + error.log, aplikace s log4j (DEBUG/INFO/WARN/ERROR/FATAL)</td></tr>
+    <tr><td><strong>Síťové logy</strong></td><td>Firewall flow logy, NetFlow/IPFIX, DNS dotazy, proxy logy</td><td>Firewall logy (allow/deny + src/dst IP/port), Suricata alerty</td></tr>
+    <tr><td><strong>Databázové logy</strong></td><td>SQL dotazy, změny schématu, přihlášení, export dat</td><td>MySQL general_log, PostgreSQL pg_audit, MSSQL Audit</td></tr>
+    <tr><td><strong>Cloudové logy</strong></td><td>API volání, přístupy ke zdrojům, identity events</td><td>AWS CloudTrail, Azure Activity Log, Office 365 Unified Audit Log</td></tr>
+  </table>
+
+  <h3>Syslog — standard pro přenos logů</h3>
+  <p>Syslog (RFC 5424) je protokol i démon pro příjem a zpracování logů. Port 514/UDP, 514/TCP, 6514/TCP-TLS (šifrovaný). Záznam obsahuje: timestamp, hostname, app-name, prioritu (facility × severity). <strong>Severity úrovně:</strong> 0 Emergency, 1 Alert, 2 Critical, 3 Error, 4 Warning, 5 Notice, 6 Info, 7 Debug.</p>
+
+  <h2>SIEM korelace a řetěz důkazů (chain of custody)</h2>
+  <p>SIEM (Security Information and Event Management) ukládá události, analyzuje je a hlásí problémy. Klíčová funkce: <strong>korelace</strong> — kombinuje události z různých zdrojů pro detekci, které by jednotlivě nebyly patrné.</p>
+  <p>Příklady korelačních pravidel (z Office 365): přihlášení z anonymní IP (VPN/Tor), atypická cesta (přihlášení z geograficky vzdálených IP v krátkém čase, přičemž alespoň jedna je netypická), přihlášení z IP botnetu, rozesílání velkého množství odchozího SPAMu, neobvyklé vlastnosti přihlášení (neznámý prohlížeč, legacy protokol).</p>
+  <p><strong>Řetěz důkazů (chain of custody)</strong> — pro forenzní analýzu a případné soudní řízení musí být prokázáno, že důkazy (logy, disk image, paměťový dump) nebyly od okamžiku zajištění modifikovány. Postup: pořízení hashe (MD5/SHA-256) ihned po zajištění, zdokumentování každého přístupu, práce s kopií (nikdy s originálem), chronologický záznam. Logy musí být <em>tamper-proof</em> — uloženy na médiu, do kterého nemůže útočník zapsat (write-once, WORM).</p>
+
+  <h2>Vulnerability Management</h2>
+  <p>Systematický cyklus identifikace, hodnocení, prioritizace a nápravy zranitelností v IT infrastruktuře:</p>
+  <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Scan (Skenování):</strong> Pravidelné skenování sítě a systémů nástrojem pro vulnerability scanning (Nessus, Qualys, OpenVAS). Autentizovaný sken (s přihlašovacími údaji) odhalí více zranitelností než neautentizovaný.</div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Assess (Hodnocení):</strong> Výsledky skenu porovnány s CVE databází. Každé CVE dostane CVSS skóre. Kontextuální hodnocení — CVSS environmental metriky zohledňují prostředí organizace (kritičnost systému, dostupnost exploitu).</div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Prioritize (Prioritizace):</strong> Ne všechny zranitelnosti lze opravit okamžitě. Priority dle: CVSS skóre, dostupnosti exploitu (CISA KEV — Known Exploited Vulnerabilities), kritičnosti systému, dostupnosti patche, business dopadu.</div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Remediate (Náprava):</strong> Patch management, konfigurace změn (hardening), WAF pravidla jako dočasné opatření (virtual patching), vypnutí nepotřebné služby. Ověření úspěšnosti napravení následným skenem.</div></div>
+  <p><strong>Cyklus se opakuje</strong> — nové CVE jsou denně zveřejňovány, prostředí se mění. Doporučení: skenovat minimálně měsíčně (kritické systémy týdně), patch Critical/High do 30 dnů (CISA: KEV do 2 týdnů).</p>
+
+  <h2>Patch Management</h2>
+  <p>Patch management je proces řízení a aplikace záplat (oprav) softwaru a firmwaru. Napojení na <strong>change management</strong> — každý patch prochází procesem: testování v dev/staging prostředí, schválení change advisory board (CAB), naplánované maintenance okno, rollback plán.</p>
+  <ul>
+    <li><strong>Emergency patches (zero-day):</strong> Kritické zranitelnosti s aktivním exploitací (např. Log4Shell) vyžadují urychlené záplatování mimo standardní cyklus. Musí projít zrychleným schvalovacím procesem, ale stále s dokumentací.</li>
+    <li><strong>Patch Tuesday</strong> — Microsoft vydává záplaty druhé úterý každého měsíce. Organizace mají čas otestovat a nasadit ve standardním okně.</li>
+    <li><strong>Automatizace:</strong> WSUS (Windows Server Update Services), SCCM/Intune pro Windows; Ansible, Puppet, Chef pro Linux servery; AWS Systems Manager Patch Manager pro cloud.</li>
+    <li><strong>Inventarizace:</strong> Záplatovat lze jen to, co je v inventáři — asset management je předpokladem patch managementu.</li>
+  </ul>
+
+  <h2>Strategie zálohování</h2>
+  <p>Záloha (backup) je kopie dat uložená na jiném médiu/místě pro obnovu po incidentu (ransomware, selhání hardware, lidská chyba, přírodní katastrofa).</p>
+
+  <h3>Pravidlo 3-2-1</h3>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">3× kopie dat</div>
+      <div class="pojem-body">1× originální data + 2× zálohy. Tři kopie zaručují, že i při dvou selháních zůstane jedna použitelná.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">2× různá média</div>
+      <div class="pojem-body">Zálohy na různých typech médií (disk + páska, disk + cloud). Chrání před selháním specifickým pro jeden typ média.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">1× vzdálená kopie</div>
+      <div class="pojem-body">Alespoň jedna záloha offsite (jiná budova, datové centrum, cloud). Chrání před fyzickými katastrofami (požár, záplava, krádež hardware).</div>
+    </div>
+  </div>
+  <p>Rozšíření: <strong>3-2-1-1-0</strong> — navíc 1× offline (odpojená od sítě — chráněno před ransomware) + 0 chyb při ověření (testování obnovy). Záloha bez pravidelného testování obnovy není záloha.</p>
+
+  <h3>RTO a RPO</h3>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">RTO — Recovery Time Objective</div>
+      <div class="pojem-body">Maximální přijatelná doba výpadku systému po incidentu. Příklad: RTO = 4 hodiny → systém musí být obnoven do 4 hodin od incidentu. Ovlivňuje architekturu zálohovacího řešení (hot standby vs. cold standby).</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">RPO — Recovery Point Objective</div>
+      <div class="pojem-body">Maximální přijatelné množství ztracených dat (čas). Příklad: RPO = 1 hodina → zálohy musí probíhat minimálně každou hodinu; data starší než 1 hodina mohou být ztracena. Ovlivňuje frekvenci zálohování.</div>
+    </div>
+  </div>
+
+  <h3>Typy záloh</h3>
+  <table>
+    <tr><th>Typ</th><th>Popis</th><th>Výhody</th><th>Nevýhody</th></tr>
+    <tr><td><strong>Plná záloha (Full)</strong></td><td>Vše zálohováno v každém běhu</td><td>Nejjednodušší obnova (jen z jedné zálohy)</td><td>Velký objem dat, dlouhý čas zálohy</td></tr>
+    <tr><td><strong>Přírůstková (Incremental)</strong></td><td>Záloha změn od poslední zálohy (plné nebo přírůstkové)</td><td>Malý objem, rychlé zálohování</td><td>Obnova pomalejší (nutno rekonstruovat ze série záloh)</td></tr>
+    <tr><td><strong>Rozdílová (Differential)</strong></td><td>Záloha změn od poslední plné zálohy</td><td>Obnova rychlejší než incremental (jen plná + nejnovější diff)</td><td>Narůstá objem každé zálohy s časem</td></tr>
+    <tr><td><strong>Snímek (Snapshot)</strong></td><td>Point-in-time kopie stavu (ZFS snapshot, VM snapshot, LVM snapshot)</td><td>Okamžité vytvoření, minimum I/O</td><td>Stále na stejném úložišti → nenahrazuje offsite zálohu</td></tr>
+  </table>
+
+</section>
+
+<!-- Klíčové pojmy -->
+<section class="lecture" id="pojmy">
+  <div class="lec-header">
+    <div class="lec-num">&#9733;</div>
+    <div>
+      <div class="lec-title">Klíčové pojmy</div>
+      <div class="lec-subtitle">Rychlý přehled 50+ pojmů a zkratek pro přípravu na státní zkoušku — 4SA313</div>
+    </div>
+  </div>
+
+  <table>
+    <tr><th>Pojem / Zkratka</th><th>Plný název a vysvětlení</th></tr>
+    <tr><td><strong>AES</strong></td><td>Advanced Encryption Standard — symetrická bloková šifra, délka klíče 128/192/256 bitů, blok 128 bitů. Standard NIST. Módy: ECB (nebezpečný), CBC, CTR, GCM (AEAD, doporučený).</td></tr>
+    <tr><td><strong>DES / 3DES</strong></td><td>Data Encryption Standard (56bitový klíč — prolomeno 1998) / Triple DES (112 bitů). Dosluhující, nepoužívat v nových aplikacích.</td></tr>
+    <tr><td><strong>GCM / AEAD</strong></td><td>Galois/Counter Mode — AEAD mód AES. Poskytuje zároveň šifrování i autentizaci (tag). Standardní v TLS 1.3.</td></tr>
+    <tr><td><strong>RSA</strong></td><td>Asymetrická šifra (Rivest-Shamir-Adleman). Bezpečnost: faktorizace velkých čísel. Min. 2048 bitů. Podepisování = soukromý klíč; šifrování = veřejný klíč příjemce. Pomalé — používá se jen pro výměnu session key (hybridní schéma).</td></tr>
+    <tr><td><strong>ECC</strong></td><td>Elliptic Curve Cryptography — asymetrická kryptografie na eliptických křivkách. 256bitový ECC ≈ 3072bitový RSA. Algoritmy: ECDSA (podpis), ECDH/ECDHE (výměna klíčů). Křivky: P-256, X25519.</td></tr>
+    <tr><td><strong>SHA-256 / SHA-3</strong></td><td>Kryptografická hashovací funkce. SHA-256 (SHA-2): 256bitový digest, standard v TLS/certifikátech. SHA-3 (Keccak): odlišná sponge konstrukce. Pro hesla: bcrypt nebo Argon2 (záměrně pomalé, memory-hard).</td></tr>
+    <tr><td><strong>HMAC</strong></td><td>Hash-based Message Authentication Code — MAC kombinující klíč s hash funkcí (HMAC-SHA256). Zajišťuje integritu + autentizaci. Na rozdíl od digitálního podpisu nezajišťuje nepopiratelnost.</td></tr>
+    <tr><td><strong>PKI</strong></td><td>Public Key Infrastructure — hierarchie Root CA → Intermediate CA → End-entity certifikát X.509. Váže veřejný klíč na identitu. Odvolávání: CRL nebo OCSP (OCSP Stapling).</td></tr>
+    <tr><td><strong>TLS 1.3</strong></td><td>RFC 8446 — kryptografický protokol L4. 1-RTT handshake (0-RTT volitelný), povinný PFS (ECDHE), šifrování handshaku, pouze 5 AEAD cipher suites. Odstraněno: RSA key exchange, MD5/SHA1, RC4, CBC.</td></tr>
+    <tr><td><strong>PFS / Forward Secrecy</strong></td><td>Perfect Forward Secrecy — efemérní klíče (ECDHE) pro každou relaci. I při kompromitaci soukromého klíče serveru nelze dešifrovat minulé relace.</td></tr>
+    <tr><td><strong>PostSignum / I.CA</strong></td><td>Kvalifikované certifikační autority v ČR (Česká pošta / První certifikační autorita). Vydávají QES (kvalifikované elektronické podpisy) dle eIDAS. Právní účinky rovnocenné vlastnoručnímu podpisu.</td></tr>
+    <tr><td><strong>eIDAS</strong></td><td>Nařízení EU 910/2014 — elektronická identifikace a důvěryhodné služby. Definuje úrovně el. podpisu: PES, AdES, QES. QES = kvalifikovaný certifikát + kvalifikovaný prostředek (čipová karta, HSM).</td></tr>
+    <tr><td><strong>MFA / 2FA</strong></td><td>Multi-Factor Authentication — kombinace ≥ 2 faktorů (znalost + vlastnictví + biometrie). Blokuje 99,9 % automatizovaných útoků. TOTP (RFC 6238), FIDO2/WebAuthn (phishing-resistant).</td></tr>
+    <tr><td><strong>FIDO2 / WebAuthn</strong></td><td>Otevřený standard pro passwordless a MFA autentizaci. Klient generuje pár klíčů vázaný na origin (doménu). Soukromý klíč nikdy neopustí zařízení (TPM/Secure Enclave). Phishing-resistant.</td></tr>
+    <tr><td><strong>IAM</strong></td><td>Identity and Access Management — správa identit, autentizace (IdP, SP), autorizace (RBAC/ABAC), provisioning/deprovisioning, directory services (AD, LDAP), audit.</td></tr>
+    <tr><td><strong>RBAC</strong></td><td>Role-Based Access Control — přístup přiřazen rolím; uživatel dostane roli. Hierarchické role, SOD (separation of duties). Výhoda: jednoduchost správy, auditovatelnost. Příklad: WordPress role administrator/editor/author.</td></tr>
+    <tr><td><strong>ABAC</strong></td><td>Attribute-Based Access Control — přístup řízen atributy subjektu, objektu, prostředí, operace. Flexibilnější než RBAC. Politiky v XACML. Také: PBAC, CBAC. Kombinace s RBAC (role je atributem).</td></tr>
+    <tr><td><strong>PAM</strong></td><td>Privileged Access Management — Just-in-Time access, session recording, password vaulting (CyberArk, BeyondTrust), dual control. Chrání privilegované účty (admin, root, service accounts).</td></tr>
+    <tr><td><strong>SSO</strong></td><td>Single Sign-On — přihlášení jednou, přístup k více aplikacím. Odděluje autentizaci od aplikace. Výhody: méně hesel, snazší offboarding, MFA na jednom místě.</td></tr>
+    <tr><td><strong>SAML 2.0</strong></td><td>Security Assertion Markup Language — XML-based SSO protokol. IdP vydá XML Assertion podepsanou soukromým klíčem. SP ověří veřejným klíčem IdP. Použití: Office 365, eduID, eduroam na VŠE.</td></tr>
+    <tr><td><strong>OAuth 2.0</strong></td><td>Framework pro delegaci autorizace k API. Resource Owner, Client, Resource Server, Authorization Server. Grant types: Authorization Code (nejbezpečnější), Client Credentials (M2M), Device Code (IoT). Přenáší Access Token (JWT nebo opaque).</td></tr>
+    <tr><td><strong>OIDC</strong></td><td>OpenID Connect — nadstavba OAuth 2.0 pro autentizaci. Přidává ID Token (JWT s identitou: sub, iss, aud, iat, exp). Řeší to, co OAuth 2.0 sám neřeší — prokázání identity. „Přihlásit se přes Google/Microsoft".</td></tr>
+    <tr><td><strong>Zero Trust</strong></td><td>Bezpečnostní paradigma: „Never trust, always verify". Nevěřit ani vnitřní síti. Více zdrojů důvěry. NIST 800-207: Policy Engine / Administrator / Enforcement Point. Pilíře: Identity, Device, Network, App, Data.</td></tr>
+    <tr><td><strong>ZTNA</strong></td><td>Zero Trust Network Access — přístup k aplikaci (ne k celé síti). Náhrada VPN. Kontinuální ověřování identity + stavu zařízení. Cloudflare Access, Zscaler ZPA, Cisco Duo.</td></tr>
+    <tr><td><strong>OWASP Top 10</strong></td><td>2021: A01 Broken Access Control, A02 Cryptographic Failures, A03 Injection, A04 Insecure Design, A05 Security Misconfiguration, A06 Outdated Components, A07 Auth Failures, A08 Integrity Failures, A09 Logging Failures, A10 SSRF.</td></tr>
+    <tr><td><strong>SQL Injection</strong></td><td>Vstup uživatele je interpretován jako SQL příkaz. Obrana: prepared statements (parametrizované dotazy), ORM, WAF. Automatické testování: SQLmap.</td></tr>
+    <tr><td><strong>XSS</strong></td><td>Cross-Site Scripting — škodlivý JavaScript vložen do stránky. Typy: Stored (v DB), Reflected (v URL), DOM-based. Obrana: output encoding, CSP hlavička, HttpOnly cookie.</td></tr>
+    <tr><td><strong>CSRF</strong></td><td>Cross-Site Request Forgery — útok ze třetí strany využívající session cookie oběti. Obrana: CSRF token, SameSite cookie atribut (Strict/Lax), Same-Origin Policy.</td></tr>
+    <tr><td><strong>SSRF</strong></td><td>Server-Side Request Forgery — server vykonává HTTP požadavky na URL specifikované útočníkem. Přístup k interním službám, metadata API. Obrana: whitelist URL, blokování interních rozsahů.</td></tr>
+    <tr><td><strong>DoS / DDoS</strong></td><td>Denial of Service / Distributed DoS — zahlcení cíle. Typy: volumetrické (UDP flood, DNS amplification), protokolové (SYN flood), aplikační (HTTP flood, Slowloris). Obrana: scrubbing center, anycast, rate limiting.</td></tr>
+    <tr><td><strong>MitM</strong></td><td>Man-in-the-Middle — útočník vložen mezi komunikující strany. Techniky: ARP poisoning, DNS spoofing, SSL stripping, rogue AP. Obrana: TLS, HSTS, certificate pinning, DNSSEC.</td></tr>
+    <tr><td><strong>HSTS</strong></td><td>HTTP Strict Transport Security — server deklaruje: veškerá komunikace musí být přes HTTPS. Prohlížeč odmítá HTTP a nelze obejít certifikátové varování. Chrání před SSL stripping. HSTS Preloading = vestavěno do prohlížečů.</td></tr>
+    <tr><td><strong>CSP</strong></td><td>Content Security Policy — HTTP hlavička omezující zdroje skriptů, stylů, rámců. Chrání před XSS, clickjackingem. Direktiva: script-src, frame-ancestors, default-src. Nonce pro legitimní inline skripty.</td></tr>
+    <tr><td><strong>WAF</strong></td><td>Web Application Firewall — L7 firewall pro HTTP/HTTPS. Filtruje SQL injection, XSS, CSRF, path traversal. Implementace: Apache mod_security, Cloudflare WAF, AWS WAF. Nutná kalibrace, sledování false positives.</td></tr>
+    <tr><td><strong>NGFW</strong></td><td>Next Generation Firewall — stavový FW + IPS inline + DPI + TLS/SSL inspekce (MitM na TLS) + App-ID + URL filtrování + User-ID + centralizovaná správa. Palo Alto, Fortinet, Cisco Firepower, Check Point.</td></tr>
+    <tr><td><strong>IDS</strong></td><td>Intrusion Detection System — pasivní monitoring, generuje alerty. NIDS (síťový, ze zrcadlícího portu), HIDS (hostový, logy + integrita souborů). Detekce: signaturová + anomaly-based. Snort, Suricata, OSSEC.</td></tr>
+    <tr><td><strong>IPS</strong></td><td>Intrusion Prevention System — aktivní inline blokování škodlivého provozu. IDS + automatická akce (drop paketu, TCP RST). Riziko false positives → nutná kalibrace.</td></tr>
+    <tr><td><strong>DMZ</strong></td><td>Demilitarized Zone — síťová zóna mezi vnějším firewally a vnitřní sítí. Veřejné servery (web, mail, DNS, VPN). Dvě-firewallová architektura (vnější FW → DMZ → vnitřní FW → interní síť).</td></tr>
+    <tr><td><strong>VPN</strong></td><td>Virtual Private Network — soukromé propojení přes veřejnou síť. Typy: Remote Access, Site-to-Site, Public. Protokoly: PPTP (nebezpečný), IPsec (IKEv2/L2TP), OpenVPN/SSL VPN, WireGuard (moderní, nejrychlejší).</td></tr>
+    <tr><td><strong>IPsec</strong></td><td>Internet Protocol Security — standard pro šifrování/autentizaci IP paketů. Transport Mode (payload šifrován, IP hlavička viditelná), Tunnel Mode (celý paket šifrován). ESP (protokol IP 50), IKE (UDP 500).</td></tr>
+    <tr><td><strong>SIEM</strong></td><td>Security Information and Event Management — agregace, normalizace, korelace logů v reálném čase. Detekce incidentů. Splunk, Microsoft Sentinel, IBM QRadar, Elastic SIEM.</td></tr>
+    <tr><td><strong>CVE</strong></td><td>Common Vulnerabilities and Exposures — standardizovaný identifikátor zranitelnosti (CVE-YYYY-NNNNN). Spravuje MITRE, databáze NVD (nvd.nist.gov). Příklad: CVE-2021-44228 = Log4Shell.</td></tr>
+    <tr><td><strong>CVSS</strong></td><td>Common Vulnerability Scoring System v3.1 — skóre 0–10. Skupiny: Base (0–10, neměnné vlastnosti), Temporal (dostupnost exploitu, patche), Environmental (kontext organizace). Critical ≥ 9.0.</td></tr>
+    <tr><td><strong>Pentesting</strong></td><td>Penetrační testování — autorizovaný simulovaný útok. 5 fází: Reconnaissance → Scanning → Exploitation → Post-Exploitation → Reporting. Výstup: zpráva s CVE/CVSS referencemi a doporučeními k nápravě.</td></tr>
+    <tr><td><strong>Red / Blue / Purple Team</strong></td><td>Red = útočník (simuluje APT). Blue = obránce (SOC, SIEM, incident response). Purple = kooperace — Red testuje techniku, Blue ověřuje detekci → iterativní zlepšení (MITRE ATT&amp;CK coverage).</td></tr>
+    <tr><td><strong>CIA triáda</strong></td><td>Confidentiality (důvěrnost) + Integrity (integrita) + Availability (dostupnost) — tři pilíře informační bezpečnosti. Základ ISO 27001, ISMS.</td></tr>
+    <tr><td><strong>ISO 27001</strong></td><td>Mezinárodní standard pro ISMS (Information Security Management System). 93 kontrol v 4 tématech (Organizational, People, Physical, Technological). Certifikace auditovaná třetí stranou.</td></tr>
+    <tr><td><strong>ZKB / NÚKIB</strong></td><td>Zákon o kybernetické bezpečnosti 181/2014 Sb. (transpozice NIS/NIS2) — povinnosti pro KII/ZDS. Gestor: NÚKIB (Národní úřad pro kybernetickou a informační bezpečnost).</td></tr>
+    <tr><td><strong>Bell-LaPadula / Biba</strong></td><td>Bezpečnostní modely. Bell-LaPadula: důvěrnost (No Read Up, No Write Down). Biba: integrita (No Read Down, No Write Up). MAC modely pro klasifikaci dat.</td></tr>
+    <tr><td><strong>3-2-1 / RPO / RTO</strong></td><td>Strategie zálohování: 3× kopie, 2× médium, 1× offsite. RPO = maximální ztráta dat (čas). RTO = maximální doba výpadku. 3-2-1-1-0 rozšíření: + 1× offline + 0 chyb při testování obnovy.</td></tr>
+    <tr><td><strong>Phishing / Spear-phishing</strong></td><td>Phishing = hromadný podvod e-mailem. Spear-phishing = cílený (konkrétní osoba/org.). Vishing = telefonní. Pretexting = vymyšlený scénář. Obrana: security awareness training, MFA, simulované phishingové kampaně.</td></tr>
+    <tr><td><strong>ARP poisoning</strong></td><td>Útok na L2 — falešné ARP odpovědi → přesměrování provozu přes útočníka (MitM). Obrana: Dynamic ARP Inspection (DAI) na switchi, statické ARP záznamy.</td></tr>
+    <tr><td><strong>MITRE ATT&amp;CK</strong></td><td>Znalostní báze technik a taktik skutečných útočníků (TTPs). 14 taktik, 300+ technik. Používá Red Team pro plánování, Blue Team pro mapování detekčních mezer, SIEM pro korelační pravidla.</td></tr>
+  </table>
+
+</section>
+
+<script>
+(function(){
+  var links = document.querySelectorAll('.nav-link');
+  function setActive(){
+    var sections = document.querySelectorAll('section[id]');
+    var scrollY = window.scrollY + 100;
+    var current = '';
+    sections.forEach(function(s){
+      if(s.offsetTop <= scrollY){ current = s.getAttribute('id'); }
+    });
+    links.forEach(function(l){
+      l.style.background = '';
+      l.style.color = '';
+      if(l.getAttribute('href') === '#' + current){
+        l.style.background = '#eff6ff';
+        l.style.color = '#1d4ed8';
+      }
+    });
+  }
+  window.addEventListener('scroll', setActive);
+  setActive();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4SA515 ISMS — Řízení bezpečnosti informačních systémů</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, sans-serif; font-size: 15px; line-height: 1.6; color: #111827; background: #f9fafb; -webkit-font-smoothing: antialiased; margin-left: 58px; }
+  #doc-nav { width: 50px; height: 100vh; position: fixed; left: 0; top: 0; z-index: 100; overflow: hidden; background: #fff; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; transition: width 0.32s cubic-bezier(0.4,0,0.2,1), box-shadow 0.32s; }
+  #doc-nav:hover { width: 260px; box-shadow: 6px 0 24px rgba(0,0,0,0.07); }
+  .nav-logo { padding: 14px 13px 12px; border-bottom: 1px solid #e5e7eb; white-space: nowrap; overflow: hidden; position: relative; }
+  .nav-code { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9ca3af; margin-bottom: 3px; }
+  .nav-subject { display: block; font-size: 13px; font-weight: 600; color: #111827; }
+  .nav-logo-icon { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-size: 16px; color: #1d4ed8; opacity: 0; transition: opacity 0.2s; }
+  .nav-logo-text { opacity: 1; transition: opacity 0.2s; }
+  #doc-nav:not(:hover) .nav-logo-icon { opacity: 1; }
+  #doc-nav:not(:hover) .nav-logo-text { opacity: 0; }
+  .nav-items { flex: 1; padding: 6px 0; overflow-y: auto; overflow-x: hidden; }
+  .nav-link { display: flex; align-items: center; gap: 8px; padding: 5px 12px; font-size: 12.5px; font-weight: 500; color: #374151; text-decoration: none; white-space: nowrap; overflow: hidden; transition: background 0.1s, color 0.1s; }
+  .nav-link:hover { background: #f3f4f6; color: #111827; }
+  .nav-num { font-size: 9px; font-weight: 700; background: #1d4ed8; color: #fff; padding: 2px 5px; border-radius: 3px; flex-shrink: 0; min-width: 22px; text-align: center; }
+  .nav-label { max-width: 220px; overflow: hidden; white-space: nowrap; transition: max-width 0.28s, opacity 0.18s; }
+  #doc-nav:not(:hover) .nav-label { max-width: 0; opacity: 0; }
+  #doc-nav:not(:hover) .nav-link { padding-left: 4px; padding-right: 4px; justify-content: center; }
+  .hero { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 44px 56px 40px; }
+  .hero-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #94a3b8; margin-bottom: 12px; }
+  .hero-title { font-size: 38px; font-weight: 800; color: #0f172a; letter-spacing: -0.03em; line-height: 1.08; margin-bottom: 16px; }
+  .hero-desc { font-size: 15px; color: #64748b; max-width: 680px; line-height: 1.65; margin-bottom: 20px; }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+  .hero-pill { display: inline-block; padding: 4px 11px; border-radius: 20px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 500; }
+  .lecture { max-width: 820px; margin: 0 auto; padding: 48px 56px; border-bottom: 1px solid #f1f5f9; }
+  .lec-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; }
+  .lec-num { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: #1d4ed8; color: #fff; padding: 5px 9px; border-radius: 5px; flex-shrink: 0; margin-top: 2px; }
+  .lec-title { font-size: 22px; font-weight: 700; color: #0f172a; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .lec-subtitle { font-size: 13px; color: #64748b; }
+  h2 { font-size: 16px; font-weight: 700; color: #0f172a; margin: 28px 0 10px; padding-bottom: 6px; border-bottom: 1px solid #e5e7eb; }
+  h3 { font-size: 14px; font-weight: 700; color: #374151; margin: 20px 0 8px; }
+  p { margin-bottom: 14px; color: #374151; font-size: 14.5px; }
+  ul, ol { margin: 0 0 14px; padding-left: 22px; color: #374151; font-size: 14.5px; }
+  li { margin-bottom: 5px; }
+  strong { font-weight: 700; color: #0f172a; }
+  em { font-style: italic; color: #475569; }
+  .pojmy { display: grid; gap: 8px; margin: 14px 0 20px; }
+  .pojmy.two { grid-template-columns: 1fr 1fr; }
+  .pojmy.three { grid-template-columns: 1fr 1fr 1fr; }
+  .pojmy.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .pojmy.single { grid-template-columns: 1fr; }
+  .pojem { border-radius: 8px; padding: 14px 16px; border: 1px solid; }
+  .pojem.blue { background: #eff6ff; border-color: #bfdbfe; }
+  .pojem.green { background: #f0fdf4; border-color: #bbf7d0; }
+  .pojem.orange { background: #fff7ed; border-color: #fed7aa; }
+  .pojem.purple { background: #faf5ff; border-color: #ddd6fe; }
+  .pojem.red { background: #fff1f2; border-color: #fecdd3; }
+  .pojem.gray { background: #f8fafc; border-color: #e2e8f0; }
+  .pojem-head { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #475569; margin-bottom: 7px; }
+  .pojem.blue .pojem-head { color: #1d4ed8; }
+  .pojem.green .pojem-head { color: #15803d; }
+  .pojem.orange .pojem-head { color: #c2410c; }
+  .pojem.purple .pojem-head { color: #6d28d9; }
+  .pojem.red .pojem-head { color: #be123c; }
+  .pojem.gray .pojem-head { color: #475569; }
+  .pojem-body { font-size: 13.5px; line-height: 1.55; color: #374151; }
+  .tip { background: #fefce8; border-left: 3px solid #eab308; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #713f12; line-height: 1.6; }
+  .callout { background: #f0f9ff; border-left: 3px solid #0ea5e9; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #0c4a6e; line-height: 1.6; }
+  .warn { background: #fff1f2; border-left: 3px solid #f43f5e; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #9f1239; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 13.5px; }
+  th { background: #f8fafc; font-weight: 600; text-align: left; padding: 8px 10px; border: 1px solid #e5e7eb; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  td { padding: 8px 10px; border: 1px solid #e5e7eb; vertical-align: top; color: #374151; }
+  tr:nth-child(even) td { background: #fafafa; }
+  code { font-family: 'SF Mono', monospace; font-size: 12.5px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 3px; padding: 1px 5px; color: #1d4ed8; }
+  .tag { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; margin-right: 5px; border: 1px solid; }
+  .tag.blue { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+  .tag.green { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+  .tag.orange { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+  .tag.red { background: #fff1f2; color: #be123c; border-color: #fecdd3; }
+  .chain { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 14px 0 20px; font-size: 13px; }
+  .chain-item { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 7px 12px; color: #1e40af; font-weight: 600; font-size: 13px; }
+  .chain-arrow { color: #94a3b8; font-size: 18px; font-weight: 300; }
+</style>
+</head>
+<body>
+
+<nav id="doc-nav">
+  <div class="nav-logo">
+    <span class="nav-logo-icon">&#9670;</span>
+    <span class="nav-logo-text">
+      <span class="nav-code">4SA515</span>
+      <span class="nav-subject">ISMS</span>
+    </span>
+  </div>
+  <div class="nav-items">
+    <a class="nav-link" href="#p1"><span class="nav-num">P1</span><span class="nav-label">Základy ISMS &amp; CIA</span></a>
+    <a class="nav-link" href="#p2"><span class="nav-num">P2</span><span class="nav-label">ISO/IEC 27001</span></a>
+    <a class="nav-link" href="#p3"><span class="nav-num">P3</span><span class="nav-label">Analýza rizik</span></a>
+    <a class="nav-link" href="#p4"><span class="nav-num">P4</span><span class="nav-label">ISO 27002 — opatření</span></a>
+    <a class="nav-link" href="#p5"><span class="nav-num">P5</span><span class="nav-label">ZKB + NIS2 + DORA</span></a>
+    <a class="nav-link" href="#p6"><span class="nav-num">P6</span><span class="nav-label">BCM / BCP / DRP</span></a>
+    <a class="nav-link" href="#klicpojmy"><span class="nav-num">&#9733;</span><span class="nav-label">Klíčové pojmy</span></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">4SA515 · doc. Sigmund · VŠE Praha</div>
+  <div class="hero-title">Řízení bezpečnosti informačních systémů — ISMS</div>
+  <div class="hero-desc">Komplexní přehled pro státní závěrečnou zkoušku: CIA triáda, model aktiv, ISO/IEC 27001 a 27002, analýza rizik, ZKB č. 181/2014, NIS2, DORA a řízení kontinuity činností (BCM/BCP/DRP).</div>
+  <div class="hero-pills">
+    <span class="hero-pill">CIA triáda</span>
+    <span class="hero-pill">AAA model</span>
+    <span class="hero-pill">ISO 27001:2022</span>
+    <span class="hero-pill">SoA</span>
+    <span class="hero-pill">ISO 27005</span>
+    <span class="hero-pill">ZKB 181/2014</span>
+    <span class="hero-pill">NIS2</span>
+    <span class="hero-pill">DORA</span>
+    <span class="hero-pill">NÚKIB</span>
+    <span class="hero-pill">BCP / DRP</span>
+    <span class="hero-pill">RTO / RPO</span>
+  </div>
+</div>
+
+<!-- P1 -->
+<section class="lecture" id="p1">
+  <div class="lec-header">
+    <div class="lec-num">P1</div>
+    <div>
+      <div class="lec-title">Základy ISMS — pojmy, CIA triáda, AAA, model aktiv</div>
+      <div class="lec-subtitle">Definice bezpečnosti informací, ISO 27000 terminologie, řetěz příčin a důsledků, proč nestačí jen technická opatření</div>
+    </div>
+  </div>
+
+  <h2>Bezpečnost informací — definice (ISO 27000)</h2>
+  <p><strong>Bezpečnost informací</strong> je ochrana důvěrnosti, integrity a dostupnosti informací. Krom těchto tří základních vlastností může zahrnovat i autenticitu, odpovědnost, nepopiratelnost a spolehlivost (<em>ISO/IEC 27000:2018</em>).</p>
+  <p><strong>Kybernetická bezpečnost</strong> je širší pojem — zahrnuje bezpečnost sítí a Internetu, bezpečnost aplikací a ochranu kritické informační infrastruktury (<em>ISO/IEC 27032</em>).</p>
+
+  <h2>CIA triáda</h2>
+  <p>Tři základní bezpečnostní cíle, jejichž zajištění je jádrem každého ISMS. U každého aktiva se hodnotí dopad narušení každé ze tří složek.</p>
+  <table>
+    <tr><th>Složka</th><th>Definice (ISO 27000)</th><th>Příklad hrozby / narušení</th><th>Příklad opatření</th></tr>
+    <tr>
+      <td><strong>C — Confidentiality<br>(Důvěrnost)</strong></td>
+      <td>Informace není dostupná nebo odhalena neautorizovaným jednotlivcům, entitám nebo procesům.</td>
+      <td>Neoprávněný přístup do databáze, odposlech síťového provozu, phishing, insider threat, ztráta nezašifrovaného notebooku.</td>
+      <td>Šifrování (AES-256, TLS), přístupy řízené rolemi (RBAC), klasifikace informací, MFA, DLP.</td>
+    </tr>
+    <tr>
+      <td><strong>I — Integrity<br>(Integrita)</strong></td>
+      <td>Zajištění správnosti a úplnosti informací — data nebyla změněna nebo zničena neautorizovaným způsobem.</td>
+      <td>SQL injection, malware modifikující záznamy, chyba zaměstnance přepisující data, man-in-the-middle útok.</td>
+      <td>Hašování (SHA-256), digitální podpis, auditní logy, verzování dokumentů, oddělení prostředí (dev/test/prod).</td>
+    </tr>
+    <tr>
+      <td><strong>A — Availability<br>(Dostupnost)</strong></td>
+      <td>Vlastnost přístupnosti a použitelnosti na žádost autorizované entity.</td>
+      <td>DDoS útok, selhání hardware, výpadek napájení, ransomware šifrující data, přírodní katastrofa.</td>
+      <td>Redundance, zálohy (3-2-1 pravidlo), BCP/DRP, UPS, HA clustering, SLA, monitoring dostupnosti.</td>
+    </tr>
+  </table>
+
+  <div class="tip"><strong>Pamatuj:</strong> Narušení CIA je přímo propojeno s kategoriemi aktiv a musí být reflektováno v analýze rizik. Každé aktivum má hodnotu C, I, A — jejich součin (nebo maximum) určuje celkovou hodnotu aktiva pro organizaci.</div>
+
+  <h2>AAA model — Authentication, Authorization, Accounting</h2>
+  <p>AAA je trojice bezpečnostních mechanismů pro řízení přístupu k systémům a zdrojům. Bez AAA nelze zajistit odpovědnost ani auditovatelnost.</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Authentication (Autentizace)</div>
+      <div class="pojem-body">Ověření, <strong>kdo jsi</strong> — prokázání totožnosti subjektu. Faktory: <strong>znalost</strong> (heslo, PIN), <strong>vlastnictví</strong> (token, čipová karta, SMS kód), <strong>biometrie</strong> (otisk prstu, obličej). MFA kombinuje alespoň 2 faktory. Doplňující dimenze: <em>kde</em> (IP, lokace), <em>kdy</em> (časové okno přístupu).</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Authorization (Autorizace)</div>
+      <div class="pojem-body">Určení, <strong>co smíš dělat</strong> — přidělení oprávnění ověřenému subjektu. Principy: Least Privilege (nejmenší nutná práva), Need-to-Know, Segregation of Duties (oddělení povinností). Modely: RBAC (Role Based Access Control), ABAC (Attribute Based), MAC (Mandatory Access Control), DAC (Discretionary).</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Accounting (Zaznamenávání)</div>
+      <div class="pojem-body">Sledování, <strong>co jsi udělal</strong> — auditní záznamy o akcích subjektů. Zajišťuje odpovědnost (accountability) a nepopiratelnost (non-repudiation). Zahrnuje: logy přihlášení, přístupové záznamy, transakční logy. ZKB vyžaduje uchovávání logů min. 12–18 měsíců.</div>
+    </div>
+  </div>
+
+  <h2>Model aktiv — řetěz příčin a důsledků</h2>
+  <p>Řízení bezpečnosti stojí na pochopení vztahu mezi aktivy, hrozbami, zranitelnostmi, riziky a opatřeními. ISO/IEC 27000 definuje tento řetěz takto:</p>
+
+  <div class="chain">
+    <div class="chain-item">Aktivum<br><small style="font-weight:400;font-size:11px">co chráníme</small></div>
+    <div class="chain-arrow">&#8594;</div>
+    <div class="chain-item">Hrozba<br><small style="font-weight:400;font-size:11px">potenciální příčina</small></div>
+    <div class="chain-arrow">&#8594;</div>
+    <div class="chain-item">Zranitelnost<br><small style="font-weight:400;font-size:11px">slabina aktiva</small></div>
+    <div class="chain-arrow">&#8594;</div>
+    <div class="chain-item">Riziko<br><small style="font-weight:400;font-size:11px">pravděp. × dopad</small></div>
+    <div class="chain-arrow">&#8594;</div>
+    <div class="chain-item">Dopad<br><small style="font-weight:400;font-size:11px">škoda na aktivu</small></div>
+    <div class="chain-arrow">&#8594;</div>
+    <div class="chain-item">Opatření<br><small style="font-weight:400;font-size:11px">control / snížení rizika</small></div>
+  </div>
+
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Aktivum (Asset) — co chráníme</div>
+      <div class="pojem-body"><strong>Hmotná aktiva:</strong> servery, pracovní stanice, síťové prvky, budovy, média s daty.<br><strong>Nehmotná aktiva:</strong> zákaznická data, obchodní tajemství, software, certifikáty, reputace.<br><strong>Primární:</strong> informace a procesy. <strong>Podpůrná:</strong> hardware, software, personál, prostory.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Hrozba (Threat) — potenciální příčina</div>
+      <div class="pojem-body">Potenciální příčina nežádoucího incidentu způsobující škodu aktivu nebo organizaci.<br><strong>Přírodní:</strong> záplavy, požár, zemětřesení.<br><strong>Náhodné:</strong> chyba zaměstnance, selhání HW.<br><strong>Úmyslné:</strong> hackeři, malware, insider, ransomware.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Zranitelnost (Vulnerability) — slabina</div>
+      <div class="pojem-body">Slabé místo aktiva nebo opatření, které může být využito hrozbou.<br>Příklady: neopravená CVE zranitelnost, výchozí hesla, chybějící MFA, nešifrovaná komunikace, nedostatečná dokumentace procesů.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Riziko (Risk) — kombinace</div>
+      <div class="pojem-body"><strong>Riziko = pravděpodobnost × dopad.</strong><br>Společné působení hrozby a zranitelnosti aktiva může mít za následek škodu na aktivu. Riziko existuje, i když je sníženo opatřením — pak se nazývá <em>zbytkové riziko (residual risk)</em>.</div>
+    </div>
+  </div>
+
+  <h2>Co je ISMS a proč nestačí jen technická opatření</h2>
+  <p><strong>ISMS — Information Security Management System</strong> je podle ISO/IEC 27000 část celkového systému managementu organizace zaměřená na zajištění, monitorování, přezkoumání, udržování a zlepšování informační bezpečnosti. Zahrnuje organizační strukturu, politiky, plánovací aktivity, odpovědnosti, postupy, procesy a zdroje.</p>
+  <p>Samotná technická opatření (firewall, antivirus, šifrování) jsou nedostačující, protože:</p>
+  <ul>
+    <li>Technologie se mění a zastarávají — bez procesů řízení změn není bezpečnost udržitelná.</li>
+    <li>80+ % bezpečnostních incidentů má lidský prvek — phishing, chyba konfigurace, insider threat. Žádná technologie toto neřeší sama o sobě.</li>
+    <li>Regulatorní požadavky (ZKB, NIS2, GDPR) vyžadují prokázatelné řídící procesy, nikoli jen technická řešení.</li>
+    <li>Bezpečnost musí být zakotvena v organizační kultuře — to vyžaduje management system: politiky, školení, role a odpovědnosti, audity, kontinuální zlepšování.</li>
+  </ul>
+
+  <div class="callout"><strong>Klíčový rozdíl:</strong> Bezpečnostní <em>produkt</em> (firewall, SIEM) řeší konkrétní technický problém. Bezpečnostní <em>management system</em> (ISMS) zajišťuje, že jsou správné produkty vybrány, správně nasazeny, monitorovány, auditovány a průběžně zlepšovány — v souladu s obchodními cíli organizace a platnými zákony.</div>
+
+</section>
+
+<!-- P2 -->
+<section class="lecture" id="p2">
+  <div class="lec-header">
+    <div class="lec-num">P2</div>
+    <div>
+      <div class="lec-title">ISO/IEC 27001 — požadavky na ISMS</div>
+      <div class="lec-subtitle">Struktura normy, PDCA cyklus, scope, politika, SoA, certifikační audit, verze 2022 vs. 2013</div>
+    </div>
+  </div>
+
+  <h2>Struktura ISO/IEC 27001</h2>
+  <p>ISO/IEC 27001 je certifikovatelná norma specifikující požadavky na zavedení, implementaci, udržování a kontinuální zlepšování ISMS. Skládá se z <strong>10 klauzulí</strong> a <strong>Přílohy A</strong>.</p>
+  <table>
+    <tr><th>Klauzule</th><th>Název</th><th>Charakter</th></tr>
+    <tr><td>1–3</td><td>Předmět normy, Normativní odkazy, Termíny a definice</td><td>Informativní</td></tr>
+    <tr><td><strong>4</strong></td><td><strong>Kontext organizace</strong> — porozumění, zájmové strany, záběr</td><td>Normativní</td></tr>
+    <tr><td><strong>5</strong></td><td><strong>Vedení</strong> — závazek managementu, politika, role a odpovědnosti</td><td>Normativní</td></tr>
+    <tr><td><strong>6</strong></td><td><strong>Plánování</strong> — řízení rizik a příležitostí, cíle bezpečnosti informací</td><td>Normativní</td></tr>
+    <tr><td><strong>7</strong></td><td><strong>Podpora</strong> — zdroje, kompetence, povědomí, komunikace, dokumentace</td><td>Normativní</td></tr>
+    <tr><td><strong>8</strong></td><td><strong>Provoz</strong> — realizace plánování, hodnocení rizik, ošetření rizik</td><td>Normativní</td></tr>
+    <tr><td><strong>9</strong></td><td><strong>Hodnocení výkonnosti</strong> — monitorování, audit, přezkoumání vedením</td><td>Normativní</td></tr>
+    <tr><td><strong>10</strong></td><td><strong>Zlepšování</strong> — neshody, nápravná opatření, kontinuální zlepšování</td><td>Normativní</td></tr>
+    <tr><td><strong>Annex A</strong></td><td>Přehled opatření (controls) — v ISO 27001:2022 celkem 93 opatření ve 4 tématech</td><td>Normativní reference</td></tr>
+  </table>
+
+  <div class="callout"><strong>Klíčová logika normy:</strong> Klauzule 4–10 definují <em>požadavky na management system</em>. Annex A uvádí referenční opatření — organizace sama rozhoduje, která opatření jsou aplikovatelná (viz SoA), a tento výběr musí odůvodnit výsledky analýzy rizik.</div>
+
+  <h2>PDCA cyklus v ISMS</h2>
+  <p>ISO 27001 je postavena na Demingově cyklu PDCA (Plan–Do–Check–Act), který zajišťuje kontinuální zlepšování ISMS. Cyklus se opakuje obvykle ročně.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Plan — Plánuj (kl. 4–6)</div>
+      <div class="pojem-body"><strong>Co se dělá:</strong> Definice kontextu organizace, záběru ISMS, identifikace zájmových stran a jejich požadavků. Stanovení bezpečnostní politiky. Hodnocení rizik (identifikace aktiv, hrozeb, zranitelností, výpočet rizika). Výběr opatření, tvorba SoA.<br><strong>Výstup:</strong> Bezpečnostní politika, risk assessment zpráva, SoA, plán zvládání rizik.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Do — Prováděj (kl. 7–8)</div>
+      <div class="pojem-body"><strong>Co se dělá:</strong> Implementace a provoz opatření dle plánu. Zajištění zdrojů, kompetencí a povědomí zaměstnanců (školení). Řízení dokumentace ISMS. Provoz bezpečnostních opatření (technická i organizační).<br><strong>Výstup:</strong> Funkční opatření, záznamy o školení, bezpečnostní incidenty zaznamenány.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Check — Kontroluj (kl. 9)</div>
+      <div class="pojem-body"><strong>Co se dělá:</strong> Monitorování a měření výkonnosti ISMS. Interní audit ISMS (soulad s normou a politikou). Přezkoumání vedením (management review) — vstupy: výsledky auditů, incidenty, zpětná vazba od zainteresovaných stran.<br><strong>Výstup:</strong> Auditní zprávy, zápis z přezkoumání vedením, metriky bezpečnosti.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Act — Jednej (kl. 10)</div>
+      <div class="pojem-body"><strong>Co se dělá:</strong> Řešení neshod a nápravná opatření. Aktualizace ISMS na základě nálezů auditů a přezkoumání vedením. Kontinuální zlepšování. Přehodnocení rizik při změnách kontextu.<br><strong>Výstup:</strong> Nápravné akce, aktualizované dokumenty, vylepšené procesy.</div>
+    </div>
+  </div>
+
+  <h2>Záběr (Scope) a kontext organizace</h2>
+  <p>Klauzule 4 vyžaduje, aby organizace definovala <strong>záběr ISMS</strong> — hranice a aplikovatelnost systému (které části organizace, které procesy, lokace a technologie jsou zahrnuty). Záběr musí být zdokumentován a musí respektovat kontext:</p>
+  <ul>
+    <li><strong>Interní kontext:</strong> organizační struktura, strategie, kultura, IT architektura, existující politiky.</li>
+    <li><strong>Externí kontext:</strong> regulatorní požadavky (ZKB, NIS2, GDPR), trh, zákazníci, dodavatelé, technologické trendy.</li>
+    <li><strong>Zájmové strany (stakeholders):</strong> zákazníci, regulátoři, zaměstnanci, akcionáři, dodavatelé — jejich požadavky a očekávání musí být mapovány a zohleDňovány.</li>
+  </ul>
+
+  <h2>Politika bezpečnosti informací</h2>
+  <p>Bezpečnostní politika je vrcholový dokument ISMS. ISO 27001 (kl. 5.2) vyžaduje, aby politika:</p>
+  <ul>
+    <li>Byla přiměřená záměru organizace.</li>
+    <li>Obsahovala závazek ke splnění příslušných požadavků (právních, smluvních, normativních).</li>
+    <li>Obsahovala závazek ke kontinuálnímu zlepšování ISMS.</li>
+    <li>Byla komunikována v rámci organizace a dostupná zainteresovaným stranám.</li>
+    <li>Byla pravidelně přezkoumávána.</li>
+  </ul>
+  <p>Politika je schvalována vrcholovým vedením (top management) — tím vedení deklaruje svůj závazek a odpovědnost za ISMS.</p>
+
+  <h2>Statement of Applicability (SoA)</h2>
+  <p><strong>SoA</strong> je povinný dokument ISO 27001 — tabulka všech opatření z Přílohy A (93 opatření v ISO 27001:2022), kde je u každého opatření uvedeno:</p>
+  <ul>
+    <li><strong>Aplikováno / Vyloučeno</strong> — zda organizace opatření používá.</li>
+    <li><strong>Důvod aplikace nebo vyloučení</strong> — odkaz na výsledky analýzy rizik, právní požadavek, smluvní závazek nebo obchodní rozhodnutí.</li>
+    <li><strong>Popis implementace</strong> — jak je opatření realizováno (odkaz na politiku nebo postup).</li>
+  </ul>
+  <p>SoA propojuje analýzu rizik s konkrétními opatřeními a slouží certifikátorovi jako primární důkaz, že organizace systematicky přistupuje k výběru opatření. Vyloučit lze libovolné opatření, ale vyloučení musí být zdůvodněné — certifikátor to prověřuje.</p>
+  <div class="tip"><strong>Na zkoušce:</strong> SoA ≠ seznam všech opatření, která organizace má. Je to dokument prokazující <em>vědomé rozhodnutí</em> — proč každé opatření je nebo není aplikováno. Opatření z Annex A jsou referenční, nikoli povinná všechna.</div>
+
+  <h2>Certifikační audit ISO 27001 — dvě fáze</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Fáze 1 — Documentation Review</div>
+      <div class="pojem-body">Auditor přezkoumává dokumentaci ISMS: bezpečnostní politiku, záběr, SoA, výsledky analýzy rizik, plán zvládání rizik, záznamy z auditů a přezkoumání vedením. Cíl: ověřit, zda ISMS je navržen a zdokumentován v souladu s ISO 27001. Výsledek: seznam neshod a doporučení pro fázi 2.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Fáze 2 — On-site Audit (Implementation Audit)</div>
+      <div class="pojem-body">Auditor fyzicky navštíví organizaci a ověřuje, zda jsou opatření skutečně implementována a fungují v praxi. Provádí rozhovory se zaměstnanci, prohlídky serveroven, kontrolu konfigurace systémů, vzorkování záznamů. Výsledek: certifikát ISO 27001 (platnost 3 roky) nebo seznam neshod k nápravě.</div>
+    </div>
+  </div>
+  <p>Po vydání certifikátu následují každoroční <strong>dohledové audity (surveillance audits)</strong>, které ověřují, že ISMS je stále funkční a zlepšuje se. Po 3 letech proběhne <strong>recertifikační audit</strong> — rozsahem podobný počátečnímu.</p>
+  <p>Certifikace provádí akreditovaná certifikační organizace (v ČR např. Bureau Veritas, TÜV SÜD, Lloyd's Register Quality Assurance, DNV). Certifikátor musí být akreditován dle ISO/IEC 27006.</p>
+
+  <h2>ISO 27001:2022 vs. ISO 27001:2013 — klíčové změny</h2>
+  <table>
+    <tr><th>Aspekt</th><th>ISO 27001:2013</th><th>ISO 27001:2022</th></tr>
+    <tr><td>Počet opatření (Annex A)</td><td>114 opatření ve 14 kapitolách</td><td><strong>93 opatření ve 4 tematických skupinách</strong></td></tr>
+    <tr><td>Struktura opatření</td><td>14 kapitol (5–18)</td><td>4 témata: Organizační (37), Personální (8), Fyzická (14), Technologická (34)</td></tr>
+    <tr><td>Nová opatření</td><td>—</td><td>11 zcela nových opatření: Threat intelligence, ICT supply chain, Cloud services, Data masking, DLP, Web filtering, Secure coding, Configuration management, Information deletion, Monitoring activities, Physical security monitoring</td></tr>
+    <tr><td>Atributy opatření</td><td>Pouze text</td><td>Každé opatření má atributy: #type, #cybersecurity_concepts, #operational_capabilities, #security_domains — umožňuje filtrování dle kontextu</td></tr>
+    <tr><td>Harmonizovaná struktura</td><td>Starší formát</td><td>Plně sladěno s ISO/IEC Annex SL (HLS) — snadnější integrace s ISO 9001, ISO 22301 apod.</td></tr>
+  </table>
+
+  <div class="warn"><strong>Přechodové období:</strong> Organizace certifikované dle ISO 27001:2013 měly do října 2025 přejít na verzi 2022. Nové certifikace probíhají výhradně dle ISO 27001:2022.</div>
+
+</section>
+
+<!-- P3 -->
+<section class="lecture" id="p3">
+  <div class="lec-header">
+    <div class="lec-num">P3</div>
+    <div>
+      <div class="lec-title">Analýza rizik bezpečnosti informací</div>
+      <div class="lec-subtitle">ISO/IEC 27005, metodika hodnocení, risk matrix, risk register, 4 způsoby reakce na riziko, residual risk</div>
+    </div>
+  </div>
+
+  <h2>Metodika hodnocení rizik (ISO/IEC 27005)</h2>
+  <p><strong>ISO/IEC 27005</strong> je standard pro řízení rizik bezpečnosti informací — poskytuje metodiku a katalogy hrozeb a zranitelností. Analýza rizik je iterativní proces opakovaný při každé významné změně nebo periodicky (min. 1× ročně).</p>
+
+  <h3>Postup analýzy rizik — 7 kroků</h3>
+  <ol>
+    <li><strong>Identifikace aktiv</strong> — inventarizace všech relevantních aktiv (primárních i podpůrných), určení vlastníka každého aktiva (asset owner). Výstup: registr aktiv.</li>
+    <li><strong>Ohodnocení aktiv</strong> — přiřazení hodnoty každému aktivu z pohledu CIA. Stupnice obvykle 1–3 nebo 1–5. Hodnota aktiva = <em>max(C, I, A)</em> nebo vážený součet.</li>
+    <li><strong>Identifikace hrozeb</strong> — pro každé aktivum identifikovat relevantní hrozby (pomocí threat katalogů z ISO 27005, ENISA, BSI nebo zkušenosti). Hrozby klasifikovat dle zdroje: přírodní, náhodné, úmyslné.</li>
+    <li><strong>Identifikace zranitelností</strong> — pro každé aktivum a hrozbu identifikovat existující slabiny. Nástroje: vulnerability scan (Nessus, Qualys), penetrační test, interní audit, dotazníky.</li>
+    <li><strong>Výpočet pravděpodobnosti</strong> — jak pravděpodobné je, že hrozba využije zranitelnost za daných podmínek. Kvantitativně: 1–5 (nízká až velmi vysoká). Lze zahrnout i existenci stávajících opatření.</li>
+    <li><strong>Výpočet dopadu</strong> — jaký dopad by měla realizace hrozby na CIA aktiva a na obchodní cíle organizace (finanční ztráta, ztráta reputace, sankce regulátora). Stupnice: 1–5.</li>
+    <li><strong>Výpočet úrovně rizika:</strong><br>
+      <code>Úroveň rizika = Pravděpodobnost × Dopad</code><br>
+      Výsledek se zaznamenává do <strong>Risk Register (registru rizik)</strong> a umísťuje do risk matice.</li>
+  </ol>
+
+  <h2>Risk Matrix 5×5 (Heat Map)</h2>
+  <p>Dvourozměrná matice mapující rizika podle pravděpodobnosti (osa X) a dopadu (osa Y). Výsledný součin určuje zónu rizika:</p>
+  <table>
+    <tr><th>Úroveň rizika</th><th>Hodnota (P × D)</th><th>Zóna</th><th>Doporučená reakce</th></tr>
+    <tr><td><strong>Kritické (červená)</strong></td><td>15–25</td><td>Červená</td><td>Okamžitá akce — opatření musí být implementována přednostně; riziko nelze akceptovat.</td></tr>
+    <tr><td><strong>Vysoké (oranžová)</strong></td><td>8–14</td><td>Oranžová</td><td>Prioritní ošetření — plán ošetření rizika do stanoveného termínu; management musí být informován.</td></tr>
+    <tr><td><strong>Střední (žlutá)</strong></td><td>4–7</td><td>Žlutá</td><td>Monitorování a plánované ošetření — lze akceptovat na omezenou dobu s průběžným sledováním.</td></tr>
+    <tr><td><strong>Nízké (zelená)</strong></td><td>1–3</td><td>Zelená</td><td>Přijatelné riziko — lze akceptovat; zaznamenáno v risk register bez urgentního opatření.</td></tr>
+  </table>
+
+  <h2>Risk Appetite vs. Risk Tolerance</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Risk Appetite (Chuť k riziku)</div>
+      <div class="pojem-body">Celkové množství rizika, které je organizace ochotna podstoupit při dosahování svých cílů — strategické rozhodnutí vedení. Vyjádřeno jako prahovná hodnota v risk matici (např. vše nad hodnotou 8 musí být ošetřeno). Musí být formálně schváleno managementem.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Risk Tolerance (Tolerance rizika)</div>
+      <div class="pojem-body">Přijatelná odchylka od risk appetite — operativní hranice. Zatímco risk appetite je strategický, risk tolerance je taktický — určuje, jak daleko může být riziko od schváleného prahu, než je nutné eskalovat. Příklad: risk appetite = max. 6, tolerance = +1 bod při existenci kompenzačního opatření.</div>
+    </div>
+  </div>
+
+  <h2>Residual Risk — zbytkové riziko</h2>
+  <p>Po implementaci opatření zůstává <strong>zbytkové riziko (residual risk)</strong> — úroveň rizika, která přetrvává i po zavedení všech plánovaných opatření. Zbytkové riziko musí být:</p>
+  <ul>
+    <li>Výslovně identifikováno a zdokumentováno v risk register.</li>
+    <li>Srovnáno s risk appetite organizace — pokud je nad prahem, musí být přijata další opatření nebo musí být rozhodnutí o akceptaci schváleno vedením.</li>
+    <li>Pravidelně přehodnocováno.</li>
+  </ul>
+
+  <h2>Risk Register (Registr rizik)</h2>
+  <p>Klíčový provozní dokument ISMS zaznamenávající všechna identifikovaná rizika. Standardní sloupce risk registru:</p>
+  <table>
+    <tr><th>Sloupec</th><th>Obsah</th></tr>
+    <tr><td>ID rizika</td><td>Jedinečný identifikátor (např. R-001)</td></tr>
+    <tr><td>Popis rizika</td><td>Stručný popis scénáře rizika (hrozba + zranitelnost + aktivum)</td></tr>
+    <tr><td>Aktivum</td><td>Dotčené aktivum nebo skupina aktiv</td></tr>
+    <tr><td>Hrozba / Zranitelnost</td><td>Identifikovaná hrozba a využitá zranitelnost</td></tr>
+    <tr><td>Pravděpodobnost</td><td>Skóre 1–5 (před opatřením)</td></tr>
+    <tr><td>Dopad</td><td>Skóre 1–5 (vliv na C, I, A a obchodní cíle)</td></tr>
+    <tr><td>Hrubé riziko</td><td>P × D před implementací opatření</td></tr>
+    <tr><td>Způsob reakce</td><td>Accept / Avoid / Transfer / Mitigate</td></tr>
+    <tr><td>Opatření</td><td>Popis zvoleného opatření, odkaz na SoA</td></tr>
+    <tr><td>Zbytkové riziko</td><td>P × D po implementaci opatření</td></tr>
+    <tr><td>Vlastník rizika</td><td>Odpovědná osoba za ošetření rizika</td></tr>
+    <tr><td>Termín</td><td>Datum implementace opatření</td></tr>
+    <tr><td>Stav</td><td>Otevřené / V řešení / Uzavřené / Akceptováno</td></tr>
+  </table>
+
+  <h2>4 způsoby reakce na riziko</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Mitigate — Snížit (Ošetřit)</div>
+      <div class="pojem-body">Implementovat opatření ke snížení pravděpodobnosti nebo dopadu rizika. Nejčastěji volená strategie. Může jít o technická opatření (MFA, šifrování, firewall, patch management), organizační (politiky, školení) nebo fyzická (perimetr, přístupy). Riziko neklesá na nulu — zůstane residual risk.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Accept — Přijmout</div>
+      <div class="pojem-body">Vědomě přijmout riziko bez dalšího opatření — riziko je pod prahem risk appetite nebo opatření by bylo neúměrně nákladné (cost > benefit). <strong>Musí být zdokumentováno a schváleno vlastníkem rizika a managementem.</strong> Platí pro nízká a střední rizika. Neznamená ignorování — riziko je stále monitorováno.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Transfer — Přenést</div>
+      <div class="pojem-body">Přenést finanční dopad rizika na třetí stranu. Příklady: kybernetické pojištění, outsourcing IT s SLA a penalizacemi, cloudové smlouvy s garancemi dostupnosti. <strong>Pozor:</strong> transfer přenáší finanční dopad, ale ne odpovědnost za ochranu dat (GDPR, ZKB odpovědnost zůstává na původní organizaci).</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Avoid — Vyhnout se</div>
+      <div class="pojem-body">Eliminovat aktivitu, systém nebo proces, který riziko způsobuje. Volí se, pokud riziko nelze snížit na přijatelnou úroveň nebo náklady na ošetření jsou nepřiměřené hodnotě aktiva. Příklady: vyřazení zastaralého neopatchovatelného systému z provozu, ukončení nebezpečného obchodního procesu.</div>
+    </div>
+  </div>
+
+  <div class="callout"><strong>HROZBA × ZRANITELNOST = RIZIKO</strong> — zjednodušující vzorec z výuky (slide 16 přednáška ZKB). Příklad: Hrozba = zneuž. identity, Zranitelnost = nevhodné nastavení přístupových oprávnění → Vysoké riziko. Opatření (RBAC, MFA) snižuje zranitelnost → residual risk klesá na Střední nebo Nízké.</div>
+
+</section>
+
+<!-- P4 -->
+<section class="lecture" id="p4">
+  <div class="lec-header">
+    <div class="lec-num">P4</div>
+    <div>
+      <div class="lec-title">ISO/IEC 27002 — bezpečnostní opatření</div>
+      <div class="lec-subtitle">Struktura 2013 vs. 2022, klíčové kategorie: fyzická bezpečnost, HR, přístupy, kryptografie, provoz, sítě, dodavatelé</div>
+    </div>
+  </div>
+
+  <h2>ISO 27002:2013 — původní struktura</h2>
+  <p>Starší verze ISO/IEC 27002 z roku 2013 obsahovala <strong>114 opatření (controls)</strong> rozřazených do <strong>14 kapitol</strong> (5–18) s 35 cíli opatření. Tato verze stále figuruje ve starší literatuře a u organizací, které ještě nedokončily přechod na verzi 2022.</p>
+  <table>
+    <tr><th>Kap.</th><th>Název</th><th>Počet opatření</th></tr>
+    <tr><td>5</td><td>Bezpečnostní politiky</td><td>2</td></tr>
+    <tr><td>6</td><td>Organizace bezpečnosti informací</td><td>7</td></tr>
+    <tr><td>7</td><td>Bezpečnost lidských zdrojů</td><td>6</td></tr>
+    <tr><td>8</td><td>Řízení aktiv</td><td>10</td></tr>
+    <tr><td>9</td><td>Řízení přístupu</td><td>14</td></tr>
+    <tr><td>10</td><td>Kryptografie</td><td>2</td></tr>
+    <tr><td>11</td><td>Fyzická bezpečnost a bezpečnost prostředí</td><td>15</td></tr>
+    <tr><td>12</td><td>Bezpečnost provozu</td><td>14</td></tr>
+    <tr><td>13</td><td>Bezpečnost komunikací</td><td>7</td></tr>
+    <tr><td>14</td><td>Akvizice, vývoj a údržba systémů</td><td>13</td></tr>
+    <tr><td>15</td><td>Vztahy s dodavateli</td><td>5</td></tr>
+    <tr><td>16</td><td>Řízení bezpečnostních incidentů</td><td>7</td></tr>
+    <tr><td>17</td><td>Řízení kontinuity činností</td><td>4</td></tr>
+    <tr><td>18</td><td>Soulad s požadavky</td><td>8</td></tr>
+  </table>
+
+  <h2>ISO 27002:2022 — nová struktura (4 témata, 93 opatření)</h2>
+  <p>Revize z roku 2022 restrukturovala opatření do 4 tematických skupin a přidala atributy pro filtrování. Celkem <strong>93 opatření</strong> (11 nových, ostatní konsolidovány nebo přemapovány ze 114).</p>
+  <table>
+    <tr><th>Téma</th><th>Kapitola</th><th>Počet opatření</th><th>Obsah</th></tr>
+    <tr><td><strong>Organizational</strong></td><td>5</td><td>37</td><td>Politiky, role, řízení aktiv, vztahy s dodavateli, řízení incidentů, soulad s předpisy, audit</td></tr>
+    <tr><td><strong>People</strong></td><td>6</td><td>8</td><td>Screening před nástupem, pracovní podmínky, povědomí a školení, disciplinární řízení, ukončení pracovního poměru, vzdálená práce</td></tr>
+    <tr><td><strong>Physical</strong></td><td>7</td><td>14</td><td>Fyzický perimetr, fyzický vstup, ochrana zařízení, čistý stůl / čistá obrazovka (clear desk / screen), fyzické monitorování</td></tr>
+    <tr><td><strong>Technological</strong></td><td>8</td><td>34</td><td>Endpoint, autentizace, přístupová práva, šifrování, zálohy, logging, monitorování, bezpečný vývoj, správa zranitelností, síťová bezpečnost</td></tr>
+  </table>
+
+  <h2>Klíčové kategorie opatření — detailní přehled</h2>
+
+  <h3>Fyzická bezpečnost (Physical Security)</h3>
+  <p>Cíl: Zabránit neoprávněnému fyzickému přístupu, poškození nebo krádeži aktiv a přerušení provozu IS.</p>
+  <ul>
+    <li><strong>Fyzický bezpečnostní perimetr</strong> — definice chráněné zóny (budova, serverovna, rack). Vrstvený přístup: vnější perimetr (ploty, brány, recepce), vnitřní (kontrola přístupu na podlaží), kritická zóna (serverovna, datové centrum). ZKB explicitně vyžaduje stanovení fyzického perimetru.</li>
+    <li><strong>Kontrola fyzického přístupu</strong> — čipové karty, PIN kódy, biometrie, reception guard, CCTV, elektronické záznamy vstupů/výstupů. Dvouosobová pravidla pro přístup do kritických zón.</li>
+    <li><strong>Serverovna / datové centrum</strong> — přepěťová ochrana, UPS, klimatizace, detekce požáru a záplavy, hasicí systém (Novec/FM-200, nikoli voda). Pravidelné testy nouzových systémů.</li>
+    <li><strong>Clear desk / clear screen policy</strong> — zaměstnanci nesmí ponechávat citlivé dokumenty na stole bez dozoru; obrazovky musí být zamykány při opuštění pracoviště. Snižuje riziko shouldersurfingu a neúmyslného úniku informací.</li>
+  </ul>
+
+  <h3>Bezpečnost lidských zdrojů (HR Security)</h3>
+  <p>Cíl: Zajistit, aby zaměstnanci rozuměli svým povinnostem v oblasti bezpečnosti a předcházelo se lidskému faktoru jako příčině incidentů.</p>
+  <ul>
+    <li><strong>Screening před nástupem</strong> — ověření totožnosti, pracovní reference, u citlivých pozic výpis z rejstříku trestů. Hloubka screeningu odpovídá citlivosti role.</li>
+    <li><strong>Povědomí a školení (Security Awareness)</strong> — pravidelná školení o bezpečnostních politikách, hrozbách (phishing, sociální inženýrství), hlášení incidentů. Povinné při nástupu, pravidelné opakování (ročně). ZKB vyžaduje plán rozvoje bezpečnostního povědomí.</li>
+    <li><strong>Disciplinární řízení</strong> — formalizovaný proces pro porušení bezpečnostní politiky — varování, pozastavení přístupů, ukončení pracovního poměru.</li>
+    <li><strong>Offboarding (Ukončení pracovního poměru)</strong> — okamžité odebrání přístupů při ukončení (zvláště u rizikových odchodů), vrácení aktiv, podepsání závazku mlčenlivosti. Jedna z nejdůležitějších preventivních kontrol insider hrozby.</li>
+  </ul>
+
+  <h3>Přístupové řízení — ZML, RBAC, PAM</h3>
+  <ul>
+    <li><strong>ZML — Zásada minimálních práv (Least Privilege / PoLP)</strong> — uživatel dostane pouze ta oprávnění, která nezbytně potřebuje k výkonu své práce. Snižuje blast radius při kompromitaci účtu.</li>
+    <li><strong>RBAC (Role-Based Access Control)</strong> — přístupy jsou přiděleny rolím, nikoli jednotlivým uživatelům. Uživatel získá přístupy přiřazením k roli. Usnadňuje správu oprávnění a revizi přístupů.</li>
+    <li><strong>PAM (Privileged Access Management)</strong> — specializované řízení privilegovaných účtů (administrátoři, servisní účty). Zahrnuje: just-in-time přístupy, session recording, vault na hesla, MFA pro privilegované přístupy. ZKB vyžaduje omezení přidělování privilegovaných oprávnění.</li>
+    <li><strong>Revize oprávnění</strong> — pravidelná (min. čtvrtletní pro privilegované účty, pololetní pro ostatní) kontrola aktuálnosti přístupů. Odebrání nepotřebných oprávnění.</li>
+  </ul>
+
+  <h3>Kryptografie</h3>
+  <ul>
+    <li><strong>Symetrická kryptografie</strong> — stejný klíč pro šifrování i dešifrování. Rychlá, vhodná pro objemná data. Standard: <strong>AES-256</strong>. Použití: šifrování databází, disků (BitLocker, LUKS), souborů.</li>
+    <li><strong>Asymetrická kryptografie</strong> — dvojice klíčů (veřejný + soukromý). Pomalá, používá se pro výměnu klíčů a digitální podpis. Standard: <strong>RSA-2048+</strong>, <strong>ECC (ECDSA, ECDH)</strong>.</li>
+    <li><strong>PKI (Public Key Infrastructure)</strong> — infrastruktura pro správu digitálních certifikátů. Komponenty: CA (Certificate Authority), RA (Registration Authority), X.509 certifikáty, CRL/OCSP pro revokaci.</li>
+    <li><strong>Správa kryptografických klíčů</strong> — klíče musí být bezpečně generovány, distribuovány, uchovávány, rotatovány a destruovány. ZKB vyžaduje KMS (Key Management System) a soulad s doporučeními NÚKIB.</li>
+  </ul>
+
+  <h3>Provozní bezpečnost</h3>
+  <ul>
+    <li><strong>Change Management</strong> — řízení změn v IS: přezkum dopadu, testování v dev/test prostředí, schválení, možnost rollback. ZKB vyžaduje oddělení vývojového, testovacího a provozního prostředí.</li>
+    <li><strong>Ochrana před malwarem</strong> — automatizovaná a průběžná ochrana endpointů, serverů, sítí. Pravidelná aktualizace definic. Monitorování a řízení vyměnitelných médií. ZKB: povinná ochrana koncových stanic, mobilních zařízení, serverů, datových úložišť.</li>
+    <li><strong>Zálohy (Backup)</strong> — politika zálohování: frekvence (denní/týdenní), typy (full/incremental/differential), testování obnovy, off-site nebo cloud úložiště. Pravidlo 3-2-1: 3 kopie, 2 různá média, 1 off-site.</li>
+    <li><strong>Logování událostí</strong> — zaznamenávání bezpečnostních a provozních událostí. ZKB: uchovávání logů 12–18 měsíců, synchronizace času (NTP), ochrana logů před modifikací.</li>
+  </ul>
+
+  <h3>Komunikační bezpečnost a sítě</h3>
+  <ul>
+    <li><strong>TLS/HTTPS</strong> — šifrování webové a API komunikace. Minimální standard: TLS 1.2 (doporučeno TLS 1.3). Pravidelné obnovování certifikátů.</li>
+    <li><strong>VPN (Virtual Private Network)</strong> — šifrovaný tunel pro vzdálený přístup. ZKB: kryptografická ochrana vzdáleného přístupu.</li>
+    <li><strong>Segmentace sítí</strong> — rozdělení sítě na oddělené segmenty (VLAN, DMZ, produkce, vývoj, management). Firewall a IDS/IPS na hranicích segmentů. ZKB vyžaduje segmentaci komunikační sítě.</li>
+    <li><strong>Aktivní blokování nežádoucí komunikace</strong> — firewallová pravidla (whitelist přístupu), web gateway, e-mail gateway, anti-DDoS opatření.</li>
+  </ul>
+
+  <h3>Vztahy s dodavateli</h3>
+  <ul>
+    <li><strong>SLA (Service Level Agreement)</strong> — smlouvy s dodavateli musí obsahovat bezpečnostní požadavky, RTO/RPO požadavky, práva auditu, povinnost hlášení incidentů, klasifikaci sdílených dat.</li>
+    <li><strong>Audit rights</strong> — právo organizace auditovat dodavatele nebo požadovat výsledky nezávislého auditu (SOC 2, ISO 27001 certifikát dodavatele).</li>
+    <li><strong>Řízení rizik dodavatelského řetězce</strong> — nové opatření v ISO 27002:2022 (5.21). ICT supply chain security — hodnocení bezpečnosti softwarových a HW komponent od třetích stran. ZKB: vedení evidence významných dodavatelů, písemná informace o evidenci, pravidelné přezkoumání smluv.</li>
+  </ul>
+
+  <div class="callout"><strong>11 nových opatření v ISO 27002:2022</strong> — nejdůležitější: Threat Intelligence (5.7), ICT supply chain security (5.21), Cloud services security (5.23), Data masking (8.11), Data leakage prevention — DLP (8.12), Monitoring activities (8.16), Web filtering (8.23), Secure coding (8.28). Tato opatření odrážejí aktuální hrozby, které v roce 2013 nebyly tak prominentní.</div>
+
+</section>
+
+<!-- P5 -->
+<section class="lecture" id="p5">
+  <div class="lec-header">
+    <div class="lec-num">P5</div>
+    <div>
+      <div class="lec-title">ZKB č. 181/2014 · NIS2 · DORA</div>
+      <div class="lec-subtitle">Česká legislativa kybernetické bezpečnosti, EU směrnice NIS2, DORA pro finanční sektor, NÚKIB, hlášení incidentů</div>
+    </div>
+  </div>
+
+  <h2>Zákon o kybernetické bezpečnosti č. 181/2014 Sb. (ZKB)</h2>
+  <p>ZKB je základní česká legislativa kybernetické bezpečnosti. Zákon stanovuje práva a povinnosti osob, jakož i pravomoc a působnost orgánů veřejné moci v oblasti kybernetické bezpečnosti. Gestor: <strong>NÚKIB</strong> (Národní úřad pro kybernetickou a informační bezpečnost).</p>
+  <p>Prováděcí předpisy: <strong>Vyhláška č. 82/2018 Sb.</strong> o bezpečnostních opatřeních, KBI, reaktivních opatřeních a náležitostech podání (vyhláška o kybernetické bezpečnosti); Vyhláška č. 360/2020 Sb. o VIS.</p>
+
+  <h3>Hlavní cíle ZKB</h3>
+  <ul>
+    <li>Stanovit základní úroveň bezpečnostních opatření pro kritické a důležité systémy.</li>
+    <li>Zlepšit detekci kybernetických bezpečnostních incidentů (KBI).</li>
+    <li>Zavést hlášení KBI a systém reaktivních opatření.</li>
+    <li>Upravit činnost dohledových pracovišť (gov-CERT / NÚKIB).</li>
+  </ul>
+
+  <h3>Povinné subjekty ZKB — kategorie systémů</h3>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">KII — Kritická informační infrastruktura</div>
+      <div class="pojem-body">Systémy, jejichž narušení by mělo závažný dopad na bezpečnost státu, ekonomiku, zdraví nebo životy obyvatelstva. Stanoveny nařízením vlády č. 315/2014 Sb. Nekonkrétnější povinnosti (technická, fyzická, personální, organizační opatření). Příklady: systémy energetiky, bankovnictví, dopravy, zdravotnictví.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">VIS — Významné informační systémy a IS OVS</div>
+      <div class="pojem-body">Informační systémy, jejichž narušení by mělo dopad na výkon veřejné správy nebo poskytování důležitých služeb. Určeny vyhláškou č. 317/2014 Sb. ve znění 360/2020 Sb. IS OVS = informační systémy orgánů veřejné správy spravované dle zákona č. 365/2000 Sb.</div>
+    </div>
+  </div>
+
+  <h3>Bezpečnostní dokumentace dle ZKB</h3>
+  <ul>
+    <li><strong>BPKI</strong> — Bezpečnostní politika KII / VIS (vrcholový dokument, schválený vedením).</li>
+    <li><strong>SBSI</strong> — Systémová bezpečnostní studie/informace (technická dokumentace IS).</li>
+    <li><strong>Plán zvládání KBI</strong> — postup detekce, klasifikace, reakce a obnovy po kybernetickém bezpečnostním incidentu.</li>
+    <li><strong>Plán rozvoje bezpečnostního povědomí</strong> — plán školení uživatelů, administrátorů a osob v bezpečnostních rolích.</li>
+    <li><strong>Plán kontinuity činností</strong> — postup pro zajištění provozu IS při incidentu (BCP/DRP).</li>
+  </ul>
+
+  <h3>Hlášení kybernetických bezpečnostních incidentů (KBI)</h3>
+  <table>
+    <tr><th>Typ incidentu</th><th>Lhůta hlášení</th><th>Komu</th></tr>
+    <tr><td>Počáteční hlášení (závažný KBI / KII)</td><td><strong>do 12 hodin</strong> od detekce</td><td>NÚKIB (gov-CERT)</td></tr>
+    <tr><td>Průběžné hlášení</td><td><strong>do 24 hodin</strong> od počátečního hlášení</td><td>NÚKIB</td></tr>
+    <tr><td>Závěrečné hlášení</td><td><strong>do 72 hodin</strong> od detekce (pro VIS)</td><td>NÚKIB</td></tr>
+    <tr><td>Závěrečná zpráva</td><td>Po uzavření incidentu</td><td>NÚKIB</td></tr>
+  </table>
+  <p>ZKB rovněž stanovuje <strong>reaktivní opatření</strong> — NÚKIB může povinné subjekty vyzvat k implementaci konkrétních bezpečnostních kroků při hrozbě nebo incidentu. Ukládání log záznamů: min. <strong>12–18 měsíců</strong>.</p>
+
+  <h2>NIS2 — Směrnice EU 2022/2555</h2>
+  <p>NIS2 (<em>Directive on measures for a high common level of cybersecurity across the Union</em>) nahradila původní NIS direktivu z roku 2016. Účinnost v členských státech od <strong>17. října 2024</strong>. ČR implementuje NIS2 novelou ZKB (nový zákon o KB).</p>
+
+  <h3>Rozsah NIS2 — kdo podléhá</h3>
+  <p>Povinné subjekty jsou organizace v 18 sektorech splňující prahové hodnoty: <strong>100+ zaměstnanců NEBO roční obrat / bilanční suma ≥ 10 mil. EUR</strong>. Vybraní poskytovatelé (DNS, TLD, cloud) podléhají bez ohledu na velikost.</p>
+  <div class="pojmy two">
+    <div class="pojem red">
+      <div class="pojem-head">Essential Entities (Klíčové subjekty)</div>
+      <div class="pojem-body">11 vysoce kritických sektorů: energetika, doprava, bankovnictví, finanční infrastruktura, zdravotnictví, pitná voda, odpadní vody, digitální infrastruktura, ICT service management (B2B), veřejná správa, vesmír. Přísnější dohled, proaktivní inspekce. Sankce: <strong>max. 10 mil. EUR nebo 2 % celosvětového ročního obratu</strong> (vyšší hodnota).</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Important Entities (Důležité subjekty)</div>
+      <div class="pojem-body">7 dalších sektorů: poštovní a kurýrní služby, nakládání s odpady, chemický průmysl, potravinářský průmysl, výroba (zdravotnické přístroje, IT/elektronika, strojírenství, motorová vozidla), digitální poskytovatelé (tržiště, vyhledávače, soc. sítě), výzkum. Reaktivní dohled. Sankce: <strong>max. 7 mil. EUR nebo 1,4 % celosvětového ročního obratu</strong>.</div>
+    </div>
+  </div>
+
+  <h3>Lhůty pro hlášení incidentů dle NIS2</h3>
+  <table>
+    <tr><th>Fáze</th><th>Lhůta</th><th>Obsah</th></tr>
+    <tr><td>Early Warning (Počáteční varování)</td><td><strong>do 24 hodin</strong></td><td>Základní informace o incidentu, indikace zda je podezření na kybernetický útok nebo přeshraniční dopad.</td></tr>
+    <tr><td>Incident Notification (Notifikace)</td><td><strong>do 72 hodin</strong></td><td>Aktualizované hodnocení incidentu, prvotní indikace závažnosti a dopadu.</td></tr>
+    <tr><td>Final Report (Závěrečná zpráva)</td><td><strong>do 1 měsíce</strong></td><td>Podrobný popis, příčina, dopad, přijatá opatření, přeshraniční efekty.</td></tr>
+  </table>
+
+  <h3>Klíčové požadavky NIS2 (čl. 21)</h3>
+  <ul>
+    <li>Politiky řízení rizik a jejich pravidelné přezkoumání.</li>
+    <li>Zvládání bezpečnostních incidentů — detekce, reakce, hlášení.</li>
+    <li>Kontinuita provozu (BCM, zálohy, krizové řízení).</li>
+    <li>Bezpečnost dodavatelského řetězce (supply chain security).</li>
+    <li>Bezpečnostní testování (penetrační testy, vulnerability management).</li>
+    <li>Kryptografie a MFA.</li>
+    <li><strong>Osobní odpovědnost managementu</strong> — statutární orgány mohou být osobně sankcionovány; management musí absolvovat schulení bezpečnosti.</li>
+  </ul>
+
+  <div class="warn"><strong>GDPR vs. NIS2 — sankce:</strong> GDPR = max. 20 mil. EUR / 4 % obratu. NIS2 (klíčové subjekty) = max. 10 mil. EUR / 2 % obratu. Totéž narušení může vést k sankci z obou nařízení, pokud byly zasaženy osobní údaje.</div>
+
+  <h2>DORA — Digital Operational Resilience Act</h2>
+  <p>DORA (Nařízení EU č. 2022/2554) je <strong>EU nařízení</strong> (přímo aplikovatelné, bez nutnosti transpozice) zaměřené na <strong>finanční sektor</strong>. Platnost od 16. 1. 2023, účinnost od <strong>17. 1. 2025</strong>. Dozorové orgány: ESAs (EBA, EIOPA, ESMA) + ČNB na národní úrovni.</p>
+  <p>DORA pokrývá celý životní cyklus řízení ICT rizik a klade důraz na:</p>
+  <ul>
+    <li><strong>ICT Risk Management</strong> — politiky, postupy, protokoly pro identifikaci, klasifikaci a dokumentaci ICT aktiv a závislostí.</li>
+    <li><strong>ICT Incident Management</strong> — klasifikace, hlášení a analýza ICT incidentů. Lhůty pro hlášení (Major incident — počáteční zpráva do <strong>24 hodin</strong> od klasifikace, průběžná zpráva do <strong>72 hodin</strong>, závěrečná zpráva do <strong>1 měsíce</strong>).</li>
+    <li><strong>Digital Operational Resilience Testing (DORT)</strong> — povinné penetrační testování (TLPT — Threat Led Penetration Testing) pro vybrané subjekty.</li>
+    <li><strong>ICT Third-Party Risk</strong> — řízení rizik od ICT dodavatelů. Smlouvy musí obsahovat: práva auditu, exit strategie, bezpečnostní SLA, hlášení incidentů. Zvláštní dohled nad kritickými ICT dodavateli (DORA Tier 1).</li>
+  </ul>
+  <table>
+    <tr><th>Aspekt</th><th>DORA</th><th>NIS2</th></tr>
+    <tr><td>Typ aktu</td><td>EU Nařízení (přímo aplikovatelné)</td><td>EU Směrnice (implementace zákonem)</td></tr>
+    <tr><td>Rozsah</td><td>Pouze finanční sektor</td><td>18 sektorů kritické infrastruktury</td></tr>
+    <tr><td>Dozor v ČR</td><td>ČNB + ESAs</td><td>NÚKIB</td></tr>
+    <tr><td>Sankce</td><td>Až 10 mil. EUR nebo 5 % ročního obratu</td><td>Až 10 mil. EUR nebo 2 % obratu (klíčové)</td></tr>
+    <tr><td>Testování</td><td>Povinné TLPT pro vybrané subjekty</td><td>Doporučeno, ne explicitně mandatorní</td></tr>
+    <tr><td>Třetí strany</td><td>Detailní požadavky na ICT dodavatele + přímý dohled nad kritickými</td><td>Supply chain security požadavek</td></tr>
+  </table>
+
+  <h2>CSIRT vs. SOC — role a spolupráce</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">CSIRT — Computer Security Incident Response Team</div>
+      <div class="pojem-body">Tým specializovaný na reakci na bezpečnostní incidenty — detekce, analýza, koordinace reakce, forenzní šetření, komunikace s dotčenými stranami. Může být interní (firemní CSIRT) nebo národní (vládní CSIRT = NÚKIB/GovCERT.CZ). Zaměřen na konkrétní incident.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">SOC — Security Operations Center</div>
+      <div class="pojem-body">Trvalý provozní tým zajišťující kontinuální monitoring bezpečnosti organizace 24/7. Provozuje SIEM, IDS/IPS, EDR. Detekuje anomálie, eskaluje incidenty CSIRT. Zaměřen na průběžné monitorování a Early Warning. Spolupracuje s NÚKIB při reportování závažných incidentů dle ZKB/NIS2.</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- P6 -->
+<section class="lecture" id="p6">
+  <div class="lec-header">
+    <div class="lec-num">P6</div>
+    <div>
+      <div class="lec-title">BCM — Business Continuity Management</div>
+      <div class="lec-subtitle">BCP vs. DRP, RTO a RPO, ISO 22301, BIA, cvičení obnovy, řetěz reakce na incident</div>
+    </div>
+  </div>
+
+  <h2>BCM — co to je a proč je klíčové</h2>
+  <p><strong>BCM (Business Continuity Management)</strong> je holistický proces řízení, který identifikuje potenciální hrozby a jejich dopady na organizaci a buduje schopnost organizace efektivně reagovat a obnovit provoz po narušení. Definice dle ISO 22301: schopnost organizace pokračovat za přijatelných časových rámců po narušení v dodávce produktů nebo služeb na předem určené úrovni.</p>
+
+  <h2>BCP vs. DRP — základní rozdíl</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">BCP — Business Continuity Plan</div>
+      <div class="pojem-body">Dokument širšího rozsahu. Popisuje, jak bude organizace jako celek pokračovat v plnění svých kritických obchodních procesů po narušení — včetně IT i non-IT procesů. Je to "plán B" pro jednotlivá oddělení a role pracovníků. Obvykle zahrnuje DRP jako přílohu pro IT část. Orientace: <em>celá organizace</em>.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">DRP — Disaster Recovery Plan</div>
+      <div class="pojem-body">Předpis pro pracovníky IT — jak postupovat při poškození dat, selhání systémů nebo ztrátě dostupnosti IT služeb. Obsahuje konkrétní kroky pro náhradní dodávku IT služeb (obnova zálohy, přepnutí na záložní systém, DR site aktivace). Orientace: <em>IT infrastruktura a systémy</em>.</div>
+    </div>
+  </div>
+
+  <h2>RTO a RPO — klíčové metriky kontinuity</h2>
+  <div class="pojmy two">
+    <div class="pojem red">
+      <div class="pojem-head">RTO — Recovery Time Objective</div>
+      <div class="pojem-body"><strong>Maximální přijatelná doba výpadku</strong> — jak dlouho smí systém nebo proces být nedostupný, než dopady pro organizaci přesáhnou přijatelnou míru. Příklad: RTO = 4 hodiny znamená, že kritický systém musí být obnoven do 4 hodin od výpadku. Čím nižší RTO, tím nákladnější technologie (clustering, hot standby).</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">RPO — Recovery Point Objective</div>
+      <div class="pojem-body"><strong>Maximální přijatelná ztráta dat</strong> — jak stará záloha je přijatelná pro obnovu. Příklad: RPO = 1 hodina znamená, že zálohy musí být prováděny alespoň každou hodinu, protože ztráta více než 1 hodiny dat je nepřijatelná. RPO = 0 vyžaduje synchronní replikaci dat. Čím nižší RPO, tím nákladnější zálohovací infrastruktura.</div>
+    </div>
+  </div>
+  <div class="tip"><strong>Příklad propojení RTO/RPO:</strong> Bankovní core systém: RTO = 2h, RPO = 15 minut. Email server: RTO = 24h, RPO = 4 hodiny. E-shop: RTO = 1h, RPO = 30 minut. Tyto hodnoty vycházejí z BIA a musí být dohodnuty s business vlastníky systémů.</div>
+
+  <h2>ISO 22301 — Systém řízení kontinuity činností</h2>
+  <p>ISO 22301:2019 je certifikovatelná norma pro BCM — stanovuje požadavky na BCMS (Business Continuity Management System). Analogicky k ISO 27001 používá PDCA cyklus a High Level Structure (HLS). Klíčové procesy dle ISO 22301:</p>
+  <ul>
+    <li><strong>Porozumění organizaci</strong> — kontext, zájmové strany, záběr BCMS.</li>
+    <li><strong>Analýza dopadů (BIA)</strong> — identifikace kritických procesů a jejich závislostí na ICT.</li>
+    <li><strong>Hodnocení rizik</strong> — hrozby pro kontinuitu.</li>
+    <li><strong>Strategie kontinuity</strong> — výběr přístupů k obnově (záložní pracoviště, alternativní procesy).</li>
+    <li><strong>Tvorba a implementace plánů</strong> — BCP, DRP, komunikační plány.</li>
+    <li><strong>Testování a cvičení</strong> — ověření funkčnosti plánů.</li>
+    <li><strong>Přezkoumání a zlepšování</strong> — aktualizace po cvičeních a reálných incidentech.</li>
+  </ul>
+
+  <h2>BIA — Business Impact Analysis</h2>
+  <p>BIA je analytická metoda pro identifikaci kritických obchodních procesů a kvantifikaci dopadů jejich výpadku na organizaci. BIA je vstupem pro stanovení RTO, RPO a strategie kontinuity.</p>
+  <p>Kroky BIA:</p>
+  <ol>
+    <li>Identifikace obchodních procesů a jejich klasifikace (kritické / důležité / nedůležité).</li>
+    <li>Pro každý kritický proces: identifikace závislostí (IT systémy, lidé, prostory, dodavatelé).</li>
+    <li>Analýza dopadu výpadku v čase — MTPD (Maximum Tolerable Period of Disruption): jak dlouho může výpadek trvat, než jsou dopady katastrofické.</li>
+    <li>Stanovení MBCO (Minimum Business Continuity Objective) — minimální úroveň provozu po incidentu.</li>
+    <li>Na základě MTPD a MBCO stanovení RTO a RPO pro každý proces/systém.</li>
+  </ol>
+
+  <h2>Schéma reakce na incident — časová osa</h2>
+  <div class="chain">
+    <div class="chain-item">Bezp. incident<br><small style="font-weight:400;font-size:11px">detekce</small></div>
+    <div class="chain-arrow">&#8594;</div>
+    <div class="chain-item">Reakce<br><small style="font-weight:400;font-size:11px">min.–hod.</small></div>
+    <div class="chain-arrow">&#8594;</div>
+    <div class="chain-item">Business Continuity<br><small style="font-weight:400;font-size:11px">hod.–dny</small></div>
+    <div class="chain-arrow">&#8594;</div>
+    <div class="chain-item">Disaster Recovery<br><small style="font-weight:400;font-size:11px">obnova IT</small></div>
+    <div class="chain-arrow">&#8594;</div>
+    <div class="chain-item">Normální provoz<br><small style="font-weight:400;font-size:11px">týdny–měsíce</small></div>
+  </div>
+  <p>Cíl: návrat k normálnímu provozu tak rychle, jak je to jen možné, při zachování přijatelné úrovně continuity. Incident response (CSIRT) zajišťuje technickou reakci; BCP zajišťuje, aby organizace mohla fungovat i během výpadku IT.</p>
+
+  <h2>Cvičení obnovy — typy testování plánů</h2>
+  <table>
+    <tr><th>Typ cvičení</th><th>Popis</th><th>Náročnost</th></tr>
+    <tr><td><strong>Tabletop Exercise</strong></td><td>Diskuzní cvičení — tým prochází scénář incidentu "na papíře", diskutuje kroky bez reálné aktivace systémů. Nízká zátěž pro provoz. Vhodné pro prověření rozhodovacích procesů a komunikace.</td><td>Nízká</td></tr>
+    <tr><td><strong>Simulation Exercise</strong></td><td>Simulace reálného incidentu — tým jedná dle BCP/DRP, ale bez skutečného přepnutí systémů. Testují se komunikace, role, eskalace. Zahrnuje stresové prvky (časový tlak, nepřesné informace).</td><td>Střední</td></tr>
+    <tr><td><strong>Full Interruption Test</strong></td><td>Reálné přepnutí na záložní systémy / záložní pracoviště. Plnohodnotné ověření, zda DR infrastruktura skutečně funguje a splňuje RTO/RPO. Vysoké riziko pro provoz — provádí se mimo špičku nebo v noci.</td><td>Vysoká</td></tr>
+    <tr><td><strong>Parallel Test</strong></td><td>Primární i záložní systémy běží souběžně. Ověřuje funkčnost zálohy bez přerušení provozu. Nejméně rizikový způsob reálného testování.</td><td>Střední–Vysoká</td></tr>
+  </table>
+  <p>ZKB vyžaduje pravidelné testování plánů kontinuity. ISO 22301 doporučuje kombinaci typů cvičení — minimálně jednou ročně tabletop + simulation, plný test dle RTO/RPO požadavků.</p>
+
+  <div class="callout"><strong>ZKB a BCM:</strong> ZKB vyžaduje (v rámci řízení kontinuity činností): stanovení SLA, RPO a RTO formou cílů kontinuity; vypracování, aktualizaci a pravidelné testování plánů kontinuity a havarijních plánů; realizaci opatření pro zvýšení odolnosti IS vůči kybernetickým bezpečnostním incidentům. BCM je tedy nejen ISO 22301 best practice, ale i zákonná povinnost pro KII a VIS subjekty.</div>
+
+</section>
+
+<!-- Klíčové pojmy -->
+<section class="lecture" id="klicpojmy">
+  <div class="lec-header">
+    <div class="lec-num">&#9733;</div>
+    <div>
+      <div class="lec-title">Klíčové pojmy — přehled pro SZZ</div>
+      <div class="lec-subtitle">Kompaktní tabulka 40+ termínů z předmětu 4SA515</div>
+    </div>
+  </div>
+
+  <table>
+    <tr><th>Zkratka / Pojem</th><th>Vysvětlení</th></tr>
+    <tr><td><strong>AAA</strong></td><td>Authentication + Authorization + Accounting — trojice mechanismů řízení přístupu: ověření identity, přidělení oprávnění, záznam akcí.</td></tr>
+    <tr><td><strong>Aktivum (Asset)</strong></td><td>Cokoli s hodnotou pro organizaci — HW, SW, data, procesy, lidé, reputace. Primární (informace, procesy) vs. Podpůrná (HW, SW, prostory).</td></tr>
+    <tr><td><strong>Autentizace</strong></td><td>Prokázání totožnosti subjektu. Faktory: znalost (heslo), vlastnictví (token), biometrie. MFA = alespoň 2 faktory.</td></tr>
+    <tr><td><strong>BCM</strong></td><td>Business Continuity Management — řízení kontinuity činností organizace. Norma: ISO 22301.</td></tr>
+    <tr><td><strong>BCP</strong></td><td>Business Continuity Plan — plán pro zachování provozu kritických procesů organizace po incidentu. Zahrnuje IT i non-IT procesy.</td></tr>
+    <tr><td><strong>BIA</strong></td><td>Business Impact Analysis — analýza dopadu výpadku obchodních procesů. Výstup: RTO, RPO, MTPD.</td></tr>
+    <tr><td><strong>CIA triáda</strong></td><td>Confidentiality (Důvěrnost) + Integrity (Integrita) + Availability (Dostupnost) — základní bezpečnostní cíle.</td></tr>
+    <tr><td><strong>CSIRT</strong></td><td>Computer Security Incident Response Team — tým specializovaný na reakci na bezpečnostní incidenty.</td></tr>
+    <tr><td><strong>DORA</strong></td><td>Digital Operational Resilience Act, Nař. EU 2022/2554 — povinnosti ICT bezpečnosti pro finanční sektor; účinnost 17. 1. 2025.</td></tr>
+    <tr><td><strong>DRP</strong></td><td>Disaster Recovery Plan — plán obnovy IT systémů a dat po selhání nebo katastrofě.</td></tr>
+    <tr><td><strong>Essential Entity</strong></td><td>Klíčový subjekt dle NIS2 — 11 vysoce kritických sektorů; přísnější dohled; sankce max. 10 mil. EUR / 2 % obratu.</td></tr>
+    <tr><td><strong>Important Entity</strong></td><td>Důležitý subjekt dle NIS2 — 7 dalších sektorů; reaktivní dohled; sankce max. 7 mil. EUR / 1,4 % obratu.</td></tr>
+    <tr><td><strong>ISMS</strong></td><td>Information Security Management System — systém řízení bezpečnosti informací; definice dle ISO/IEC 27000; zahrnuje politiky, procesy, lidi, technologie.</td></tr>
+    <tr><td><strong>ISO 27000</strong></td><td>Přehled a slovník rodiny norem ISO 27000 — definice pojmů celé rodiny.</td></tr>
+    <tr><td><strong>ISO 27001</strong></td><td>Certifikovatelná norma — požadavky na ISMS; 10 klauzulí + Annex A (93 opatření v rev. 2022); PDCA cyklus.</td></tr>
+    <tr><td><strong>ISO 27002:2022</strong></td><td>Prováděcí pokyny k opatřením; 4 témata: Organizační (37) + Personální (8) + Fyzická (14) + Technologická (34) = 93 opatření.</td></tr>
+    <tr><td><strong>ISO 27005</strong></td><td>Standard pro řízení rizik bezpečnosti informací — metodika, katalogy hrozeb a zranitelností.</td></tr>
+    <tr><td><strong>ISO 22301</strong></td><td>Certifikovatelná norma pro BCM (Business Continuity Management System); požadavky na kontinuitu činností.</td></tr>
+    <tr><td><strong>KBI</strong></td><td>Kybernetický bezpečnostní incident — nežádoucí bezpečnostní událost s dopadem na IS. Povinnost hlášení dle ZKB a NIS2.</td></tr>
+    <tr><td><strong>KII</strong></td><td>Kritická informační infrastruktura — systémy, jejichž narušení by závažně ohrozilo stát nebo obyvatelstvo; určeny nař. vlády č. 315/2014 Sb.</td></tr>
+    <tr><td><strong>Least Privilege (PoLP)</strong></td><td>Zásada minimálních práv — uživatel dostane pouze oprávnění nezbytně nutná k výkonu práce.</td></tr>
+    <tr><td><strong>MBCO</strong></td><td>Minimum Business Continuity Objective — minimální přijatelná úroveň provozu po incidentu.</td></tr>
+    <tr><td><strong>MTPD</strong></td><td>Maximum Tolerable Period of Disruption — maximální doba výpadku, po níž jsou dopady katastrofické.</td></tr>
+    <tr><td><strong>NIS2</strong></td><td>Směrnice EU 2022/2555 — kybernetická bezpečnost v 18 sektorech; účinnost 17. 10. 2024; nahradila NIS 2016.</td></tr>
+    <tr><td><strong>NÚKIB</strong></td><td>Národní úřad pro kybernetickou a informační bezpečnost — gestor ZKB v ČR; provozuje vládní CERT (GovCERT.CZ).</td></tr>
+    <tr><td><strong>PAM</strong></td><td>Privileged Access Management — řízení privilegovaných účtů: just-in-time přístupy, session recording, vault na hesla.</td></tr>
+    <tr><td><strong>PDCA</strong></td><td>Plan–Do–Check–Act — Demingův cyklus kontinuálního zlepšování; základ ISO 27001 i ISO 22301.</td></tr>
+    <tr><td><strong>PKI</strong></td><td>Public Key Infrastructure — infrastruktura pro správu digitálních certifikátů (CA, RA, X.509, CRL, OCSP).</td></tr>
+    <tr><td><strong>RBAC</strong></td><td>Role-Based Access Control — přístupy přiděleny rolím, nikoli přímo uživatelům. Usnadňuje správu oprávnění.</td></tr>
+    <tr><td><strong>Residual Risk</strong></td><td>Zbytkové riziko — míra rizika přetrvávající po implementaci opatření. Musí být srovnána s risk appetite.</td></tr>
+    <tr><td><strong>Risk Appetite</strong></td><td>Celkové množství rizika, které je organizace ochotna přijmout při dosahování cílů. Schvaluje management.</td></tr>
+    <tr><td><strong>Risk Register</strong></td><td>Registr rizik — dokument zaznamenávající všechna identifikovaná rizika s hodnocením, vlastníky, opatřeními a stavem.</td></tr>
+    <tr><td><strong>RPO</strong></td><td>Recovery Point Objective — maximální přijatelná ztráta dat (jak stará záloha je přijatelná). Čím nižší RPO, tím dražší infrastruktura.</td></tr>
+    <tr><td><strong>RTO</strong></td><td>Recovery Time Objective — maximální přijatelná doba výpadku systému. Čím nižší RTO, tím dražší HA/DR řešení.</td></tr>
+    <tr><td><strong>Scope (Záběr ISMS)</strong></td><td>Hranice a aplikovatelnost ISMS — které části organizace, lokace, procesy a technologie jsou zahrnuty.</td></tr>
+    <tr><td><strong>SOC</strong></td><td>Security Operations Center — tým pro 24/7 monitoring bezpečnosti; provozuje SIEM, IDS/IPS, EDR.</td></tr>
+    <tr><td><strong>SoA</strong></td><td>Statement of Applicability — tabulka 93 opatření z Annex A ISO 27001 s uvedením aplikace/vyloučení a důvody. Povinný dokument pro certifikaci.</td></tr>
+    <tr><td><strong>Surveillance Audit</strong></td><td>Roční dohledový audit ISO 27001 v průběhu 3leté platnosti certifikátu.</td></tr>
+    <tr><td><strong>TLPT</strong></td><td>Threat Led Penetration Testing — pokročilé penetrační testování dle metodiky TIBER-EU; povinné pro vybrané subjekty dle DORA.</td></tr>
+    <tr><td><strong>VIS</strong></td><td>Významný informační systém — kategorie systémů dle ZKB (vyhl. č. 317/2014 Sb.); nižší povinnosti než KII.</td></tr>
+    <tr><td><strong>Zranitelnost (Vulnerability)</strong></td><td>Slabé místo aktiva nebo opatření, které může být využito hrozbou. Katalogizováno v CVE databázi; závažnost hodnocena CVSS.</td></tr>
+    <tr><td><strong>ZKB</strong></td><td>Zákon o kybernetické bezpečnosti č. 181/2014 Sb. — základní česká legislativa KB; gestor NÚKIB; povinné hlášení KBI.</td></tr>
+  </table>
+
+</section>
+
+<script>
+(function() {
+  const links = document.querySelectorAll('.nav-link');
+  const sections = Array.from(links).map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+  function onScroll() {
+    let current = sections[0];
+    for (const s of sections) {
+      if (window.scrollY >= s.offsetTop - 80) current = s;
+    }
+    links.forEach(l => {
+      l.style.background = '';
+      l.style.color = '';
+    });
+    const active = document.querySelector('.nav-link[href="#' + current.id + '"]');
+    if (active) { active.style.background = '#eff6ff'; active.style.color = '#1d4ed8'; }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+
+</body>
+</html>

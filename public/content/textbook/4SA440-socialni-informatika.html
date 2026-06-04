@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4SA440 Sociální informatika – Učební podklady</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #111827;
+    background: #f9fafb;
+    -webkit-font-smoothing: antialiased;
+    margin-left: 58px;
+  }
+
+  #theme-toggle { display: none !important; }
+
+  /* ── DOC NAV ──────────────────────────────── */
+  #doc-nav {
+    width: 50px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    overflow: hidden;
+    background: #ffffff;
+    border-right: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  #doc-nav:hover,
+  #doc-nav.flyout-open {
+    width: 240px;
+    box-shadow: 6px 0 24px rgba(0,0,0,0.07);
+  }
+
+  .nav-logo {
+    padding: 14px 13px 12px;
+    border-bottom: 1px solid #e5e7eb;
+    white-space: nowrap;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .nav-code {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #9ca3af;
+    margin-bottom: 3px;
+  }
+
+  .nav-subject {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1.35;
+  }
+
+  .nav-items {
+    flex: 1;
+    padding: 6px 0 16px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .nav-section { position: relative; }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #374151;
+    text-decoration: none;
+    transition: background 0.1s, color 0.1s,
+                padding 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    line-height: 1.45;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .nav-link:hover { background: #f3f4f6; color: #111827; }
+  .nav-link.active { color: #1d4ed8; background: #eff6ff; }
+
+  .nav-num {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    background: #1d4ed8;
+    color: #ffffff;
+    padding: 2px 5px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    min-width: 22px;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .nav-link.active .nav-num { background: #1d4ed8; }
+
+  /* collapsed state — show only badges */
+  .nav-label {
+    max-width: 200px;
+    opacity: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: max-width 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.18s ease;
+  }
+  #doc-nav:not(:hover):not(.flyout-open) .nav-label {
+    max-width: 0;
+    opacity: 0;
+  }
+  #doc-nav:not(:hover):not(.flyout-open) .nav-link {
+    padding-left: 4px;
+    padding-right: 4px;
+    justify-content: center;
+  }
+  .nav-logo { position: relative; }
+  .nav-logo-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    color: #1d4ed8;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  .nav-logo-text { opacity: 1; transition: opacity 0.2s ease; }
+  #doc-nav:not(:hover):not(.flyout-open) .nav-logo-icon { opacity: 1; }
+  #doc-nav:not(:hover):not(.flyout-open) .nav-logo-text { opacity: 0; }
+
+  /* ── FLYOUT PANEL ─────────────────────────── */
+  .nav-flyout {
+    position: fixed;
+    left: 240px;
+    width: 220px;
+    max-height: 60vh;
+    overflow-y: auto;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-left: 2px solid #1d4ed8;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 8px 4px 20px rgba(0,0,0,0.09);
+    padding: 6px 0;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease;
+  }
+
+  .nav-flyout.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-flyout-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9ca3af;
+    padding: 6px 14px 4px;
+  }
+
+  .nav-flyout-link {
+    display: block;
+    padding: 5px 14px;
+    font-size: 12px;
+    color: #374151;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background 0.1s, color 0.1s;
+    line-height: 1.5;
+  }
+
+  .nav-flyout-link:hover { background: #f3f4f6; color: #111827; }
+  .nav-flyout-link.active { color: #1d4ed8; font-weight: 600; }
+
+  /* ── MAIN CONTENT ─────────────────────────── */
+  main { }
+
+  /* ── HERO ────────────────────────────────── */
+  .hero {
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 44px 56px 40px;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 12px;
+  }
+
+  .hero-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  .hero-desc {
+    font-size: 14.5px;
+    color: #475569;
+    line-height: 1.65;
+    max-width: 560px;
+    margin-bottom: 24px;
+  }
+
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+
+  .hero-pill {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 4px 13px;
+    font-size: 12.5px;
+    color: #475569;
+    font-weight: 500;
+  }
+
+  /* ── LECTURE SECTIONS ────────────────────── */
+  section.lecture {
+    padding: 40px 56px 52px;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  section.lecture:last-child { border-bottom: none; }
+
+  .lec-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 32px;
+  }
+
+  .lec-num {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: #1d4ed8;
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  .lec-title {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #111827;
+    letter-spacing: -0.02em;
+  }
+
+  .lec-subtitle {
+    margin-top: 5px;
+    font-size: 13px;
+    color: #6b7280;
+    font-weight: 400;
+  }
+
+  /* ── HEADINGS ────────────────────────────── */
+  h2 {
+    font-size: 16.5px;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.01em;
+    margin: 32px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  h2:first-child { margin-top: 0; }
+
+  h3 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: #999999;
+    margin: 24px 0 10px;
+  }
+
+  /* ── BODY TEXT ───────────────────────────── */
+  p {
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: #333333;
+    margin-bottom: 12px;
+  }
+
+  strong { color: #111827; font-weight: 700; }
+  em { font-style: italic; }
+
+  /* ── POJMY GRID ──────────────────────────── */
+  .pojmy {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 14px 0 18px;
+  }
+
+  .pojmy.single { grid-template-columns: 1fr; }
+  .pojmy.three { grid-template-columns: 1fr 1fr 1fr; }
+
+  .pojem {
+    border-radius: 7px;
+    overflow: hidden;
+    border: 1px solid #e5e5e5;
+  }
+
+  .pojem-head {
+    padding: 8px 13px;
+    font-size: 12.5px;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+
+  .pojem-body {
+    padding: 10px 13px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #444444;
+    background: #ffffff;
+  }
+
+  /* Color variants */
+  .pojem.blue  .pojem-head { background: #eff6ff; color: #1d4ed8; }
+  .pojem.green .pojem-head { background: #f0fdf4; color: #15803d; }
+  .pojem.orange .pojem-head { background: #fff7ed; color: #c2410c; }
+  .pojem.purple .pojem-head { background: #faf5ff; color: #6d28d9; }
+  .pojem.red    .pojem-head { background: #fef2f2; color: #b91c1c; }
+
+  /* ── BULLETS ─────────────────────────────── */
+  ul.body-list {
+    list-style: none;
+    margin: 10px 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  ul.body-list li {
+    display: flex;
+    gap: 10px;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: #333333;
+  }
+
+  ul.body-list li::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #999999;
+    flex-shrink: 0;
+    margin-top: 10px;
+  }
+
+  /* ── NUMBERED LIST ───────────────────────── */
+  ol.steps {
+    list-style: none;
+    margin: 10px 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    counter-reset: step;
+  }
+
+  ol.steps li {
+    display: flex;
+    gap: 12px;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: #333333;
+    counter-increment: step;
+  }
+
+  ol.steps li::before {
+    content: counter(step);
+    min-width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #1d4ed8;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  /* ── CALLOUTS ────────────────────────────── */
+  .tip {
+    background: #f0fdf4;
+    border-left: 4px solid #16a34a;
+    border-radius: 0 7px 7px 0;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #14532d;
+  }
+
+  .tip::before { content: '💡 '; }
+
+  .warn {
+    background: #fff7ed;
+    border-left: 4px solid #ea580c;
+    border-radius: 0 7px 7px 0;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #7c2d12;
+  }
+
+  .warn::before { content: '⚠️ '; }
+
+  .compare {
+    background: #faf5ff;
+    border-left: 4px solid #7c3aed;
+    border-radius: 0 7px 7px 0;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #3b0764;
+  }
+
+  /* ── COMPARISON TABLE ────────────────────── */
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 18px;
+    font-size: 13.5px;
+    border-radius: 7px;
+    overflow: hidden;
+    border: 1px solid #e5e5e5;
+  }
+
+  .comp-table th {
+    background: #f1f5f9;
+    color: #1e293b;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .comp-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top;
+    line-height: 1.55;
+    color: #444444;
+  }
+
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table tr:nth-child(even) td { background: #fafafa; }
+
+  /* ── STAGE CARDS ─────────────────────────── */
+  .stages {
+    display: flex;
+    gap: 0;
+    margin: 14px 0 18px;
+    border-radius: 7px;
+    overflow: hidden;
+    border: 1px solid #e5e5e5;
+  }
+
+  .stage {
+    flex: 1;
+    padding: 15px 14px;
+    border-right: 1px solid #e5e5e5;
+    background: #ffffff;
+  }
+
+  .stage:last-child { border-right: none; }
+  .stage:nth-child(even) { background: #fafafa; }
+
+  .stage-num {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #999999;
+    margin-bottom: 5px;
+  }
+
+  .stage-name {
+    font-weight: 700;
+    font-size: 13.5px;
+    margin-bottom: 5px;
+    color: #111111;
+  }
+
+  .stage-desc {
+    font-size: 13px;
+    color: #555555;
+    line-height: 1.5;
+  }
+
+  /* ── TAG BADGE ───────────────────────────── */
+  .tag {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 5px;
+    border: 1px solid;
+  }
+
+  .tag.blue   { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+  .tag.green  { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+  .tag.orange { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+  .tag.purple { background: #faf5ff; color: #6d28d9; border-color: #ddd6fe; }
+
+  /* ── SCHOOL CARDS ────────────────────────── */
+  .school-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 14px 0;
+  }
+
+  .school-card {
+    border: 1px solid #e5e5e5;
+    border-radius: 7px;
+    padding: 13px 15px;
+    background: #ffffff;
+  }
+
+  .school-name {
+    font-weight: 700;
+    font-size: 13.5px;
+    color: #111111;
+    margin-bottom: 3px;
+  }
+
+  .school-year {
+    font-size: 11px;
+    color: #666666;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .school-desc {
+    font-size: 13px;
+    color: #555555;
+    line-height: 1.5;
+  }
+
+  .spacer { height: 1px; }
+</style>
+</head>
+<body>
+
+
+<nav id="doc-nav">
+  <div class="nav-logo">
+    <span class="nav-logo-icon">▤</span>
+    <div class="nav-logo-text">
+      <span class="nav-code">4SA440 · VŠE FIS</span>
+      <span class="nav-subject">Sociální informatika</span>
+    </div>
+  </div>
+  <div class="nav-items">
+    <div class="nav-section">
+      <a href="#hero" class="nav-link"><span class="nav-num">▲</span><span class="nav-label">Úvod</span></a>
+    </div>
+    <div class="nav-section">
+      <a href="#p1a" class="nav-link"><span class="nav-num">P1</span><span class="nav-label">Vztah člověka a techniky</span></a>
+    </div>
+    <div class="nav-section">
+      <a href="#p2" class="nav-link"><span class="nav-num">P2</span><span class="nav-label">Metodologie sociální informatiky</span></a>
+    </div>
+    <div class="nav-section">
+      <a href="#p3" class="nav-link"><span class="nav-num">P3</span><span class="nav-label">Sociokulturní regulativy, kultura &amp; adopce ICT</span></a>
+    </div>
+    <div class="nav-section">
+      <a href="#p4" class="nav-link"><span class="nav-num">P4</span><span class="nav-label">SCOT</span></a>
+    </div>
+    <div class="nav-section">
+      <a href="#p5" class="nav-link"><span class="nav-num">P5</span><span class="nav-label">ANT</span></a>
+    </div>
+    <div class="nav-section">
+      <a href="#p6" class="nav-link"><span class="nav-num">P6</span><span class="nav-label">STIN &amp; Sociotechnické teorie</span></a>
+    </div>
+    <div class="nav-section">
+      <a href="#p7" class="nav-link"><span class="nav-num">P7</span><span class="nav-label">Myšlenkové školy SI</span></a>
+    </div>
+    <div class="nav-section">
+      <a href="#p8" class="nav-link"><span class="nav-num">P8</span><span class="nav-label">Informační společnost</span></a>
+    </div>
+    <div class="nav-section">
+      <a href="#p9" class="nav-link"><span class="nav-num">P9</span><span class="nav-label">Technologické koncepty</span></a>
+    </div>
+    <div class="nav-section">
+      <a href="#p10" class="nav-link"><span class="nav-num">P10</span><span class="nav-label">Shrnutí &amp; propojení</span></a>
+    </div>
+    <div class="nav-section">
+      <a href="#cheat" class="nav-link"><span class="nav-num">★</span><span class="nav-label">Shrnutí</span></a>
+    </div>
+    <div class="nav-section">
+      <a href="#samotest" class="nav-link"><span class="nav-num">✓</span><span class="nav-label">Samotest</span></a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-eyebrow">Učební podklady ke zkoušce</div>
+  <div class="hero-title">Sociální<br>informatika</div>
+  <div class="hero-desc">Přehledné shrnutí všech 10 přednášek. Pojmy, kontext a příklady – vše na jednom místě. Uč se na příkladech, definice jsou až druhořadé.</div>
+  <div class="hero-pills">
+    <span class="hero-pill">Vztah člověka a techniky</span>
+    <span class="hero-pill">SCOT · ANT · STIN</span>
+    <span class="hero-pill">7 myšlenkových škol</span>
+    <span class="hero-pill">Informační společnost</span>
+    <span class="hero-pill">UbiComp · IoT · AmI</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- P1 – VZTAH ČLOVĚKA A TECHNIKY -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="lecture" id="p1a">
+  <div class="lec-header">
+    <div class="lec-num">P1</div>
+    <div>
+      <div class="lec-title">Vztah člověka a techniky</div>
+      <div class="lec-subtitle">Mimopřirozenost techniky · Gasset · Heidegger · Nadpříroda</div>
+    </div>
+  </div>
+
+  <h2>Co je sociální informatika?</h2>
+  <p>Oblast výzkumu zaměřená na <strong>sociotechnickou interakci</strong> – vzájemné působení lidí a ICT v sociálním kontextu.</p>
+  <div class="pojmy single">
+    <div class="pojem blue">
+      <div class="pojem-head">Definice (mezinárodní pohled)</div>
+      <div class="pojem-body">Zkoumání sociotechnické interakce na různých úrovních v souvislosti s rozvojem informační společnosti, včetně sociálních aspektů komputerizace.</div>
+    </div>
+  </div>
+  <h3>Úrovně pohledu</h3>
+  <p>SI zkoumá použití ICT na třech úrovních. Liší se zorný úhel:</p>
+  <div class="pojmy three">
+    <div class="pojem blue"><div class="pojem-head">Personální</div><div class="pojem-body">Jeden konkrétní člověk a jeho interakce s ICT. <em>Jak MS Excel používá konkrétní obchodní manažer?</em> Jak senior Karel zvládá nový mobil?</div></div>
+    <div class="pojem green"><div class="pojem-head">Organizační</div><div class="pojem-body">Skupina lidí v organizaci. <em>Jak je MS Excel využíván v malých firmách v ČR?</em> Jak v naší firmě adoptujeme Slack?</div></div>
+    <div class="pojem orange"><div class="pojem-head">Společenská</div><div class="pojem-body">Celé sociální kategorie nebo společnost. <em>Jak využívají Snapchat senioři v ČR?</em> Jak ovlivnily sociální sítě volby?</div></div>
+  </div>
+
+  <h3>Kontexty zkoumání</h3>
+  <p>Vedle úrovně si vybíráme i kontext – co konkrétně sledujeme:</p>
+  <div class="pojmy three">
+    <div class="pojem blue"><div class="pojem-head">Institucionální</div><div class="pojem-body"><strong>Pravidla a normy</strong> – zákony, směrnice, postupy. <em>Pozor: instituce ≠ organizace.</em></div></div>
+    <div class="pojem green"><div class="pojem-head">Kulturní</div><div class="pojem-body">Hodnoty, zvyklosti, tradice. Co skupina považuje za normální a slušné.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Sociální</div><div class="pojem-body">Lidské vztahy, kdo s kým komunikuje, jak fungují skupiny.</div></div>
+  </div>
+  <div class="tip"><strong>Instituce vs. organizace – jak to rozlišit?</strong> Instituce = <em>způsob, jakým lidé něco dělají</em> (pravidla, zvyklosti, normy). Organizace = <em>lidé, kteří to dělají tím způsobem</em>. Smutného přesný příklad: <strong>fotbalisté jsou organizace, fotbalová pravidla jsou instituce</strong>. Další: manželství je instituce (sociální dohoda), konkrétní manželský pár je organizace. ČSOB (firma) je organizace; banky obecně + zákony o bankách = instituce.</div>
+
+  <h2>José Ortega y Gasset – technika jako reakce</h2>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Repertoár prvních aktů</div><div class="pojem-body">Přímé biologické reakce zvířete i člověka (hlad → lov). Pokud selžou → zvíře se vydá smrti.</div></div>
+    <div class="pojem green"><div class="pojem-head">Repertoár druhých aktů</div><div class="pojem-body">Nepřímé jednání člověka – přetváří okolnost, aby splnil potřebu jinak (MacGyver).</div></div>
+    <div class="pojem orange"><div class="pojem-head">Technika (Gasset)</div><div class="pojem-body"><em>„Technika je energickou reakcí proti přírodě a okolnosti, která vede k tomu, že je mezi ní a člověkem vytvořena nová příroda, rozprostřená nad tou původní: nadpříroda."</em></div></div>
+    <div class="pojem purple"><div class="pojem-head">Nadpříroda</div><div class="pojem-body">Svět vytvořený člověkem: města, zákony, sociální sítě, internet. Dnes na nás klade nároky <em>nadpříroda</em>, nikoli příroda.</div></div>
+  </div>
+  <div class="tip"><strong>Klíčový příklad – šití rybářských sítí:</strong> Samotné šití nikoho nenasytí. Technika není přímé uspokojení potřeby – je to <em>přetváření okolnosti</em>, aby v ní šlo potřebu uspokojit (vhodně užité sítě zvyšují možnosti obstarat si potravu).</div>
+
+  <h3>Tři vývojová stádia techniky (Gasset)</h3>
+  <div class="stages">
+    <div class="stage"><div class="stage-num">Stádium 1</div><div class="stage-name">Technika náhody</div><div class="stage-desc">Předhistorický člověk. Technické akty splývají s přírodními, není si jich vědom. Plně závislý na přírodě. <em>Magie a cargo kult = sem.</em></div></div>
+    <div class="stage"><div class="stage-num">Stádium 2</div><div class="stage-name">Technika řemeslníka</div><div class="stage-desc">Uvědomění techniky jako oblasti. Mistr → učedník, obrácen do minulosti (tradice). Nástroje = doplněk člověka. Lze se vrátit k primitivnímu životu.</div></div>
+    <div class="stage"><div class="stage-num">Stádium 3</div><div class="stage-name">Technika technika</div><div class="stage-desc">Nástup strojů. <strong>Člověk je doplňkem stroje</strong>. Řemeslník se štěpí na <em>dělníka</em> (pomáhá stroji) a <em>technika</em> (vynalézá). Existenciální závislost na technice od 19. století.</div></div>
+  </div>
+
+  <h2>Martin Heidegger – odkrývání a vymáhání</h2>
+  <div class="pojmy single">
+    <div class="pojem blue"><div class="pojem-head">Aristotelovy 4 příčiny (východisko Heideggera)</div><div class="pojem-body">Příklad obětní stříbrné misky: (1) <strong>materiál</strong> = stříbro, (2) <strong>forma</strong> = tvar misky, (3) <strong>účel</strong> = obětní použití, (4) <strong>causa efficiens</strong> = stříbrník, který to uskutečňuje. Technika = lidská činnost přivádí do přítomnosti to, co dosud nebylo.</div></div>
+  </div>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Technika jako odkrývání</div><div class="pojem-body">Příroda se odkrývá <em>skrze</em> lidskou činnost (na rozdíl od rozpuku květu, který se odkrývá sám v sobě). Stříbrník přivádí do přítomnosti to, co dosud nebylo.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Technika jako vymáhání</div><div class="pojem-body">Novověk: rozvoj přírodních věd → příroda = disponovatelný zásobník surovin. Vymáháme energii z atomu, vyšší výtěžnost obilí. Člověk se stává pánem, ne v úctě.</div></div>
+    <div class="pojem purple"><div class="pojem-head">Sestavy a objednávání</div><div class="pojem-body">Vymáhání = objednávání + vytváření <em>sestav</em> (inženýrské postupy). Sestava je otázkou na přírodu – pokud je správně sestavená, příroda odpoví (= vydá to, co jsme si objednali). Příklad: projekt atomové bomby.</div></div>
+  </div>
+  <div class="tip">Cargo kult a magie = technika náhody (Gasset). Zároveň se ptáme přírody špatnou otázkou (Heidegger) – sestava je špatně sestavená.</div>
+
+  <h2>Důsledky techniky pro člověka</h2>
+  <ul class="body-list">
+    <li>Technika produkuje blahobyt a uvolňuje čas od nutných potřeb → volný čas pro nové aktivity.</li>
+    <li>Člověk vytváří <strong>mimopřirozený program</strong> – způsob života vymyšlený lidmi (= vymyšlený svět, jako román).</li>
+    <li>Dnes na nás klade nároky <strong>nadpříroda</strong> (informační společnost, kultura) – minimálně příroda.</li>
+    <li>Člověk má možnost <strong>sebezhotovení</strong>, ale většinou se poddá nadpřírodě a ta mu ukáže cestu.</li>
+    <li>Technika je složkou lidské kultury – každé společenství má vlastní technické akty.</li>
+  </ul>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- P2 – METODOLOGIE -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="lecture" id="p2">
+  <div class="lec-header">
+    <div class="lec-num">P2</div>
+    <div>
+      <div class="lec-title">Metodologie sociální informatiky</div>
+      <div class="lec-subtitle">Věda · Technověda · Kvantitativní vs. kvalitativní výzkum · DSR</div>
+    </div>
+  </div>
+
+  <h2>Věda a metodologie</h2>
+  <div class="pojmy three">
+    <div class="pojem blue"><div class="pojem-head">Metodologie</div><div class="pojem-body">Teorie k výběru výzkumných metod + návod jak je používat.</div></div>
+    <div class="pojem green"><div class="pojem-head">Metoda</div><div class="pojem-body">Způsob aplikace postupu k dosažení výzkumného cíle.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Metodika</div><div class="pojem-body">Konkrétní postup, jakým ve vlastním výzkumu postupujeme.</div></div>
+  </div>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Věda (science)</div><div class="pojem-body">Přírodní + sociální + formální + aplikované vědy. Systematická tvorba testovatelných explanací.</div></div>
+    <div class="pojem purple"><div class="pojem-head">Technověda</div><div class="pojem-body">Překrývání vědy a techniky – inženýr i přírodovědec spolupracují, čímž se akceleruje výzkum.</div></div>
+  </div>
+
+  <h2>Tři přístupy v informatice</h2>
+  <div class="stages">
+    <div class="stage"><div class="stage-num">Analýza</div><div class="stage-name">Přírodovědné kořeny</div><div class="stage-desc">Kvantitativní a kvalitativní výzkum. Cíl: explanace (logický výklad fenoménu).</div></div>
+    <div class="stage"><div class="stage-num">Syntéza</div><div class="stage-name">Konstruktérské kořeny</div><div class="stage-desc">Návrhově orientovaný výzkum. Cíl: návrh řešení (artefaktu).</div></div>
+    <div class="stage"><div class="stage-num">Inspirace</div><div class="stage-name">Humanities přístup</div><div class="stage-desc">Filosofie, hermeneutika, sémiotika. Pro SI pouze inspirativní, ne primární přístup.</div></div>
+  </div>
+
+  <h2>Kvantitativní vs. kvalitativní výzkum</h2>
+  <table class="comp-table">
+    <tr><th>Kvantitativní výzkum</th><th>Kvalitativní výzkum</th></tr>
+    <tr><td>Čísla, statistika, matematika</td><td>Text, interpretace, porozumění</td></tr>
+    <tr><td>Kdo, co, kde, jak moc?</td><td>Proč, jak, jaký smysl?</td></tr>
+    <tr><td>Dotazníky, experimenty, simulace</td><td>Rozhovory, případová studie, etnografie</td></tr>
+    <tr><td>Upřednostňováno od 90. let (PC)</td><td>Renesance v současnosti</td></tr>
+  </table>
+  <div class="pojmy single">
+    <div class="pojem blue"><div class="pojem-head">Triangulace (integrativní výzkum)</div><div class="pojem-body">Kombinace kvantitativních i kvalitativních metod pro bohatší a relevantnější závěry.</div></div>
+  </div>
+
+  <h2>Návrhový výzkum (Design Science)</h2>
+  <div class="pojmy">
+    <div class="pojem green"><div class="pojem-head">Design research</div><div class="pojem-body">Zabývá se konstrukcí artefaktů a jejich evaluací. Klíčová je <em>relevantnost</em> – ověřuje trh/praxe. Kořeny v Bauhausu (20.–30. léta).</div></div>
+    <div class="pojem blue"><div class="pojem-head">Design science (DSR)</div><div class="pojem-body">Hledá rigorózní metody pro tvorbu umělého. Kombinuje vysokou rigoróznost s vysokou relevancí. V IS od r. 2000. Filozofický základ: <em>Herbert A. Simon – Věda o umělém</em>.</div></div>
+  </div>
+
+  <h2>Behaviorální vs. návrhový výzkum (exam-relevant)</h2>
+  <p>Smutného zkoušková terminologie. Toto je <strong>klíčové rozlišení</strong> – test 2022 se ptal přesně na to.</p>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Behaviorální výzkum (sociální + behaviorální)</div><div class="pojem-body">Zaměřený na <strong>chování</strong> jednotlivce nebo množiny lidí v souvislosti s používáním ICT. Typické pro management IS. Kvantitativní + kvalitativní metody. Cíl: <em>explanace fenoménu</em>. <strong>Toto je primární přístup SI.</strong></div></div>
+    <div class="pojem green"><div class="pojem-head">Návrhový výzkum (design research)</div><div class="pojem-body">Umění a technika mají vytvořit nový celek. Kořeny: Bauhaus (vila Tugendhat, 1928). Cíl: <em>návrh řešení</em>. Sekundární přístup v SI.</div></div>
+  </div>
+
+  <h3>Schéma návrhového výzkumu</h3>
+  <p>Smutný v přednášce kreslí tento řetězec:</p>
+  <table class="comp-table">
+    <tr><th>Vstup</th><th>Proces</th><th>Hodnocení</th></tr>
+    <tr><td><strong>Potřeba</strong> uživatele</td><td>→</td><td><strong>Relevance</strong> (řeší to skutečně problém?)</td></tr>
+    <tr><td><strong>Problém</strong></td><td>→ <strong>Návrh řešení</strong></td><td><strong>Spolehlivost</strong> (funguje to konzistentně?)</td></tr>
+    <tr><td><strong>Inovace</strong></td><td>→</td><td><strong>Trh, praxe</strong> (přijme to někdo?)</td></tr>
+  </table>
+  <div class="tip">Klíčové: behaviorální výzkum <em>pozoruje a vysvětluje</em>, návrhový <em>tvoří a ověřuje relevanci</em>. DSR (Design Science Research, od r. 2000) kombinuje obě – chce vysokou rigoróznost <em>i</em> vysokou relevanci.</div>
+
+  <h2>Metodologie sociální informatiky</h2>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Primární přístup</div><div class="pojem-body">Sociální a behaviorální výzkum: kvantitativní + kvalitativní metody. Cíl: <strong>explanace fenoménu</strong>.</div></div>
+    <div class="pojem green"><div class="pojem-head">Sekundární přístup</div><div class="pojem-body">Návrhově orientovaný výzkum (design science). Typické tam, kde SI = sociální práce, nebo návrh výzkumných metod. Cíl: <strong>návrh řešení</strong>.</div></div>
+  </div>
+
+  <h2>Profesní vs. vědecký výzkum</h2>
+  <table class="comp-table">
+    <tr><th>Vědecký výzkum</th><th>Profesní (praktický) výzkum</th></tr>
+    <tr><td>Vysoká rigoróznost metodiky</td><td>Účelové použití metod, nižší kontrola</td></tr>
+    <tr><td>Vyšší míra inovativnosti řešení</td><td>Rutinní návrh s nízkou inkrementální inovací</td></tr>
+    <tr><td>Kritický k provedení, transparentnost</td><td>Politika a firemní zájmy hrají roli</td></tr>
+  </table>
+  <div class="tip">Výzkum neprovádějí jen vědci. V praxi probíhá také – jen s jinými prioritami. Pro datově řízenou organizaci je důležité tyto rozdíly znát (viz P10).</div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- P3 – KULTURA A ADOPCE -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="lecture" id="p3">
+  <div class="lec-header">
+    <div class="lec-num">P3</div>
+    <div>
+      <div class="lec-title">Sociokulturní regulativy, kultura & adopce ICT</div>
+      <div class="lec-subtitle">Hofstede · Akceptabilita · Adopce · Rezistence · UTAUT · Designer vs. Uživatel</div>
+    </div>
+  </div>
+
+  <h2>Kultura a sociální útvary</h2>
+  <div class="pojmy single">
+    <div class="pojem blue"><div class="pojem-head">Kultura</div><div class="pojem-body">Systém všech významů, činností a vzorců chování, které si člověk osvojuje jako člen společnosti. Předávána z generace na generaci (folklór, pohádky, tradice). Technika je složkou kultury.</div></div>
+  </div>
+
+  <h3>Tři typy sociálních útvarů</h3>
+  <p>Výchozí útvar je <strong>sociální skupina</strong> (typicky rodina). Skupiny se pak agregují do větších útvarů, ale podle čeho je sjednocuje, dostaneme různé typy:</p>
+  <div class="pojmy three">
+    <div class="pojem blue"><div class="pojem-head">Sociální skupina</div><div class="pojem-body"><strong>Přímá interakce</strong> mezi členy. Rodina, třída, parta, tým ve firmě. Lidé se znají, mluví spolu.</div></div>
+    <div class="pojem green"><div class="pojem-head">Sociální kategorie</div><div class="pojem-body"><strong>Společné znaky</strong>, ale bez přímé interakce. Generace Z, senioři, Češi, lidé s vysokoškolským vzděláním. Statistická abstrakce.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Sociální agregát</div><div class="pojem-body"><strong>Ad hoc shromáždění</strong> – lidé spojeni místem a časem, ale ne víc. Lidé čekající na tramvaj, dav na koncertě, fronta v obchodě.</div></div>
+  </div>
+
+  <h3>Větší útvary – co je sjednocuje?</h3>
+  <p>Když sociální skupiny tvoří něco většího, můžeme rozlišit podle <em>sjednocujícího prvku</em>:</p>
+  <table class="comp-table">
+    <tr><th>Útvar</th><th>Sjednocující prvek</th><th>Příklad</th></tr>
+    <tr><td><strong>Komunita</strong></td><td>Zvyklosti a tradice</td><td>Vesnice, hasičský sbor, krajanská obec, fandové fotbalového klubu</td></tr>
+    <tr><td><strong>Společnost</strong></td><td>Právo</td><td>Občané ČR – sjednoceni zákony, ústavou, hranicemi státu</td></tr>
+    <tr><td><strong>Organizace</strong></td><td>Cíl a poslání</td><td>Septim Systems, Charita, fotbalový klub Slavia, VŠE</td></tr>
+  </table>
+
+  <h2>Hofstedeho 6D model kultur</h2>
+  <p>Výzkum pro IBM (70. léta Geert Hofstede). Šest dimenzí kultury – ovlivňují hodnoty, postoje a chování zaměstnanců v nadnárodních firmách.</p>
+  <table class="comp-table">
+    <tr><th>Dimenze</th><th>Popis</th><th>Příklad</th></tr>
+    <tr><td><strong>Vztah k moci (PDI)</strong></td><td>Míra přijímání nerovnosti</td><td>Čína vysoké PDI – hierarchie, úcta k mocným</td></tr>
+    <tr><td><strong>Individualismus (IDV)</strong></td><td>Já vs. My</td><td>USA: individualismus; Japonsko: kolektivismus</td></tr>
+    <tr><td><strong>Maskulinita (MAS)</strong></td><td>Soutěživost vs. spolupráce</td><td>Nizozemci jsou podnikaví (nízká maskulinita = femininita → spolupráce)</td></tr>
+    <tr><td><strong>Vyhýbání se nejistotě (UAI)</strong></td><td>Tolerance k nejistotě</td><td>Švédi: nízká UAI, přijímají nejistotu</td></tr>
+    <tr><td><strong>Dlouhodobá orientace (LTO)</strong></td><td>Trpělivost vs. krátkodobý zisk</td><td>Čína: vysoká LTO (šetření, plánování)</td></tr>
+    <tr><td><strong>Požitkářství (IND)</strong></td><td>Míra hédonismu</td><td>Latinská Amerika: vysoké IND</td></tr>
+  </table>
+
+  <div class="tip"><strong>Příklad Čína vs. USA – proč selhal obchod o čipy:</strong> Americká firma chystá smlouvu na výrobu čipů v Číně. Den před podpisem je v USA naplánována večeře. Mladý americký zaměstnanec přivítá čínskou delegaci v restauraci. Čínský ředitel se ptá: <em>„Kam si mohu sednout?"</em> – očekává, že mu Američan určí místo podle hierarchie (vysoké PDI). Američanova odpověď <em>„Kamkoli chcete"</em> (nízké PDI) byla v čínském chápání těžká urážka – jako by jejich pozice nebyla dost důležitá, aby si ji někdo zasloužil rozhodnout. Druhý den čínská výprava odlétá <strong>bez podpisu smlouvy</strong>. Žádný technický problém, jen kulturní dimenze.</div>
+
+  <h3>Hajnalova linie – kulturní pohled na rodinu</h3>
+  <p>Britský statistik John Hajnal v 60. letech vytyčil v Evropě pomyslnou linii rozdělující dva archetypy rodiny – ovlivňující distribuci moci ve společnosti:</p>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Severozápadní model</div><div class="pojem-body">Malý počet členů, nižší pokrevní příbuzenství, pozdější sňatkový věk (25–26), 10–25 % lidí celoživotně neprovdaných. Větší individualismus, vyšší IDV (Hofstede).</div></div>
+    <div class="pojem orange"><div class="pojem-head">Jihovýchodní model</div><div class="pojem-body">Mnohočlenné rodiny, vysoká sňatečnost, mladší sňatkový věk (20–21), patrilineární linie. Kolektivismus, silnější rodové vazby.</div></div>
+  </div>
+  <div class="tip">Čechy jsou na <em>rozhraní</em>. To vysvětluje, proč se některé západní organizační praktiky (otevřená komunikace, ploché hierarchie) přijímají u nás hůř než v Německu, ale lépe než na Balkáně.</div>
+
+  <h2>Akceptabilita, Akceptace, Adopce, Rezistence</h2>
+  <div class="stages">
+    <div class="stage"><div class="stage-num">Pre-adopce</div><div class="stage-name">Akceptabilita</div><div class="stage-desc">Přijatelnost PŘED vyzkoušením (popis funkcí, UI návrh). Pouze představa uživatele.</div></div>
+    <div class="stage"><div class="stage-num">Pre-adopce</div><div class="stage-name">Akceptace</div><div class="stage-desc">Přijatelnost NA ZÁKLADĚ vyzkoušení (beta verze, krátkodobé použití).</div></div>
+    <div class="stage"><div class="stage-num">Post-adopce</div><div class="stage-name">Adopce</div><div class="stage-desc">Vícefázový proces: rozhodnutí → trvalé používání. Nikoliv jednorázové.</div></div>
+    <div class="stage"><div class="stage-num">Odmítnutí</div><div class="stage-name">Rezistence</div><div class="stage-desc">Odpor skupin při zavádění ICT. Příklad: manažeři prosadí podnikovou soc. síť, ale sami ji nepoužívají.</div></div>
+  </div>
+
+  <h2>Model UTAUT</h2>
+  <p>Unified Theory of Acceptance and Use of Technology – nejpoužívanější model pro výzkum adopce. Čtyři klíčové konstrukty:</p>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">1. Očekávaná výkonnost</div><div class="pojem-body">Vnímaná užitečnost technologie pro plnění úkolů.</div></div>
+    <div class="pojem green"><div class="pojem-head">2. Očekávané úsilí</div><div class="pojem-body">Vnímaná snadnost použití.</div></div>
+    <div class="pojem orange"><div class="pojem-head">3. Sociální vliv</div><div class="pojem-body">Vliv okolí na přijetí technologie jedincem.</div></div>
+    <div class="pojem purple"><div class="pojem-head">4. Usnadňující podmínky</div><div class="pojem-body">Objektivní faktory prostředí: HW, školení, infrastruktura.</div></div>
+  </div>
+
+  <h2>Designer vs. Uživatel</h2>
+  <div class="warn">Navrhovat „od stolu" a spoléhat se jen na expertní znalosti = riziko hodnotového konfliktu. Co je důležité pro designéra ≠ co je důležité pro uživatele.</div>
+  <ul class="body-list">
+    <li><strong>Designér:</strong> zaměřen na technické parametry, hodně funkcí, elegantní kód.</li>
+    <li><strong>Uživatel:</strong> chce jednoduché ovládání, řešení jeho konkrétní potřeby.</li>
+    <li>Co je důležité pro <em>jednotlivce</em>, nemusí být důležité pro <em>skupinu</em>, a naopak.</li>
+  </ul>
+
+  <h3>Klíčové pojmy lidského jednání</h3>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Potřeby</div><div class="pojem-body">Pociťované nedostatky, které vedou k jednání s cílem je uspokojit.</div></div>
+    <div class="pojem green"><div class="pojem-head">Hodnoty</div><div class="pojem-body">To, co je pro člověka drahé, žádoucí. Tvoří hierarchii (žebříček hodnot).</div></div>
+    <div class="pojem orange"><div class="pojem-head">Postoje</div><div class="pojem-body">Pozitivní, neutrální či negativní vztah k řešení nebo jevu.</div></div>
+    <div class="pojem purple"><div class="pojem-head">Normy</div><div class="pojem-body"><em>Implicitní</em> (morálka) versus <em>explicitní</em> (zákon, standard).</div></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- P4 – SCOT -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="lecture" id="p4">
+  <div class="lec-header">
+    <div class="lec-num">P4</div>
+    <div>
+      <div class="lec-title">Sociální konstruktivismus & SCOT</div>
+      <div class="lec-subtitle">Sociotechnický přístup · SCOT · Interpretativní flexibilita · Stabilizace</div>
+    </div>
+  </div>
+
+  <h2>Klíčové pojmy – sociotechnický pohled</h2>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Sociální determinismus</div><div class="pojem-body">Za vším stojí lidská rozhodnutí. Technika je <strong>jen nástroj</strong>, sama o sobě nic nezpůsobí. <em>Příklad: Baťa investoval do lidí (vzdělávání, sociální zázemí), ne primárně do strojů – a vybudoval impérium. Další: lidské chování, lidská kultura – sociální výsledky jsou důsledkem rozhodnutí lidí, ne strojů.</em></div></div>
+    <div class="pojem orange"><div class="pojem-head">Technický determinismus</div><div class="pojem-body">ICT je <strong>nezávislá proměnná</strong> vytvářející předvídatelné organizační/společenské změny. <em>Klasický příklad: Průmyslová revoluce – parní stroj „způsobil" industrializaci, urbanizaci, vznik proletariátu. Modernější: představa 70.–80. let, že nákup PC = automatická konkurenceschopnost. „Stačí nakoupit techniku, ona zařídí zbytek." (Paradox produktivity ukázal, že to nefunguje.)</em></div></div>
+    <div class="pojem green"><div class="pojem-head">Sociotechnický přístup</div><div class="pojem-body">Vzájemná konstituce lidí a techniky v kontextu. Odmítá oba determinismy. Základ: Tavistock Institute (1947).</div></div>
+    <div class="pojem purple"><div class="pojem-head">Sociotechnický systém</div><div class="pojem-body">Sdružuje lidi a techniku se společným cílem. Vždy účelově vymezený. Systém má strukturu vztahů.</div></div>
+  </div>
+  <div class="tip"><strong>Tavistock Institute – proč mechanizace dolů selhala:</strong> V britských dolech po válce manažeři vychovaní v Taylorismu (specializace + pásová výroba á la Henry Ford) zavedli masivní mechanizaci těžby. Teorie říkala: méně horníků, jednodušší práce, vyšší produktivita. <strong>Realita byla opačná</strong> – soudržné party horníků, které se chránily v ošemetné práci pod zemí, byly nově rozděleny mezi stroje. Vznikly konflikty mezi směnami, psychosomatické problémy, rozpad kolektivů. <strong>Produktivita klesla.</strong> Psychologové z Tavistocku přišli na to, že technika a sociální struktura musí být <em>optimalizovány společně</em>. Tohle je historický základ sociotechnického přístupu.</div>
+
+  <h2>Sociální konstruktivismus – přehled</h2>
+  <div class="pojmy single">
+    <div class="pojem blue"><div class="pojem-head">Sociální konstruktivismus</div><div class="pojem-body"><strong>Sociální realita není objektivně dána</strong>, ale je neustále znovu konstruována v procesu sociální interakce a komunikace. To, co považujeme za „přirozené" a „samozřejmé", je obvykle dohodnuté.</div></div>
+  </div>
+  <div class="tip"><strong>Konkrétní příklady – test 2022 se ptal:</strong><br>
+  <strong>Mimo IT:</strong> Hrnek. Designér ho vyrobil pro pití horké tekutiny. Ale stejný hrnek může být váza, držák na tužky, popelník, závaží na papíry, dárek, sběratelský artefakt. „Pointou hrnku" není nic objektivního – je to dohoda v naší kultuře.<br><br>
+  <strong>V IT:</strong> Online kurz. Pro studenta = vzdělání. Pro vyučujícího = pracovní povinnost. Pro univerzitu = produkt na trhu. Pro vládu = nástroj sociální politiky. Pro hackera = sběr osobních dat. Jeden a tentýž artefakt, různé sociální konstrukce reality.</div>
+  <table class="comp-table">
+    <tr><th>Teorie</th><th>Síla konstruktivismu</th><th>Aktéři</th><th>Analogie</th></tr>
+    <tr><td><strong>SCOT</strong></td><td>Silný</td><td>Pouze lidé (sociální skupiny)</td><td>Scotty ze Star Treku</td></tr>
+    <tr><td><strong>STIN</strong></td><td>Střední</td><td>Lidé + sociotechnické entity</td><td>Pán času</td></tr>
+    <tr><td><strong>ANT</strong></td><td>Neutrální / slabý</td><td>Vše: lidé, věci, myšlenky, příroda</td><td>Ant-Man</td></tr>
+  </table>
+
+  <h2>SCOT – Social Construction of Technology</h2>
+  <p>Autoři: <strong>Wiebe Bijker a Trevor Pinch</strong> (80. léta). Kritizuje lineární model inovace a technický determinismus.</p>
+
+  <h3>Základní pojmy SCOT</h3>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Relevantní sociální skupiny</div><div class="pojem-body">Skupiny sdílející stejný soubor významů u artefaktu. Každá skupina má jiné problémy a preference.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Interpretativní flexibilita</div><div class="pojem-body">Různé skupiny chápou artefakt různě. Objektivní pravda neexistuje – jen meziskupinové vyjednávání. Odmítá „jednu technicky nejlepší cestu".</div></div>
+    <div class="pojem green"><div class="pojem-head">Stabilizace</div><div class="pojem-body"><em>a) Rétorické uzavření</em> – skupiny se shodnou, že problém je vyřešen (reklama: „Naše kolo je bezpečné!").<br><em>b) Předefinování problému</em> – flexibilita eliminována změnou otázky.</div></div>
+    <div class="pojem purple"><div class="pojem-head">Vícesměrový model</div><div class="pojem-body">Graf všech variant a skupin při vývoji artefaktu. Opak lineárního modelu. Má heuristickou funkci – lze procházet z různých perspektiv.</div></div>
+  </div>
+
+  <div class="tip">Nejde o to <strong>VYŘEŠIT problém</strong>! Jde o to, aby se relevantní sociální skupiny shodly, že problém je vyřešen – i když výsledek není technologicky nejlepší řešení.</div>
+
+  <h3>Příklad: Kolo v 19. století – detailněji</h3>
+  <p>Jak se z různých prototypů kola stabilizovala dnešní podoba? Různé sociální skupiny chtěly různé věci:</p>
+  <ul class="body-list">
+    <li><strong>Anticyklisté</strong> – chtěli aby kola zmizela; Penny-Farthing s obřím předním kolem bylo pro ně symbolem nebezpečí.</li>
+    <li><strong>Sportovní cyklisté</strong> – chtěli rychlost a výzvu, Penny-Farthing jim vyhovovalo.</li>
+    <li><strong>Ženy a starší lidé</strong> – chtěli stabilitu a pohodlí. Pro ně bylo Penny-Farthing nemyslitelné.</li>
+    <li><strong>Konstruktéři</strong> – chtěli technickou eleganci.</li>
+  </ul>
+  <p><strong>Příběh pneumatiky</strong> – krásný příklad <em>předefinování problému</em>:</p>
+  <ol class="steps">
+    <li>Nejdřív byla pneumatika vnímána jako <em>estetické příslušenství</em> (ozdoba).</li>
+    <li>Pak ji konstruktéři přijali jako <em>antivibrační prvek</em> (řešení vibrací u kol s malými koly). Penny-Farthing fandové se tomu smáli – „my vibrace nemáme, máme přece velká kola".</li>
+    <li>Pak sportovní cyklisté zjistili, že kola s pneumatikou jsou <strong>rychlejší</strong>. A společnost byla fascinovaná rychlostí.</li>
+    <li>Problém se předefinoval z <em>„bezpečnost / vibrace"</em> na <em>„rychlost"</em>. Pneumatika se rozšířila ne jako antivibrační, ale jako symbol rychlosti.</li>
+    <li>To zlomilo Penny-Farthing – malá kola s pneumatikou byla rychlá <em>i bezpečná</em>. Anticyklisté ztichli, ženy si mohly koupit kolo, sportovci jezdili rychle. <strong>Stabilizace.</strong></li>
+  </ol>
+
+  <h3>Příklad: Mobilní telefon</h3>
+  <ul class="body-list">
+    <li>Původ: volání + SMS, jen pro manažery, vysoká cena</li>
+    <li>Různé skupiny (děti, fotografové, senioři, hudebníci) redefinovaly co „mobil" je</li>
+    <li>Výsledek: fotoaparát, přehrávač, plánovač, navigace… Různé skupiny určily dnešní podobu.</li>
+  </ul>
+
+  <h3>Kritika SCOT</h3>
+  <div class="warn">SCOT není všemocný – Smutný i další autoři uvádějí tři hlavní výhrady:</div>
+  <ul class="body-list">
+    <li><strong>Vyloučené skupiny</strong> – některé sociální skupiny (např. dělníci v továrně) nejsou zahrnuty do vyjednávání, ačkoli se jich technika týká. <em>Tuto mezeru řeší až STIN krokem 4.</em></li>
+    <li><strong>Povrchnost</strong> – nezabíhá do hloubky kulturních, intelektuálních ani ekonomických předpokladů, které jsou v pozadí vyjednávání.</li>
+    <li><strong>Morální vyhýbavost</strong> – SCOT se vyhýbá morálním postojům k technice. Říká, co se stalo, ne zda je to dobré.</li>
+  </ul>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- P5 – ANT -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="lecture" id="p5">
+  <div class="lec-header">
+    <div class="lec-num">P5</div>
+    <div>
+      <div class="lec-title">Neutrální přístup & ANT</div>
+      <div class="lec-subtitle">Postmodernismus · Poststrukturalismus · Teorie sítí-aktérů · Překlad</div>
+    </div>
+  </div>
+
+  <h2>Filosofická východiska</h2>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Modernismus</div><div class="pojem-body">Osvícenství: jedna pravda, jedno správné řešení. Axiomatické vidění světa. Kořeny v Platónovi.</div></div>
+    <div class="pojem green"><div class="pojem-head">Postmodernismus</div><div class="pojem-body">Odmítá velká vyprávění. Staví lokální, provizorní mikropříběhy. Relativismus – neexistuje jediná pravda.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Strukturalismus</div><div class="pojem-body">Svět vysvětlitelný jednou základní strukturou (jazyk, kultura).</div></div>
+    <div class="pojem purple"><div class="pojem-head">Poststrukturalismus</div><div class="pojem-body">Pluralita struktur. Dekonstrukce, diskurs, moc. Analyticky zaměřený. Inspiroval SCOT a ANT.</div></div>
+  </div>
+
+  <h2>ANT – Actor-Network Theory (Teorie sítí-aktérů)</h2>
+  <p><strong>Centrum pro sociologii inovací, Mines Paris</strong> (80.–90. léta). Hlavní autoři: <strong>Michel Callon, John Law, Bruno Latour</strong>.</p>
+
+  <h3>Klíčové pojmy ANT</h3>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Aktér</div><div class="pojem-body">Nositel působení. Hybridní: lidský + přírodní + technický + myšlenky. Vždy se skládá z dalších aktérů – nelze redukovat. Pokud nepůsobí, neexistuje.</div></div>
+    <div class="pojem green"><div class="pojem-head">Síť aktérů</div><div class="pojem-body"><em>Aktér je sítí aktérů a síť aktérů je aktérem.</em> Síť je dynamická, neustále se přetváří. Není jen metafora – je to metodický pojem.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Interakce</div><div class="pojem-body">Vzájemné působení aktérů = komunikace. Při interakci dochází k překladu.</div></div>
+    <div class="pojem purple"><div class="pojem-head">Překlad</div><div class="pojem-body">Proces vymezení a identifikace (nad)aktéra. To, co aktéři po sobě zanechávají – struktura vztahů – co my studujeme. <em>Inspirace u filosofa Michela Serrese.</em></div></div>
+  </div>
+
+  <h3>Čtyři momenty překladu dle M. Callona</h3>
+  <p><strong>Scénář:</strong> Firma zavádí nový ERP systém. Manažeři chtějí <em>big bang</em> (vše naráz, levně a rychle). IT oddělení chce <em>fázové zavedení</em> (modul po modulu, méně riskantní). Účetní, logistici, prodejci jsou jako aktéři teprve uvědomováni.</p>
+  <div class="stages">
+    <div class="stage"><div class="stage-num">Moment 1</div><div class="stage-name">Problematizace</div><div class="stage-desc">Identifikujeme aktéry (manažeři, IT, účetní, logistici…), vymezíme problém a navrhované programy řešení. Vznikají dvě konkurenční koalice: <em>big bang</em> vs. <em>fázové</em>.</div></div>
+    <div class="stage"><div class="stage-num">Moment 2</div><div class="stage-name">Zaujetí (zainteresování)</div><div class="stage-desc">Primární aktér (manažeři) zaujme ostatní pro svůj program: <em>„Pojďte do toho s námi, ušetříte čas."</em> Účetním je přidělena role „pilotní oddělení", IT „technická realizace". Role se mění.</div></div>
+    <div class="stage"><div class="stage-num">Moment 3</div><div class="stage-name">Zápis (usnesení)</div><div class="stage-desc">Formální spojenectví – kontrakt, schválený harmonogram, podpisy. Aktéři se zavazují plnit svou roli v nové síti. Vzniká „nadaktér" = projekt big bangu.</div></div>
+    <div class="stage"><div class="stage-num">Moment 4</div><div class="stage-name">Mobilizace nebo rozpad</div><div class="stage-desc"><strong>Úspěch</strong> = mobilizace, projekt jde dál, ostatní podpoří. <strong>Neúspěch</strong> = rozpad koalice; účetní začnou bojkotovat, IT to nezvládne, manažeři začnou hledat viníky.</div></div>
+  </div>
+  <div class="tip"><strong>Praktický význam pro IT projekty:</strong> Když projekt selže, ANT pomáhá pochopit <em>kde</em>. Špatná problematizace (zapomenuti aktéři)? Nedostatečné zaujetí (lidé nesouhlasí)? Slabý zápis (vágní smlouva)? Nebo už pozdě – při mobilizaci se ukázalo, že ERP neumí to, co je třeba.</div>
+
+  <h2>SCOT vs. ANT – klíčový rozdíl</h2>
+  <table class="comp-table">
+    <tr><th></th><th>SCOT (Scotty)</th><th>ANT (Ant-Man)</th></tr>
+    <tr><td><strong>Aktéři</strong></td><td>Pouze lidé (soc. skupiny)</td><td>Vše: lidé, věci, zvířata, myšlenky, příroda</td></tr>
+    <tr><td><strong>Síť</strong></td><td>Sociální skupiny a jejich vyjednávání</td><td>Heterogenní síť vzájemně propojených aktérů</td></tr>
+    <tr><td><strong>Otázka</strong></td><td>Proč vznikla tato inovace?</td><td>Jak artefakt/ekosystém vypadá tak, jak vypadá?</td></tr>
+    <tr><td><strong>Příklad</strong></td><td>Scotty řeší problém s tribbliny s kpt. Kirkem (jen s lidmi)</td><td>Ant-Man tvoří koalici s mravenci, fyzikou i myšlenkou hrdinství</td></tr>
+  </table>
+
+  <h3>Aktér jako kvaziobjekt / black-box (exam-relevant)</h3>
+  <div class="pojmy">
+    <div class="pojem purple"><div class="pojem-head">Kvaziobjekt / kvazisubjekt</div><div class="pojem-body">Aktér v ANT <strong>není čistě lidský ani technický</strong> – je smíšený. Ant-Man není „člověk" ani „oblek" ani „mravenci" – je vzájemné propletení všech tří. Proto kvazi-objekt: ani úplně subjekt, ani úplně objekt.</div></div>
+    <div class="pojem blue"><div class="pojem-head">Black-box (černá skříňka)</div><div class="pojem-body">Aktéra zvenku vidíme jako jednu jednotku („Ant-Man jde"), ale když do něj nahlédneme, najdeme <em>změť vztahů</em> mezi člověkem, zvířaty, technologiemi, myšlenkami. Komplexní systém, ze kterého <strong>emerguje</strong> Ant-Man. V čase se ta vnitřní síť restrukturuje.</div></div>
+  </div>
+  <div class="tip"><strong>Konkrétní praktický příklad black-boxu:</strong> „Google vyhledávač" je pro nás jeden aktér. Otevřeme-li ho, najdeme: tisíce serverů, miliardu uživatelů, právní rámce, reklamní systém, AI modely, datacentrum v Iowě, optické kabely. Všechno společně produkuje to, čemu říkáme „Google". Když kabel přeruší bagr v Egyptě, „Google" se chová jinak.</div>
+
+  <h2>Komplexní sítě (typy sítí aktérů)</h2>
+  <p>ANT pracuje se sítěmi – proto je užitečné znát tři základní topologie, které se v reálu objevují:</p>
+  <div class="pojmy three">
+    <div class="pojem blue"><div class="pojem-head">Náhodná síť</div><div class="pojem-body">Hrany mezi uzly vytvářeny s pravděpodobností <em>p</em>. Změna <em>p</em> mění emergentní vlastnosti sítě. Erdős–Rényi model.</div></div>
+    <div class="pojem green"><div class="pojem-head">Síť malého světa</div><div class="pojem-body"><em>Šest stupňů odloučení</em>. Milgramův experiment (1967). Facebook + Univ. Milán (2011): průměr ~4,7 vazby, ~92 % párů uživatelů do 5 hopů, ~99,6 % do 6.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Bezškálová síť</div><div class="pojem-body">Obsahuje <em>huby</em> s mnohem vyšším stupněm než průměrný uzel. Odolná vůči náhodným výpadkům, zranitelná při útoku na hub. Příklady: WWW, sociální sítě.</div></div>
+  </div>
+
+  <div class="pojmy single">
+    <div class="pojem orange"><div class="pojem-head">Oligoptikon</div><div class="pojem-body">Panel moci napojený na senzory a lokální panely. Vidí jen výřezy reality (útržky). Kontrola není všudypřítomná. Lidé rozhodují na základě fragmentárních dat – pozor na to!</div></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- P6 – STIN -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="lecture" id="p6">
+  <div class="lec-header">
+    <div class="lec-num">P6</div>
+    <div>
+      <div class="lec-title">Sociotechnické teorie & STIN</div>
+      <div class="lec-subtitle">Biografie artefaktů · Domestikace · Teorie strukturace (Giddens) · STIN</div>
+    </div>
+  </div>
+
+  <h2>Vybrané sociotechnické teorie</h2>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Biografie artefaktů</div><div class="pojem-body">Studium evoluce SW artefaktů v čase – jak se konkrétní instance vyvíjí přes různé verze a implementace. Staví na studiu kultury. <em>Příklad: životopis Windowsů od 1.0 přes XP po 11; nebo Photoshopu od grafiků pro Mac do dnešní AI éry.</em></div></div>
+    <div class="pojem green"><div class="pojem-head">Domestikace</div><div class="pojem-body">Jak je artefakt začleňován do společnosti skrze <strong>spotřební chování</strong>. ICT chápáno jako soubor významů konstruovaných reklamou, designem a sděleními. <em>Klasický příklad: Steve Jobs a iPad (2010). Tablety existovaly i předtím (Microsoft TabletPC), ale nikoho nezaujaly. iPad nikdo nepotřeboval – Apple svým designem a marketingem přesvědčil veřejnost, že potřebujeme. Domestikace = úspěch.</em></div></div>
+    <div class="pojem orange"><div class="pojem-head">Sociomaterialita</div><div class="pojem-body">Sociální a technické je <strong>ontologicky neoddělitelné</strong>. Užití artefaktu není dáno předem – vytváří se znovu v každém kontextu. <em>Příklady: DVD jako datový nosič → dnes podtácek pod kafe. Excel je pro účetní fakturační nástroj, pro vědce statistický, pro start-up zakladatele finanční model.</em></div></div>
+    <div class="pojem purple"><div class="pojem-head">Teorie uživatelů jako soc. aktérů</div><div class="pojem-body">Uživatel není jen funkční pozice, ale sociální aktér s různými rolemi vůči ostatním. Role se mění v čase. <em>Příklad: stejný člověk je v 8:00 zákazník (kupuje kávu přes app), v 10:00 zaměstnanec (loguje hodiny), v 18:00 rodič (sleduje známky dítěte) – pokaždé jiný uživatel.</em></div></div>
+  </div>
+  <div class="tip"><strong>Zkoušková otázka:</strong> „Napište aspoň dvě sociotechnické teorie mimo SI a uveďte příklady." → Domestikace (iPad) + sociomaterialita (DVD/Excel). Případně biografie artefaktů.</div>
+
+  <h2>Teorie strukturace (Anthony Giddens, 80. léta)</h2>
+  <div class="compare">
+    <strong>Funkcionalismus:</strong> aktér lapen do struktur, které ho předem omezují.<br>
+    <strong>Symbol. interakcionismus:</strong> aktér sám aktivně rozhoduje o svém osudu.<br>
+    <strong>Giddens – střední cesta:</strong> aktéři jsou ovlivněni strukturálním kontextem (kultura, normy, místo), ale mohou svým jednáním struktury zpětně přetvářet.
+  </div>
+  <div class="tip">Analogie pro informatiku: místo „sociální struktury" dosaď „technika". Technika a lidé se vzájemně tvarují – to je podstata sociotechnického přístupu.</div>
+
+  <h2>STIN – Socio-Technical Interaction Networks</h2>
+  <p><strong>Rob Kling</strong> (80.–90. léta). Střední sociální konstruktivismus. Aktéři: lidé nebo sociotechnické entity (člověk s mobilem). Primárně <em>metodologický nástroj</em> pro SI.</p>
+  <div class="pojmy single">
+    <div class="pojem green"><div class="pojem-head">Co STIN umí?</div><div class="pojem-body">Pomáhá pochopit výsek reality kolem IS. Identifikuje, organizuje a srovnávací analýzu vzorců sociální interakce. Umožňuje vyprávět „příběh" analyzovaného IS.</div></div>
+  </div>
+
+  <h3>8 kroků STIN analýzy</h3>
+  <ol class="steps">
+    <li>Identifikovat relevantní populaci systémových interaktorů (kdo je v systému?)</li>
+    <li>Identifikovat hlavní skupiny interaktorů – rozdělit podle rolí</li>
+    <li>Identifikovat motivační struktury – proč participují?</li>
+    <li><strong>Identifikovat vyloučené aktéry a nežádoucí interakce</strong> ← originalita STIN!</li>
+    <li>Identifikovat stávající komunikační systém – jak spolu komunikují?</li>
+    <li>Identifikovat toky finančních prostředků</li>
+    <li><strong>Identifikovat strukturní rozhodovací body</strong> ← originalita STIN!</li>
+    <li>Mapovat rozhodovací body na sociotechnické charakteristiky – výhody a nevýhody</li>
+  </ol>
+
+  <h2>Srovnání SCOT, ANT, STIN</h2>
+  <table class="comp-table">
+    <tr><th>Teorie</th><th>Hlavní otázka</th><th>Originalita</th></tr>
+    <tr><td><strong>SCOT</strong></td><td>Proč a jak vznikla daná technologická inovace?</td><td>Vícesměrový model, interpretativní flexibilita</td></tr>
+    <tr><td><strong>ANT</strong></td><td>Jak funguje dynamika heterogenních aktérů? <em>Jak se technologie stávají tím, čím jsou?</em></td><td>Aktérem může být vše, 4 momenty překladu</td></tr>
+    <tr><td><strong>STIN</strong></td><td>Jak jsou technologie <em>používány</em> v kontextu IS? Jaké jsou dopady?</td><td>Vyloučení aktéři + strukturní rozh. body</td></tr>
+  </table>
+  <div class="tip"><strong>Klíčový rozdíl ANT vs STIN:</strong> ANT teoretizuje, jak technologie <em>vzniká a získává svůj význam</em>. STIN teoretizuje, jak je technologie <em>používána a jaké má dopady</em> (IS jako živoucí organizmus, který lze upravovat v rozhodovacích bodech).</div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- P7 – MYŠLENKOVÉ ŠKOLY -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="lecture" id="p7">
+  <div class="lec-header">
+    <div class="lec-num">P7</div>
+    <div>
+      <div class="lec-title">Myšlenkové školy sociální informatiky</div>
+      <div class="lec-subtitle">Interpretační flexibilita v praxi · 7 škol · Ideologická a historická východiska</div>
+    </div>
+  </div>
+
+  <h2>Proč více škol? Interpretační flexibilita v praxi</h2>
+  <p>Sociální informatika je sama obětí interpretační flexibility – různé ideologické a historické kontexty formovaly různé přístupy. Sociální realita není dána – konstruují ji akademici stejně jako uživatelé technologií.</p>
+
+  <h3>Tři klíčové regiony</h3>
+  <div class="pojmy three">
+    <div class="pojem blue"><div class="pojem-head">Východní blok</div><div class="pojem-body">Centralizace, plánovaná ekonomika. Informatika jako nástroj řízení společnosti a sběru vědeckotechnických informací.</div></div>
+    <div class="pojem green"><div class="pojem-head">Západní blok</div><div class="pojem-body">Tržní ekonomika. Poptávka firem a vlády. Empirický výzkum na organizační úrovni.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Japonsko</div><div class="pojem-body">Otevřenost různým přístupům. Znalostní transfer ze světa. Studenti na zahraničních univerzitách → přináší poznatky zpět.</div></div>
+  </div>
+
+  <h2>Sedm myšlenkových škol</h2>
+  <div class="school-grid">
+    <div class="school-card">
+      <div class="school-year">🇳🇴 1984 – zánik ~2000</div>
+      <div class="school-name">Norská škola</div>
+      <div class="school-desc">Zakladatel: Stein L. Bråten. Psychologie, komunikace, interakce člověk-počítač. Pojmenovala obor – inspirovala Roba Klinga.</div>
+    </div>
+    <div class="school-card">
+      <div class="school-year">🇺🇸 1996 – dosud nejsilnější</div>
+      <div class="school-name">Severoamerická škola</div>
+      <div class="school-desc">Rob Kling, Indiana University. Empirický výzkum na org. úrovni. 3 orientace: analytická, normativní, kritická. 5 základních postulátů.</div>
+    </div>
+    <div class="school-card">
+      <div class="school-year">🇬🇧 90. léta – dosud</div>
+      <div class="school-name">Britská škola</div>
+      <div class="school-desc">Tradice Tavistock Institute. E. Davenport. Důraz na společenskou úroveň: internet, e-demokracie, info-společnost. Ovlivňuje Commonwealth.</div>
+    </div>
+    <div class="school-card">
+      <div class="school-year">🇸🇮 1984 – nejdéle nepřetržitě</div>
+      <div class="school-name">Slovinská škola</div>
+      <div class="school-desc">Univ. Ljubljana. Vasja Vehovar. Metodologie soc. věd, statistika, online výzkumné metody. Výzkum ICT a starší generace.</div>
+    </div>
+    <div class="school-card">
+      <div class="school-year">🇩🇪 2 varianty paralelně</div>
+      <div class="school-name">Německá škola</div>
+      <div class="school-desc"><em>Sozioinformatik</em>: podobná USA, výzkum SW a informatizace.<br><em>Sozialinformatik</em>: ICT pro znevýhodněné (senioři, handicapovaní) = sociální práce.</div>
+    </div>
+    <div class="school-card">
+      <div class="school-year">🇯🇵 90. léta – reakce na internet</div>
+      <div class="school-name">Japonská škola</div>
+      <div class="school-desc">Teleologický charakter. Silně interdisciplinární. Centrum: role informace v sociálním kontextu. Produkce, cirkulace a využití informací ve společnosti.</div>
+    </div>
+  </div>
+  <div class="school-grid" style="grid-template-columns:1fr;">
+    <div class="school-card">
+      <div class="school-year">🇷🇺 2 sekvenční varianty</div>
+      <div class="school-name">Ruská škola</div>
+      <div class="school-desc">
+        <strong>Sokolovova koncepce (70.–90. léta):</strong> Kvalitativní aspekty vědeckotechnické informace. Moskevská škola (Michajlov) vs. Leningradská škola (Sokolov).<br><br>
+        <strong>Ursulova koncepce (od 80. let):</strong> Filosoficky orientovaná. Rizika informatizace. Udržitelný rozvoj informační společnosti. Noosféra / technosféra / infosféra. Systémový, holistický pohled.
+      </div>
+    </div>
+  </div>
+  <div class="tip"><strong>Současná ruská SI – exam-relevant souhrnná definice:</strong> „Vědní disciplína, která poskytuje systematické studium a analýzu procesů shromažďování, zpracování, ukládání a používání informací v sociálně-ekonomické oblasti včetně procesů transformace sociálních vztahů a sociálních institucí pod vlivem informačních a komunikačních technologií." → kombinace Sokolova (informace jako klíčový pojem) a Ursula (společenské dopady).</div>
+
+  <h2>Pět postulátů Severoamerické školy (Rob Kling)</h2>
+  <ol class="steps">
+    <li>Sociotechnický systém = technické artefakty (SW, HW) + sociální komponenty (lidé, normy, politika).</li>
+    <li>ICT neexistuje v izolaci – je vloženo do dynamických sociálních, kulturních a organizačních struktur.</li>
+    <li>Komponenty systému se vzájemně tvarují na základě interakce.</li>
+    <li>ICT se vyvíjí a může být použito jinak, než bylo navrženo.</li>
+    <li>Existuje rozdíl mezi tvrzením o hodnotě ICT a empirickou realitou. (Problém komputerizačních hnutí.)</li>
+  </ol>
+
+  <div class="pojmy single">
+    <div class="pojem orange"><div class="pojem-head">Komputerizační hnutí (computerization movements)</div><div class="pojem-body">Klingův pojem pro <strong>sociální hnutí propagující masivní zavádění počítačů</strong> s utopickou rétorikou: <em>„Až všichni budou mít PC, vyřeší se chudoba / vzdělání / efektivita / cokoli."</em> Manažerské proklamace typu „čím víc PC, tím lepší firma" jsou pozůstatek tohoto myšlení. Kling kritizuje, že realita je vždy mnohem složitější – ICT řeší jen tu část problému, kterou skutečně řeší.</div></div>
+  </div>
+  <div class="tip">Současný příklad komputerizačního hnutí: <strong>„AI vyřeší vše"</strong>. Trh investuje miliardy do AI s utopickou rétorikou. Skutečné dopady budou kontextuální a v některých sektorech převažující rizika nad přínosy – přesně Klingova lekce.</div>
+
+  <h3>Tři orientace výzkumu (Severoamerická škola)</h3>
+  <div class="pojmy three">
+    <div class="pojem blue"><div class="pojem-head">Analytická</div><div class="pojem-body">Vytváří teorie o ICT v organizačním a kulturním kontextu. Empirické studie přispívající k teoretizování.</div></div>
+    <div class="pojem green"><div class="pojem-head">Normativní</div><div class="pojem-body">Doporučuje alternativy pro praktiky navrhující/zavádějící ICT. Cílem je ovlivnit praxi empirickými důkazy.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Kritická</div><div class="pojem-body">Hledá výhody a nevýhody užití technologií. Konceptuální a diskurzivní analýza, historické a kulturní aspekty.</div></div>
+  </div>
+
+  <h2>Československo a ČR (pro kontext VŠE)</h2>
+  <div class="pojmy single">
+    <div class="pojem purple"><div class="pojem-head">Historie výuky SI v Česku</div><div class="pojem-body">
+      <strong>70.–80. léta:</strong> Sokolovova koncepce na <em>Univerzitě Karlově</em> (obor knihovnictví a vědecké informace). Konec po roce 1990.<br><br>
+      <strong>2010–2021:</strong> Severoamerická škola Roba Klinga na <em>Masarykově univerzitě</em> (bc. obor Sociální informatika).<br><br>
+      <strong>Od 2016:</strong> Široký mezinárodní diskurz SI na <em>VŠE Praha</em> – předmět, který právě studujete.
+    </div></div>
+  </div>
+
+  <h3>Československo jako počítačová velmoc 80. let (zajímavý kontext)</h3>
+  <p>Smutný se v přednášce zmiňuje o tom, jak vykrádání know-how ze Západu utvářelo východoblokové pojetí informatiky:</p>
+  <ul class="body-list">
+    <li><strong>Klon Intel 8080</strong> – v ČSSR vyráběný jako Tesla MHB8080A (bez licence). Použit v PMD 85, IQ 151, Didaktik Alfa. Z toho ČSSR v 80. letech počítačově předstihla zbytek RVHP.</li>
+    <li><strong>„TNS – Ten Náš Systém"</strong> – propaganda zaváděla počítače i do JZD: <em>„zvyšujeme dojivost krav komputerizací"</em>. Klasické komputerizační hnutí.</li>
+    <li><strong>VINITI</strong> (СССР, 1952) – institut, který doslova překládal a šířil západní vědecké časopisy bez ohledu na autorská práva. Z toho vzešla „papírová informatika" = knihovnictví + bibliografie. To je důvod, proč Sokolovova koncepce informatiky byla původně o <em>informaci</em>, ne o <em>počítačích</em>.</li>
+    <li><strong>Ideologický tlak</strong> – Kitovův návrh „internetu" v SSSR (50. léta) byl politicky zakázán, protože by ohrozil rozložení moci. Sociologie byla nahrazena historickým materialismem.</li>
+  </ul>
+  <div class="tip">Smutný explicitně říká, že cílem přednášky o školách <strong>není</strong> zapamatovat si historii – je to ukázka <em>interpretační flexibility v praxi</em>: sama sociální informatika je obětí toho, co studuje. Různé politické a ekonomické kontexty = různé pojetí téhož oboru.</div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- P8 – INFORMAČNÍ SPOLEČNOST -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="lecture" id="p8">
+  <div class="lec-header">
+    <div class="lec-num">P8</div>
+    <div>
+      <div class="lec-title">Informační společnost & postbiologická evoluce</div>
+      <div class="lec-subtitle">Generace · Paradox produktivity · Transgrese · Akceleracionismus · Teorie mladé dívky</div>
+    </div>
+  </div>
+
+  <h2>Co je informační společnost?</h2>
+  <div class="pojmy single">
+    <div class="pojem blue"><div class="pojem-head">Informační společnost</div><div class="pojem-body">Společnost, kde <strong>informace hrají klíčovou roli</strong> namísto materiálního zboží. Vznik pojmu: 60. léta (Japonsko/USA). Technické, ekonomické, politické, prostorové a kulturní dopady.</div></div>
+  </div>
+
+  <h2>Generační rozdíly v přístupu k ICT</h2>
+  <table class="comp-table">
+    <tr><th>Generace</th><th>Roky nar.</th><th>Vztah k ICT</th></tr>
+    <tr><td><strong>Tichá generace</strong></td><td>1929–1945</td><td>Face-to-face, telefon, tradiční media</td></tr>
+    <tr><td><strong>Baby Boomers</strong></td><td>1946–1964</td><td>Televize, e-mail (mladší); workoholici</td></tr>
+    <tr><td><strong>Generace X</strong></td><td>1965–1979</td><td>První PC v dospívání, e-mail, chytrý telefon</td></tr>
+    <tr><td><strong>Generace Y (Millenials)</strong></td><td>1980–1994</td><td>Online media, soc. sítě, multitasking</td></tr>
+    <tr><td><strong>Generace Z</strong></td><td>1995–2009</td><td>Digital natives – chytré telefony od dětství</td></tr>
+  </table>
+  <div class="tip">Digital natives vs. Digital immigrants: Technologie, se kterými vyrůstáme v dětství, akceptujeme snáze. To vysvětluje generační rozdíly v adopci ICT.</div>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Digital natives</div><div class="pojem-body">Ti, kdo vyrůstali s digitálními technologiemi – přirozeně je adoptují, intuitivně používají. Typicky generace Y a Z.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Digital immigrants</div><div class="pojem-body">Starší generace, které digitální technologie přijímají později a s větším úsilím. Cizí jazyk, který se musí naučit.</div></div>
+  </div>
+
+  <h2>Paradox produktivity (Solow Computer Paradox)</h2>
+  <ul class="body-list">
+    <li><strong>Od poloviny 60. let 20. století</strong>: meziroční růst produktivity práce v USA <strong>klesá</strong> (ze 3 % na 1 % ročně), přestože investice firem do PC byly <strong>15–20 %</strong>.</li>
+    <li>Japonsko: podobný jev (z 8 % na 1 %).</li>
+    <li>Ekonomové na to upozorňují na <strong>konci 80. let</strong> (Solow, „We see computers everywhere except in the productivity statistics").</li>
+    <li>Oživení v 90. letech: <strong>nástup generace X</strong>, která vyrůstala s PC od 80. let (i v domácnostech).</li>
+    <li>Poselství: nestačí nakoupit techniku. Je třeba změnit procesy, management i lidi.</li>
+    <li>Dnes: meziroční produktivita opět klesá, ale generativní AI mění vše.</li>
+  </ul>
+
+  <h2>Tři pohledy na informační společnost</h2>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Stack (Bratton, 2017)</div><div class="pojem-body">Planeta jako náhodná megastruktura 6 vrstev:<br>Země → Cloud → Město → Adresa → Rozhraní → Uživatel.<br>Nová suverenita = cloudové platformy (Google, Amazon), ne státy.</div></div>
+    <div class="pojem green"><div class="pojem-head">Transgrese člověka</div><div class="pojem-body">Překračování hranic „co je člověk". Tři způsoby: genová manipulace, neuromanipulace (psychofarmaka), kyborgizace. Informační společnost klade nároky, které biologické tělo nezvládá.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Akceleracionismus + Teorie mladé dívky</div><div class="pojem-body">Jak společnost tvaruje člověka. Kapitalismus zrychlovaný ICT. Jedinec formovaný Impériem – komodifikované štěstí.</div></div>
+  </div>
+
+  <h3>Akceleracionismus (Srnicek & Williams, 2013)</h3>
+  <ul class="body-list">
+    <li>Kapitalismus je výpočetní technikou zesílen a urychlován (k dobru i zlu).</li>
+    <li>Akcelerace ≠ zrychlení pohybu, ale <strong>zrychlení cirkulace</strong> (lajky, sdílení, komentáře, zprávy, odpad).</li>
+    <li>Lidé pociťují tlak na konzumaci, práci i odpočinek – ICT kapitalismus prostupuje vším.</li>
+    <li>Brát se změně pouze ji oddaluje. Odpovědí na problémy je jejich akcelerace.</li>
+  </ul>
+
+  <h3>Teorie (mladé) dívky (Tiqqun)</h3>
+  <div class="pojmy">
+    <div class="pojem purple"><div class="pojem-head">Mladá dívka</div><div class="pojem-body">Genderově neutrální figura věčně nešťastného člověka hnaného konzumem. Čím více akceptuje „Impérium", tím více ztrácí svou individualitu.</div></div>
+    <div class="pojem red"><div class="pojem-head">Impérium</div><div class="pojem-body">Kapitalistický sociální řád nabízející komodifikované štěstí: nakupování, retušované fotky, virtuální komunity, umělá komunikace.</div></div>
+  </div>
+  <div class="tip">Srovnej s Gassetem: nadpříroda nám ukazuje, jak naplnit svůj život. Poddáme-li se jí, přestaneme vymýšlet vlastní program – to je Teorie mladé dívky.</div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- P9 – TECHNOLOGICKÉ KONCEPTY -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="lecture" id="p9">
+  <div class="lec-header">
+    <div class="lec-num">P9</div>
+    <div>
+      <div class="lec-title">Vybrané technologické koncepty & sociální impakt</div>
+      <div class="lec-subtitle">UbiComp · AmI · IoT · IoS · IoE · Kyberprostor · Virtualizace</div>
+    </div>
+  </div>
+
+  <h2>Inovace a kreativní destrukce</h2>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Inovace</div><div class="pojem-body">Technické (výrobky, technologie) nebo netechnické (organizační, manažerské). Přináší změnu u tech. i sociální komponenty systému.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Kreativní destrukce</div><div class="pojem-body">Aby vzniklo nové, musí být narušen starý řád. Nová technologie nemůže uspět bez destrukce existujících postupů.</div></div>
+  </div>
+  <div class="warn">Technologie, která předběhne svou dobu, neuspěje. Stejně tak technologie zavedená příliš pozdě. Klíč: správný čas + správný sociální kontext.</div>
+
+  <h2>Ubiquitous Computing (UbiComp)</h2>
+  <div class="pojmy single">
+    <div class="pojem blue"><div class="pojem-head">Ubiquitous computing – Mark Weiser, Xerox PARC, 1988</div><div class="pojem-body">Třetí vlna výpočetní techniky (post-desktopová): technologie ustoupí do pozadí našich životů. Sálové PC (1:mnoho) → Osobní PC (1:1) → Všudypřítomné PC (mnoho:1).</div></div>
+  </div>
+
+  <h3>Proč UbiComp vznikl právě v PARCu? (exam-relevant)</h3>
+  <p>Xerox Palo Alto Research Center prováděl mezi <strong>1988–1994</strong> inovační výzkum nových technologií. Hlavním cílem nebylo „udělat chytrý mobil" – cílem bylo <strong>vytvořit ideální pracovní prostředí, které by podporovalo kooperaci a komunikaci mezi pracovníky</strong>.</p>
+  <ul class="body-list">
+    <li>Doba: <strong>MS-DOS, příkazové řádky</strong>. Počítač byl pro programátora a kancelářského pracovníka – izolovaný stůl.</li>
+    <li>Weiser viděl, že současné OS, UI a samotné PC <strong>brání</strong> přirozené spolupráci. Vize: technologie tak nenápadná, že o ní nepřemýšlíš.</li>
+    <li>Z toho vznikla tři <strong>bezdrátová</strong> zařízení pro kolektivní spolupráci – Tabs, Pads, Boards.</li>
+  </ul>
+  <div class="tip">Toho času (konec 80. let) bylo bezdrátové propojení tří zařízení sci-fi. Weiser byl 30 let napřed před iPhone, Apple Watch a interaktivními tabulemi v každé třídě.</div>
+
+  <h3>Tři typy zařízení (Weiser)</h3>
+  <div class="stages">
+    <div class="stage"><div class="stage-num">Tabs</div><div class="stage-name">Nositelná</div><div class="stage-desc">Centimetry. Dnes: chytré hodinky, náramky, mobily.</div></div>
+    <div class="stage"><div class="stage-num">Pads</div><div class="stage-name">Do ruky</div><div class="stage-desc">Decimetry. Dnes: tablety, netbooky.</div></div>
+    <div class="stage"><div class="stage-num">Boards</div><div class="stage-name">Velká</div><div class="stage-desc">Metry. Dnes: interaktivní tabule.</div></div>
+  </div>
+
+  <h2>Ambient Intelligence (AmI)</h2>
+  <p>Inteligentní prostředí reagující na přítomnost člověka. Typicky pro znevýhodněné (senioři, handicapovaní). Příklad: <strong>RUDO</strong> – jediný AmI systém na světě pro nevidomé.</p>
+  <h3>Pět vlastností AmI systémů</h3>
+  <ol class="steps">
+    <li>Zabudováno do prostředí</li>
+    <li>Kontextuální – rozezná situaci</li>
+    <li>Personalizované – přizpůsobí se konkrétnímu člověku</li>
+    <li>Adaptivní – mění schéma služeb dle přítomného</li>
+    <li>Anticipační – předvídá potřeby (upozorní, aby šel člověk pít)</li>
+  </ol>
+  <div class="warn">Kritika AmI: ztráta soukromí, koncentrace moci u provozovatelů systémů a jejich databází.</div>
+
+  <h2>IoT → IoS → IoE</h2>
+  <div class="stages">
+    <div class="stage"><div class="stage-num">IoT</div><div class="stage-name">Internet of Things</div><div class="stage-desc">Bezdrátové propojení věcí a zařízení. Prerekvizita: IPv6. Příklady: smart grids, chytrá města, inteligentní doprava.</div></div>
+    <div class="stage"><div class="stage-num">IoS</div><div class="stage-name">Internet of Services</div><div class="stage-desc">HW ustupuje do pozadí, nabízejí se vysokoúrovňové cloudové služby. Příklad: místo hlásiče → služba za 40 Kč/měsíc.</div></div>
+    <div class="stage"><div class="stage-num">IoE</div><div class="stage-name">Internet of Everything</div><div class="stage-desc">Lidé + procesy + data + věci. Procesně orientované sítě s explicitními postupy (vs. ad hoc u IoT).</div></div>
+  </div>
+
+  <h2>Kyberprostor, imerse a virtualizace</h2>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Kyberprostor</div><div class="pojem-body">Pierre Lévy: nové komunikační prostředí z propojení počítačů. Pojem z kyberpunku – Gibson: Neuromancer (1984).</div></div>
+    <div class="pojem green"><div class="pojem-head">Kyberkultura</div><div class="pojem-body">Soubor technik, zvyklostí, postojů a hodnot rozvíjených s růstem kyberprostoru.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Slabá imerse</div><div class="pojem-body">Zasahuje fyzický svět: mobil, PC, bankovní terminál. Každodenní rutina.</div></div>
+    <div class="pojem purple"><div class="pojem-head">Silná imerse</div><div class="pojem-body">Technologicky podmíněná – VR helma, rukavice izolující smysly. Člověk se cítí přenesen jinam.</div></div>
+  </div>
+
+  <h3>Smíšená prostředí (osa realita ↔ virtualita)</h3>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Rozšířená realita (AR)</div><div class="pojem-body">Digitální prvky přidávány do fyzického světa. Nejrozšířenější díky chytrým telefonům (Pokémon Go, navigace, Snapchat filtry).</div></div>
+    <div class="pojem purple"><div class="pojem-head">Rozšířená virtualita</div><div class="pojem-body">Fyzické prvky vkládány do virtuálního světa. Příklad: společná virtuální večeře, kde každý je doma, ale „vidí" se přes 3D rekonstrukce.</div></div>
+  </div>
+  <div class="tip">Proč VR nedosáhla masivní adopce? HW není dostupný, rozlišení a setrvačnost stále omezují prožitek, chybí <em>killer apps</em>. AR uspěla, protože využila masově rozšířený mobilní HW.</div>
+
+  <div class="pojmy single">
+    <div class="pojem blue"><div class="pojem-head">Virtualizace společnosti</div><div class="pojem-body">Odrazy lidí ve službách internetu (Facebook profil). Konvergence lidského a umělého aktéra. Umělý aktér mění subjektivitu lidského.</div></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- P10 – SHRNUTÍ -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="lecture" id="p10">
+  <div class="lec-header">
+    <div class="lec-num">P10</div>
+    <div>
+      <div class="lec-title">Shrnutí & propojení témat</div>
+      <div class="lec-subtitle">Manažerské přístupy · Datově řízená organizace · Hlavní poselství</div>
+    </div>
+  </div>
+
+  <h2>Hlavní poselství předmětu</h2>
+  <div class="pojmy single">
+    <div class="pojem green"><div class="pojem-head">Klíčová myšlenka sociální informatiky</div><div class="pojem-body">Vztah mezi technikou a člověkem/společností je velmi složitý a vždy kontextuálně zasazený. Neexistuje univerzální recept – je třeba empiricky zkoumat konkrétní situaci.</div></div>
+  </div>
+  <div class="tip">Buďte rezervovaní k tvrzením softwarových firem o přínosech ICT. Ověřujte empiricky. Nastavte sankce pro dodavatele, pokud kýžených cílů nebude dosaženo.</div>
+
+  <h2>Tři manažerské přístupy k ICT</h2>
+  <table class="comp-table">
+    <tr><th>Přístup</th><th>Předpoklad</th><th>Příklad</th></tr>
+    <tr><td><strong>Sociální determinismus</strong></td><td>Za vším stojí lidé. Technika = jen nástroj.</td><td>Baťa: investoval do lidí, ne do techniky.</td></tr>
+    <tr><td><strong>Technický determinismus</strong></td><td>ICT samo přinese změnu – stačí nakoupit.</td><td>70.–80. léta: čím více PC, tím více konkurenceschopnosti.</td></tr>
+    <tr><td><strong>Sociotechnický přístup</strong></td><td>Vzájemná konstituce lidí a techniky v kontextu.</td><td>Studovat, jak konkrétní skupiny ICT reálně používají.</td></tr>
+  </table>
+
+  <h2>Datově řízená organizace</h2>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Data ze sociotechnické interakce</div><div class="pojem-body">Síťový provoz, aktivity v IS, konverzace na podnikové soc. síti → kvantitativní (BI, dolování dat) nebo kvalitativní (tematická analýza).</div></div>
+    <div class="pojem green"><div class="pojem-head">Data z vědomých odpovědí</div><div class="pojem-body">Dotazníkové šetření, rozhovory → kvantitativní (statistika) nebo kvalitativní (analýza).</div></div>
+  </div>
+  <div class="tip"><strong>Vzpomeň na Oligoptikon!</strong> Více dat ≠ lepší závěry. Důležitá je <em>relevance</em> a <em>kvalita</em> dat pro daný kontext. Špatná data se musí transformovat a mohou zkreslovat výsledky.</div>
+  <div class="warn">Čtyři zkreslení u vědomých odpovědí: <strong>Efekt morčete</strong> (respondent reaguje na vědomí výzkumu) · <strong>Výběr role</strong> (odpovídá tak, aby vypadal dobře, klidně lže) · <strong>Měření jako zdroj změny</strong> (utváří si názor až při otázce) · <strong>Stereotyp ve volbě odpovědí</strong> (lidé spíše souhlasí).</div>
+
+  <h2>Rychlé opakování – klíčové pojmy</h2>
+  <table class="comp-table">
+    <tr><th>Pojem</th><th>Stručná definice</th></tr>
+    <tr><td>Nadpříroda</td><td>Svět vytvořený lidmi pomocí techniky – dnes klade nároky místo přírody (Gasset)</td></tr>
+    <tr><td>Interpretativní flexibilita</td><td>Různé skupiny chápou artefakt různě. Není jedna objektivní pravda (SCOT)</td></tr>
+    <tr><td>Překlad (ANT)</td><td>Struktura vztahů zanechaná interakcí aktérů; to co studujeme</td></tr>
+    <tr><td>Oligoptikon</td><td>Panel moci vidí jen útržky reality – kontrola není všudypřítomná</td></tr>
+    <tr><td>Akceptabilita</td><td>Přijatelnost technologie PŘED jejím vyzkoušením</td></tr>
+    <tr><td>Adopce</td><td>Vícefázový proces trvalého přijetí technologie (≠ jednorázové použití)</td></tr>
+    <tr><td>Kreativní destrukce</td><td>Nové vzniká narušením starého řádu</td></tr>
+    <tr><td>UbiComp</td><td>Všudypřítomná výpočetní technika – mnoho zařízení na 1 člověka</td></tr>
+    <tr><td>Transgrese</td><td>Překračování hranic „co je člověk" – genová manipulace, neuromanipulace, kyborgizace</td></tr>
+    <tr><td>STIN – krok 4</td><td>Identifikace vyloučených aktérů – originalita STIN oproti SCOT a ANT</td></tr>
+  </table>
+
+  <div style="text-align:center; margin-top:48px; padding:32px; background:var(--hero-bg); border-radius:12px; color:#fff;">
+    <div style="font-size:28px; margin-bottom:12px;">🎓</div>
+    <div style="font-family:'DM Serif Display',serif; font-size:22px; margin-bottom:8px;">Hodně štěstí u zkoušky!</div>
+    <div style="font-size:14px; color:rgba(255,255,255,.6);">Uč se na příkladech. Umět vysvětlit pojem vlastními slovy je cennější než napaměť naučená definice.</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- TAHAČKA – CHEAT SHEET -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="lecture" id="cheat">
+  <div class="lec-header">
+    <div class="lec-num" style="background:var(--orange-light);color:var(--orange);">★</div>
+    <div>
+      <div class="lec-title">Shrnutí</div>
+      <div class="lec-subtitle">Vše stěžejní na jedné stránce · Pro poslední opakování před zkouškou</div>
+    </div>
+  </div>
+
+  <h2>Lidé, kteří se musí pamatovat</h2>
+  <table class="comp-table">
+    <tr><th>Osoba</th><th>Co</th><th>Klíčový pojem</th></tr>
+    <tr><td><strong>José Ortega y Gasset</strong></td><td>Filozof techniky</td><td>Nadpříroda, 3 stádia techniky</td></tr>
+    <tr><td><strong>Martin Heidegger</strong></td><td>Filozof techniky</td><td>Odkrývání vs. vymáhání, sestavy</td></tr>
+    <tr><td><strong>Eric Trist + Tavistock Institute</strong></td><td>Britský uhelný průmysl (1947)</td><td>Sociotechnický přístup</td></tr>
+    <tr><td><strong>Wiebe Bijker + Trevor Pinch</strong></td><td>Sociologové vědy, 80. léta</td><td>SCOT</td></tr>
+    <tr><td><strong>Michel Callon, John Law, Bruno Latour</strong></td><td>Mines Paris, 80.–90. léta</td><td>ANT</td></tr>
+    <tr><td><strong>Michel Serres</strong></td><td>Filozof – inspirace</td><td>Překlad (ANT)</td></tr>
+    <tr><td><strong>Rob Kling</strong></td><td>Indiana University, 80.–90. léta</td><td>STIN + Severoamerická škola SI</td></tr>
+    <tr><td><strong>Anthony Giddens</strong></td><td>Sociolog, 80. léta</td><td>Teorie strukturace</td></tr>
+    <tr><td><strong>Geert Hofstede</strong></td><td>Výzkum pro IBM, 70. léta</td><td>6D model kultur</td></tr>
+    <tr><td><strong>Stein L. Bråten</strong></td><td>Norská škola, 1984</td><td>Sosioinformatikk (pojmenoval obor)</td></tr>
+    <tr><td><strong>Elisabeth Davenport</strong></td><td>Edinburgh Napier U.</td><td>Britská škola SI</td></tr>
+    <tr><td><strong>Vasja Vehovar</strong></td><td>Univ. v Lublani</td><td>Slovinská škola SI</td></tr>
+    <tr><td><strong>Sokolov / Ursul</strong></td><td>Ruská škola SI</td><td>Sokolovova / Ursulova koncepce</td></tr>
+    <tr><td><strong>Mark Weiser</strong></td><td>Xerox PARC, 1988</td><td>Ubiquitous computing</td></tr>
+    <tr><td><strong>Pierre Lévy</strong></td><td>Filozof, 90. léta</td><td>Kyberprostor, kyberkultura</td></tr>
+    <tr><td><strong>William Gibson</strong></td><td>Neuromancer, 1984</td><td>Pojem „kyberprostor"</td></tr>
+    <tr><td><strong>Benjamin Bratton</strong></td><td>The Stack, 2017</td><td>Planeta jako 6vrstvá megastruktura</td></tr>
+    <tr><td><strong>Srnicek + Williams</strong></td><td>Manifest, 2013</td><td>Akceleracionismus</td></tr>
+    <tr><td><strong>Tiqqun</strong></td><td>Filozofická skupina</td><td>Teorie (mladé) dívky</td></tr>
+    <tr><td><strong>Herbert A. Simon</strong></td><td>Věda o umělém</td><td>Design science (DSR)</td></tr>
+    <tr><td><strong>Robert Solow</strong></td><td>Ekonom, konec 80. let</td><td>Paradox produktivity</td></tr>
+    <tr><td><strong>Stanley Milgram</strong></td><td>Sociolog, 1967</td><td>Šest stupňů odloučení (small-world)</td></tr>
+  </table>
+
+  <h2>Tři determinismy – přístupy k ICT</h2>
+  <table class="comp-table">
+    <tr><th>Sociální det.</th><th>Technický det.</th><th>Sociotechnický přístup</th></tr>
+    <tr><td>Lidé jsou vše. Technika = nástroj.</td><td>Stačí nakoupit techniku.</td><td>Vzájemné tvarování v kontextu.</td></tr>
+    <tr><td>Baťa investoval do lidí.</td><td>70.–80. léta: PC = výhoda.</td><td>Tavistock Institute. SI staví na tom.</td></tr>
+  </table>
+
+  <h2>Tři teorie sociálního konstruktivismu</h2>
+  <table class="comp-table">
+    <tr><th></th><th>SCOT</th><th>STIN</th><th>ANT</th></tr>
+    <tr><td><strong>Síla</strong></td><td>Silný</td><td>Střední</td><td>Neutrální / slabý</td></tr>
+    <tr><td><strong>Aktér</strong></td><td>Lidé (skupiny)</td><td>Lidé + sociotech. entity</td><td>Vše (lidé, věci, myšlenky)</td></tr>
+    <tr><td><strong>Otázka</strong></td><td>Jak vznikla?</td><td>Jak je používána?</td><td>Jak vypadá síť?</td></tr>
+    <tr><td><strong>Autoři</strong></td><td>Bijker, Pinch</td><td>Kling</td><td>Callon, Law, Latour</td></tr>
+    <tr><td><strong>Klíčové pojmy</strong></td><td>Interpretativní flexibilita, stabilizace, vícesměrový model</td><td>8 kroků, vyloučení aktéři, rozhodovací body</td><td>Aktér, síť, překlad, 4 momenty, oligoptikon</td></tr>
+    <tr><td><strong>Mnemonika</strong></td><td>Scotty</td><td>Pán času</td><td>Ant-Man</td></tr>
+  </table>
+
+  <h2>Sedm myšlenkových škol – rychlý přehled</h2>
+  <table class="comp-table">
+    <tr><th>Škola</th><th>Rok</th><th>Klíčový jméno</th><th>Zaměření</th></tr>
+    <tr><td>🇳🇴 Norská</td><td>1984</td><td>Bråten</td><td>Komunikace, HCI (zanikla)</td></tr>
+    <tr><td>🇺🇸 Severoamerická</td><td>1996</td><td>Kling (Indiana U.)</td><td>Empirický org. výzkum; 3 orientace + 5 postulátů</td></tr>
+    <tr><td>🇬🇧 Britská</td><td>90. léta</td><td>Davenport (Edinburgh Napier)</td><td>Společenská úroveň, e-demokracie</td></tr>
+    <tr><td>🇸🇮 Slovinská</td><td>1984</td><td>Vehovar (Lublaň)</td><td>Statistika, online výzkum (nejdéle nepřetržitě)</td></tr>
+    <tr><td>🇩🇪 Německá</td><td>—</td><td>—</td><td>Sozio- (USA-podobné) + Sozial- (soc. práce)</td></tr>
+    <tr><td>🇯🇵 Japonská</td><td>90. léta</td><td>—</td><td>Teleologická, interdisciplinární</td></tr>
+    <tr><td>🇷🇺 Ruská</td><td>70.+80.</td><td>Sokolov / Ursul</td><td>Sokolovova (kvalita info) + Ursulova (filozofická, noosféra)</td></tr>
+  </table>
+
+  <h2>Generace a ICT</h2>
+  <table class="comp-table">
+    <tr><th>Generace</th><th>Roky</th><th>Klíčové ICT</th></tr>
+    <tr><td>Tichá generace</td><td>1929–1945</td><td>Tradiční média</td></tr>
+    <tr><td>Baby Boomers</td><td>1946–1964</td><td>TV, mladší e-mail</td></tr>
+    <tr><td>Generace X</td><td>1965–1979</td><td>První PC v dospívání</td></tr>
+    <tr><td>Generace Y (Millennials)</td><td>1980–1994</td><td>Soc. sítě, multitasking</td></tr>
+    <tr><td>Generace Z</td><td>1995–2009</td><td>Digital natives, smartphony od dětství</td></tr>
+  </table>
+
+  <h2>Technologické koncepty – rychlý přehled</h2>
+  <table class="comp-table">
+    <tr><th>Pojem</th><th>Definice na 1 řádek</th></tr>
+    <tr><td><strong>UbiComp</strong> (Weiser, 1988)</td><td>3. vlna IT: mnoho zařízení na 1 člověka. Tabs/Pads/Boards.</td></tr>
+    <tr><td><strong>AmI</strong></td><td>Prostředí reaguje na člověka: zabudované, kontextuální, personalizované, adaptivní, anticipační</td></tr>
+    <tr><td><strong>IoT → IoS → IoE</strong></td><td>Věci → Cloud služby → Lidé+procesy+data+věci</td></tr>
+    <tr><td><strong>Stack (Bratton)</strong></td><td>Země → Cloud → Město → Adresa → Rozhraní → Uživatel</td></tr>
+    <tr><td><strong>Transgrese</strong></td><td>Genová manipulace, neuromanipulace, kyborgizace</td></tr>
+    <tr><td><strong>Slabá imerse</strong></td><td>Mobil/PC – zasahuje fyzický svět</td></tr>
+    <tr><td><strong>Silná imerse</strong></td><td>VR helma – izoluje smysly</td></tr>
+    <tr><td><strong>AR / Rozšířená virtualita</strong></td><td>Digital do reality / fyzické do virtuality</td></tr>
+  </table>
+
+  <h2>Klíčové vztahy mezi pojmy</h2>
+  <div class="pojmy">
+    <div class="pojem blue"><div class="pojem-head">Gasset ↔ Teorie mladé dívky</div><div class="pojem-body">Gasset: <em>nadpříroda nám ukazuje, jak naplnit život, my máme volbu</em>. Tiqqun: <em>Impérium nás formuje, většinou se mu poddáme</em>. Stejný motiv, jiné jazykové prostředí.</div></div>
+    <div class="pojem green"><div class="pojem-head">SCOT ↔ STIN ↔ ANT</div><div class="pojem-body">SCOT pojmenoval problém vyjednávání. STIN doplnil <em>vyloučené aktéry + rozhodovací body</em>. ANT rozšířil aktérství na vše neživé.</div></div>
+    <div class="pojem orange"><div class="pojem-head">Solow paradox ↔ Generace X</div><div class="pojem-body">Pokles produktivity (60.–80. léta) navzdory investicím do PC. Oživení 90. let = nástup Gen X, která vyrostla s PC. Lekce: lidé musí dorůst k technologii.</div></div>
+    <div class="pojem purple"><div class="pojem-head">Tavistock ↔ Sociotechnický přístup</div><div class="pojem-body">Britské doly 1947: mechanizace bez ohledu na sociální skupiny horníků = konflikty + pokles produktivity. Sociální a technické se musí optimalizovat <em>společně</em>.</div></div>
+  </div>
+
+  <div class="tip"><strong>Klíčová věta celého předmětu:</strong> Vztah mezi technikou a člověkem/společností je velmi složitý a vždy kontextuálně zasazený. Žádný univerzální recept – je třeba empiricky zkoumat konkrétní situaci.</div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SAMOTEST -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="lecture" id="samotest">
+  <div class="lec-header">
+    <div class="lec-num" style="background:var(--green-light);color:var(--green);">✓</div>
+    <div>
+      <div class="lec-title">Samotest</div>
+      <div class="lec-subtitle">Když umíš odpovědět na vše níže vlastními slovy s příkladem, jsi připraven</div>
+    </div>
+  </div>
+
+  <div class="warn">Pravidla: zavři podklady. Odpověz nahlas nebo si zapiš. Když vyhledáš zpět = jsi neuměl. Smutný explicitně říká: <em>umět vysvětlit pojem vlastními slovy je důležitější než definice.</em></div>
+
+  <h2>P1 – Vztah člověka a techniky</h2>
+  <ol class="steps">
+    <li>Co je sociální informatika? Jaké jsou tři úrovně pohledu a tři kontexty zkoumání? (uveď příklad)</li>
+    <li>Co je <strong>nadpříroda</strong>? Vysvětli na vlastním příkladu z dnešní doby.</li>
+    <li>Vysvětli rozdíl mezi <strong>repertoárem prvních a druhých aktů</strong> u Gasseta.</li>
+    <li>Popiš tři stádia techniky podle Gasseta. Co znamená, že „člověk je doplňkem stroje"?</li>
+    <li>Co je u Heideggera <strong>odkrývání</strong> a co je <strong>vymáhání</strong>? Uveď příklad.</li>
+    <li>Co je Heideggerova <strong>sestava</strong>? Jak souvisí s cargo kultem?</li>
+    <li>Co znamená, že technika je složkou kultury?</li>
+  </ol>
+
+  <h2>P2 – Metodologie SI</h2>
+  <ol class="steps">
+    <li>Rozdíl mezi <strong>metodologií, metodou a metodikou</strong>.</li>
+    <li>Co je <strong>technověda</strong>? Proč se přírodovědný a inženýrský přístup propojují?</li>
+    <li>Vysvětli tři přístupy informatiky: analýza, syntéza, humanities. Který je v SI primární?</li>
+    <li>Rozdíl mezi <strong>kvantitativním a kvalitativním</strong> výzkumem (3 dimenze).</li>
+    <li>Co je <strong>triangulace</strong>?</li>
+    <li>Co je <strong>DSR</strong>? Kde má kořeny? Jak souvisí s relevancí a rigorózností?</li>
+    <li>Co je <strong>profesní výzkum</strong> a v čem se liší od vědeckého?</li>
+  </ol>
+
+  <h2>P3 – Kultura a adopce ICT</h2>
+  <ol class="steps">
+    <li>Co je <strong>kultura</strong>? Rozliš sociální skupinu, kategorii a agregát.</li>
+    <li>Jmenuj 6 dimenzí Hofstedeho modelu. Vyber jednu a vysvětli na příkladu.</li>
+    <li>Rozdíl <strong>akceptabilita / akceptace / adopce / rezistence</strong> (před/během/po + odpor).</li>
+    <li>Vysvětli 4 konstrukty modelu <strong>UTAUT</strong>.</li>
+    <li>Proč není dobré navrhovat „od stolu"? V čem se liší designér od uživatele?</li>
+    <li>Rozdíl mezi <strong>potřebami, hodnotami, postoji a normami</strong>.</li>
+  </ol>
+
+  <h2>P4 – SCOT</h2>
+  <ol class="steps">
+    <li>Co je sociální determinismus, technický determinismus, sociotechnický přístup? (každý 1 příklad)</li>
+    <li>Co se stalo v Tavistock Institutu? Jaké z toho plyne poučení?</li>
+    <li>Co je <strong>sociální konstruktivismus</strong>? Jaké tři teorie z něj vycházejí?</li>
+    <li>Vysvětli <strong>interpretativní flexibilitu</strong> SCOTu. Příklad: kolo nebo mobil.</li>
+    <li>Co je <strong>stabilizace</strong>? Dva způsoby (rétorické uzavření vs. předefinování).</li>
+    <li>Co je <strong>vícesměrový model</strong> inovace? Proč je v opozici k lineárnímu?</li>
+    <li>Jmenuj tři výhrady kritiky SCOT.</li>
+  </ol>
+
+  <h2>P5 – ANT</h2>
+  <ol class="steps">
+    <li>Rozdíl <strong>modernismus vs. postmodernismus</strong>. Rozdíl <strong>strukturalismus vs. poststrukturalismus</strong>.</li>
+    <li>Co je v ANT <strong>aktér</strong>? Proč se nedá redukovat?</li>
+    <li>Vysvětli větu „aktér je sítí a síť je aktérem".</li>
+    <li>Co je <strong>překlad</strong> a u koho má svůj filozofický původ?</li>
+    <li>Vyjmenuj a stručně popiš <strong>4 momenty překladu</strong> dle Callona.</li>
+    <li>Klíčový rozdíl SCOT vs. ANT v otázce <em>kdo může být aktérem</em>.</li>
+    <li>Co je <strong>oligoptikon</strong>? Proč je to varování?</li>
+    <li>Tři typy komplexních sítí a co je odlišuje.</li>
+  </ol>
+
+  <h2>P6 – STIN &amp; sociotechnické teorie</h2>
+  <ol class="steps">
+    <li>Vysvětli stručně: <strong>biografie artefaktů, domestikace, sociomaterialita</strong>.</li>
+    <li>Co říká <strong>teorie strukturace</strong> Giddense? Mezi jakými dvěma krajními pozicemi stojí?</li>
+    <li>Kdo navrhl STIN a v jaké době? Co je hlavní účel STIN?</li>
+    <li>Vyjmenuj 8 kroků STIN analýzy.</li>
+    <li>Které dva kroky STIN jsou <strong>originalitou</strong> oproti SCOT a ANT? Proč?</li>
+    <li>Klíčový rozdíl ANT vs. STIN v otázce <em>co teoretizují</em>.</li>
+  </ol>
+
+  <h2>P7 – Myšlenkové školy SI</h2>
+  <ol class="steps">
+    <li>Proč existuje 7 různých škol? (interpretační flexibilita v praxi)</li>
+    <li>Jmenuj 7 škol a u každé alespoň: zemi původu + 1 klíčové jméno + 1 znak.</li>
+    <li>Tři orientace severoamerické školy: analytická, normativní, kritická.</li>
+    <li>Pět postulátů Roba Klinga – aspoň 3 z nich.</li>
+    <li>Rozdíl mezi <strong>Sokolovovou a Ursulovou koncepcí</strong> v Rusku.</li>
+    <li>Co je <strong>noosféra, technosféra, infosféra</strong>?</li>
+    <li>Kde se v ČR vyučovala/vyučuje sociální informatika?</li>
+  </ol>
+
+  <h2>P8 – Informační společnost</h2>
+  <ol class="steps">
+    <li>Co je <strong>informační společnost</strong>? 5 hlavních dopadů.</li>
+    <li>Jmenuj generace a jejich vztah k ICT. Co jsou <strong>digital natives</strong> vs. <strong>immigrants</strong>?</li>
+    <li>Co je <strong>paradox produktivity</strong>? Kdy začal, kdy si ho všimli, jak skončil?</li>
+    <li>Vysvětli <strong>Stack</strong> Bena Brattona. 6 vrstev. Co znamená nová suverenita?</li>
+    <li>Co je <strong>transgrese</strong>? Tři způsoby změny člověka.</li>
+    <li>Co je <strong>akceleracionismus</strong>? Co je akcelerace cirkulace?</li>
+    <li>Vysvětli <strong>teorii mladé dívky</strong> a Impérium. Jak souvisí s Gassetem?</li>
+  </ol>
+
+  <h2>P9 – Technologické koncepty</h2>
+  <ol class="steps">
+    <li>Co je <strong>inovace</strong>? Co je <strong>kreativní destrukce</strong>?</li>
+    <li>Co je <strong>UbiComp</strong>? Kdo zavedl pojem? Tři typy zařízení.</li>
+    <li>Co je <strong>AmI</strong>? Pět vlastností. Co kritizujeme?</li>
+    <li>Rozdíl IoT / IoS / IoE.</li>
+    <li>Co je <strong>kyberprostor</strong>? Odkud pojem? Co je kyberkultura?</li>
+    <li>Slabá vs. silná imerse. Příklady. Proč VR nezvítězila masově?</li>
+    <li>Rozdíl <strong>rozšířená realita</strong> vs. <strong>rozšířená virtualita</strong>.</li>
+    <li>Co je <strong>virtualizace společnosti</strong>?</li>
+  </ol>
+
+  <h2>P10 – Shrnutí (transversální)</h2>
+  <ol class="steps">
+    <li>Co je hlavní poselství předmětu jednou větou?</li>
+    <li>Tři manažerské přístupy k ICT – nakreslit srovnání s příklady.</li>
+    <li>Co je <strong>datově řízená organizace</strong>? Dva druhy dat.</li>
+    <li>Čtyři zkreslení u dotazníkových šetření.</li>
+    <li>Být schopen propojit min. 3 lekce do jednoho příkladu (např. zavedení ERP: ANT 4 momenty + SCOT skupiny + UTAUT pro adopci + Tavistock lekce).</li>
+  </ol>
+
+  <div class="tip">Pokud na otázku <em>nevíš</em> nebo <em>váháš víc než 5 sekund</em>, vrať se k té lekci. Pokud <em>víš, ale nemáš příklad</em>, dohledej v podkladech jeden a zapamatuj si ho – Smutný se ptá na příklady.</div>
+</section>
+
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const nav = document.getElementById('doc-nav');
+  if (!nav) return;
+
+  // Collect sub-link data per section (no DOM injection into nav)
+  const items = [];
+  let counter = 0;
+  document.querySelectorAll('section.lecture').forEach(section => {
+    const link = nav.querySelector('a[href="#' + section.id + '"]');
+    if (!link) return;
+    const navSection = link.closest('.nav-section');
+    const subLinks = [];
+    section.querySelectorAll('h2').forEach(h2 => {
+      if (!h2.id) h2.id = 'h-' + (++counter);
+      subLinks.push({ href: '#' + h2.id, text: h2.textContent.trim() });
+    });
+    if (subLinks.length) items.push({ navSection, link, subLinks });
+  });
+
+  // Flyout panel — fixed position, outside nav (no overflow clipping)
+  const flyout = document.createElement('div');
+  flyout.className = 'nav-flyout';
+  document.body.appendChild(flyout);
+
+  let hideTimer = null;
+
+  function showFlyout(item) {
+    clearTimeout(hideTimer);
+    const rect = item.navSection.getBoundingClientRect();
+    flyout.style.top = Math.max(4, rect.top) + 'px';
+    const labelEl = item.link.querySelector('.nav-label');
+    const titleText = labelEl ? labelEl.textContent.trim() : item.link.textContent.trim();
+    flyout.innerHTML =
+      '<div class="nav-flyout-title">' + titleText + '</div>' +
+      item.subLinks.map(s =>
+        '<a href="' + s.href + '" class="nav-flyout-link">' + s.text + '</a>'
+      ).join('');
+    flyout.classList.add('visible');
+    nav.classList.add('flyout-open');
+  }
+
+  function scheduledHide() {
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => {
+      flyout.classList.remove('visible');
+      nav.classList.remove('flyout-open');
+    }, 80);
+  }
+
+  // Section hover → show flyout; leave → schedule hide
+  items.forEach(item => {
+    item.navSection.addEventListener('mouseenter', () => showFlyout(item));
+    item.navSection.addEventListener('mouseleave', e => {
+      if (e.relatedTarget === flyout || flyout.contains(e.relatedTarget)) return;
+      scheduledHide();
+    });
+  });
+
+  // Flyout: cancel hide on enter, schedule on leave
+  flyout.addEventListener('mouseenter', () => clearTimeout(hideTimer));
+  flyout.addEventListener('mouseleave', e => {
+    const goingToNav = items.some(i =>
+      e.relatedTarget === i.navSection || i.navSection.contains(e.relatedTarget)
+    );
+    if (!goingToNav) scheduledHide();
+  });
+
+  // Nav leave (not going to flyout) → hide
+  nav.addEventListener('mouseleave', e => {
+    if (e.relatedTarget === flyout || flyout.contains(e.relatedTarget)) return;
+    scheduledHide();
+  });
+
+  // Scrollspy — highlight active, track active section
+  const allLinks = nav.querySelectorAll('a');
+  let activeItem = items[0] || null;
+  const targets = [];
+  document.querySelectorAll('section.lecture, h2[id]').forEach(el => targets.push(el));
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      allLinks.forEach(l => l.classList.remove('active'));
+      const found = nav.querySelector('a[href="#' + e.target.id + '"]');
+      if (!found) return;
+      found.classList.add('active');
+      const ns = found.closest('.nav-section');
+      const match = items.find(i => i.navSection === ns);
+      if (match) activeItem = match;
+    });
+  }, { rootMargin: '-8% 0px -82% 0px', threshold: 0 });
+
+  targets.forEach(el => observer.observe(el));
+
+  // Nav hover → auto-show flyout for current reading position
+  nav.addEventListener('mouseenter', () => {
+    if (activeItem) showFlyout(activeItem);
+  });
+});
+</script>
+</body>
+</html>

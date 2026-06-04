@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4SA516 Project Governance + ERP – Učební podklady</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, sans-serif; font-size: 15px; line-height: 1.6; color: #111827; background: #f9fafb; -webkit-font-smoothing: antialiased; margin-left: 58px; }
+  #doc-nav { width: 50px; height: 100vh; position: fixed; left: 0; top: 0; z-index: 100; overflow: hidden; background: #fff; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; transition: width 0.32s cubic-bezier(0.4,0,0.2,1), box-shadow 0.32s; }
+  #doc-nav:hover { width: 260px; box-shadow: 6px 0 24px rgba(0,0,0,0.07); }
+  .nav-logo { padding: 14px 13px 12px; border-bottom: 1px solid #e5e7eb; white-space: nowrap; overflow: hidden; position: relative; }
+  .nav-code { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9ca3af; margin-bottom: 3px; }
+  .nav-subject { display: block; font-size: 13px; font-weight: 600; color: #111827; }
+  .nav-logo-icon { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-size: 16px; color: #1d4ed8; opacity: 0; transition: opacity 0.2s; }
+  .nav-logo-text { opacity: 1; transition: opacity 0.2s; }
+  #doc-nav:not(:hover) .nav-logo-icon { opacity: 1; }
+  #doc-nav:not(:hover) .nav-logo-text { opacity: 0; }
+  .nav-items { flex: 1; padding: 6px 0; overflow-y: auto; overflow-x: hidden; }
+  .nav-link { display: flex; align-items: center; gap: 8px; padding: 5px 12px; font-size: 12.5px; font-weight: 500; color: #374151; text-decoration: none; white-space: nowrap; overflow: hidden; transition: background 0.1s, color 0.1s; }
+  .nav-link:hover { background: #f3f4f6; color: #111827; }
+  .nav-link.active { background: #eff6ff; color: #1d4ed8; }
+  .nav-num { font-size: 9px; font-weight: 700; background: #1d4ed8; color: #fff; padding: 2px 5px; border-radius: 3px; flex-shrink: 0; min-width: 22px; text-align: center; }
+  .nav-label { max-width: 220px; overflow: hidden; white-space: nowrap; transition: max-width 0.28s, opacity 0.18s; }
+  #doc-nav:not(:hover) .nav-label { max-width: 0; opacity: 0; }
+  #doc-nav:not(:hover) .nav-link { padding-left: 4px; padding-right: 4px; justify-content: center; }
+  .hero { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 44px 56px 40px; }
+  .hero-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #94a3b8; margin-bottom: 12px; }
+  .hero-title { font-size: 44px; font-weight: 800; color: #0f172a; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 16px; }
+  .hero-desc { font-size: 15px; color: #64748b; max-width: 680px; line-height: 1.65; margin-bottom: 20px; }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+  .hero-pill { display: inline-block; padding: 4px 11px; border-radius: 20px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 500; }
+  .lecture { max-width: 860px; margin: 0 auto; padding: 48px 56px; border-bottom: 1px solid #f1f5f9; }
+  .lec-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; }
+  .lec-num { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: #1d4ed8; color: #fff; padding: 5px 9px; border-radius: 5px; flex-shrink: 0; margin-top: 2px; }
+  .lec-title { font-size: 22px; font-weight: 700; color: #0f172a; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .lec-subtitle { font-size: 13px; color: #64748b; }
+  h2 { font-size: 16px; font-weight: 700; color: #0f172a; margin: 30px 0 10px; padding-bottom: 6px; border-bottom: 1px solid #e5e7eb; }
+  h3 { font-size: 14px; font-weight: 700; color: #374151; margin: 20px 0 8px; }
+  h4 { font-size: 13.5px; font-weight: 600; color: #374151; margin: 14px 0 6px; }
+  p { margin-bottom: 14px; color: #374151; font-size: 14.5px; }
+  ul, ol { margin: 0 0 14px; padding-left: 22px; color: #374151; font-size: 14.5px; }
+  li { margin-bottom: 5px; }
+  strong { font-weight: 700; color: #0f172a; }
+  em { font-style: italic; color: #475569; }
+  .pojmy { display: grid; gap: 8px; margin: 14px 0 20px; }
+  .pojmy.two { grid-template-columns: 1fr 1fr; }
+  .pojmy.three { grid-template-columns: 1fr 1fr 1fr; }
+  .pojmy.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .pojmy.single { grid-template-columns: 1fr; }
+  .pojem { border-radius: 8px; padding: 14px 16px; border: 1px solid; }
+  .pojem.blue { background: #eff6ff; border-color: #bfdbfe; }
+  .pojem.green { background: #f0fdf4; border-color: #bbf7d0; }
+  .pojem.orange { background: #fff7ed; border-color: #fed7aa; }
+  .pojem.purple { background: #faf5ff; border-color: #ddd6fe; }
+  .pojem.red { background: #fff1f2; border-color: #fecdd3; }
+  .pojem.slate { background: #f8fafc; border-color: #cbd5e1; }
+  .pojem-head { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 7px; }
+  .pojem.blue .pojem-head { color: #1d4ed8; }
+  .pojem.green .pojem-head { color: #15803d; }
+  .pojem.orange .pojem-head { color: #c2410c; }
+  .pojem.purple .pojem-head { color: #6d28d9; }
+  .pojem.red .pojem-head { color: #be123c; }
+  .pojem.slate .pojem-head { color: #475569; }
+  .pojem-body { font-size: 13.5px; line-height: 1.55; color: #374151; }
+  .tip { background: #fefce8; border-left: 3px solid #eab308; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #713f12; line-height: 1.6; }
+  .callout { background: #f0f9ff; border-left: 3px solid #0ea5e9; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #0c4a6e; line-height: 1.6; }
+  .warn { background: #fff1f2; border-left: 3px solid #f43f5e; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #9f1239; }
+  .success { background: #f0fdf4; border-left: 3px solid #22c55e; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: #14532d; line-height: 1.6; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 13.5px; }
+  th { background: #f8fafc; font-weight: 600; text-align: left; padding: 8px 10px; border: 1px solid #e5e7eb; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  td { padding: 8px 10px; border: 1px solid #e5e7eb; vertical-align: top; color: #374151; }
+  tr:nth-child(even) td { background: #fafafa; }
+  .formula { background: #1e293b; color: #e2e8f0; border-radius: 6px; padding: 10px 14px; margin: 10px 0 14px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.8; }
+  .formula span { color: #7dd3fc; }
+  .formula em { color: #86efac; font-style: normal; }
+  .formula strong { color: #fbbf24; }
+  .kp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 12px 0 18px; }
+  .kp-item { background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 6px; padding: 9px 12px; }
+  .kp-term { font-size: 12px; font-weight: 700; color: #1d4ed8; margin-bottom: 3px; }
+  .kp-def { font-size: 12.5px; color: #374151; line-height: 1.45; }
+</style>
+</head>
+<body>
+
+<nav id="doc-nav">
+  <div class="nav-logo">
+    <span class="nav-logo-icon">&#9670;</span>
+    <span class="nav-logo-text">
+      <span class="nav-code">4SA516</span>
+      <span class="nav-subject">Project Gov. + ERP</span>
+    </span>
+  </div>
+  <div class="nav-items">
+    <a class="nav-link" href="#p1"><span class="nav-num">P1</span><span class="nav-label">Project Governance</span></a>
+    <a class="nav-link" href="#p2"><span class="nav-num">P2</span><span class="nav-label">Agilní vs. tradiční přístupy</span></a>
+    <a class="nav-link" href="#p3"><span class="nav-num">P3</span><span class="nav-label">ERP systémy — základy</span></a>
+    <a class="nav-link" href="#p4"><span class="nav-num">P4</span><span class="nav-label">ERP implementace &amp; SAP Activate</span></a>
+    <a class="nav-link" href="#p5"><span class="nav-num">P5</span><span class="nav-label">RPA, IPA &amp; procesní automatizace</span></a>
+    <a class="nav-link" href="#p6"><span class="nav-num">P6</span><span class="nav-label">ERP architektury</span></a>
+    <a class="nav-link" href="#pojmy"><span class="nav-num">&#9733;</span><span class="nav-label">Klíčové pojmy</span></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">4SA516 · Project Governance + ERP</div>
+  <div class="hero-title">Project Governance a ERP systémy</div>
+  <div class="hero-desc">Governance IT projektů, PRINCE2/PMI/EVM, SAP moduly a architektura, SAP Activate implementační metodologie, procesní modelování BPMN/EPC, RPA/IPA, ERP architektury a RISE with SAP.</div>
+  <div class="hero-pills">
+    <span class="hero-pill">PRINCE2 7P/7T/7P</span>
+    <span class="hero-pill">PMBOK 10 oblastí</span>
+    <span class="hero-pill">EVM / CPI / SPI</span>
+    <span class="hero-pill">SAP Activate 5 fází</span>
+    <span class="hero-pill">RICEFW</span>
+    <span class="hero-pill">RPA 4 úrovně</span>
+    <span class="hero-pill">COBIT BAI01/BAI11</span>
+    <span class="hero-pill">SOA / Microservices</span>
+    <span class="hero-pill">RISE with SAP / BTP</span>
+  </div>
+</div>
+
+<!-- ============================================================ P1 ============================================================ -->
+<section class="lecture" id="p1">
+  <div class="lec-header">
+    <div class="lec-num">P1</div>
+    <div>
+      <div class="lec-title">Project Governance</div>
+      <div class="lec-subtitle">PM vs. PG, PMO typy, COBIT BAI01/BAI11, Steering Committee, PRINCE2 7+7+7, PMBOK 10 oblastí, EVM, PRINCE2 vs. PMI</div>
+    </div>
+  </div>
+
+  <h2>Project Management vs. Project Governance</h2>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Project Management (PM)</div>
+      <div class="pojem-body">Aplikace znalostí, dovedností, nástrojů a technik na projektové aktivity tak, aby byly splněny požadavky projektu (PMI definice). <strong>Operativní úroveň</strong> — PM řídí <em>jak</em> projekt provést: scope, čas, náklady, kvalita, rizika, komunikace. Zodpovídá: projektový manažer a tým. Rámce: PMBOK, PRINCE2 procesy, SCRUM.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Project Governance (PG)</div>
+      <div class="pojem-body">Soubor procesů, politik, rolí a struktury pro strategické řízení projektů a programů. <strong>Strategická úroveň</strong> — PG řídí <em>proč</em> projekt vznikl a <em>kdo rozhoduje</em>: soulad se strategií, alokace zdrojů, realizace přínosů (benefits), eskalační mechanismy. Zodpovídá: Steering Committee, PMO, Sponzor. Framework: COBIT BAI01/BAI11, PRINCE2 governance layer.</div>
+    </div>
+  </div>
+  <div class="callout"><strong>Klíčový rozdíl:</strong> PM = "Děláme projekt správně?" (efficiency, operativní). PG = "Děláme správné projekty?" (effectiveness, strategické). Governance je <em>nadřazena</em> managementu — governance nastavuje rámec a tolerance, v nichž management operuje. Analogie: corporate governance řídí management stejně jako project governance řídí project management.</div>
+
+  <h2>PMO — Project Management Office</h2>
+  <p>Centralizovaná organizační jednotka zodpovědná za standardizaci projektového řízení, správu sdílených zdrojů a metodologií, reportování portfolia a prosazování best practices. <strong>Tři typy PMO dle míry autority a kontroly</strong> (PMI PMBOK):</p>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Supportive PMO (podpůrné)</div>
+      <div class="pojem-body">Kontrola: <strong>10–25 %</strong>. Konzultační role — poskytuje šablony, best practices, přístup ke znalostní bázi a historickým datům, školení. <em>Neřídí</em> projekty přímo — PM mají autonomii. Vhodné pro organizace s nízkou projektovou zralostí nebo kde projekty jsou velmi různorodé. Příklad: centrální repozitář šablon, lessonlearned databáze.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Controlling PMO (řídící)</div>
+      <div class="pojem-body">Kontrola: <strong>25–75 %</strong>. Vyžaduje compliance s metodologií, šablonami a reportovacími standardy. Provádí project reviews a audity. Přiděluje zdrojové kapacity. PM stále reportují liniové hierarchii, ale musí dodržovat PMO standardy. <strong>Nejběžnější v praxi</strong> — vyvažuje standardizaci a autonomii.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Directive PMO (direktivní)</div>
+      <div class="pojem-body">Kontrola: <strong>75–100 %</strong>. PMO přímo řídí projekty — PM jsou zaměstnanci PMO, nikoli businessu. PMO vlastní metodologii, zdroje a všechna klíčová rozhodnutí. Vhodné pro vysoce standardizovaná prostředí: konzultační firmy, IT delivery centra, velké korporace s komplexním portfoliem.</div>
+    </div>
+  </div>
+  <div class="tip"><strong>Otázka ke zkoušce:</strong> "Jaký typ PMO byste doporučili pro implementaci ERP v holding struktuře?" → Controlling PMO: standardizuje metodologii přes všechny BU, ale zachovává autonomii projektovým manažerům. Directive by bylo příliš centralizující pro různorodé BU.</div>
+
+  <h2>COBIT BAI01 a BAI11</h2>
+  <p>COBIT (Control Objectives for Information and Related Technologies) je framework IT governance vydávaný ISACA. Oblast <strong>BAI (Build, Acquire and Implement)</strong> řídí životní cyklus IT projektů a programů.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">BAI01 — Managed Programs</div>
+      <div class="pojem-body">Governance a management IT <strong>programů</strong> (soubory related projektů). BAI01 zajišťuje: portfolio programů je v souladu s IT a business strategií; programy mají jasné governance struktury (program board, sponzor); přínosy programů jsou definovány, sledovány a realizovány (<strong>Benefits Realization Management</strong>). Obsahuje: stage-gate reviews, program-level reporting, benefit tracking. Výstupy: Program Charter, Benefits Realization Plan, Program Reports.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">BAI11 — Managed Projects</div>
+      <div class="pojem-body">Governance a management <strong>jednotlivých IT projektů</strong>. BAI11 zajišťuje: projekty mají schválený business case; jsou řízeny dle definované metodologie (PRINCE2/PMBOK); rizika jsou identifikována a řízena; <strong>Post-Implementation Review (PIR)</strong> probíhá po uzavření projektu. Propojení s BAI01 (project reportuje do program governance). Obsahuje: project charter schválení, change control, earned value monitoring.</div>
+    </div>
+  </div>
+  <div class="callout"><strong>Hierarchie COBIT governance:</strong> Corporate Governance → IT Governance (COBIT) → Project Governance (BAI01 programy, BAI11 projekty) → Project Management (PRINCE2/PMBOK). Každá úroveň nastavuje rámec pro úroveň nižší.</div>
+
+  <h2>Project Steering Committee (Řídící výbor projektu)</h2>
+  <p>Nejvyšší governance orgán na úrovni projektu — nadřazený projektovému manažerovi. V PRINCE2 terminologii: <strong>Project Board</strong>.</p>
+  <h3>Složení Steering Committee</h3>
+  <table>
+    <tr><th>Role</th><th>PRINCE2 ekvivalent</th><th>Odpovědnosti</th></tr>
+    <tr><td><strong>Business Sponzor (Sponsor)</strong></td><td>Executive / Senior Responsible Owner</td><td>Vlastní business case, odpovídá za realizaci přínosů, schvaluje klíčová rozhodnutí, financuje projekt, nejvyšší autorita</td></tr>
+    <tr><td><strong>CIO / IT Director</strong></td><td>Senior Supplier</td><td>Zastupuje IT dodavatele (interní IT nebo vendor), odpovídá za technické řešení a zdroje</td></tr>
+    <tr><td><strong>Business Owner / Key User Rep</strong></td><td>Senior User</td><td>Zastupuje budoucí uživatele, zajišťuje, že projekt splňuje business potřeby, schvaluje UAT</td></tr>
+    <tr><td><strong>Projektový manažer</strong></td><td>Project Manager</td><td>Předkládá status reporty, eskaluje Exception Reports, navrhuje změny</td></tr>
+    <tr><td><strong>Vendor PM / SI PM</strong></td><td>Supplier PM</td><td>Zástupce implementačního partnera (systémového integrátora) — typicky u ERP projektů</td></tr>
+  </table>
+
+  <h3>Rozhodovací práva a eskalační matice (RACI)</h3>
+  <table>
+    <tr><th>Rozhodnutí</th><th>Kdo rozhoduje (A)</th><th>Kdo schvaluje (R)</th><th>Kdo je konzultován (C)</th><th>Kdo je informován (I)</th></tr>
+    <tr><td>Změna scope &lt; tolerance</td><td>Project Manager</td><td>Steering Committee</td><td>Business Owner</td><td>PMO</td></tr>
+    <tr><td>Změna scope &gt; tolerance</td><td>Steering Committee</td><td>Business Sponzor</td><td>PM, Vendor</td><td>Portfolio Board</td></tr>
+    <tr><td>Ukončení / pozastavení projektu</td><td>Business Sponzor</td><td>Portfolio Board</td><td>SC, PM</td><td>Všichni stakeholdeři</td></tr>
+    <tr><td>Go/No-go na stage-gate</td><td>Steering Committee</td><td>Business Sponzor</td><td>PM, QA</td><td>PMO, klíčoví uživatelé</td></tr>
+    <tr><td>RICEFW development schválení</td><td>Steering Committee</td><td>Business Sponzor + CIO</td><td>PM, Architect</td><td>Vendor</td></tr>
+  </table>
+
+  <h2>PRINCE2 — 7 principů, 7 témat, 7 procesů</h2>
+  <p><strong>PRINCE2</strong> (Projects IN Controlled Environments) je procesní framework pro řízení projektů, původně UK vládní standard (OGC, 1989), nyní globální. Spravuje PeopleCert (dříve AXELOS). Aktuální verze: PRINCE2 7th Edition. Čtyři integrované prvky: principy, témata, procesy, přizpůsobení prostředí.</p>
+
+  <h3>7 principů PRINCE2</h3>
+  <ol>
+    <li><strong>Kontinuální obchodní odůvodnění</strong> — business case musí být platný po celou dobu projektu; projekt se zastaví, pokud business case přestane být validní. Sponzor je vlastník BC.</li>
+    <li><strong>Učit se ze zkušeností</strong> — lessons learned sbírat při zahájení, průběhu i uzavření projektu; sdílet s organizací. Lessons Log jako živý dokument.</li>
+    <li><strong>Definované role a odpovědnosti</strong> — každý člen projektu má jasně definovanou roli a odpovědnosti (RACI); zahrnuje interní i dodavatelské role.</li>
+    <li><strong>Řízení po fázích</strong> — projekt je rozdělen do řiditelných management stages s formálními stage-gate rozhodnutími (End Stage Assessment). SC schvaluje každou fázi.</li>
+    <li><strong>Řízení výjimek (Management by Exception)</strong> — toleranční pásma delegována od SC na PM (time, cost, scope, quality, benefit, risk); mimo toleranci → Exception Report → SC rozhoduje.</li>
+    <li><strong>Zaměření na produkty</strong> — projekt dodává definované <em>produkty</em> (Product Descriptions), ne aktivity. Product-based planning: PBS → WBS → Activity Plan.</li>
+    <li><strong>Přizpůsobení prostředí projektu (Tailoring)</strong> — PRINCE2 je škálovatelné; rozsah dokumentace a procesů se přizpůsobuje komplexitě, velikosti, riziku a prostředí projektu.</li>
+  </ol>
+
+  <h3>7 témat PRINCE2</h3>
+  <table>
+    <tr><th>Téma</th><th>Klíčová otázka</th><th>Klíčové dokumenty</th></tr>
+    <tr><td><strong>Business Case</strong></td><td>Proč projekt? Jaká je hodnota a oprávněnost?</td><td>Business Case, Benefits Realization Plan, Outline BC</td></tr>
+    <tr><td><strong>Organization</strong></td><td>Kdo? Jaké jsou role a odpovědnosti?</td><td>Project Organization Chart, Role Descriptions, RACI</td></tr>
+    <tr><td><strong>Quality</strong></td><td>Co je požadovaná kvalita? Jak ji ověříme?</td><td>Quality Management Approach, Quality Register, Product Descriptions</td></tr>
+    <tr><td><strong>Plans</strong></td><td>Jak a kdy? Plánování na 3 úrovních</td><td>Project Plan, Stage Plan, Team Plan, Exception Plan</td></tr>
+    <tr><td><strong>Risk</strong></td><td>Co kdyby? Jak řídíme nejistotu?</td><td>Risk Management Approach, Risk Register (hrozby + příležitosti)</td></tr>
+    <tr><td><strong>Change</strong></td><td>Co když se změní požadavky? Jak řídíme issues?</td><td>Change Control Approach, Issue Register, Change Request, Off-Specification</td></tr>
+    <tr><td><strong>Progress</strong></td><td>Kde jsme? Jak sledujeme postup?</td><td>Highlight Report (PM→SC), Checkpoint Report (Team→PM), End Stage Report</td></tr>
+  </table>
+
+  <h3>7 procesů PRINCE2</h3>
+  <table>
+    <tr><th>Proces</th><th>Zkr.</th><th>Kdo provádí</th><th>Klíčové vstupy</th><th>Klíčové výstupy</th></tr>
+    <tr><td><strong>Starting Up a Project</strong></td><td>SU</td><td>Executive, PM</td><td>Project Mandate</td><td>Project Brief, Outline BC, Approach</td></tr>
+    <tr><td><strong>Initiating a Project</strong></td><td>IP</td><td>PM</td><td>Project Brief</td><td>Project Initiation Documentation (PID), Risk Register, Issue Register</td></tr>
+    <tr><td><strong>Directing a Project</strong></td><td>DP</td><td>Steering Committee</td><td>Stage Reports, Exception Reports</td><td>Stage go/no-go, Direction to PM</td></tr>
+    <tr><td><strong>Controlling a Stage</strong></td><td>CS</td><td>PM</td><td>Stage Plan, Work Packages</td><td>Highlight Reports, Issue/Risk updates, Checkpoint Reports</td></tr>
+    <tr><td><strong>Managing Product Delivery</strong></td><td>MP</td><td>Team Manager</td><td>Work Package</td><td>Completed Products, Quality records</td></tr>
+    <tr><td><strong>Managing a Stage Boundary</strong></td><td>SB</td><td>PM</td><td>End of Stage info</td><td>End Stage Report, Next Stage Plan, Updated BC</td></tr>
+    <tr><td><strong>Closing a Project</strong></td><td>CP</td><td>PM, SC</td><td>Project outcomes</td><td>Closure Report, Lessons Report, Benefits Realization triggers</td></tr>
+  </table>
+
+  <h2>PMI PMBOK 6. vydání — 10 znalostních oblastí</h2>
+  <p><strong>PMBOK</strong> (Project Management Body of Knowledge) vydává PMI (Project Management Institute). PMBOK 6 popisuje 49 procesů v 5 process groups a 10 znalostních oblastech. Je <em>deskriptivní</em> (co dělat), ne předpisový (jak dělat).</p>
+  <table>
+    <tr><th>#</th><th>Znalostní oblast</th><th>Klíčové výstupy a nástroje</th></tr>
+    <tr><td>1</td><td><strong>Project Integration Management</strong></td><td>Project Charter, Project Management Plan, Integrated Change Control, Close Project, Lessons Learned</td></tr>
+    <tr><td>2</td><td><strong>Project Scope Management</strong></td><td>Scope Statement, WBS (Work Breakdown Structure), WBS Dictionary, Scope Baseline, Validate Scope</td></tr>
+    <tr><td>3</td><td><strong>Project Schedule Management</strong></td><td>Activity List, Network Diagram, CPM (Critical Path Method), Resource Leveling, Schedule Baseline, Gantt</td></tr>
+    <tr><td>4</td><td><strong>Project Cost Management</strong></td><td>Cost Baseline (Budget), Earned Value Management (CPI, SPI, EAC, ETC, TCPI), Funding Requirements</td></tr>
+    <tr><td>5</td><td><strong>Project Quality Management</strong></td><td>Quality Management Plan, QA vs. QC, Ishikawa Diagram, Control Charts, Test Results</td></tr>
+    <tr><td>6</td><td><strong>Project Resource Management</strong></td><td>RACI Matrix, Resource Histogram, Team Charter, Virtual Teams, Conflict Management</td></tr>
+    <tr><td>7</td><td><strong>Project Communications Management</strong></td><td>Communications Management Plan, Stakeholder Communication Matrix, Performance Reports</td></tr>
+    <tr><td>8</td><td><strong>Project Risk Management</strong></td><td>Risk Register, Probability-Impact Matrix, Monte Carlo Simulation, Contingency Reserve, Residual Risks</td></tr>
+    <tr><td>9</td><td><strong>Project Procurement Management</strong></td><td>Make-or-Buy Analysis, RFP/RFQ, Contract Types (FFP / T&amp;M / CPFF), Vendor Evaluation</td></tr>
+    <tr><td>10</td><td><strong>Project Stakeholder Management</strong></td><td>Stakeholder Register, Stakeholder Engagement Matrix (Unaware / Resistant / Neutral / Supportive / Leading)</td></tr>
+  </table>
+
+  <h2>EVM — Earned Value Management</h2>
+  <p>EVM je metoda sledování projektového výkonu integrující scope, schedule a cost do jednoho systému metriky. Používá se v PMBOK (znalostní oblast Cost Management) i PRINCE2 (Progress téma).</p>
+  <h3>Klíčové vzorce a interpretace</h3>
+  <div class="formula">
+<span>PV</span>  = Planned Value         <em># Kolik práce mělo být hotovo (dle plánu)?</em>
+<span>EV</span>  = Earned Value           <em># Kolik práce skutečně hotovo (v hodnotě plánu)?</em>
+<span>AC</span>  = Actual Cost            <em># Kolik bylo skutečně utraceno?</em>
+
+<strong>CPI</strong> = EV / AC              <em># Cost Performance Index — &gt;1 pod rozpočtem; &lt;1 nad rozpočtem</em>
+<strong>SPI</strong> = EV / PV              <em># Schedule Performance Index — &gt;1 před plánem; &lt;1 za plánem</em>
+
+<strong>CV</strong>  = EV − AC              <em># Cost Variance — kladná = úspora; záporná = překročení</em>
+<strong>SV</strong>  = EV − PV              <em># Schedule Variance — kladná = napřed; záporná = zpoždění</em>
+
+<strong>EAC</strong> = BAC / CPI            <em># Estimate At Completion — aktuální odhad celkových nákladů</em>
+<strong>ETC</strong> = EAC − AC             <em># Estimate To Completion — kolik ještě zbývá utratit</em>
+<strong>TCPI</strong> = (BAC−EV)/(BAC−AC)   <em># To-Complete Performance Index — jaký CPI nutný pro dokončení v rozpočtu</em>
+  </div>
+  <div class="callout"><strong>Příklad interpretace:</strong> Projekt ERP implementace má BAC = 10 mil. Kč. Po 6 měsících: PV = 5 mil., EV = 4 mil., AC = 5,5 mil. → CPI = 4/5.5 = 0.73 (nad rozpočtem), SPI = 4/5 = 0.80 (za plánem). EAC = 10/0.73 = 13.7 mil. Kč. Steering Committee musí rozhodnout o eskalaci.</div>
+
+  <h2>PRINCE2 vs. PMI PMBOK — srovnávací tabulka</h2>
+  <table>
+    <tr><th>Kritérium</th><th>PRINCE2</th><th>PMI PMBOK</th></tr>
+    <tr><td><strong>Charakter</strong></td><td>Procesní framework — předepisuje konkrétní procesy, role, dokumenty</td><td>Znalostní rámec (Body of Knowledge) — popisuje best practices a nástroje</td></tr>
+    <tr><td><strong>Certifikace</strong></td><td>PRINCE2 Foundation / Practitioner / Agile (PeopleCert)</td><td>PMP (Project Management Professional) — PMBOK jako podklad pro zkoušku</td></tr>
+    <tr><td><strong>Rozšíření</strong></td><td>Velká Británie, Evropa, Austrálie, vládní sektor, IT projekty</td><td>Globální, dominantní v USA, silné v korporátní a inženýrské sféře</td></tr>
+    <tr><td><strong>Business Case</strong></td><td>Explicitní — BC vlastněný Sponzorem, průběžně revalidovaný v každé fázi</td><td>Project Charter inicializuje projekt; BC méně explicitně průběžně sledován</td></tr>
+    <tr><td><strong>Governance</strong></td><td>Integrovaná — Steering Committee, tolerance system, escalation path</td><td>Governance externálně (COBIT BAI11) — PMBOK sám governance explicitně neřeší</td></tr>
+    <tr><td><strong>Flexibilita</strong></td><td>"Tailor to suit project environment" — principy závazné, procesy přizpůsobitelné</td><td>Výběr z procesů dle relevance pro projekt — méně předpisující</td></tr>
+    <tr><td><strong>Dokumentace</strong></td><td>Silná dokumentační kultura — definované dokumenty pro každý proces</td><td>Dokumentace dle potřeby projektu — méně předepsáno</td></tr>
+    <tr><td><strong>Agile integrace</strong></td><td>PRINCE2 Agile — governance vrstva nad SCRUM/Kanban sprinty</td><td>PMI-ACP certifikace; PMBOK 7. vydání přechod k principům místo procesů</td></tr>
+    <tr><td><strong>Vhodnost pro ERP</strong></td><td>Vynikající — stage-gate model přirozený pro fáze implementace; governance struktura pro SC</td><td>Vhodný — komplexní management, výborný pro risk management a procurement</td></tr>
+  </table>
+
+</section>
+<!-- end P1 -->
+
+<!-- ============================================================ P2 ============================================================ -->
+<section class="lecture" id="p2">
+  <div class="lec-header">
+    <div class="lec-num">P2</div>
+    <div>
+      <div class="lec-title">Agilní vs. tradiční přístupy</div>
+      <div class="lec-subtitle">Waterfall vs. Scrum, Scrum artefakty a events, SAFe, PRINCE2 Agile, governance v agilním projektu</div>
+    </div>
+  </div>
+
+  <h2>Tradiční vs. agilní přístup — základní srovnání</h2>
+  <p>Tradiční (prediktivní) přístupy vychází z předpokladu, že požadavky lze plně specifikovat na začátku projektu. Agilní přístupy akceptují, že požadavky se v průběhu projektu mění, a reagují na to iterativním dodáváním hodnoty. Výběr přístupu závisí na stabilitě požadavků, komplexitě a prostředí projektu.</p>
+  <table>
+    <tr><th>Kritérium</th><th>Waterfall (tradiční)</th><th>Scrum (agilní)</th></tr>
+    <tr><td><strong>Plánování</strong></td><td>Detailní plán na celý projekt předem; WBS, Gantt, schedule baseline</td><td>Sprint-by-sprint plánování; Product Backlog prioritizován průběžně; odhady v story points</td></tr>
+    <tr><td><strong>Flexibilita</strong></td><td>Nízká — změny scope vedou k formálnímu change control procesu, renegociaci smlouvy</td><td>Vysoká — změny do Product Backlogu kdykoli; scope v budoucích sprintech volně upravitelný</td></tr>
+    <tr><td><strong>Dokumentace</strong></td><td>Rozsáhlá — SRS, SAD, test plans, acceptance docs. Dokumentace předchází vývoji</td><td>Minimální nezbytná — user stories, Definition of Done; fungující produkt je primárním důkazem</td></tr>
+    <tr><td><strong>Řízení rizik</strong></td><td>Identifikace rizik v plánovací fázi; monitoring v průběhu; Risk Register; pozdní zpětná vazba od uživatelů</td><td>Rizika adresována každý sprint; časná zpětná vazba snižuje technický dluh; riziko nesprávného produktu minimalizováno</td></tr>
+    <tr><td><strong>Dodávka hodnoty</strong></td><td>Plná funkcionalita dodána na konci projektu (big bang delivery)</td><td>Inkrement dodáván každý sprint; hodnota plyne průběžně; early return on investment</td></tr>
+    <tr><td><strong>Tým</strong></td><td>Funkčně specializované role; silná úloha managementu; PM koordinuje</td><td>Cross-funkční, sebeorganizující tým (3–9 členů); Product Owner + Scrum Master + Development Team</td></tr>
+    <tr><td><strong>Zákazník</strong></td><td>Zapojení při specifikaci a akceptaci; jinak omezené</td><td>Product Owner jako zástupce zákazníka — denní komunikace; Sprint Review — demo zákazníkovi</td></tr>
+    <tr><td><strong>Vhodné projekty</strong></td><td>Jasně definované požadavky, regulovaná prostředí (stavebnictví, hardware, safety-critical systémy)</td><td>Inovativní produkty, startupy, softwarové aplikace, UX-driven produkty, rychle se měnící trhy</td></tr>
+  </table>
+  <div class="callout"><strong>Agile Manifesto (2001) — 4 hodnoty:</strong> Jednotlivci a interakce před procesy a nástroji; fungující software před vyčerpávající dokumentací; spolupráce se zákazníkem před vyjednáváním o smlouvě; reagování na změny před dodržováním plánu. <em>Přitom pravá strana má hodnotu, ale levá strana má hodnotu větší.</em></div>
+
+  <h2>Scrum — 3 artefakty a 5 events</h2>
+  <p>Scrum je empirický, iterativní framework pro dodávku komplexních produktů. Ken Schwaber a Jeff Sutherland, 1993/1995. Scrum Guide (aktualizace 2020) definuje tři pilíře: Transparentnost, Inspekci a Adaptaci.</p>
+
+  <h3>3 artefakty Scrumu</h3>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Product Backlog</div>
+      <div class="pojem-body">Uspořádaný seznam všeho, co je potřeba k produktu. <strong>Vlastník: Product Owner.</strong> Položky (PBI — Product Backlog Items) jsou popsány jako User Stories nebo Tasks. Prioritizace dle business value, rizika, závislostí. Průběžně upřesňován (Backlog Refinement). Commitment: <strong>Product Goal</strong> — dlouhodobý cíl produktu.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Sprint Backlog</div>
+      <div class="pojem-body">Vybrané PBI ze Sprint Planningu + plán jejich dodání + <strong>Sprint Goal</strong>. Vlastní: Development Team. Ukazuje, jak tým plánuje dosáhnout Sprint Goal. Denně aktualizován (Daily Scrum). Commitment: <strong>Sprint Goal</strong> — cíl aktuálního sprintu, dává týmu fokus a flexibilitu v implementaci.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Increment (Přírůstek)</div>
+      <div class="pojem-body">Konkrétní krok směrem k Product Goal. Každý Increment musí splňovat <strong>Definition of Done (DoD)</strong> — kvalitativní standard definovaný Scrum Teamem. Increment = součet všech dokončených PBI sprintu + hodnota všech předchozích Incrementů. Musí být použitelný (potentially releasable). Commitment: <strong>Definition of Done.</strong></div>
+    </div>
+  </div>
+
+  <h3>5 Scrum Events (Ceremonies)</h3>
+  <table>
+    <tr><th>Event</th><th>Délka (2-týdenní sprint)</th><th>Účel</th><th>Účastníci</th></tr>
+    <tr><td><strong>Sprint</strong></td><td>1–4 týdny (fixní délka)</td><td>Timeboxed iterace, kontejner pro všechny ostatní eventy. Během sprintu se nemění scope ani tým. Sprint Cancel může pouze Product Owner.</td><td>Celý Scrum Team</td></tr>
+    <tr><td><strong>Sprint Planning</strong></td><td>Max. 8 h (pro 4týdenní sprint; 4 h pro 2týdenní)</td><td>Co bude dodáno? (výběr PBI) a Jak? (dekompozice na Tasks). Definice Sprint Goal. Tým si plán volí sám — nikdo jim ho neurčuje.</td><td>Scrum Team (PO + SM + Dev Team)</td></tr>
+    <tr><td><strong>Daily Scrum</strong></td><td>Max. 15 min. každý pracovní den</td><td>Inspekce pokroku ke Sprint Goal, adaptace Sprint Backlogu. Tři otázky: Co jsem udělal? Co udělám? Mám překážky? Dev Team plánuje pro dalších 24 hodin.</td><td>Development Team (SM volitelně)</td></tr>
+    <tr><td><strong>Sprint Review</strong></td><td>Max. 4 h</td><td>Inspekce Incrementu, adaptace Product Backlogu. Demo stakeholderům — zpětná vazba. PO rozhoduje, co je Done. Neformální pracovní session, ne status meeting.</td><td>Scrum Team + stakeholdeři</td></tr>
+    <tr><td><strong>Sprint Retrospektiva</strong></td><td>Max. 3 h</td><td>Inspekce procesu a spolupráce týmu (lidi, vztahy, procesy, nástroje). Co šlo dobře? Co zlepšit? Konkrétní akční plán pro příští sprint. Kontinuální zlepšování.</td><td>Scrum Team</td></tr>
+  </table>
+  <div class="tip"><strong>Scrum role:</strong> <strong>Product Owner</strong> — maximalizuje hodnotu produktu, spravuje Product Backlog, komunikuje vizi; <strong>Scrum Master</strong> — servant-leader, odstraňuje překážky, hlídá Scrum proces, koučuje organizaci; <strong>Development Team</strong> — cross-funkční, sebeorganizující, 3–9 členů, End-to-End dodávka Incrementu. Scrum Master není projektový manažer — nemá autoritu nad týmem.</div>
+
+  <h2>SAFe — Scaled Agile Framework</h2>
+  <p>SAFe (Scaled Agile Framework) je framework pro škálování agilních praktik na úrovni programu, portfolia a velké organizace. Verze SAFe 6.0 (2023). Čtyři konfigurace: Essential SAFe, Large Solution SAFe, Portfolio SAFe, Full SAFe.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">ART — Agile Release Train</div>
+      <div class="pojem-body">Základní organizační konstrukt SAFe. <strong>50–125 lidí</strong> (5–12 Scrum Teams + podpůrné role) pracujících synchronizovaně na společném řešení. ART doručuje hodnotu prostřednictvím Program Incrementů (PI). Role ART: Release Train Engineer (RTE) — ekvivalent Scrum Mastera na úrovni programu; Product Manager — spravuje Program Backlog; System Architect. ART funguje na fixním PI kadenci (8–12 týdnů).</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">PI Planning — Program Increment Planning</div>
+      <div class="pojem-body"><strong>Klíčová ceremonie SAFe</strong> — 2denní face-to-face (nebo virtual) událost celého ART. Výstupy: PI Objectives pro každý tým + ART PI Objectives; Team Iteration Plans na všechny iterace PI; Program Board (závislosti, milestones, risics). Umožňuje alignment business a technologie na 8–12 týdnů dopředu. "If you're not doing PI Planning, you're not doing SAFe."</div>
+    </div>
+  </div>
+  <div class="callout"><strong>Program Increment (PI):</strong> 8–12 týdnů práce strukturovaných do 4–6 Sprintů + 1 Innovation and Planning (IP) Sprint. PI je pro SAFe, co Sprint je pro Scrum — základní kadence dodávky na programové úrovni. PI Objectives jsou SMART cíle každého týmu závazné vůči ART.</div>
+
+  <h2>PRINCE2 Agile — governance over sprints</h2>
+  <p>PRINCE2 Agile kombinuje governance vrstvu PRINCE2 (Steering Committee, stage-gate, tolerance systém, business case) s agilními dodávacími metodikami (Scrum, Kanban) na úrovni týmu. Vydáno AXELOS 2015, nyní PeopleCert.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Governance vrstva (PRINCE2)</div>
+      <div class="pojem-body">Zachovává všechny PRINCE2 governance prvky: Steering Committee, stage-gate reviews, Business Case, tolerance systém (time/cost/scope/quality/risk/benefit). Management Stages jsou naplněny sprinty. Exception Reports eskalují mimo toleranci stejně jako v klasickém PRINCE2. Dokumentace přizpůsobena — méně formální, ale existuje.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Tolerance pro agilní týmy</div>
+      <div class="pojem-body">Klíčová inovace: <strong>scope je primárně flexibilní</strong>, time a cost jsou primárně fixní. Tolerance na scope umožňuje týmu dodat méně (nebo více) funktionality v rámci sprintu aniž by překročila toleranci. Hexagon flexibility: Time, Cost, Quality, Scope, Benefits, Risk — tři primárně fixní (T/C/Q), tři primárně flexibilní. Agilní týmy mohou upravovat pořadí user stories, ne domluvené milestones.</div>
+    </div>
+  </div>
+
+  <h2>Governance v agilním projektu</h2>
+  <h3>Sprint Gate Reviews</h3>
+  <p>Analogie stage-gate v agilním prostředí. Steering Committee se setkává na konci každého PI (SAFe) nebo po domluvené skupině sprintů (PRINCE2 Agile). Agenda: Business Case aktualizace, benefits tracking, risk posouzení, rozhodnutí continue/redirect/stop. Projektový manažer (nebo RTE) předkládá PI Objectives vs. actuals.</p>
+
+  <h3>Portfolio Kanban</h3>
+  <p>Vizualizace a řízení toku epics na portfoliové úrovni. Epics procházejí stavovými sloupci: Funnel → Reviewing → Analyzing → Portfolio Backlog → Implementing → Done. Každý epic má Business Case (Lean Business Case v SAFe — kratší než tradiční). Portfolio Kanban spojuje strategii s prací ART — žádná práce nevstupuje do ART bez schválení epicu na portfoliové úrovni.</p>
+
+  <h3>EVM v agilním prostředí</h3>
+  <p>EVM lze aplikovat na agilní projekty za předpokladu, že jsou definovány měřitelné výstupy (story points, features). <strong>Story-point EVM:</strong> PV = plánované story points kumulativně (velocity × time); EV = dokončené story points × průměrná hodnota; AC = skutečné náklady. CPI a SPI interpretovány stejně. <strong>Výzvy:</strong> nestabilní velocity v prvních sprintech; scope změny komplikují BAC. Vhodné pro SAFe programy s fixními PI cadence.</p>
+
+  <div class="warn"><strong>Anti-pattern:</strong> "Water-Scrum-Fall" — Scrum v development fázi, ale waterfall analýza a waterfall deployment. Governance zůstává stage-gate, ale development agilní → nefunguje dobře. Agilní governance vyžaduje governance přizpůsobenou agilnímu dodávacímu rytmu, ne pouze agilní delivery s tradiční governance.</div>
+
+</section>
+<!-- end P2 -->
+
+<!-- ============================================================ P3 ============================================================ -->
+<section class="lecture" id="p3">
+  <div class="lec-header">
+    <div class="lec-num">P3</div>
+    <div>
+      <div class="lec-title">ERP systémy — základy</div>
+      <div class="lec-subtitle">Vývoj MRP→ERP II, přínosy a rizika, Make vs. Buy, SAP moduly, SAP architektura, on-premise vs. cloud</div>
+    </div>
+  </div>
+
+  <h2>Vývoj ERP systémů — historická linie</h2>
+  <table>
+    <tr><th>Systém</th><th>Rok</th><th>Klíčové schopnosti</th><th>Omezení</th></tr>
+    <tr><td><strong>MRP</strong> (Material Requirements Planning)</td><td>60.–70. léta</td><td>Plánování potřeby materiálu na základě kusovníků (BOM) a výrobního plánu (MPS). Výpočet: co potřebujeme, kolik, kdy.</td><td>Pouze výroba a zásoby; bez zpětné vazby kapacit; žádná finanční integrace</td></tr>
+    <tr><td><strong>MRP II</strong> (Manufacturing Resource Planning)</td><td>80. léta</td><td>Rozšíření o plánování kapacit (CRP — Capacity Requirements Planning), výrobní řízení (shop floor), finanční účetnictví. Integruje výrobní a finanční plánování.</td><td>Stále primárně výrobní orientace; oddělené systémy pro HR, prodej; obtížná integrace</td></tr>
+    <tr><td><strong>ERP</strong> (Enterprise Resource Planning)</td><td>90. léta (Gartner 1990)</td><td>Integrace všech podnikových procesů: finance, výroba, logistika, HR, prodej v jediné databázi. Jednotná verze pravdy. SAP R/3 (1992), Oracle Applications.</td><td>Komplexní implementace; vysoké náklady; on-premise; vendor lock-in; pomalé upgradování</td></tr>
+    <tr><td><strong>ERP II</strong></td><td>2000. léta (Gartner 2000)</td><td>Rozšíření ERP za hranice podniku: CRM, SCM, e-commerce, B2B integrace, portály. Web-enabled přístup, XML integrace, servisně orientovaná architektura (SOA). Otevřené API.</td><td>Integrační komplexita; bezpečnostní výzvy otevření systémů externím partnerům</td></tr>
+    <tr><td><strong>Cloud ERP</strong> (SaaS ERP)</td><td>2010. léta → současnost</td><td>ERP jako služba: SAP S/4HANA Cloud, Oracle Fusion Cloud, Microsoft Dynamics 365. Průběžné aktualizace, nižší CAPEX (OPEX model), mobility, AI/ML integrace, prediktivní analytika. RISE with SAP (2021).</td><td>Omezená customizace; závislost na internetovém připojení; datová suverenita a compliance; vendor lock-in</td></tr>
+  </table>
+
+  <h2>ERP přínosy</h2>
+  <div class="pojmy two">
+    <div class="pojem green">
+      <div class="pojem-head">Eliminace datových silos</div>
+      <div class="pojem-body">Jednotná databáze eliminuje duplicitní a nekonzistentní data existující v oddělených systémech (Excel, legacy systémy, departmentální aplikace). <strong>Single source of truth</strong> — stejná data pro finance, výrobu i logistiku. Automatická synchronizace: zaúčtování faktury v FI okamžitě aktualizuje data v CO, MM a SD.</div>
+    </div>
+    <div class="pojem blue">
+      <div class="pojem-head">Real-time visibility</div>
+      <div class="pojem-body">Manažeři mají přístup k aktuálním datům bez čekání na ruční reporty. SAP HANA (in-memory databáze) umožňuje analytiku nad transakčními daty v reálném čase. Příklad: stav zásob, výkaz zisků a ztrát, kapacitní vytížení výroby — vše v jednom dashboardu.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Standardizace procesů</div>
+      <div class="pojem-body">ERP vynucuje best-practice procesy (předdefinované v systému). Standardizace napříč pobočkami, BU, zeměmi — základ pro compliance a audit. Snižuje závislost na individuálních znalostech zaměstnanců. Příklad: SAP standardní procesy Order-to-Cash, Procure-to-Pay jsou zabudovány jako best practice.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Compliance podpora</div>
+      <div class="pojem-body">ERP integruje legislativní požadavky: lokalizace pro DPH, místní účetní standardy (IFRS, US GAAP, CZ GAAP), GDPR, SOX Section 404 auditovatelnost, REACH (chemický průmysl). Automatické výkazy pro regulátory. Audit trail — kompletní stopa každé transakce pro interní i externí auditory.</div>
+    </div>
+  </div>
+
+  <h2>ERP rizika</h2>
+  <div class="pojmy two">
+    <div class="pojem red">
+      <div class="pojem-head">Náklady — TCO (Total Cost of Ownership)</div>
+      <div class="pojem-body">Licence (nebo subscription), implementace (typicky 2–5× roční licence), customizace, hardware/cloud, školení, change management, průběžná údržba. <strong>Studie Panorama Consulting:</strong> průměrná ERP implementace přesahuje rozpočet o 47 %. TCO za 5 let může být 3–5× počáteční investice. On-premise: vysoký CAPEX. Cloud: předvídatelný OPEX, ale kumulativní náklady mohou být vyšší.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Business change management</div>
+      <div class="pojem-body">ERP mění způsob práce všech uživatelů — odpor zaměstnanců je největší příčinou selhání. <strong>Forrester Research:</strong> 75 % ERP projektů se potýká s významným uživatelským odporem. Vyžaduje: executive sponsorship, intenzivní školení, change champions v každém oddělení, komunikaci přínosů. Change management je stejně nákladný jako technická implementace.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Vendor lock-in</div>
+      <div class="pojem-body">Po implementaci ERP je přechod na jiný systém extrémně nákladný a riskantní (datová migrace, znalosti, integrace). SAP, Oracle dominují enterprise trh — zákazník nemá snadnou alternativu. Cloud ERP (SaaS) závislost na poskytovateli ještě posiluje — data, procesy, customizace svázány s platformou. Protistrategie: otevřené API, standardní integrace, minimalizace proprietary extensions.</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Implementační selhání (statistiky)</div>
+      <div class="pojem-body"><strong>Panorama Consulting ERP Report 2023:</strong> 27 % implementací překračuje harmonogram o 25–50 %; 58 % realizuje méně než 50 % plánovaných přínosů v prvním roce. Historické příklady selhání: FoxMeyer Drug (~500 mil. USD, bankrot 1998), Hershey Foods (100 mil. USD, vánoční výpadek 1999), Lidl (500 mil. EUR sunk cost, SAP rollback 2018). Příčiny: slabý projekt sponsor, nevhodná customizace, datová migrace, nedostatečný testing.</div>
+    </div>
+  </div>
+
+  <h2>Make vs. Buy — rozhodovací kritéria</h2>
+  <p>Základní strategické rozhodnutí: vyvíjet systém na míru (make) vs. pořídit standardní balíkové řešení (buy/subscribe).</p>
+  <table>
+    <tr><th>Kritérium</th><th>Make (custom vývoj)</th><th>Buy (ERP balík)</th></tr>
+    <tr><td><strong>Konkurenční diferenciace</strong></td><td>Vhodné pokud proces je zdroj konkurenční výhody (proprietary algoritmy, unikátní workflow)</td><td>Standardní procesy (účetnictví, HR, zásoby) — ERP poskytuje best practice, ne diferenciaci</td></tr>
+    <tr><td><strong>Náklady TCO</strong></td><td>Vyšší počáteční náklady; průběžné náklady na maintainance a upgrades jsou plně vlastní</td><td>Nižší počáteční náklady (licence); sdílené náklady vývoje s tisíci zákazníky; vendor zajišťuje upgrades</td></tr>
+    <tr><td><strong>Čas na implementaci</strong></td><td>Délka vývoje 2–5 let pro enterprise systém; žádná standardní dokumentace</td><td>SAP Activate: standardní procesy 6–18 měsíců; cloud ERP rychleji (SAP S/4HANA Cloud 3–6 měsíců)</td></tr>
+    <tr><td><strong>Compliance a regulace</strong></td><td>Nutno vyvíjet a udržovat lokalizace (daně, GDPR, reporting) samostatně — nákladné</td><td>SAP/Oracle lokalizace pro 100+ zemí — vendor průběžně aktualizuje dle legislativy</td></tr>
+    <tr><td><strong>Integrace s trhem</strong></td><td>Obtížná integrace s dodavateli, zákazníky, bankami (EDI, eInvoicing) — nutno budovat</td><td>Standardní connektory (SAP Business Network, bankovní integrace, EDI) — zabudovány</td></tr>
+    <tr><td><strong>Riziko</strong></td><td>Vysoké technické riziko; závislost na klíčových vývojářích; vendor selhání = ztráta produktu</td><td>Vendor risk (SAP, Oracle existují 40+ let); implementační riziko; funkční riziko (fit/gap)</td></tr>
+  </table>
+  <div class="callout"><strong>Obecné pravidlo:</strong> Buy pro standardní procesy (80–90 % podnikových procesů jsou standardní), Make pro procesy, které jsou zdroj konkurenční výhody a neexistuje vhodný tržní produkt. Hybridní přístup: ERP jádro (Buy) + proprietary extensions (Make/customize).</div>
+
+  <h2>SAP moduly — tabulka</h2>
+  <table>
+    <tr><th>Modul</th><th>Plný název</th><th>Klíčové funkce</th><th>Integrační vazby</th></tr>
+    <tr><td><strong>FI</strong></td><td>Financial Accounting</td><td>Hlavní kniha (GL), pohledávky (AR), závazky (AP), majetek (Asset Accounting), bankovní účetnictví, roční závěrka, IFRS/lokální standardy</td><td>CO (přenosy nákladů/výnosů), MM (faktury), SD (faktury zákazníkům), HR (mzdové zaúčtování)</td></tr>
+    <tr><td><strong>CO</strong></td><td>Controlling</td><td>Nákladová střediska (Cost Centers), zakázky (Internal Orders), ziskovost (Profit Centers, CO-PA), kalkulace produktů (Product Costing), plánování a budgeting</td><td>FI (primární náklady), MM (material consumption), PP (výrobní náklady), SD (tržby)</td></tr>
+    <tr><td><strong>MM</strong></td><td>Materials Management</td><td>Nákup (Purchase Requisition → PO → GR → Invoice), správa zásob (Inventory Management), skladové hospodářství (WM), hodnocení materiálu, fyzické inventury</td><td>FI/CO (zaúčtování pohybů zásob), PP (výrobní spotřeba), SD (expedice), QM (kvalita)</td></tr>
+    <tr><td><strong>SD</strong></td><td>Sales and Distribution</td><td>Prodej (Inquiry → Quotation → Sales Order → Delivery → Invoice), pricing (ceníky, slevy, surcharges), distribuce, credit management, obchodní podmínky</td><td>MM (rezervace zásob, expedice), FI (fakturace zákazníkům), CO (tržby pro CO-PA), PP (MRP trigger)</td></tr>
+    <tr><td><strong>PP</strong></td><td>Production Planning</td><td>Plánování výroby (MRP/MPS), výrobní zakázky, kapacitní plánování (CRP), shop floor control, kusovníky (BOM), technologické postupy (routings)</td><td>MM (materiálové požadavky, spotřeba), SD (demand signal), CO (výrobní náklady), QM (výstupní kontrola)</td></tr>
+    <tr><td><strong>HCM</strong></td><td>Human Capital Management</td><td>Správa zaměstnanců (Personal Administration), mzdy (Payroll), docházka (Time Management), organizační management, nábor, vzdělávání, hodnocení výkonu</td><td>FI (zaúčtování mezd), CO (náklady práce na střediska), PA (organizační struktura)</td></tr>
+    <tr><td><strong>PM</strong></td><td>Plant Maintenance</td><td>Správa technického vybavení (Equipment Master), preventivní údržba (plánované zakázky), opravné práce (breakdown maintenance), měřicí body, history a analýzy poruch</td><td>MM (náhradní díly, nákup), CO (náklady údržby), PP (plánování výroby vs. údržba), HR (technici)</td></tr>
+  </table>
+
+  <h2>SAP architektura</h2>
+  <h3>3-vrstvová architektura (Client-Server)</h3>
+  <div class="pojmy three">
+    <div class="pojem blue">
+      <div class="pojem-head">Presentation Layer (vrstva prezentace)</div>
+      <div class="pojem-body">SAP GUI (Windows client), SAP Business Client, webový prohlížeč (SAP Fiori). Zodpovídá za zobrazení dat uživateli a zpracování uživatelského vstupu. Nekomunikuje přímo s databází — vše přes Application server. V S/4HANA: SAP Fiori (HTML5, responsive design) nahrazuje SAPGUI.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Application Layer (aplikační vrstva)</div>
+      <div class="pojem-body">Jeden nebo více Application Serverů (AS ABAP). Zpracovává business logiku — transakce, workflow, autorizace, tisk, batch jobs. <strong>ABAP</strong> (Advanced Business Application Programming) — proprietary SAP programovací jazyk. Dispatcher přiděluje zprávy od uživatelů do Work Processů (Dialog, Background, Update, Enqueue, Spool, Message, Gateway).</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Database Layer (databázová vrstva)</div>
+      <div class="pojem-body">Centrální databáze ukládající všechna ERP data. Historicky: Oracle, IBM DB2, MS SQL Server, MaxDB. <strong>SAP HANA</strong> (High Performance Analytic Appliance) — in-memory, column-store databáze (2010, GA 2013). S/4HANA vyžaduje výhradně HANA. HANA eliminuje potřebu oddělené OLAP vrstvy — analytika nad transakčními daty v reálném čase.</div>
+    </div>
+  </div>
+  <div class="callout"><strong>SAP HANA — klíčové vlastnosti:</strong> In-memory uložení dat (RAM místo disku) — 1 000× rychlejší čtení; column-store (analytické dotazy přes miliony záznamů v milisekundách); eliminuje potřebu agregátů, indexů a materializovaných pohledů; komprese dat (5–10×); Dual workload — OLTP i OLAP na jedné platformě (Hybrid Transaction/Analytical Processing — HTAP).</div>
+
+  <h2>On-premise vs. SAP S/4HANA Cloud</h2>
+  <table>
+    <tr><th>Kritérium</th><th>SAP S/4HANA On-Premise</th><th>SAP S/4HANA Cloud (Public Edition)</th></tr>
+    <tr><td><strong>Hosting</strong></td><td>Vlastní datacentrum nebo IaaS (SAP HANA Enterprise Cloud)</td><td>SAP datacetra (multi-tenant SaaS, hyperscalers)</td></tr>
+    <tr><td><strong>Aktualizace</strong></td><td>Customer-controlled — velké upgrady každé 2–3 roky; SAP mainstream maintenance do 2027, extended 2030</td><td>Čtvrtletní mandatory updates; always current; zákazník nemůže zdržet update</td></tr>
+    <tr><td><strong>Customizace</strong></td><td>Plná — ABAP custom code, user exits, BAdIs, Z-programy, modifikace standardu (nedoporučeno)</td><td>Omezená — clean core princip; pouze SAP-approved extensions přes BTP (Side-by-Side extensibility)</td></tr>
+    <tr><td><strong>Nákladový model</strong></td><td>CAPEX (licence) + OPEX (maintenance 22 %/rok); vysoké počáteční náklady</td><td>OPEX (subscription) — předvídatelné; maintenance zahrnuta; nižší initial investment</td></tr>
+    <tr><td><strong>Integrace</strong></td><td>Přímé API/RFC, custom middleware, SAP PI/PO, CPI</td><td>SAP Integration Suite (Cloud); pre-built integrations s SAP cloud produkty</td></tr>
+    <tr><td><strong>Compliance/Data sovereignty</strong></td><td>Plná kontrola nad daty; vhodné pro high-security, regulované industrie</td><td>Data v SAP cloudu — nutno ověřit GDPR, DORA, lokální regulace; SAP certifikace (ISO 27001, SOC 2)</td></tr>
+    <tr><td><strong>Vhodnost</strong></td><td>Komplexní, vysoce customizované prostředí; specifické legislativní požadavky; velké korporace</td><td>Mid-market, organizace hledající rychlou implementaci, nízkou TCO, best-practice procesy</td></tr>
+  </table>
+  <div class="tip"><strong>Clean Core strategie (SAP 2022+):</strong> SAP tlačí zákazníky k omezení custom ABAP kódu ve S/4HANA jádru. Extensibility model: Key User Extensions (no-code/low-code) → Developer Extensions (ABAP Cloud) → Side-by-Side Extensions (SAP BTP). Cílem je zajistit plynulé cloudové updaty bez regresí způsobených Z-kódem.</div>
+
+</section>
+<!-- end P3 -->
+
+<!-- ============================================================ P4 ============================================================ -->
+<section class="lecture" id="p4">
+  <div class="lec-header">
+    <div class="lec-num">P4</div>
+    <div>
+      <div class="lec-title">ERP implementace &amp; SAP Activate</div>
+      <div class="lec-subtitle">SAP Activate 5 fází, SAP Cloud ALM vs. SolMan, As-Is/To-Be/GAP, Fit/GAP, RICEFW, datová migrace, cutover plán</div>
+    </div>
+  </div>
+
+  <h2>SAP Activate metodika — 5 fází</h2>
+  <p>SAP Activate je SAP proprietární implementační metodika (nástupce ASAP — Accelerated SAP). Kombinuje SAP Best Practice modely (předkonfigurované procesy), metodický rámec a SAP Cloud ALM jako nástroj. Certifikovaná PRINCE2-kompatibilní metodika. Podporuje on-premise, cloud i hybridní implementace. Iterativní prvky (sprints v Realize fázi) jsou integrovány s tradičním stage-gate modelem.</p>
+  <table>
+    <tr><th>Fáze</th><th>Trvání (typické)</th><th>Klíčové aktivity</th><th>Klíčové výstupy</th><th>Klíčové role</th></tr>
+    <tr><td><strong>1. Discover</strong></td><td>2–4 týdny</td><td>Porozumění business potřebám, demonstrace SAP standardního řešení (Trial), identifikace scope, business case upřesnění, zákazník získá přístup do SAP Activate Roadmap</td><td>Business Case, Scope Statement, Roadmap schválení, SAP Activate Workbook, Project Charter</td><td>Business Sponsor, Sales (SAP/partner), Solution Architect</td></tr>
+    <tr><td><strong>2. Prepare</strong></td><td>4–8 týdnů</td><td>Zahájení projektu, nastavení project governance (Steering Committee, PM, týmy), příprava infrastruktury (sandbox systém), nastavení SAP Cloud ALM, kick-off workshop, project standards &amp; templates</td><td>Project Governance dokument, Project Plan, Risk Register, SAP Cloud ALM nastavení, System Landscape doc., Team Onboarding</td><td>Project Manager, RTE, Basis team, SAP Cloud ALM admin</td></tr>
+    <tr><td><strong>3. Explore</strong></td><td>6–12 týdnů</td><td>Fit-to-Standard workshopy (každý business proces s klíčovými uživateli), dokumentace As-Is procesů, potvrzení To-Be procesů, identifikace GAP (Fit/GAP analýza), delta requirements, počáteční data mapping</td><td>Business Process Master List, Fit/GAP Log, Delta Design Documents, User Story backlog, Data Migration Strategy, Integration Design</td><td>Solution Architect, Functional Consultants, Key Users, Process Owners</td></tr>
+    <tr><td><strong>4. Realize</strong></td><td>12–24 týdnů</td><td>Konfigurace a vývoj (sprinty): system configuration, RICEFW vývoj, integrace, datová migrace (initial loads), školení end-userů, SIT (System Integration Testing), UAT (User Acceptance Testing)</td><td>Configured S/4HANA system, RICEFW objects, Integration objects, Test Results (SIT/UAT), Training Materials, Cutover Plan, Go-Live Checklist</td><td>ABAP developers, Functional consultants, Test Team, Change Management lead</td></tr>
+    <tr><td><strong>5. Deploy</strong></td><td>4–8 týdnů</td><td>Cutover execution (freeze, migration, validation, go/no-go), Go-Live, hypercare podpora (typicky 4–8 týdnů po Go-Live), přenos do provozu (operations handover), post go-live monitoring, stabilizace</td><td>Go-Live produktivní systém, Hypercare Report, Operations Handover dokument, Lessons Learned, PIR (Post-Implementation Review)</td><td>Cutover Manager, Basis, Functional leads, Help-desk, Key Users</td></tr>
+  </table>
+  <div class="callout"><strong>Run &amp; Operate (fáze 6):</strong> Po Deploy následuje kontinuální provoz — SAP Cloud ALM pro monitoring, optimalizace, aktualizace. Není formálně součástí Activate metodiky jako fáze, ale SAP Activate Roadmap zahrnuje Run tracks (Application Management, Continuous Improvement).</div>
+
+  <h2>SAP Cloud ALM vs. SAP Solution Manager</h2>
+  <table>
+    <tr><th>Kritérium</th><th>SAP Solution Manager 7.2 (SolMan)</th><th>SAP Cloud ALM (CALM)</th></tr>
+    <tr><td><strong>Deployment</strong></td><td>On-premise — nutno instalovat a provozovat vlastní SolMan systém</td><td>Cloud SaaS — SAP hostuje, zákazník dostane vlastní tenant</td></tr>
+    <tr><td><strong>Cena</strong></td><td>Placená licence; nutno implementovat a customizovat</td><td>Zdarma v rámci SAP S/4HANA Cloud nebo maintenance smlouvy (od 2020)</td></tr>
+    <tr><td><strong>Primární use case</strong></td><td>On-premise S/4HANA implementace; velké komplexní projekty s rozsáhlou customizací</td><td>Cloud a hybrid implementace; SAP Activate metodika, Fit-to-Standard workshopy, agile delivery</td></tr>
+    <tr><td><strong>Správa procesů</strong></td><td>Rozsáhlá procesní dokumentace, Solution Documentation, Business Process Monitoring</td><td>Zjednodušená správa procesů, Business Process Management — kontinuálně vylepšováno</td></tr>
+    <tr><td><strong>ALM funkce v Activate</strong></td><td>Podporuje Realize a Deploy fáze (starší metodika ASAP); starší UI</td><td>Nativní integrace SAP Activate Roadmap — Discover přes Deploy; moderní Fiori UI</td></tr>
+    <tr><td><strong>Budoucnost</strong></td><td>Mainstream maintenance do 12/2027; SAP doporučuje migraci na Cloud ALM</td><td>Strategický produkt SAP — průběžný vývoj, nové funkce čtvrtletně</td></tr>
+  </table>
+
+  <h2>As-Is → To-Be → GAP analýza</h2>
+  <h3>Postup a dokumentace</h3>
+  <p><strong>As-Is analýza</strong> dokumentuje stávající stav podnikových procesů: jak procesy fungují dnes (workflow, systémy, lidé, výjimky, bolestivé body). Výstupy: process maps (BPMN/EPC), systémový inventář, datové toky, klíčové problémy (pain points). Provádí se workshopy s key users a process owners.</p>
+  <p><strong>To-Be design</strong> definuje budoucí stav procesů po implementaci ERP. Kombinuje SAP standard best practice procesy s business-specifickými požadavky. V SAP Activate: Fit-to-Standard workshop demonstruje SAP standard → zákazník potvrzuje nebo specifikuje delta requirements. To-Be je ideálně co nejblíže SAP standardu (minimalizace customizace).</p>
+  <p><strong>GAP analýza</strong> porovnává As-Is a To-Be: identifikuje mezery mezi tím, co SAP standard nabízí, a tím, co business vyžaduje. Každý GAP je klasifikován a rozhodnut: přijmout standard (Fit), nakonfigurovat (Configuration Gap), nebo vyvinout (Development Gap).</p>
+
+  <h2>Fit/GAP klasifikace</h2>
+  <div class="pojmy three">
+    <div class="pojem green">
+      <div class="pojem-head">Standard Fit (out-of-box)</div>
+      <div class="pojem-body">SAP standardní funkcionalita pokrývá požadavek bez jakýchkoli změn. <strong>Cíl: maximalizovat Standard Fit</strong> — žádné náklady na vývoj, automatické upgradování, nízký projektový risk. V Fit-to-Standard workshopu: klíčový uživatel potvrdí, že standard vyhovuje. Rozhodnutí: "Accept standard process" — business přizpůsobí svoji práci standardu, ne SAP standardu uživatele.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Configuration Gap (customizing)</div>
+      <div class="pojem-body">SAP funkcionalita existuje, ale musí být nakonfigurována dle potřeb zákazníka. <strong>SAP Customizing</strong> (transakce SPRO) — nastavení systémových parametrů bez ABAP kódu: platební podmínky, organizační struktury, účtovací schémata, tolerance skupiny, tiskové šablony. Konfigurace je upgrade-safe (zůstává při upgradu SAP). Dokumentována v IMG (Implementation Guide).</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Development Gap (RICEFW)</div>
+      <div class="pojem-body">Požadavek nelze pokrýt standardem ani konfigurací — nutný custom ABAP vývoj nebo SAP extension. Klasifikován jako RICEFW objekt. <strong>Nejnákladnější a nejrizikovější kategorie</strong> — zvyšuje TCO, komplikuje upgrady, vytváří technický dluh. Rozhodnutí musí schválit Steering Committee (pro development nad určitou hodnotou) — change control proces.</div>
+    </div>
+  </div>
+
+  <h2>RICEFW — typy vývojových objektů</h2>
+  <table>
+    <tr><th>Zkratka</th><th>Typ</th><th>Popis</th><th>Kdy vzniká</th><th>Příklady</th></tr>
+    <tr><td><strong>R</strong></td><td>Reports</td><td>Uživatelské výstupy (reporty, seznam transakcí, analytické reporty) překračující standardní SAP reporting. ABAP List Processing (ALV), BW/BEx reporty.</td><td>Standard report nesplňuje layout/logiku/data požadavky byznysu</td><td>Přehled nedodaných objednávek v požadovaném formátu, custom aging analýza pohledávek</td></tr>
+    <tr><td><strong>I</strong></td><td>Interfaces</td><td>Rozhraní pro výměnu dat mezi SAP a externími systémy. Inbound (data do SAP) nebo Outbound (data ze SAP). RFC, IDoc, BAPI, REST API, SAP PI/PO, CPI.</td><td>Integrace se systémy mimo SAP (bankovní systémy, WMS, CRM, e-commerce)</td><td>Bankovní výpis import (MT940), EDI objednávky od zákazníků, mzdová data do externího payroll</td></tr>
+    <tr><td><strong>C</strong></td><td>Conversions</td><td>Jednorázová migrace historických dat ze starých systémů do SAP při go-live. LSMW, SAP BODS, LTMC (SAP Migration Cockpit). Data quality cleansing.</td><td>Přechod ze starého systému — migrace kmenových dat (zákazníci, dodavatelé, materiály) a otevřených položek</td><td>Migrace 50 000 zákazníků z legacy CRM, migrace otevřených pohledávek, počáteční stav zásob</td></tr>
+    <tr><td><strong>E</strong></td><td>Enhancements</td><td>Rozšíření SAP standardní funkcionality bez modifikace standardního kódu. User Exits, BADIs (Business Add-Ins), Enhancement Spots, Customer Exits.</td><td>Standard SAP má 90 % požadované logiky, ale potřeba custom business logika v konkrétním místě procesu</td><td>Validace objednávky (credit check s externím systémem), custom pricing logic, doplnění polí do standardní transakce</td></tr>
+    <tr><td><strong>F</strong></td><td>Forms</td><td>Custom tiskové formuláře a PDF výstupy: faktury, dodací listy, objednávky, výplatní pásky. SAP Smart Forms, Adobe Forms (Interactive Forms), SAPscript (legacy).</td><td>Standardní SAP formulář nesplňuje lokální legislativní požadavky nebo CI (corporate identity)</td><td>Česká faktura s DPH dle zákonných požadavků, výplatní páska v požadovaném formátu, custom objednávka s logem</td></tr>
+    <tr><td><strong>W</strong></td><td>Workflows</td><td>Custom SAP Business Workflow nebo flexible workflow pro schvalovací procesy, notifikace, eskalace. SAP BPM, SAP Workflow Builder, Flexible Workflow v Fiori.</td><td>Schvalovací procesy (purchase orders, leave requests, price exceptions) s custom pravidly a eskalací</td><td>Multi-level schvalování objednávek dle hodnoty a cost centra, workflow pro změny kmenových dat zákazníků</td></tr>
+  </table>
+  <div class="tip"><strong>RICEFW governance:</strong> Každý RICEFW objekt má Development Specification (funkční a technický design), odhad pracnosti (MD — man days), vlastníka a je sledován v projektu. Schválení development objektů je kritická governance aktivita — každý RICEFW zvyšuje TCO. Steering Committee obvykle schvaluje RICEFW katalog jako celek na konci Explore fáze.</div>
+
+  <h2>Datová migrace</h2>
+  <h3>ETL proces a nástroje</h3>
+  <p><strong>ETL (Extract, Transform, Load)</strong> je základní architektura datové migrace. <strong>Extract:</strong> extrakce dat ze zdrojových systémů (legacy ERP, Excel, flat files, databáze). <strong>Transform:</strong> čištění, validace, transformace datových struktur dle SAP datového modelu (mapping rules). <strong>Load:</strong> načtení dat do SAP cílového systému.</p>
+  <table>
+    <tr><th>Nástroj</th><th>Typ</th><th>Použití</th><th>Poznámky</th></tr>
+    <tr><td><strong>LSMW</strong> (Legacy System Migration Workbench)</td><td>On-premise SAP tool</td><td>Batch migrace kmenových a transakčních dat pomocí Direct Input, BAPIs, IDocs nebo Recordings</td><td>Klasický nástroj SAP ECC; stále dostupný v S/4HANA; vhodný pro menší migrace</td></tr>
+    <tr><td><strong>SAP BODS</strong> (Business Objects Data Services)</td><td>SAP ETL platforma</td><td>Komplexní datová migrace a integrace; visual workflow designer; data quality funkce; transformace pravidel</td><td>Vhodný pro velké objemy dat; profesionální ETL; licence navíc</td></tr>
+    <tr><td><strong>SAP LTMC / SAP LT Migration Cockpit</strong></td><td>Fiori-based SAP tool</td><td>Standardní nástroj pro S/4HANA migrace; předdefinované migration objects (zákazníci, materiály, OPs); template-based</td><td>Doporučený nástroj pro S/4HANA implementace; single-use (migration only, ne pro opakované integrace)</td></tr>
+    <tr><td><strong>Manual upload (SHDB / BDC)</strong></td><td>Screen recording</td><td>Batch Data Communication — simulace manuálního vstupu transakcí; vhodné pro malé objemy</td><td>Pomalé a křehké; nedoporučuje se pro velké migrace; riziko SAP verze dependency</td></tr>
+  </table>
+  <h3>Data quality checks</h3>
+  <p>Datová kvalita je kritická pro úspěch ERP implementace — "garbage in, garbage out". Kontroly zahrnují: <strong>completeness</strong> (všechna povinná pole); <strong>uniqueness</strong> (duplicitní záznamy — zákazníci, materiály); <strong>consistency</strong> (datové formáty, kódování, číslovníky — company codes, plant codes); <strong>validity</strong> (hodnoty v povolených rozsazích); <strong>referential integrity</strong> (cizí klíče existují — cost center existuje před účtováním). Data quality check probíhá ve dvou vlnách: před migrací (zdrojová data) a po migraci (SAP data rekonciliace s source).</p>
+
+  <h2>Cutover plán</h2>
+  <p>Cutover je kritická fáze přechodu z produkčního legacy systému na nový SAP systém. Je detailně naplánovaný (Cutover Run Book) — každá aktivita má vlastníka, trvání, závislosti a go/no-go kritéria.</p>
+  <table>
+    <tr><th>Fáze</th><th>Aktivity</th><th>Kritéria</th></tr>
+    <tr><td><strong>Freeze (zmrazení)</strong></td><td>Ukončení zadávání dat do legacy systémů (data freeze); export posledních dat ze zdrojových systémů; otevřené položky cut-off; export kmenových dat pro final load</td><td>Datum a čas freeze potvrzen všemi BU; výjimečné transakce eskalovány a schváleny</td></tr>
+    <tr><td><strong>Migrate (migrace)</strong></td><td>Final data load do SAP (kmenová data, otevřené položky, počáteční stavy zásob, otevřené objednávky); post-load validace; rekonciliace součtů (counts, amounts)</td><td>Počty migrovatelných záznamů &gt; 99 % (dle migračního přístupu); rekonciliace OK; kritické chyby = 0</td></tr>
+    <tr><td><strong>Validate (validace)</strong></td><td>Business validace migrovaných dat (key users procházejí kritické záznamy); smoke tests klíčových transakcí; integrace testy (FI-MM, SD-MM); security role testing (produkční autorizace)</td><td>Business sign-off od Key User Leads; všechny smoke tests passed; autorizace OK</td></tr>
+    <tr><td><strong>Go/No-Go rozhodnutí</strong></td><td>Steering Committee se sejde a vyhodnotí cutover výsledky dle Go/No-Go checklist; business readiness potvrzení; technická readiness (výkon, kapacita, monitoring); rollback plán aktivován/deaktivován</td><td>Všechna Go kritéria splněna; SC jednomyslně schvaluje Go-Live; Rollback Decision Point — po Go-Live Rollback je extrémně obtížný</td></tr>
+    <tr><td><strong>Go-Live</strong></td><td>Produkční systém otevřen uživatelům; první transakce zadány; legacy systém přepnut do read-only (nebo archivován); helpdesk zvýšená kapacita; real-time monitoring</td><td>První transakce úspěšně zaúčtovány; integrace funkční; základní denní procesy (objednávky, příjemky, fakturace) běží</td></tr>
+    <tr><td><strong>Hypercare</strong></td><td>Zvýšená podpora po Go-Live (4–8 týdnů): rychlé řešení incidentů, denní Status Calls s klíčovými uživateli, sledování performance, oprava konfigurační chyb, doplňkové školení; postupné snižování intenzity</td><td>Klíčové business procesy stabilní; incident rate klesá; Key Users fungují samostatně; SLA přechod na standardní podporu</td></tr>
+  </table>
+  <div class="warn"><strong>Rollback plán:</strong> Pokud Go-Live selže a systém není provozuschopný, je nutné vrátit se k legacy systému. Rollback musí být naplánovaný dopředu — recovery point (záloha SAP + data ke Go-Live okamžiku), komunikace s uživateli, reaktivace legacy systémů. Rozhodnutí o rollbacku je governance rozhodnutí Steering Committee — musí proběhnout do definovaného timeoutu (typicky 24–48 h po Go-Live).</div>
+
+</section>
+<!-- end P4 -->
+
+<!-- ============================================================ P5 ============================================================ -->
+<section class="lecture" id="p5">
+  <div class="lec-header">
+    <div class="lec-num">P5</div>
+    <div>
+      <div class="lec-title">RPA, IPA &amp; procesní automatizace</div>
+      <div class="lec-subtitle">RPA 4 úrovně, IPA komponenty, kritéria vhodnosti, implementační výzvy, blockchain v supply chain</div>
+    </div>
+  </div>
+
+  <h2>RPA — definice a 4 úrovně automatizace</h2>
+  <p><strong>RPA (Robotic Process Automation)</strong> je technologie, která používá softwarové roboty (boty) k automatizaci opakujících se, pravidlových lidských akcí v digitálních systémech — klikání, kopírování dat, vyplňování formulářů, spouštění aplikací. RPA pracuje na úrovni UI vrstvy (narozdíl od API integrace, která pracuje na aplikační vrstvě) — "bot vidí obrazovku jako člověk".</p>
+  <table>
+    <tr><th>Úroveň</th><th>Název</th><th>Popis</th><th>Klíčové nástroje</th><th>Příklady</th></tr>
+    <tr><td><strong>Úroveň 1</strong></td><td>Task Automation (základní RPA)</td><td>Automatizace jednoduchých, opakujících se UI akcí. Deterministická logika (if-then-else). Žádná AI. Bot přesně napodobuje manuální kroky uživatele.</td><td>UiPath (Basic), Automation Anywhere (RPA), Blue Prism (Process)</td><td>Kopírování dat z e-mailu do ERP, generování standardních reportů, ruční data entry z PDF do systému</td></tr>
+    <tr><td><strong>Úroveň 2</strong></td><td>Process Automation (end-to-end RPA)</td><td>Automatizace celých business procesů zahrnujících více systémů. Orchestrace botů, exception handling, audit trail. Workflow-based přístup.</td><td>UiPath (Orchestrator), Automation Anywhere (Control Room), Blue Prism (Control Room)</td><td>Procure-to-Pay automation (PO zpracování → GR → invoice matching → zaúčtování), HR onboarding přes více systémů</td></tr>
+    <tr><td><strong>Úroveň 3</strong></td><td>Cognitive Automation (IPA)</td><td>RPA obohacená o AI/ML schopnosti: OCR (čtení nestrukturovaných dokumentů), NLP (porozumění textu), Computer Vision (práce s obrázky), ML modely pro rozhodování. Dokáže zpracovat semi-strukturovaná a nestrukturovaná data.</td><td>UiPath (AI Center, Document Understanding), Microsoft Power Automate + AI Builder, SAP Intelligent RPA</td><td>Zpracování faktur z různých formátů (Invoice Processing s OCR+ML), e-mail routing a klasifikace, automatická odpověď na zákaznické dotazy (NLP)</td></tr>
+    <tr><td><strong>Úroveň 4</strong></td><td>Autonomous Process Automation</td><td>Plně autonomní systémy kombinující RPA, AI/ML, Process Mining a Decision Intelligence. Systém se učí, optimalizuje procesy sám a provádí komplexní rozhodnutí bez lidského zásahu. Hypoteticky — plná autonomie.</td><td>Hyperautomation platforms (Gartner termín 2020), SAP Signavio + AI, IBM Watson Orchestrate</td><td>Autonomní supply chain (predikce poptávky, automatické objednávky, dynamické přecenění), autonomní finanční uzávěrky</td></tr>
+  </table>
+
+  <h2>IPA — Intelligent Process Automation</h2>
+  <p>IPA (Intelligent Process Automation) je konvergence více technologií do integrované platformy pro automatizaci end-to-end business procesů. Přesahuje schopnosti základního RPA o AI, ML a Process Intelligence.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Komponenty IPA</div>
+      <div class="pojem-body">
+        <strong>RPA</strong> — automatizace UI akcí a rutinních úkolů<br>
+        <strong>AI/ML</strong> — klasifikace, predikce, rozhodování na základě dat; trénované modely<br>
+        <strong>BPM (Business Process Management)</strong> — orchestrace procesů, workflow engine, process modeling (BPMN), business rules management<br>
+        <strong>Process Mining</strong> — analýza event logů z ERP/CRM k identifikaci skutečných (as-is) procesů, bottlenecků a odchylek od standardu. Nástroje: Celonis, SAP Signavio Process Intelligence<br>
+        <strong>NLP / Conversational AI</strong> — chatboti, e-mail processing, voice interfaces<br>
+        <strong>OCR / Document Intelligence</strong> — čtení a extrakce dat z nestrukturovaných dokumentů (faktury, smlouvy, formuláře)
+      </div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">IPA hodnota v ERP kontextu</div>
+      <div class="pojem-body">IPA umožňuje automatizovat procesy, které přesahují možnosti základního RPA: zpracování faktur s různými formáty a strukturami (OCR + ML); prediktivní schvalování (ML model predikuje, zda objednávka bude schválena, a předschvaluje); anomaly detection (ML detekuje podvody nebo chyby v ERP datech v reálném čase); kontinuální process monitoring (Process Mining + alerting). Integrace s ERP přes standardní API nebo IPA platformy (SAP Integration Suite).</div>
+    </div>
+  </div>
+
+  <h2>Kritéria vhodnosti procesu pro RPA</h2>
+  <p>Ne každý proces je vhodný pro RPA automatizaci. Klíčová kritéria výběru (Gartner, 2023):</p>
+  <div class="pojmy two">
+    <div class="pojem green">
+      <div class="pojem-head">Vhodné pro RPA</div>
+      <div class="pojem-body">
+        <strong>Rule-based</strong> — logika procesu je explicitně definovatelná pravidly; žádné subjektivní rozhodování<br>
+        <strong>Structured input</strong> — vstupní data jsou strukturovaná (formuláře, tabulky, standardní e-maily) nebo semi-strukturovaná (s OCR); ne volný text<br>
+        <strong>High volume</strong> — velký objem opakujících se transakcí (stovky/tisíce denně) — ROI závisí na objemu<br>
+        <strong>Stable process</strong> — proces se nemění často; časté změny procesu znamenají časté přeprogramování botů (high maintenance cost)<br>
+        <strong>No judgment required</strong> — bot nemusí "rozumět" situaci; výjimky jsou předvídatelné a ošetřitelné pravidly<br>
+        <strong>Digital input</strong> — data jsou dostupná digitálně (ne z papíru bez OCR)
+      </div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Nevhodné pro RPA (bez AI rozšíření)</div>
+      <div class="pojem-body">
+        <strong>Judgment-intensive</strong> — vyžaduje zkušenosti, kontext, etické uvažování (manažerská rozhodnutí, právní posouzení)<br>
+        <strong>Unstructured data</strong> — vstup pouze jako nestrukturovaný text, volné e-maily, obrázky (bez NLP/OCR vrstvy)<br>
+        <strong>Frequently changing processes</strong> — bot musí být přepsán při každé změně UI nebo procesu — příliš nákladné<br>
+        <strong>Low volume, high complexity</strong> — malý počet transakcí s vysokou variabilitou — ROI nedosažitelné<br>
+        <strong>Creative/empathy tasks</strong> — zákaznický servis vyžadující empathii, kreativní analýza, strategická rozhodnutí
+      </div>
+    </div>
+  </div>
+
+  <h2>Implementační výzvy RPA (Eulerich 2024)</h2>
+  <p>Výzkum Marka Eulericha (2024) a dalších autorů identifikuje strukturální výzvy RPA implementací v praxi:</p>
+  <div class="pojmy two">
+    <div class="pojem orange">
+      <div class="pojem-head">Fragility (křehkost)</div>
+      <div class="pojem-body">Boti jsou závislí na stabilitě UI aplikací (pozice prvků, souřadnice, názvy polí). Každá aktualizace zdrojové aplikace (SAP upgrade, Windows update, změna layoutu) může bota "rozbít". Udržitelnost: robustní selektory, image recognition, API-based boti jsou odolnější. Průměrný bot vyžaduje 30–40 % ročního vývojového času na maintenance (Forrester).</div>
+    </div>
+    <div class="pojem red">
+      <div class="pojem-head">Maintenance burden (zátěž údržby)</div>
+      <div class="pojem-body">Portfolio botů rychle roste — ale správa, monitoring a opravy botů jsou nákladné. "Spaghetti automation" — boti na sobě závisí, oprava jednoho rozbíjí druhého. Organizace podceňují náklady na průběžnou údržbu RPA. Dobré praktiky: CoE (Center of Excellence), verzování botů, standardizované error handling, monitoring platformy (Orchestrator dashboardy).</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">Shadow IT risk</div>
+      <div class="pojem-body">Boti vytvářeni "neoprávněně" mimo IT governance — business uživatelé si sami tvoří boty (citizen development v UiPath StudioX, Power Automate). Riziko: boti přistupují k citlivým datům bez bezpečnostního review; boti obcházejí SOD kontroly (jeden bot provede autorizaci i zaúčtování); nekontrolovaná proliferace botů bez dokumentace. Governance odpověď: RPA CoE, audit botů, approval workflow pro nové boty.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Governance absence</div>
+      <div class="pojem-body">Chybí jasná zodpovědnost za portfolio botů, lifecycle management (vývoj → test → produkce), change management pro boty, auditovatelnost akcí botů (kdo co udělal — human vs. bot). Regulatorní tlak (DORA, AI Act) nutí organizace zavést RPA governance framework. RPA governance musí být součástí IT governance (COBIT BAI oblasti). Audit log botů pro SOX/GDPR compliance.</div>
+    </div>
+  </div>
+
+  <h2>Blockchain v supply chain</h2>
+  <p>Blockchain (distribuovaná, neměnná ledger technologie) řeší klíčové problémy transparentnosti a důvěryhodnosti v dodavatelských řetězcích: podvody s proveniencí, padělání, neefektivita v multi-party koordinaci.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Provenance tracking (sledování původu)</div>
+      <div class="pojem-body">Každý pohyb zboží v dodavatelském řetězci je zaznamenán jako blockchain transakce — neměnná a transparentní pro všechny účastníky. Farma → zpracovatel → distributor → maloobchod → zákazník: každý krok s timestampem, GPS, teplotou (IoT senzory). Zákazník může QR kódem na produktu ověřit celou historii dodávky. Příklad: <strong>Walmart Food Safety</strong> — sledování listové zeleniny od farmy na 2 sekundy (dříve 7 dní pro traceback salmonela)</td></tr></div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Smart contracts</div>
+      <div class="pojem-body">Samospouštěcí kód na blockchainu — automaticky vykoná smluvní podmínky při splnění předpřipravených kritérií bez zprostředkovatele. Příklady: automatická platba dodavateli po potvrzení dodávky IoT senzorem (goods receipt trigger → instant payment); pojistné plnění leteckého zpoždění automaticky vyplaceno (oracle čte data o letu); import/export celní dokumenty automaticky schváleny po ověření certifikátů.</div>
+    </div>
+  </div>
+  <div class="callout"><strong>Příklady reálných nasazení:</strong> <strong>Walmart + IBM Food Trust</strong> (Hyperledger Fabric) — sledování více než 25 kategorií potravin; <strong>Maersk + IBM TradeLens</strong> — globální lodní přepravní dokumentace (2018–2022, ukončen pro nedostatečnou adopci — lesson learned: blockchain vyžaduje multi-party adoption); <strong>De Beers Tracr</strong> — certifikace diamantů (etický původ, konflikty); <strong>SAP Business Network</strong> — integrace s blockchain pro supply chain visibility.</div>
+  <div class="warn"><strong>Výzvy blockchainu v podnikové praxi:</strong> Škálovatelnost (nízký throughput vs. ERP miliony transakcí/den); governance konsorcia (kdo řídí blockchain síť?); integrace s legacy ERP systémy; "oracle problem" (real-world data vstupují do blockchainu — stále mohou být podvržena při vstupu); energetická náročnost (PoW) — mitigováno PoS a enterprise blockchains (Hyperledger Fabric — permissioned, energeticky efektivní).</div>
+
+</section>
+<!-- end P5 -->
+
+<!-- ============================================================ P6 ============================================================ -->
+<section class="lecture" id="p6">
+  <div class="lec-header">
+    <div class="lec-num">P6</div>
+    <div>
+      <div class="lec-title">ERP architektury &amp; integrace</div>
+      <div class="lec-subtitle">Monolith vs. best-of-breed, SOA/ESB, Microservices, RISE with SAP, SAP BTP, API management, iPaaS</div>
+    </div>
+  </div>
+
+  <h2>Monolithická ERP vs. Best-of-Breed + integrace</h2>
+  <table>
+    <tr><th>Kritérium</th><th>Monolithická ERP (Single vendor)</th><th>Best-of-Breed + integrace</th></tr>
+    <tr><td><strong>Architektura</strong></td><td>Jeden vendor, jedna platforma, jedna databáze (SAP, Oracle). Všechny moduly jsou součástí jednoho systému — FI, MM, SD, PP, HR v jedné instanci.</td><td>Specializované systémy pro každou funkci: nejlepší CRM (Salesforce), nejlepší WMS (Manhattan), nejlepší HCM (Workday), integrované s ERP jádrem (SAP) přes middleware.</td></tr>
+    <tr><td><strong>Integrace</strong></td><td>Nativní — data sdílena přes jednu databázi; žádné integrační náklady mezi moduly; referenční integrita garantována systémem</td><td>Komplexní — každý systém má vlastní API/datový model; nutnost integrační vrstvy (ESB, iPaaS); synchronizace dat; konzistence dat jako výzva</td></tr>
+    <tr><td><strong>Funkcionalita</strong></td><td>Pokrývá 80–90 % standardních potřeb "good enough"; každý modul méně specializovaný než best-of-breed</td><td>Každý systém je špička ve své oblasti — CRM od Salesforce je lepší než SAP CRM pro sales force automation</td></tr>
+    <tr><td><strong>Flexibilita</strong></td><td>Nízká — jeden vendor diktuje release cycle, ceny, roadmapu; obtížné nahradit jeden modul jiným</td><td>Vysoká — každou komponentu lze vyměnit za lepší řešení bez výměny celého systému; competition among vendors</td></tr>
+    <tr><td><strong>TCO</strong></td><td>Nižší integrační náklady; vyšší licence; vendor lock-in; předvídatelnější</td><td>Nižší jednotkové licence (competition); vysoké integrační náklady; složitá správa více kontraktů; celkově může být vyšší</td></tr>
+    <tr><td><strong>Vhodnost</strong></td><td>Standardní odvětví (výroba, distribuce), silná procesní standardizace, mid-market, potřeba single truth</td><td>Specifické odvětví s unikátními potřebami; velké korporace s IT kapacitou na správu integrace; inovativní prostředí</td></tr>
+  </table>
+
+  <h2>SOA — Service-Oriented Architecture</h2>
+  <p>SOA je architektonický styl, kde IT funkcionalita je strukturována jako sada znovu použitelných, volně propojených business služeb. Definice Open Group: "SOA je architektonický styl podporující servisní orientaci." Vrchol adopce 2005–2010; stále relevantní pro enterprise integraci.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">ESB — Enterprise Service Bus</div>
+      <div class="pojem-body">Middleware infrastruktura pro SOA — centrální komunikační páteř. ESB zajišťuje: <strong>message routing</strong> (směrování zpráv mezi službami), <strong>transformation</strong> (konverze formátů — XML↔JSON↔EDI), <strong>orchestration</strong> (koordinace sekvence volání služeb), <strong>security</strong> (autentizace a autorizace na úrovni zpráv), <strong>monitoring</strong> a error handling. Příklady: SAP PI/PO (Process Orchestration), IBM MQ, MuleSoft, WSO2. Kritika: ESB jako "single point of failure" a bottleneck — vedlo k microservices.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Service contracts</div>
+      <div class="pojem-body">Kontrakt služby je formální specifikace rozhraní: <strong>WSDL</strong> (Web Services Description Language) — popis operací, vstupních/výstupních zpráv, datových typů; <strong>SOAP</strong> (Simple Object Access Protocol) — XML-based komunikační protokol; <strong>UDDI</strong> — registr a katalog dostupných služeb. SOA governance zahrnuje verzování kontraktů (zpětná kompatibilita), SLA pro každou službu, change management API. Moderní: OpenAPI (Swagger) pro REST, AsyncAPI pro event-driven.</div>
+    </div>
+  </div>
+  <div class="callout"><strong>SOA vlastnosti služeb (OASIS):</strong> Loose coupling (volné propojení — závislost jen na kontraktu); Reusability (znovupoužitelnost — služba použitelná v různých kontextech); Abstraction (skrytá implementace); Autonomy (služba kontroluje vlastní logiku); Statelessness (minimální stav pro větší znovupoužitelnost); Composability (složené služby z jednodušších); Discoverability (nalezitelnost přes registr).</div>
+
+  <h2>Microservices ERP — API-first, event-driven</h2>
+  <p>Architektura mikroslužeb dekomponuje monolitickou aplikaci na malé, samostatně nasaditelné a škálovatelné služby. Každá mikroslužba implementuje jednu business funkci a komunikuje přes API (REST) nebo zprávy (event-driven, Kafka, messaging bus). Reakce na omezení SOA a monolithů — Netflix, Amazon, Spotify byly průkopníci.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Klíčové vlastnosti microservices</div>
+      <div class="pojem-body">
+        <strong>API-first design</strong> — každá služba je konzumována přes dobře definované REST API; dokumentace (OpenAPI/Swagger) je primárním artefaktem<br>
+        <strong>Independent deployment</strong> — každá mikroslužba se nasazuje, testuje a škáluje nezávisle (CI/CD pipeline per service)<br>
+        <strong>Event-driven communication</strong> — asynchronní komunikace přes message bus (Apache Kafka, Azure Service Bus) redukuje synchronní závislosti<br>
+        <strong>Polyglot persistence</strong> — každá mikroslužba má vlastní databázi optimalizovanou pro svůj use case (SQL, NoSQL, graph, in-memory)<br>
+        <strong>Domain-driven design (DDD)</strong> — mikroslužby jsou organizovány kolem business domén (Bounded Contexts)
+      </div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Příklady v ERP kontextu</div>
+      <div class="pojem-body">
+        <strong>SAP BTP</strong> (Business Technology Platform) — extension apps jako mikroslužby běžící vedle S/4HANA; side-by-side extensibility<br>
+        <strong>Oracle Fusion Cloud</strong> — modulární cloud ERP postaveno na microservices architektuře; každá oblast (HCM, Finance, SCM) jako nezávislá clouded service<br>
+        <strong>Výhody pro ERP:</strong> upgrade jedné funkce bez dopadu na ostatní; škálování dle zatížení (fakturace měsíční uzávěrka vs. běžný provoz); rychlejší inovace v specifických oblastech<br>
+        <strong>Nevýhody:</strong> zvýšená komplexita (distribuce, latence, eventual consistency, distributed tracing); nutná silná DevOps kultura a infrastruktura (Kubernetes, service mesh)
+      </div>
+    </div>
+  </div>
+
+  <h2>RISE with SAP</h2>
+  <p>RISE with SAP je bundle nabídka SAP (od 2021) pro přechod zákazníků na S/4HANA Cloud. Slogan: "Business Transformation as a Service". Jedno předplatné zahrnuje vše potřebné pro cloud ERP transformaci.</p>
+  <div class="pojmy two">
+    <div class="pojem purple">
+      <div class="pojem-head">Co RISE with SAP zahrnuje</div>
+      <div class="pojem-body">
+        <strong>SAP S/4HANA Cloud (Private Edition)</strong> — plně přizpůsobitelný S/4HANA v SAP nebo hyperscaler cloudu (AWS, Azure, GCP), managed by SAP<br>
+        <strong>SAP Business Technology Platform (BTP)</strong> — základní tenant pro integrace a extensions<br>
+        <strong>SAP Business Network Starter Pack</strong> — připojení k SAP supplier network a trading partner ecosystem<br>
+        <strong>SAP Signavio Process Intelligence</strong> — process mining pro analýzu a optimalizaci procesů<br>
+        <strong>SAP Cloud ALM</strong> — ALM nástroj pro implementaci a provoz<br>
+        <strong>Technical Migration Services</strong> — SAP poskytuje infrastrukturu, monitoring, backup, disaster recovery, SAP Basis správu
+      </div>
+    </div>
+    <div class="pojem blue">
+      <div class="pojem-head">Hodnota a strategie</div>
+      <div class="pojem-body">RISE zjednodušuje nákupní rozhodnutí — jeden kontrakt místo mnoha. SAP přebírá odpovědnost za infrastrukturu, aktualizace, bezpečnost (shared responsibility model). Zákazník se může soustředit na business procesy. <strong>GROW with SAP</strong> — varianta pro nové zákazníky (greenfield, public cloud, faster time-to-value). Kritika RISE: vyšší celkové náklady než přímá licence; komplexní smlouva; závislost na SAP jako single vendor pro cloud i aplikace; omezená vyjednávací pozice.</div>
+    </div>
+  </div>
+
+  <h2>SAP BTP — Business Technology Platform</h2>
+  <p>SAP BTP je integrační a extensibility platforma pro SAP a non-SAP cloud ekosystém. Čtyři hlavní komponenty (pillars):</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Integration Suite</div>
+      <div class="pojem-body">Cloud-based iPaaS (Integration Platform as a Service) — nástupce SAP PI/PO pro hybrid integraci. Pre-built integration packages (SAP Integration Content Catalog — 2 400+ packages). Komponenty: Cloud Integration (A2A, B2B), API Management, Event Mesh, Open Connectors (150+ non-SAP aplikací), Integration Advisor (B2B mapping). Klíčový pro hybridní architektury (S/4HANA on-premise + cloud aplikace).</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Extension Suite</div>
+      <div class="pojem-body">Development platform pro side-by-side extensions. Low-code/no-code: SAP Build (formerly AppGyver) pro aplikace, SAP Build Process Automation (RPA + workflow). Pro-code: SAP BTP ABAP Environment (ABAP Cloud), SAP Business Application Studio (cloud-based IDE), Cloud Foundry a Kubernetes runtime. Clean Core extensibility model — extensions v BTP, ne v S/4HANA jádru.</div>
+    </div>
+    <div class="pojem orange">
+      <div class="pojem-head">Data &amp; Analytics</div>
+      <div class="pojem-body">SAP Analytics Cloud (SAC) — BI, planning, predictive analytics v cloudu. SAP HANA Cloud — managed in-memory databáze a data platform v cloudu. SAP Datasphere (dříve SAP Data Warehouse Cloud) — enterprise data fabric, propojení SAP a non-SAP datových zdrojů. SAP Data Intelligence Cloud — data management, ML pipeline orchestration. Business Data Fabric — centrální správa dat přes hybridní landscape.</div>
+    </div>
+    <div class="pojem purple">
+      <div class="pojem-head">AI &amp; Automation</div>
+      <div class="pojem-body">SAP AI Core — hosting a deployment ML modelů (train, serve, monitor). SAP AI Launchpad — správa AI scénářů. Embedded AI v S/4HANA: Joule (generativní AI asistent, 2023), prediktivní accounting, intelligent cash application (automatické spárování plateb), predictive MRP, automated invoice processing. SAP Build Process Automation — inteligentní RPA. AI Foundation na BTP pro zákaznické AI vývoj.</div>
+    </div>
+  </div>
+
+  <h2>API management — REST vs. SOAP v ERP kontextu</h2>
+  <table>
+    <tr><th>Kritérium</th><th>SOAP (Simple Object Access Protocol)</th><th>REST (Representational State Transfer)</th></tr>
+    <tr><td><strong>Protokol</strong></td><td>XML-based messaging protokol; HTTP, SMTP, JMS transport</td><td>Architektonický styl; HTTP/HTTPS; JSON, XML, HTML výstupy</td></tr>
+    <tr><td><strong>Formát</strong></td><td>Striktně XML; WSDL pro popis; UDDI pro discovery</td><td>Primárně JSON (lehčí); OpenAPI/Swagger pro dokumentaci</td></tr>
+    <tr><td><strong>Standardy</strong></td><td>WS-Security, WS-ReliableMessaging, WS-Transaction — enterprise-grade bezpečnost a spolehlivost</td><td>OAuth 2.0, OpenID Connect, JWT pro bezpečnost; HTTP caching</td></tr>
+    <tr><td><strong>Výkon</strong></td><td>Těžší — XML overhead; pomalejší parsování; vhodné pro transakce, ne high-volume streaming</td><td>Lehčí — JSON; rychlejší parsování; cacheable; vhodné pro mobilní a webové aplikace</td></tr>
+    <tr><td><strong>ERP použití</strong></td><td>Historické SAP integrace (SAP Web Services, IDoc over SOAP, SAP PI/PO B2B); starší finanční a EDI integrace</td><td>SAP S/4HANA OData APIs (SAP API Business Hub — 3000+ APIs); SAP BTP Integration Suite; moderní integrace</td></tr>
+    <tr><td><strong>Vhodnost</strong></td><td>Transakční systémy s vysokými požadavky na spolehlivost a bezpečnost (bankovnictví, finance); B2B integrace</td><td>Mobilní aplikace, SAP Fiori Apps, cloud integrace, developer-friendly APIs, microservices</td></tr>
+  </table>
+
+  <h2>iPaaS — Integration Platform as a Service</h2>
+  <p>iPaaS je cloudová platforma pro propojení aplikací, dat a procesů napříč on-premise a cloud prostředím (hybridní architektura). Eliminuje nutnost vlastního ESB middlewaru a infrastruktury.</p>
+  <div class="pojmy two">
+    <div class="pojem blue">
+      <div class="pojem-head">Role iPaaS v hybridní architektuře</div>
+      <div class="pojem-body">iPaaS zprostředkovává komunikaci mezi: on-premise S/4HANA ↔ cloud aplikace (Salesforce, Workday, ServiceNow); legacy systémy ↔ moderní API; SaaS-to-SaaS integrace; real-time streaming dat (IoT → ERP). Pre-built connectors snižují čas vývoje integrace z týdnů na hodiny. API management vrstva: lifecycle správa API (design, publish, monitor, deprecate), developer portal, rate limiting, analytics.</div>
+    </div>
+    <div class="pojem green">
+      <div class="pojem-head">Klíčové iPaaS platformy v ERP kontextu</div>
+      <div class="pojem-body">
+        <strong>SAP Integration Suite (BTP)</strong> — nativní pro SAP landscape; 2400+ pre-built packages<br>
+        <strong>MuleSoft Anypoint Platform</strong> — Salesforce ecosystem; silné API management; "API-led connectivity"<br>
+        <strong>Azure Integration Services</strong> — Azure Logic Apps, Service Bus, API Management; Microsoft ecosystem<br>
+        <strong>Boomi</strong> (Dell Technologies) — nízký kód, rychlá implementace; silné pro mid-market<br>
+        <strong>Informatica IICS</strong> — silný v datové integraci a data quality; hybridní iPaaS
+      </div>
+    </div>
+  </div>
+  <div class="callout"><strong>API-led Architecture (MuleSoft model):</strong> Třívrstevní API architektura: <strong>System APIs</strong> — přistupují k core systémům (S/4HANA, Salesforce) abstrahováním od specifik systému; <strong>Process APIs</strong> — orchestrují systémové API do business procesů (Order-to-Cash API); <strong>Experience APIs</strong> — přizpůsobují data pro konkrétního konzumenta (mobilní app, partner portál). Každá vrstva nezávisle verzována a spravována — change v S/4HANA nemusí ovlivnit experience API.</div>
+
+</section>
+<!-- end P6 -->
+
+<!-- ============================================================ POJMY ============================================================ -->
+<section class="lecture" id="pojmy">
+  <div class="lec-header">
+    <div class="lec-num" style="background:#6d28d9;">&#9733;</div>
+    <div>
+      <div class="lec-title">Klíčové pojmy</div>
+      <div class="lec-subtitle">Přehled 50+ pojmů z celého předmětu — project governance, ERP, SAP, Agile, RPA, architektury</div>
+    </div>
+  </div>
+
+  <div class="kp-grid">
+    <div class="kp-item">
+      <div class="kp-term">PMO Supportive</div>
+      <div class="kp-def">Podpůrné PMO (kontrola 10–25 %) — konzultační role, šablony, best practices, žádná přímá kontrola projektů. Vhodné pro nízkou projektovou zralost.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">PMO Controlling</div>
+      <div class="kp-def">Řídící PMO (kontrola 25–75 %) — vyžaduje compliance s metodologií, provádí audity a reviews. Nejběžnější v praxi — vyvažuje standardizaci a autonomii.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">PMO Directive</div>
+      <div class="kp-def">Direktivní PMO (kontrola 75–100 %) — PM jsou zaměstnanci PMO, které přímo řídí projekty. Vhodné pro konzultační firmy a IT delivery centra.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Steering Committee</div>
+      <div class="kp-def">Nejvyšší governance orgán projektu. Složení: Business Sponzor, CIO/IT Director, Business Owner, PM. V PRINCE2 = Project Board. Schvaluje stage-gate, eskalace, go/no-go.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Business Sponzor (Executive)</div>
+      <div class="kp-def">Vlastní Business Case, odpovídá za realizaci přínosů, nejvyšší autorita projektu. V PRINCE2: Executive / Senior Responsible Owner. Financuje projekt.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">COBIT BAI01</div>
+      <div class="kp-def">COBIT oblast Managed Programs — governance a management IT programů. Zahrnuje Benefits Realization Management, stage-gate reviews, program-level reporting.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">COBIT BAI11</div>
+      <div class="kp-def">COBIT oblast Managed Projects — governance jednotlivých IT projektů. Zahrnuje business case, metodologické řízení, post-implementation review (PIR).</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">PRINCE2 7 principů</div>
+      <div class="kp-def">1. Kontinuální business odůvodnění; 2. Učit se ze zkušeností; 3. Def. role; 4. Řízení po fázích; 5. Řízení výjimek; 6. Zaměření na produkty; 7. Přizpůsobení prostředí.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">PRINCE2 7 témat</div>
+      <div class="kp-def">Business Case, Organization, Quality, Plans, Risk, Change, Progress. Každé téma odpovídá na klíčovou otázku (Proč? Kdo? Co? Jak? Co kdyby? Co když? Kde jsme?).</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">PRINCE2 7 procesů</div>
+      <div class="kp-def">SU (Starting Up) → IP (Initiating) → DP (Directing) → CS (Controlling Stage) → MP (Managing Product Delivery) → SB (Managing Stage Boundary) → CP (Closing).</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Tolerance systém (PRINCE2)</div>
+      <div class="kp-def">Delegovaná pásma odchylek pro PM: time, cost, scope, quality, benefit, risk. Překročení tolerance → Exception Report → Steering Committee rozhoduje. "Management by Exception."</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">PMBOK 10 oblastí</div>
+      <div class="kp-def">Integration, Scope, Schedule, Cost, Quality, Resource, Communications, Risk, Procurement, Stakeholder. PMBOK 6 = 49 procesů v 5 Process Groups. Deskriptivní rámec (PMI).</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">EVM — Earned Value Management</div>
+      <div class="kp-def">Metoda sledování scope+schedule+cost v jednom. Klíčové veličiny: PV (Planned Value), EV (Earned Value), AC (Actual Cost), BAC (Budget At Completion).</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">CPI (Cost Performance Index)</div>
+      <div class="kp-def">CPI = EV / AC. &gt;1 = pod rozpočtem (úspora). &lt;1 = nad rozpočtem (překročení). CPI &lt; 0.8 → eskalace Steering Committee.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">SPI (Schedule Performance Index)</div>
+      <div class="kp-def">SPI = EV / PV. &gt;1 = před plánem. &lt;1 = za plánem. Interpretovat spolu s CPI — nejhorší případ: CPI &lt;1 a SPI &lt;1 současně.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">EAC (Estimate At Completion)</div>
+      <div class="kp-def">EAC = BAC / CPI. Aktuální odhad celkových nákladů projektu na základě dosavadního výkonu. Klíčový reporting ukazatel pro Steering Committee.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">MRP (Material Requirements Planning)</div>
+      <div class="kp-def">Plánování potřeby materiálu z BOM + MPS. 60.–70. léta. Výpočet: co, kolik, kdy potřebovat. Pouze výroba a zásoby — bez finanční integrace.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">ERP (Enterprise Resource Planning)</div>
+      <div class="kp-def">Integrace všech podnikových procesů (finance, výroba, logistika, HR, prodej) v jediné databázi. Single source of truth. Gartner termín 1990. Příklady: SAP R/3, Oracle.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">ERP II</div>
+      <div class="kp-def">Rozšíření ERP za hranice podniku — CRM, SCM, e-commerce, B2B integrace. Web-enabled přístup, XML integrace, SOA. Gartner 2000.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">SAP FI (Financial Accounting)</div>
+      <div class="kp-def">Modul SAP: Hlavní kniha, pohledávky (AR), závazky (AP), majetek, bankovní účetnictví, roční závěrka. Integrace s CO, MM, SD, HR.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">SAP CO (Controlling)</div>
+      <div class="kp-def">Modul SAP: Nákladová střediska, interní zakázky, profit centra, kalkulace produktů, CO-PA (profitability analysis), plánování a budgeting. Integrace s FI, PP, SD.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">SAP MM (Materials Management)</div>
+      <div class="kp-def">Modul SAP: Nákupní proces (PR→PO→GR→Invoice), správa zásob, WM (warehouse management), hodnocení materiálu. Integrace s FI, PP, SD, QM.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">SAP SD (Sales and Distribution)</div>
+      <div class="kp-def">Modul SAP: Prodejní proces (Inquiry→Quote→Order→Delivery→Invoice), pricing, credit management. Integrace s MM (zásoby), FI (fakturace), CO (tržby).</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">SAP PP (Production Planning)</div>
+      <div class="kp-def">Modul SAP: MRP/MPS, výrobní zakázky, kapacitní plánování (CRP), BOM, routings, shop floor control. Integruje MM (materiály) a CO (výrobní náklady).</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">ABAP</div>
+      <div class="kp-def">Advanced Business Application Programming — proprietární programovací jazyk SAP. Běží na Application Serveru. Základ custom vývoje (Z-programy, BADIs, user exits). ABAP Cloud = moderní verze pro BTP/S/4HANA.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">SAP HANA</div>
+      <div class="kp-def">High Performance Analytic Appliance — SAP in-memory, column-store databáze (2010). Eliminuje potřebu oddělené OLAP vrstvy. HTAP (Hybrid Transactional/Analytical Processing). S/4HANA vyžaduje výhradně HANA.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">SAP Activate metodika</div>
+      <div class="kp-def">SAP implementační metodika (nástupce ASAP). 5 fází: Discover → Prepare → Explore → Realize → Deploy. Kombinuje SAP Best Practices, SAP Cloud ALM a iterativní delivery (sprinty v Realize).</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">SAP Cloud ALM (CALM)</div>
+      <div class="kp-def">Cloud SaaS ALM nástroj (2020). Nativní integrace SAP Activate Roadmap. Zdarma s S/4HANA Cloud subscription. Nahrazuje SAP Solution Manager pro cloud implementace.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Fit/GAP analýza</div>
+      <div class="kp-def">Analýza shody SAP standardu s business požadavky. Klasifikace: Standard Fit (out-of-box) / Configuration Gap (customizing SPRO) / Development Gap (RICEFW). Cíl: maximalizovat Standard Fit.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">SAP Customizing (SPRO)</div>
+      <div class="kp-def">Konfigurace SAP systému přes IMG (Implementation Guide) bez ABAP kódu. Upgrade-safe. Zahrnuje: organizační struktury, platební podmínky, účtovací schémata, tolerance skupiny.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">RICEFW</div>
+      <div class="kp-def">Kategorie custom SAP vývojových objektů: Reports / Interfaces / Conversions / Enhancements / Forms / Workflows. Každý RICEFW zvyšuje TCO a komplikuje upgrady — schvaluje SC.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">LSMW / SAP LTMC</div>
+      <div class="kp-def">Nástroje datové migrace. LSMW (Legacy System Migration Workbench) — klasický on-premise nástroj. LTMC/Migration Cockpit — Fiori-based S/4HANA doporučený nástroj s pre-defined migration objects.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">ETL (Extract-Transform-Load)</div>
+      <div class="kp-def">Základní architektura datové migrace a integrace. Extract (ze zdrojů) → Transform (čištění, mapování) → Load (do SAP). Data quality checks: completeness, uniqueness, consistency, validity, referential integrity.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Cutover plán</div>
+      <div class="kp-def">Detailní plán přechodu z legacy na SAP. Fáze: Freeze → Migrate → Validate → Go/No-Go → Go-Live → Hypercare. Každá aktivita má vlastníka, trvání a go/no-go kritérium.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Hypercare</div>
+      <div class="kp-def">Intenzivní podpora 4–8 týdnů po Go-Live. Denní Status Calls, zvýšená kapacita helpdesku, rychlé řešení incidentů, doplňkové školení. Postupně přechází na standard SLA.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Scrum — Product Backlog</div>
+      <div class="kp-def">Uspořádaný seznam všeho k produktu. Vlastník: Product Owner. Commitment: Product Goal. Průběžně prioritizován a upřesňován (Backlog Refinement). Základní artefakt Scrumu.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Definition of Done (DoD)</div>
+      <div class="kp-def">Kvalitativní standard pro Increment — musí být splněn, aby byl Increment "Done". Definuje Scrum Team. Garantuje transparentnost kvality dodávky.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">RPA (Robotic Process Automation)</div>
+      <div class="kp-def">Softwaroví roboti automatizující opakující se UI akce v digitálních systémech. 4 úrovně: Task Automation → Process Automation → Cognitive (IPA) → Autonomous. Nástroje: UiPath, Automation Anywhere, Blue Prism.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">IPA (Intelligent Process Automation)</div>
+      <div class="kp-def">Konvergence RPA + AI/ML + BPM + Process Mining + NLP/OCR. Automatizuje semi-strukturované procesy. Příklady: zpracování faktur (OCR+ML), e-mail routing (NLP), anomaly detection.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Process Mining</div>
+      <div class="kp-def">Analýza event logů z ERP/CRM k identifikaci skutečných (as-is) procesů, bottlenecků a odchylek od standardu. Nástroje: Celonis, SAP Signavio Process Intelligence, UiPath Process Mining.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">RISE with SAP</div>
+      <div class="kp-def">Bundle nabídka SAP (2021) pro cloud ERP transformaci — "Business Transformation as a Service". Zahrnuje: S/4HANA Cloud PE + BTP + Business Network + Signavio + Cloud ALM + infrastruktura managed by SAP.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">SAP BTP (Business Technology Platform)</div>
+      <div class="kp-def">Integrační a extensibility platforma SAP. 4 pilíře: Integration Suite (iPaaS) + Extension Suite (dev platform) + Data &amp; Analytics + AI &amp; Automation. Základ clean core extensibility.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Clean Core</div>
+      <div class="kp-def">SAP strategie (2022+) pro minimalizaci custom ABAP kódu v S/4HANA jádru. Extensibility model: Key User (no-code) → Developer Extensions (ABAP Cloud) → Side-by-Side (BTP). Cíl: plynulé cloud updaty.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">SOA (Service-Oriented Architecture)</div>
+      <div class="kp-def">Architektonický styl — IT funkcionalita jako volně propojené, znovu použitelné business služby. Vlastnosti: loose coupling, reusability, abstraction, autonomy, statelessness, composability. ESB jako komunikační páteř.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">ESB (Enterprise Service Bus)</div>
+      <div class="kp-def">Middleware pro SOA — centrální komunikační páteř. Zajišťuje: routing, transformation, orchestration, security, monitoring. Příklady: SAP PI/PO, IBM MQ, MuleSoft. Kritizováno jako single point of failure.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Microservices</div>
+      <div class="kp-def">Architektura dekomponující aplikaci na malé, samostatně nasaditelné služby komunikující přes API/events. API-first design, independent deployment, polyglot persistence. Příklady v ERP: SAP BTP extensions, Oracle Fusion Cloud.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">iPaaS (Integration Platform as a Service)</div>
+      <div class="kp-def">Cloudová platforma pro integraci aplikací v hybridním prostředí. Pre-built connectors, API management, ETL. Příklady: SAP Integration Suite, MuleSoft Anypoint, Azure Integration Services, Boomi.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">SAFe — ART</div>
+      <div class="kp-def">Agile Release Train — 50–125 lidí (5–12 Scrum Teams) synchronizovaně pracující na jednom řešení. Základní organizační jednotka SAFe. Řídí: Release Train Engineer (RTE). Kadence: Program Increment (8–12 týdnů).</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">PI Planning (SAFe)</div>
+      <div class="kp-def">2denní face-to-face event celého ART. Výstupy: PI Objectives per tým, Team Iteration Plans, Program Board (závislosti). "If you're not doing PI Planning, you're not doing SAFe."</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">PRINCE2 Agile</div>
+      <div class="kp-def">Kombinace PRINCE2 governance vrstvy (SC, stage-gate, tolerance) s agilními delivery metodikami (Scrum/Kanban). Hexagon flexibility: Time/Cost/Quality fixní, Scope/Benefits/Risk flexibilní.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">TCO (Total Cost of Ownership)</div>
+      <div class="kp-def">Celkové náklady vlastnictví ERP: licence/subscription + implementace + customizace + hardware/cloud + školení + maintenance. Průměrná implementace překračuje rozpočet o 47 % (Panorama 2023).</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Big-Bang vs. Phased vs. Rollout</div>
+      <div class="kp-def">Strategie implementace ERP. Big-Bang: všechny moduly najednou. Phased: postupné zavádění modulů. Pilotní/Rollout: implementace v jedné BU → replikace do dalších. Franchising: každá BU má vlastní instanci.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">Vendor lock-in</div>
+      <div class="kp-def">Závislost na konkrétním ERP dodavateli — přechod je extrémně nákladný (migrace, znalosti, integrace). Cloud ERP závislost prohlubuje. Mitigace: otevřené API, standardní integrace, minimalizace proprietary extensions.</div>
+    </div>
+    <div class="kp-item">
+      <div class="kp-term">HTAP (Hybrid Transactional/Analytical Processing)</div>
+      <div class="kp-def">Architektura kombinující OLTP a OLAP workloady v jedné databázové platformě. SAP HANA realizuje HTAP — analytika nad transakčními daty v reálném čase bez ETL do oddělené DW vrstvy.</div>
+    </div>
+  </div>
+
+</section>
+
+<script>
+(function() {
+  const links = document.querySelectorAll('.nav-link');
+  const sections = Array.from(links).map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+  function onScroll() {
+    let current = sections[0];
+    for (const s of sections) {
+      if (window.scrollY >= s.offsetTop - 80) current = s;
+    }
+    links.forEach(l => {
+      l.style.background = '';
+      l.style.color = '';
+    });
+    const active = document.querySelector('.nav-link[href="#' + current.id + '"]');
+    if (active) { active.style.background = '#eff6ff'; active.style.color = '#1d4ed8'; }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+
+</body>
+</html>
