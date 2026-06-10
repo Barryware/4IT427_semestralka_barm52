@@ -1,8 +1,7 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import type { AppProgress, MasteryLevel } from '../types'
 
 const STORAGE_KEY = 'statnice-progress-v1'
-const API = '/api/progress'
 
 const XP_FOR_LEVEL: Record<number, number> = { 0: 0, 1: 10, 2: 20, 3: 40, 4: 60, 5: 100 }
 
@@ -42,8 +41,6 @@ function loadProgress(): AppProgress {
 
 function saveProgress(p: AppProgress): void {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)) } catch {}
-  // Fire-and-forget sync to OneDrive file (only works when server.py is running)
-  fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(p) }).catch(() => {})
 }
 
 function checkAchievements(p: AppProgress): AppProgress {
@@ -59,26 +56,6 @@ function checkAchievements(p: AppProgress): AppProgress {
 
 export function useProgress() {
   const [progress, setProgress] = useState<AppProgress>(() => loadProgress())
-
-  // Na startu: zkus načíst novější data ze souboru (přes server.py)
-  useEffect(() => {
-    fetch(API)
-      .then(r => r.ok ? r.json() : null)
-      .then((apiData: AppProgress | null) => {
-        if (!apiData) return
-        setProgress(prev => {
-          if ((apiData.lastActive ?? 0) > (prev.lastActive ?? 0)) {
-            // Soubor je novější — použij ho a ulož do localStorage
-            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(apiData)) } catch {}
-            return apiData
-          }
-          // Lokální je novější — push do souboru
-          fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(prev) }).catch(() => {})
-          return prev
-        })
-      })
-      .catch(() => {})
-  }, [])
 
   const setMastery = useCallback((topicId: string, level: MasteryLevel) => {
     setProgress(prev => {
