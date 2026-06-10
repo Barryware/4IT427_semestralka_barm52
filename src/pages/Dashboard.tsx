@@ -54,9 +54,9 @@ const FINAL_PASS: FinalPassItem[] = [
   { id: 'shrnuti-gotchas', label: '4. Shrnutí a háčky', desc: 'Projdi gotcha/contrast věty: tady se nejrychleji chytají nepřesnosti.', section: 'shrnuti', xp: 8, tone: 'blue' },
   { id: 'last24-spectrum', label: '5. Posledních 24 hodin', desc: 'Dej jeden průchod napříč spektrem. Co nejde, appka hází do slabin.', section: 'trener', xp: 12, tone: 'red' },
   { id: 'sos-oral', label: '6. SOS komise', desc: 'Natrénuj první větu, záchrannou větu a návrat k otázce, když přijde okno.', section: 'trener', xp: 8, tone: 'red' },
-  { id: 'smutny-pressure', label: '7. Smutný na chleba', desc: 'Tlakový blok: sociotechnika, metodologie, governance a vazba na praxi.', section: 'trener', xp: 12, tone: 'orange' },
+  { id: 'smutny-pressure', label: '7. Tlakový blok', desc: 'Tlakový blok: sociotechnika, metodologie, governance a vazba na praxi.', section: 'trener', xp: 12, tone: 'orange' },
   { id: 'komise-diplomka', label: '8. Komise + praxe mosty', desc: 'Otevři profily komise a řekni 3 jisté mosty z praxe do státnic.', section: 'komise', xp: 10, tone: 'green' },
-  { id: 'rpi-4it418-anchor', label: '9. 4IT418 Řízení podnikové informatiky', desc: 'Nový předmět z _NOVA_DAVKA: IT strategie, CIO, ITSM/SLA, COBIT, EA/cloud, GDPR, NIS2/ZoKB, TCO/CBA/NPV/IRR, BCM/DRP.', section: 'predmety', subjectId: '4IT418', xp: 10, tone: 'orange' },
+  { id: 'rpi-4it418-anchor', label: '9. 4IT418 Řízení podnikové informatiky', desc: 'IT strategie, CIO, ITSM/SLA, COBIT, EA/cloud, GDPR, NIS2/ZoKB, TCO/CBA/NPV/IRR, BCM/DRP.', section: 'predmety', subjectId: '4IT418', xp: 10, tone: 'orange' },
 ]
 
 function localDateKey(): string {

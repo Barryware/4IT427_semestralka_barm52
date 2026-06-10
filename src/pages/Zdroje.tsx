@@ -80,7 +80,7 @@ export default function Zdroje({ onNavigate }: Props) {
   return (
     <div className="page">
       <div className="page-title">Zdroje</div>
-      <div className="page-subtitle">Studijní materiály ke každému předmětu. Zdroje jsou v adresáři statnice/01-inbox/ZPRACOVANO/.</div>
+      <div className="page-subtitle">Studijní materiály ke každému předmětu.</div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {SUBJECTS.map(s => {
