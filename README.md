@@ -16,7 +16,7 @@ Semestrální práce do předmětu **4IT427 – Vývoj webových aplikací v Rea
 - ✏️ **Trenér ústních odpovědí** — gamifikované cvičení odpovědí na "killer otázky" komise
 - 🏛️ **Komise** — historické příklady ústních zkoušek
 - 📋 **Shrnutí** — modulové přehledy a klíčové take-aways
-- 💡 **Tipy** — sada tipů ke státnicím (načítané přes TanStack Query z `public/exam-tips.json`)
+- 💡 **Tipy** — sada tipů ke státnicím (načítané přes TanStack Query z `public/exam-tips.json`, filtrovatelné podle kategorie)
 - ⭐ **Progress** — sledování ovládnutí (mastery level) jednotlivých témat
 - 📌 **Zdroje** — odkazy a doporučená literatura
 
@@ -90,22 +90,25 @@ npm test -- --run     # spustí jednou a skončí (vhodné pro CI)
 ```
 
 ### Unit test — `src/utils/tipUtils.test.ts`
-Pokrývá pomocné funkce:
+Pokrývá pomocné funkce použité ve stránce Tipy:
 - `filterTipsByCategory` — case-insensitive filtrování, prázdná kategorie vrací vše
 - `listUniqueCategories` — seřazený seznam unikátních kategorií
 
 ### Integrační test — `src/components/ExamTipCard.test.tsx`
-Renderuje `<ExamTipCard />` a ověřuje, že komponenta správně zobrazí název, tělo i kategorii tipu.
+Renderuje `<ExamTipCard />` s testovacími props a ověřuje, že komponenta zobrazí název, tělo i kategorii tipu.
 
 ## 🌐 Data fetching
 
-Komponenta `src/pages/Tipy.tsx` načítá tipy ze serveru přes `useQuery` z TanStack Query:
+Stránka `src/pages/Tipy.tsx` načítá tipy přes `useQuery` z TanStack Query a umožňuje jejich filtrování podle kategorie pomocí `filterTipsByCategory` a `listUniqueCategories`:
 
 ```tsx
 const { data: tips, isLoading, isError, refetch } = useQuery({
   queryKey: ['exam-tips'],
   queryFn: fetchExamTips,
 })
+
+const categories = listUniqueCategories(tips ?? [])
+const filtered = filterTipsByCategory(tips ?? [], activeCategory)
 ```
 
 Loading / error / success stavy jsou ošetřené samostatně. `staleTime` je nastaven globálně v `main.tsx` na 5 minut.
