@@ -1,10 +1,10 @@
 # Státnice — Učící aplikace
 
-Multi-page React aplikace pro přípravu na státní zkoušky z oboru **4IM_1 (Informační systémy)** na **VŠE FIS**. Obsahuje učebnici, wiki, mapy konceptů, trenér ústních odpovědí, profily komisí a zdroje k jednotlivým předmětům.
+Multi-page React aplikace pro přípravu na státní zkoušky z oboru **4IM_1 (Informační management)** na **VŠE FIS**. Obsahuje učebnici, wiki, mapy konceptů, trenér ústních odpovědí, profily komisí a zdroje k jednotlivým předmětům.
 
 Semestrální práce do předmětu **4IT427 – Vývoj webových aplikací v Reactu** (letní semestr 2026).
 
-> Aplikace vznikla původně jako osobní prototyp ("vibe-coded" s pomocí AI) pro vlastní studium. V rámci semestrální práce byla refaktorovaná podle požadavků kurzu: přidán **react-router-dom** pro routing, **TanStack Query** pro načítání serverových dat, **Vitest + React Testing Library** pro automatizované testy a vyčištěny osobní poznámky.
+> Aplikace vznikla původně jako osobní prototyp pro vlastní studium ke státnicím. V rámci semestrální práce byla refaktorovaná podle požadavků kurzu: přidán **react-router-dom** pro routing, **TanStack Query** pro načítání serverových dat, **Vitest + React Testing Library** pro automatizované testy.
 
 ## ✨ Funkcionalita
 
@@ -16,7 +16,7 @@ Semestrální práce do předmětu **4IT427 – Vývoj webových aplikací v Rea
 - ✏️ **Trenér ústních odpovědí** — gamifikované cvičení odpovědí na "killer otázky" komise
 - 🏛️ **Komise** — historické příklady ústních zkoušek
 - 📋 **Shrnutí** — modulové přehledy a klíčové take-aways
-- 💡 **Tipy** — sada tipů ke státnicím (načítané přes TanStack Query z `public/exam-tips.json`, filtrovatelné podle kategorie)
+- 💡 **Tipy** — tipy ke státnicím načítané přes TanStack Query, filtrovatelné podle kategorie
 - ⭐ **Progress** — sledování ovládnutí (mastery level) jednotlivých témat
 - 📌 **Zdroje** — odkazy a doporučená literatura
 
@@ -57,7 +57,7 @@ npm run build
 
 ```
 public/
-  exam-tips.json          # Server data načítaná přes TanStack Query
+  exam-tips.json          # Data načítaná přes TanStack Query
   content/                # Statický HTML obsah učebnice (jeden soubor / předmět)
   favicon.svg
 
@@ -70,11 +70,11 @@ src/
   api/
     examTips.ts           # fetchExamTips() pro načítání tipů
   components/
-    ExamTipCard.tsx       # Karta tipu (testovaná v ExamTipCard.test.tsx)
+    ExamTipCard.tsx       # Karta tipu
     ExamTipCard.test.tsx  # Integrační test komponenty
   data/                   # Statická data (Wiki, mapy, killer questions, …)
   hooks/
-    useProgress.ts        # Vlastní hook pro persistenci pokroku v localStorage
+    useProgress.ts        # Custom hook pro persistenci pokroku v localStorage
   pages/                  # Komponenty stránek (Dashboard, Wiki, Trener, …)
   utils/
     tipUtils.ts           # Pomocné funkce (filterTipsByCategory, listUniqueCategories)
@@ -86,7 +86,7 @@ src/
 
 ```bash
 npm test              # spustí Vitest v watch módu
-npm test -- --run     # spustí jednou a skončí (vhodné pro CI)
+npm test -- --run     # spustí jednou a skončí
 ```
 
 ### Unit test — `src/utils/tipUtils.test.ts`
@@ -99,7 +99,7 @@ Renderuje `<ExamTipCard />` s testovacími props a ověřuje, že komponenta zob
 
 ## 🌐 Data fetching
 
-Stránka `src/pages/Tipy.tsx` načítá tipy přes `useQuery` z TanStack Query a umožňuje jejich filtrování podle kategorie pomocí `filterTipsByCategory` a `listUniqueCategories`:
+Stránka `src/pages/Tipy.tsx` načítá tipy přes `useQuery` z TanStack Query a filtruje je pomocí `filterTipsByCategory` a `listUniqueCategories`:
 
 ```tsx
 const { data: tips, isLoading, isError, refetch } = useQuery({
@@ -112,11 +112,3 @@ const filtered = filterTipsByCategory(tips ?? [], activeCategory)
 ```
 
 Loading / error / success stavy jsou ošetřené samostatně. `staleTime` je nastaven globálně v `main.tsx` na 5 minut.
-
-## 🔐 Pozn. k obsahu
-
-Aplikace neobsahuje žádné osobní údaje, pracovní data ani citlivé informace. Curriculum předmětů (4SA310 – 4SA551) je veřejný studijní plán VŠE FIS dostupný v Insis.
-
-## 📄 Licence
-
-Soukromý studijní projekt pro účely předmětu 4IT427.
